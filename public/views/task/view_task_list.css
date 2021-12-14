@@ -1,0 +1,177 @@
+.task-wrapper {
+    background-color: #f1f1f1;
+    border-radius: 20px;
+}
+
+.tasks a {
+    display: block;
+}
+
+.tasks a .task_row {
+    padding: 9px 20px;
+    cursor: pointer;
+    border-bottom: solid 1px rgba(0,0,0,0.1);
+    box-sizing: border-box;
+}
+
+.tasks a:last-of-type .task_row {
+    border-bottom: 0;
+}
+
+.task_row .task_progress {
+    margin: 10px -20px -10px;
+}
+
+.task_row:hover {
+    background-color: #f1f1f1;
+    border-color: rgba(0,0,0,0.1);
+}
+
+.task_row .task_priority,
+.task_row .task_issue_type {
+    color: #fff;
+    display: inline-block;
+    border-radius: 4px;
+    margin-right: 5px;
+    box-sizing: border-box;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 20px;
+    min-height: 20px;
+    min-width: 30px;
+    padding: 0 5px;
+    text-align: center;
+    border: solid 1px rgba(0,0,0,0.2);
+}
+
+.task_name {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+.task_name > span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.task_row .task_project {
+    min-width: 40px;
+}
+
+.task_row .task_project .task_project_code {
+    display: none;
+}
+
+@media(min-width: 659px) {
+    .task_row .task_project {
+        min-width: 60px;
+    }
+
+    .task_row .task_project .task_project_code {
+        display: inline-block;
+    }
+}
+
+.tasks > p {
+    padding: 20px;
+    margin: 0;
+}
+
+.task_assigned_to {
+    padding-right: 10px;
+}
+
+.task_assigned_to img {
+    max-width: 100%;
+    border-radius: 50%;
+}
+
+.task_assigned_to > span {
+    display: block;
+    text-align: center;
+    line-height: 20px;
+    box-sizing: border-box;
+}
+
+.tasks .badge-image img {
+    max-width: 25px;
+    max-height: 25px;
+    border: solid 1px rgba(0,0,0,0.2);
+    padding: 1px;
+}
+
+.task_assigned_to span:not(.badge-image) {
+    width: 25px;
+    height: 25px;
+    line-height: 22px;
+    font-size: 14px;
+    text-align: center;
+    background-color: #f1f1f1;
+    border-radius: 50%;
+    border: solid 1px rgba(0,0,0,0.1);
+    display: block;
+}
+
+.project_task_board > div {
+    height: calc(100vh - 133px);
+    max-height: calc(100vh - 133px);
+    padding: 10px 20px 10px;
+    box-sizing: border-box;
+    overflow-y: scroll;
+}
+
+.project_task_board > div::-webkit-scrollbar {
+    width: 1px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+.project_task_board > div::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.1);
+    outline: 1px solid slategrey;
+}
+
+.project_task_board > div:nth-child(2n+2) {
+    background-color: #f1f1f1;
+}
+
+.project_task_board > div:nth-child(1n+2) {
+    border-left: solid 1px rgba(0,0,0,0.1);
+}
+
+.project_task_board > div > h2 {
+    color: rgba(0,0,0,0.4);
+    padding: 10px;
+    font-size: 14px;
+    line-height: 22px;
+}
+
+.board_task {
+    padding: 15px;
+    border: solid 1px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.project_task_board *+.board_task {
+    margin-top: 5px;
+}
+
+/*.project_task_board > div:nth-child(2n+2) .board_task {*/
+/*    background-color: #fff;*/
+/*}*/
+
+.board_task h3,
+.board_task h3 a {
+    font-size: 14px;
+    line-height: 20px;
+    color: rgba(0,0,0,0.4);
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin: 0;
+}

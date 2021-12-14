@@ -1,0 +1,17 @@
+.user_item h2 {
+    margin: 0;
+}
+
+.users .user_row {
+    padding: 10px 20px;
+    border-bottom: solid 1px rgba(0,0,0,0.2);
+}
+
+.users .user_row:nth-child(2n+2) {
+    background-color: #f1f1f1;
+}
+
+.users .user_row .badge-image img {
+    border: solid 1px rgba(0,0,0,0.2);
+    margin-right: 10px;
+}

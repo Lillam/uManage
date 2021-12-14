@@ -1,0 +1,129 @@
+.journal_dreams_navigation {
+    background-color: #f1f1f1;
+    border-bottom: solid 1px rgba(0,0,0,0.2);
+}
+
+.journal_dreams_calendar_left,
+.journal_dreams_calendar_right {
+    line-height: 20px;
+    padding: 10px;
+    border-radius: 4px;
+    border: solid 1px transparent;
+}
+
+.journal_dreams_calendar_left:hover,
+.journal_dreams_calendar_right:hover {
+    border-color: rgba(0,0,0,0.2);
+    background-color: #fff;
+}
+
+.journal_dreams_navigation > div > div {
+    padding: 10px;
+}
+
+.journal_dreams_navigation a {
+    background-color: transparent;
+    border: solid 1px transparent;
+}
+
+.journal_dreams_navigation a:hover {
+    background-color: #fff;
+    border-color: rgba(0,0,0,0.2);
+}
+
+.journal_dream_month .journal_dream_active,
+.journal_dream_month .journal_dream_inactive {
+    width: 10px;
+    height: 10px;
+    display: block;
+    background-color: #32d296;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: solid 1px rgba(0,0,0,0.2);
+}
+
+.journal_dream_month .journal_dream_inactive {
+    background-color: #f1f1f1;
+}
+
+.journal_dream_month:hover .box_wrapper {
+    opacity: 0.8;
+    cursor: pointer;
+    border-color: #ffa500;
+}
+
+.journal_dream_month h2 {
+    font-size: 14px;
+    line-height: 20px;
+    margin-bottom: 8px;
+    padding-bottom: 5px;
+    border-bottom: solid 1px rgba(0,0,0,0.1);
+}
+
+.journal_dream_month h2 .uk-text-small {
+    font-size: 10px;
+    color: #bbb;
+    font-weight: bold;
+}
+
+.journal_placeholder_rating i {
+    color: rgba(0,0,0,0.1);
+}
+
+.journal_dream_rating_badge {
+    font-size: 14px;
+    display: inline-block;
+    line-height: 20px;
+    padding: 0 5px;
+    background-color: #f1f1f1;
+    border: solid 1px rgba(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.journal_dream_month {
+    position: relative;
+    width: 14.245%
+}
+
+@media (max-width: 1680px) { .journal_dream_month { width: 16.666%; }}
+@media (max-width: 1450px) { .journal_dream_month { width: 20%; }}
+@media (max-width: 1260px) { .journal_dream_month { width: 25%; }}
+@media (max-width: 1000px) { .journal_dream_month { width: 33.333%; }}
+@media (max-width: 780px)  { .journal_dream_month { width: 50%; }}
+@media (max-width: 540px)  { .journal_dream_month { width: 100%; }}
+
+.journal_dream_content p {
+    font-size: 12px;
+    color: #b2b2b2;
+    margin-bottom: 10px !important;
+}
+
+.journal_dream_content p.placeholder span {
+    color: transparent;
+    background-color: #f1f1f1;
+}
+
+.journal_dream_content p.placeholder span::selection {
+    color: transparent;
+    background: transparent;
+}
+
+.journal_dream_content p.placeholder span::-moz-selection {
+    color: transparent;
+    background: transparent;
+}
+
+.journal_dream_month .box_wrapper {
+    border-radius: 0;
+    border-left: 0;
+    border-top: 0;
+    padding: 15px;
+}
+
+@media(min-width: 567px) {
+    .journal_dream_month a .box_wrapper {
+        min-height: 143px;
+    }
+}

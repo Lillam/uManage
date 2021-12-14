@@ -1,0 +1,93 @@
+.task_log_activity_header {
+    background-color: #f1f1f1;
+    border-bottom: solid 1px rgba(0,0,0,0.1);
+}
+
+.task_log_activity_header > div > div {
+    padding: 10px;
+}
+
+.task_log_activity_header > div > div:first-of-type {
+    padding-left: 20px;
+}
+
+.task_logs_sidebar {
+    position: fixed;
+    top: 0;
+    right: -350px;
+    height: 100vh;
+    width: 350px;
+    background-color: #f1f1f1;
+    border-left: solid 1px rgba(0,0,0,0.1);
+}
+
+.task_log_activity {
+    padding-right: 0;
+}
+
+@media(min-width: 990px) {
+    .task_logs_sidebar {
+        right: 0;
+    }
+
+    .task_log_activity {
+        padding-right: 350px;
+    }
+}
+
+.task_logs > .task_log {
+    padding: 20px;
+    border-top: solid 1px rgba(0,0,0,0.1);
+}
+
+.task_logs > .task_log:first-of-type {
+    border-top: 0;
+}
+
+.task_logs .task_log .task_log_content > *:last-child {
+    margin-bottom: 0;
+}
+
+.task_logs .task_log .task_log_content a {
+    display: inline-block;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: #f1f1f1;
+    border: solid 1px rgba(0,0,0,0.1);
+}
+
+.task_logs .task_log .task_log_content a:hover {
+    opacity: 0.8;
+}
+
+.task_logs .task_log .task_log_content p {
+    font-size: 14px;
+    line-height: 30px;
+}
+
+.task_logs .task_log .task_log_content p a,
+.task_logs .task_log .task_log_content p a span,
+.task_logs .task_log .task_log_content p span a {
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.task_log_old_content {
+    background-color: rgba(255,0,0,0.1);
+    border: solid 1px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.task_log_new_content {
+    background-color: rgba(0,255,0,0.1);
+    border: solid 1px rgba(0,0,0,0.1);
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.task_link,
+.task_logs .task_log .task_log_content .task_project_code,
+.task_logs .task_log .task_log_content span.badge {
+    font-size: 11px !important;
+}

@@ -1,0 +1,144 @@
+.app-project-grid .project h2.project_title > span {
+    font-size: 12px;
+    color: rgba(0,0,0,0.3);
+    line-height: 30px;
+    margin: 0;
+    display: inline-block;
+}
+
+.app-project-grid .project .project_stats {
+    margin: 20px -20px 0;
+    padding: 0 20px;
+    background-color: #f1f1f1;
+    border-top: solid 1px rgba(0,0,0,0.1);
+}
+
+.app-project-grid .project .project_stats > div {
+    padding: 5px 10px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    border: solid 1px rgba(0,0,0,0.1);
+    border-bottom: 0;
+    background-color: #fff;
+    margin: -20px 0 0;
+}
+
+.app-project-grid .project .project_stats > div:nth-child(1n+2) {
+    margin-left: 20px;
+}
+
+.app-project-grid .project .project_stats > div > span {
+    display: block;
+    font-size: 8px;
+    text-align: center;
+    color: rgba(0,0,0,0.4);
+}
+
+.app-project-grid .project .project_stats > div > span:first-of-type {
+    font-size: 24px;
+    color: #444;
+}
+
+.app-project-grid .project .progress_wrapper {
+    margin: 0 -20px -20px;
+}
+
+.app-project-grid .project .progress_wrapper .progress {
+    height: 5px;
+}
+
+.completed {
+    background-color: #4cae4c !important;
+}
+
+.in_progress {
+    background-color: #1e87f0 !important;
+}
+
+.app-project-grid .project .badge-image img {
+    border: solid 2px;
+}
+
+.project_title_wrapper *+.badge-image {
+    margin-left: 5px;
+}
+
+/* new project design */
+.app-projects-wrapper {
+    padding: 30px;
+    background-color: #f1f1f1;
+    border-radius: 20px;
+}
+
+.app-projects-wrapper .uk-slider {
+    margin-left: -15px;
+    margin-top: -20px;
+    padding-top: 20px;
+}
+
+.app-project-grid .app-project {
+    border-radius: 20px;
+    padding: 30px;
+    position: relative;
+    z-index: 10000;
+    border: solid 1px rgba(0,0,0,0.1);
+    background-color: #fff;
+    display: block;
+    overflow: hidden;
+}
+
+.app-project-grid .app-project h2.project_title {
+    margin: 0 0 10px 0;
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+@media(min-width: 767px) {
+    .app-project-grid .app-project h2.project_title {
+        font-size: 18px;
+    }
+}
+
+.app-project-grid .app-project .progress_wrapper {
+    margin: 30px -30px -30px;
+}
+
+.app-project-grid .app-project .project_title_wrapper h2.project_title {
+    display: block;
+    padding: 0;
+    margin: 15px 0 5px;
+}
+
+.app-project-grid .app-project .project_title_wrapper p {
+    font-size: 12px;
+}
+
+.app-project-grid .app-project .project_title_wrapper p span {
+    color: rgba(0,0,0,0.4);
+}
+
+.app-project-grid > div {
+    position: relative;
+}
+
+.app-project-grid .app-project-code {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 12px;
+    border-radius: 15px;
+    color: rgba(255,255,255,0.8);
+    position: absolute;
+    top: -10px;
+    right: 30px;
+    border: solid 1px rgba(0,0,0,0.2);
+    z-index: 10000;
+}
+
+.app-projects-navigation {
+    padding-top: 15px !important;
+}

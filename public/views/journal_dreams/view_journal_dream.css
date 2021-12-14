@@ -1,0 +1,52 @@
+.meaning:hover,
+.content:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.save_meaning,
+.cancel_meaning,
+.save_content,
+.cancel_content {
+    line-height: 24px !important;
+    margin-top: 10px !important;
+}
+
+#journal_dream .journal_dream_content {
+    transition: 0.5s;
+}
+
+#journal_dream .journal_dream_sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgb(246,246,246);
+    padding: 81px 30px 30px 30px;
+    border-left: solid 1px rgba(0,0,0,0.2);
+    transition: 0.5s;
+}
+
+@media(min-width: 991px) {
+    #journal_dream .journal_dream_sidebar {
+        right: 0;
+    }
+
+    #journal_dream .journal_dream_content {
+        padding-right: 400px;
+    }
+}
+
+#journal_dream.journal_dream_sidebar_closed .journal_dream_content {
+    padding-right: 0;
+}
+
+#journal_dream.journal_dream_sidebar_closed .journal_dream_sidebar {
+    right: -500px;
+}
+
+#journal_dream.journal_dream_sidebar_open .journal_dream_sidebar {
+    right: 0;
+}

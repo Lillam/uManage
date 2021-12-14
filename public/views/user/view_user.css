@@ -1,0 +1,31 @@
+.user_profile_wrapper .image_placement {
+    width: 200px;
+    height: 200px;
+    background-color: #ffa500;
+    border-radius: 50%;
+    border: solid 4px #fff;
+    margin-bottom: 30px;
+}
+
+.user_profile_wrapper .image_placement p {
+    font-size: 40px;
+    line-height: 40px;
+    margin: 0;
+    color: #fff;
+}
+
+.user_profile_wrapper .profile_image {
+    width: auto;
+    margin: 0 auto;
+    display: block;
+    border-radius: 50%;
+    max-height: 200px;
+    border: solid 10px rgba(0,0,0,0.1);
+}
+
+.user_card img {
+    border-radius: 50%;
+    max-width: 50%;
+    margin: 0 auto;
+    border: solid 10px rgba(0,0,0,0.1);
+}

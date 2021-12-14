@@ -1,0 +1,206 @@
+/* Overriding Body */
+body {
+    background-color: #fff !important;
+}
+
+/* Task Header */
+#task .banner h2 {
+    font-size: 16px !important;
+    line-height: 30px !important;
+}
+
+#task .banner h2[contenteditable] {
+    outline: none;
+    padding: 0 10px;
+}
+
+#task .banner h2[contenteditable]:focus {
+    background-color: rgba(0,0,0,0.1);
+}
+
+/* Task Sidebar  */
+#task .task_sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 300px;
+    background-color: rgb(246,246,246);
+    height: 100vh;
+    padding: 105px 30px 30px 30px;
+    border-left: solid 1px rgba(0,0,0,0.2);
+    transition: 0.5s;
+}
+
+#task.task_sidebar_closed .task_sidebar {
+    right: -300px !important;
+}
+
+@media(min-width: 659px) {
+    #task .task_sidebar {
+        width: 400px;
+    }
+
+    #task.task_sidebar_closed .task_sidebar {
+        right: -400px !important;
+    }
+}
+
+#task.task_sidebar_open .task_sidebar {
+    right: 0;
+}
+
+#task .task_sidebar *+.task_timelog_row {
+    margin-top : 10px;
+}
+
+#task .task_sidebar *+.task_timelog_row .task_timelog_user {
+    margin-right: 10px;
+}
+
+#task .task_sidebar .task_timelog_row .task_timelog_time_spent {
+    min-width: 50px;
+}
+
+#task .task_sidebar .task_timelog_row .task_timelog_time_spent_percent {
+    padding-left: 10px;
+}
+
+@media(min-width: 991px) {
+    #task .task_sidebar {
+        right:  0;
+    }
+}
+
+#task .task_sidebar .task_dropdown_wrapper {
+    background-color: transparent;
+    padding: 5px 10px;
+    margin: 0 -10px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: solid 1px transparent;
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: 38px;
+}
+
+#task .task_sidebar .task_dropdown_wrapper:hover {
+    background-color: rgba(0,0,0,0.1);
+    border-color: rgba(0,0,0,0.1);
+}
+
+#task .task_sidebar .task_dropdown_wrapper .task_dropdown {
+    background-color: #fff;
+    position: absolute;
+    top: 38px;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+    border-radius: 4px;
+    border: solid 1px rgba(0,0,0,0.2);
+    z-index: 10;
+    display: none;
+}
+
+#task .task_sidebar .task_dropdown_wrapper.task_dropdown_open .task_dropdown {
+    display: block;
+}
+
+#task .task_sidebar .task_dropdown_wrapper .task_dropdown a {
+    display: block;
+    padding: 5px 10px;
+    border-radius: 4px;
+    border: solid 1px transparent;
+    font-size: 14px;
+}
+
+#task .task_sidebar .task_dropdown_wrapper .task_dropdown a:hover {
+    background-color: #f1f1f1;
+    border-color: rgba(0,0,0,0.1);
+}
+
+/* Task Content */
+#task .task_content {
+    padding: 0;
+    transition: 0.5s;
+}
+
+#task .task_content .comment,
+#task .task_content .description {
+    word-break: break-word;
+}
+
+#task .task_content .description:empty {
+    padding: 10px;
+    border: solid 1px rgba(0,0,0,0.1);
+}
+
+#task .task_content .comment:hover,
+#task .task_content .description:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+#task .task_content .description > *+ul {
+    margin: 10px 0;
+}
+
+#task .task_content .description > *:last-child {
+    margin-bottom: 0;
+}
+
+@media(min-width: 991px) {
+    #task .task_content {
+        padding: 0 400px 0 0;
+    }
+}
+
+#task.task_sidebar_closed .task_content {
+    padding:  0 !important;
+}
+
+#task .task_title_wrapper {
+    background-color: #f1f1f1;
+}
+
+#task .task_title_wrapper > div {
+    padding: 10px;
+}
+
+#task .task_title_wrapper .task_name {
+    margin: 0;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+    line-height: 30px;
+}
+
+#task .task_title_wrapper .badge {
+    margin-right: 0;
+}
+
+#task .task_title_wrapper > div:nth-child(2) {
+    border-left: solid 1px rgba(0,0,0,0.1);
+}
+
+#task .task_timelog_user img,
+#task .task_reporter_user img,
+#task .task_assigned_to img {
+    width: 25px !important;
+    height: 25px !important;
+    border: solid 2px #ffa500;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+/*  Dark Theme ------------------------------------------------------------------------------------------------------ */
+
+/*.dark-theme #task .task_sidebar {*/
+/*    background-color: #15202b !important;*/
+/*}*/
+
+/*.dark-theme #task .task_content .section {*/
+/*    background-color: #273038 !important;*/
+/*}*/
+
+/*  /Dark Theme ----------------------------------------------------------------------------------------------------- */

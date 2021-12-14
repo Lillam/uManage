@@ -1,0 +1,135 @@
+.overall:hover,
+.highest_point:hover,
+.lowest_point:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.save_overall,
+.save_highest_point,
+.save_lowest_point,
+.cancel_overall,
+.cancel_highest_point,
+.cancel_lowest_point {
+    line-height: 24px !important;
+    margin-top: 10px !important;
+}
+
+.journal_achievement {
+    padding: 5px 5px 5px 10px;
+    border: solid 1px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+    border-radius: 4px;
+    background-color: rgba(255,255,255,0.4);
+}
+
+.new_journal_achievement {
+    padding: 8px 10px;
+    background-color: #fff;
+    border: solid 1px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    width: 100%;
+    outline: none;
+    font-size: 14px;
+    line-height: 18px;
+}
+
+.save_new_journal_achievement_wrapper {
+    margin-left: 5px;
+}
+
+.journal_achievement .journal_achievement_content {
+    font-size: 14px;
+    line-height: 20px;
+    outline: none;
+}
+
+.journal_achievement .delete_journal_achievement {
+    width: 30px;
+    height: 30px;
+    color: #fff;
+    text-align: center;
+    line-height: 30px !important;
+    padding: 0 !important;
+    visibility: hidden;
+}
+
+.journal_achievement:hover .delete_journal_achievement {
+    visibility: visible;
+}
+
+.delete_journal {
+    background-color: #f0506e !important;
+    color: #fff !important;
+}
+
+.delete_journal:hover {
+    opacity: 0.8;
+}
+
+.delete_journal,
+.journal_navigation,
+.journal_information {
+    border: solid 1px rgba(0,0,0,0) !important;
+    color: #444 !important;
+    background-color: transparent !important;
+}
+
+.delete_journal:hover,
+.journal_navigation:hover,
+.journal_information:hover {
+    background-color: #fff !important;
+    border: solid 1px rgba(0,0,0,0.2) !important;
+}
+
+#journal .journal_content {
+    transition: 0.5s;
+}
+
+#journal .journal_content .journal_navigation_wrapper {
+    background-color: #f1f1f1;
+
+}
+
+#journal .journal_content .journal_navigation_wrapper > * {
+    padding: 10px 10px;
+}
+
+#journal .journal_content .journal_navigation_wrapper > *:first-of-type {
+    padding-left: 20px;
+}
+
+#journal .journal_sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    overflow-y: auto;
+    background-color: rgb(246,246,246);
+    padding: 30px 30px 30px 30px;
+    border-left: solid 1px rgba(0,0,0,0.2);
+    transition: 0.5s;
+}
+
+@media(min-width: 991px) {
+    #journal .journal_sidebar {
+        right: 0;
+    }
+
+    #journal .journal_content {
+        padding-right: 400px;
+    }
+}
+
+#journal.journal_sidebar_closed .journal_content {
+    padding-right: 0;
+}
+
+#journal.journal_sidebar_closed .journal_sidebar {
+    right: -500px;
+}
+
+#journal.journal_sidebar_open .journal_sidebar {
+    right: 0;
+}

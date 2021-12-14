@@ -1,0 +1,22 @@
+.system_changelog_navigation {
+    background-color: #f1f1f1;
+    border-bottom: solid 1px rgba(0,0,0,0.2);
+}
+
+.system_changelog_navigation > div > div {
+    padding: 10px;
+}
+
+.system_changelog_navigation > div > div:first-of-type {
+    padding-left: 20px;
+}
+
+.system_changelog_navigation a {
+    background-color: transparent;
+    border: solid 1px rgba(0,0,0,0);
+}
+
+.system_changelog_navigation a:hover {
+    background-color: #fff;
+    border-color: rgba(0,0,0,0.2);
+}

@@ -1,0 +1,102 @@
+.project_banner {
+    padding: 20px;
+    min-height: 150px;
+}
+
+.project_banner h1 {
+    display: inline-block;
+    margin: 0;
+    color: #ffffff;
+    font-size: 30px;
+    line-height: 40px;
+}
+
+.task_navigation p span.count,
+.task_navigation p span.total {
+    font-weight: 700;
+}
+
+#project {
+    transition: 0.5s;
+}
+
+/* Project Sidebar */
+.project_sidebar {
+    position: fixed;
+    right: -350px;
+    top: 0;
+    width: 350px;
+    height: 100vh;
+    background-color: #f1f1f1;
+    transition: 0.5s;
+    border-left: solid 2px rgba(0,0,0,0.1);
+    padding: 81px 20px 20px 20px;
+}
+
+#project.sidebar_open {
+    padding-right: 350px;
+}
+
+.project_sidebar #task_search {
+    padding: 0 10px;
+    width: 100%;
+    line-height: 34px;
+    font-size: 16px;
+    outline: none;
+    border-radius: 4px;
+    border: solid 1px rgba(0,0,0,0.2);
+}
+
+#project.sidebar_open .project_sidebar {
+    right: 0;
+}
+
+.project_sidebar h2 {
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.project_sidebar h2 a.close_project_sidebar {
+    float: right;
+}
+
+.project_sidebar h3 {
+    font-size: 16px;
+    line-height: 20px;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: solid 1px rgba(0,0,0,0.2);
+    margin-bottom: 10px;
+}
+
+.project_sidebar *+.checkbox_row {
+    margin-top: 5px;
+}
+
+.project_sidebar .checkbox_row input[type=checkbox] {
+    margin-right: 5px;
+    border-radius: 3px;
+}
+
+.project_sidebar .checkbox_row .uk-checkbox {
+    background-color: #fff;
+}
+
+.project_sidebar .checkbox_row .uk-checkbox:checked {
+    background-color: #1e87f0;
+}
+
+.project_sidebar .checkbox_row label {
+    font-size: 14px;
+    color: rgba(0,0,0,0.5);
+}
+
+.project_sidebar .clear_filters {
+    display: inline-block;
+    margin-top: 20px;
+}
+
+/* Project Content */
+.project_content {
+    padding: 20px;
+}
