@@ -178,7 +178,7 @@ class Project extends Model
     */
 
     /**
-    * This method will be for returning all of the settings that are currently associated to a project. this will be
+    * This method will be for returning all the settings that are currently associated to a project. this will be
     * utilised for a variety of things, such like task statistics, how many tasks exist in this project, how many
     * completed tasks exist, what project view is the user desiring etc.
     *

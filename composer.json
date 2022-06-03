@@ -8,20 +8,18 @@
     ],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
-        "beyondcode/laravel-websockets": "1.9.0",
+        "php": "^8.1",
         "erusev/parsedown": "^1.7.4",
         "fideloper/proxy": "^4.4.1",
-        "laravel/framework": "^8.15.0",
+        "laravel/framework": "^9.0",
         "laravel/telescope": "^4.4",
         "laravel/tinker": "^2.5",
-        "pixel418/markdownify": "^2.3.1",
-        "pusher/pusher-php-server": "~3.0"
+        "pixel418/markdownify": "^2.3.1"
     },
     "require-dev": {
-        "facade/ignition": "^2.3.6",
+        "spatie/laravel-ignition": "^1.0",
         "mockery/mockery": "^1.0",
-        "nunomaduro/collision": "^5.0",
+        "nunomaduro/collision": "^6.1",
         "phpunit/phpunit": "^9.0"
     },
     "config": {

@@ -45,6 +45,8 @@ class TaskController extends Controller
         $this->vs->set('title', '- Tasks')
                  ->set('current_page', 'page.tasks');
 
+        \Illuminate\Support\Facades\Request::method();
+
         return view('task.view_tasks');
     }
 

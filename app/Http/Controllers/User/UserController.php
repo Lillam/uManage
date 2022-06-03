@@ -10,7 +10,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
+use Psr\Container\NotFoundExceptionInterface;
 use Illuminate\Validation\ValidationException;
+use Psr\Container\ContainerExceptionInterface;
 
 class UserController extends Controller
 {
@@ -24,20 +26,20 @@ class UserController extends Controller
     }
 
     /**
-    * when the user has signed in they are going to be needing a particular page that they are greeted with, this will
-    * be the route to maintaining teh user's home screen.
-    *
-    * @param Request $request
-    * @return Factory|View
-    */
+     * when the user has signed in they are going to be needing a particular page that they are greeted with, this will
+     * be the route to maintaining teh user's home screen.
+     *
+     * @param Request $request
+     * @return Factory|View
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function _viewUserDashboardGet(Request $request): Factory|View
     {
-//        dd(
-//            Project::select('*')->whereRaw(request('query') ?? '1=1')->get()
-//        );
         $this->vs->set('title', "Dashboard - {$this->vs->get('user')->getFullName()}")
                  ->set('ref', 'dashboard')
-                 ->set('current_page', 'page.dashboard');
+                 ->set('current_page', 'page.dashboard')
+                 ->set('has_sidebar', false);
 
         $this->vs->get('user')->can('Policy@canI');
 
@@ -50,9 +52,11 @@ class UserController extends Controller
     * elements until being signed in.
     *
     * @param Request $request
-    * @return Factory|View
+    * @return Factory|View|RedirectResponse
+    * @throws ContainerExceptionInterface
+    * @throws NotFoundExceptionInterface
     */
-    public function _viewUserLoginGet(Request $request): Factory|View
+    public function _viewUserLoginGet(Request $request): Factory|View|RedirectResponse
     {
         if ($this->vs->get('user') instanceof User)
             return redirect()->action('User\UserController@_viewUserDashboardGet');

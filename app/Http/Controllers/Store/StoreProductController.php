@@ -19,6 +19,8 @@ class StoreProductController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->vs->set('has_sidebar', false);
     }
 
     /**

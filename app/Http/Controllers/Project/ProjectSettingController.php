@@ -9,6 +9,9 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Project\ProjectSetting;
 use Illuminate\Contracts\View\Factory;
+use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+
 
 class ProjectSettingController extends Controller
 {
@@ -27,7 +30,8 @@ class ProjectSettingController extends Controller
     */
     public function _viewProjectSettingsGet(Request $request, $project_code): Factory|View
     {
-        $project_setting = ProjectSetting::select('project_setting.*')
+        $project_setting = ProjectSetting::query()
+            ->select('project_setting.*')
             ->with('project')
             ->leftJoin('project', 'project.id', '=', 'project_setting.project_id')
             ->where('project.code', '=', $project_code)
@@ -48,9 +52,11 @@ class ProjectSettingController extends Controller
     }
 
     /**
-    * @param Request $request
-    * @return JsonResponse
-    */
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
     public function _editProjectSettingsPost(Request $request): JsonResponse
     {
         $project_id = $request->input('project_id');

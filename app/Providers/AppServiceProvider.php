@@ -42,11 +42,11 @@ class AppServiceProvider extends ServiceProvider
     */
     public function registerDevelopmentServices(): void
     {
-        if (! App::environment(config('app.dev.environments')))
-            return;
-
-        app(SolutionProviderRepository::class)
-            ->registerSolutionProvider(ExceptionSolutionProvider::class);
+//        if (! App::environment(config('app.dev.environments')))
+//            return;
+//
+//        app(SolutionProviderRepository::class)
+//            ->registerSolutionProvider(ExceptionSolutionProvider::class);
     }
 
     /**

@@ -20,6 +20,8 @@ class StoreBasketController extends Controller
     public function __construct()
     {
         parent::__construct();
+
+        $this->vs->set('has_sidebar', false);
     }
 
     /**
@@ -35,17 +37,15 @@ class StoreBasketController extends Controller
     }
 
     /**
-    * @param Request $request
     * @param string $product
     * @return RedirectResponse
     */
-    public function _addToStoreBasketGet(Request $request, string $product): RedirectResponse
+    public function _addToStoreBasketGet(string $product): RedirectResponse
     {
-        $store_product = StoreProduct::where('alias', '=', $product)->first();
         try {
             StoreBasket::create([
                 'user_id'          => Auth::id(),
-                'store_product_id' => $store_product->id
+                'store_product_id' => $product
             ]);
         } catch (\Exception $exception) {
 
@@ -53,17 +53,15 @@ class StoreBasketController extends Controller
     }
 
     /**
-    * @param Request $request
     * @param string $product
     * @return RedirectResponse
     */
-    public function _removeFromStoreBasketGet(Request $request, string $product): RedirectResponse
+    public function _removeFromStoreBasketGet(string $product): RedirectResponse
     {
-        $store_product = StoreProduct::where('alias', '=', $product)->first();
         try {
             StoreBasket::where([
                 'user_id'          => Auth::id(),
-                'store_product_id' => $store_product->id
+                'store_product_id' => $product
             ])->delete();
         } catch (\Exception $exception) {
 
