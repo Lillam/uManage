@@ -1,7 +1,7 @@
 @if ($projects->isNotEmpty())
     @if ($view_mode === 'slider')
         <div uk-slider="sets: true">
-            <ul class="uk-slider-items app-project-grid uk-child-width-1-3@xl uk-child-width-1-2@m uk-grid-small">
+            <ul class="uk-slider-items app-project-grid uk-child-width-1-3@l uk-child-width-1-2@m uk-grid-small">
                 @foreach ($projects as $project_key => $project)
                     <li>
                         <a class="app-project project" href="{{ $project->getUrl() }}">
@@ -41,7 +41,7 @@
     @if ($view_mode !== 'slider')
         <div class="uk-grid uk-grid-small app-project-grid" uk-grid>
             @foreach ($projects as $project_key => $project)
-                <div class="uk-width-1-3@xl uk-width-1-2@m uk-width-1-1">
+                <div class="uk-width-1-3@l uk-width-1-2@m uk-width-1-1">
                     <a class="app-project project" href="{{ $project->getUrl() }}">
                         <div class="project_title_wrapper">
                             {!! \App\Printers\User\UserPrinter::userBadges(

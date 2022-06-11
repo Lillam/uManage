@@ -3,15 +3,16 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Collection;
 use App\Models\System\SystemModule;
 use App\Models\System\SystemModuleAccess;
 
 class SystemModuleSeeder extends Seeder
 {
     /**
-    * @var \Illuminate\Config\Repository|\Illuminate\Contracts\Foundation\Application|mixed
-    */
-    private $modules;
+     * @var Collection
+     */
+    private Collection $modules;
 
     /**
     * @var int
@@ -23,7 +24,7 @@ class SystemModuleSeeder extends Seeder
     */
     public function __construct()
     {
-        $this->modules = config('modules');
+        $this->modules = collect(config('modules') ?? []);
     }
 
     /**
@@ -34,10 +35,10 @@ class SystemModuleSeeder extends Seeder
     public function run()
     {
         // before this seeder executes, we are going to be deleting everything from the database, so that we can begin
-        // re-syncing all of the controllers that are going to be in the database.
+        // re-syncing all the controllers that are going to be in the database.
         SystemModule::where('id', '>=', 1)->delete();
 
-        $bar = $this->command->getOutput()->createProgressBar(count($this->modules));
+        $bar = $this->command->getOutput()->createProgressBar($this->modules->count());
 
         foreach ($this->modules as $id => $module) {
             SystemModule::create([

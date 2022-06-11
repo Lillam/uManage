@@ -7,7 +7,7 @@
                 <span class="journal_inactive"></span>
             @endif
             <a href="{{ action('Journal\JournalController@_viewJournalGet', [$date_key]) }}">
-                <div class="box_wrapper">
+                <div class="box_wrapper no-border">
                     <h2>{!! $date->title !!}</h2>
                     <div class="journal_overall_content">
                         @if (! empty($date->journal) && ! empty($date->journal->overall))

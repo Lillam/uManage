@@ -15,16 +15,6 @@ use App\Http\Controllers\Controller;
 class JournalController extends Controller
 {
     /**
-    * JournalController constructor.
-    *
-    * @return void
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * This method is the hub handler for the journals landing page, when the page loads, we are going to want to take
     * a snapshot of what the current date they're looking at, and assign this to a variable, if this doesn't exist then
     * we just want to create the date for today (Carbon::now()) and then assign this to an attribute on the view itself
@@ -40,7 +30,7 @@ class JournalController extends Controller
             : Carbon::now();
 
         $this->vs->set('title', "Journals - {$this->vs->get('user')->getFullName()}")
-                 ->set('current_page', 'page.journals');
+                 ->set('current_page', 'page.journals.calendar');
 
         return view('journal.view_journals', compact(
             'date'
@@ -145,11 +135,10 @@ class JournalController extends Controller
     * happens we are just going to display the first journal that we get for this url, and if it doesn't exist, we are
     * just going to create the journal entry...
     *
-    * @param Request $request
     * @param $date
     * @return Factory|View
     */
-    public function _viewJournalGet(Request $request, $date): Factory|View
+    public function _viewJournalGet($date): Factory|View
     {
         $user = $this->vs->get('user');
 
@@ -163,7 +152,7 @@ class JournalController extends Controller
         // date and reducing a day.
         $yesterday_link = action(
             [self::class, '_viewJournalGet'],
-            Carbon::parse($date)->subDay(1)->format('Y-m-d')
+            Carbon::parse($date)->subDay()->format('Y-m-d')
         );
 
         // Acquire the journal page for tomorrow (this will be taking the data that is passed, and then making a new
@@ -179,7 +168,11 @@ class JournalController extends Controller
             $journal = Journal::create(['user_id' => $user_id, 'when' => $date]);
 
         $this->vs->set('title', "Journal - {$user->getFullName()}'s $date")
-                 ->set('current_page', 'page.journals');
+            ->set('current_page',
+                (new \DateTime)->format('Y-m-d') === $journal->when->format('Y-m-d')
+                    ? 'page.journals.journal.today'
+                    : 'page.journals.journal'
+            );
 
         return view('journal.view_journal', compact(
             'date',

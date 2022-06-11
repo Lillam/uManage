@@ -5,6 +5,9 @@
 @section('js')
     {!! ($vs->js)('views/account/view_accounts') !!}
 @endsection
+@section('sidebar')
+    <h2>Accounts</h2>
+@endsection
 @section('body')
     <div class="accounts_wrapper">
         <div class="accounts_title uk-flex">

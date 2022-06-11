@@ -11,14 +11,6 @@ use Illuminate\Contracts\Foundation\Application;
 class SystemModuleController extends Controller
 {
     /**
-    * SystemModuleController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return Application|Factory|View
     */

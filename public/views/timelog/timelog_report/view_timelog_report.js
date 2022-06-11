@@ -23,7 +23,7 @@ $(() => {
 */
 var view_timelog_report = function (direction = null) {
     var $timelog_reports = $('.timelog_reports'),
-        $timelog_reports_navigation = $('.timelog_report_navigation').find('.timelog_report_date'),
+        $timelog_reports_navigation = $('.timelog_report_date'),
         view_timelog_reports_url = $timelog_reports.data('view_timelog_reports_url'),
         date = $timelog_reports.attr('data-date');
 

@@ -13,14 +13,6 @@ use Illuminate\Contracts\View\Factory;
 class TimelogReportController extends Controller
 {
     /**
-    * TimelogReportController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * This method opens up the ability for being able to see the reporting page of timelogs... this is just going to
     * be returning a view, and the view comes with a date that is automatically injected onto the page so that when
     * the ajax runs on the page load, it'll find all of the reporting information regarding the timelogs in the month
@@ -36,7 +28,7 @@ class TimelogReportController extends Controller
             : Carbon::now();
 
         $this->vs->set('title', '- Timelog Report')
-            ->set('current_page', 'page.timelogs');
+            ->set('current_page', 'page.timelogs.report');
 
         return view('timelog.timelog_report.view_timelog_report', compact(
             'date'

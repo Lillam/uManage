@@ -7,11 +7,5 @@ use App\Http\Controllers\Controller;
 
 class TaskPriorityController extends Controller
 {
-    /**
-    * TaskPriorityController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 }

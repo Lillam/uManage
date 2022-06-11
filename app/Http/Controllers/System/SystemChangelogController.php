@@ -12,14 +12,6 @@ use Illuminate\Contracts\Foundation\Application;
 class SystemChangelogController extends Controller
 {
     /**
-    * SystemChangelogController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return Application|Factory|View
     */

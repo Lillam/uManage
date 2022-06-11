@@ -7,25 +7,25 @@
     {!! ($vs->js)('assets/vendor/datepicker/datepicker') !!}
     {!! ($vs->js)('views/timelog/view_timelog_calendar') !!}
 @endsection
-@section('body')
-    <div class="timelog_date_picker_wrapper title-bar">
-        <div class="uk-flex">
-            <div class="date uk-width-expand uk-flex uk-flex-middle">
-                <span>{{ $days->monday->format('d.m.Y') }} - {{ $days->sunday->format('d.m.Y') }}</span>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="timelog_calendar_left fa fa-arrow-left"></a>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="timelog_calendar_right fa fa-arrow-right"></a>
-            </div>
-            <div class="uk-width-auto">
-                <a href="{{ action('Timelog\TimelogReportController@_viewTimelogReportGet') }}"
-                   class="view_timelog_report fa fa-chart-pie"></a>
-            </div>
+@section('title-block')
+    <div class="uk-width-expand">
+        <p class="date">
+            <span>{{ $days->monday->format('d.m.Y') }} - {{ $days->sunday->format('d.m.Y') }}</span>
+        </p>
+    </div>
+    <div class="uk-flex timelog_calendar_navigation">
+        <div class="uk-width-auto">
+            <a class="timelog_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="timelog_calendar_right uk-button uk-icon-button fa fa-arrow-right"></a>
         </div>
     </div>
-
+@endsection
+@section('sidebar')
+    @include('library.timelog.timelog_sidebar')
+@endsection
+@section('body')
     <div class="timelog_calendar"
          data-view_timelogs_url="{{ action('Timelog\TimelogController@_ajaxViewTimelogsCalendarGet') }}"
          data-delete_timelog_url="{{ action('Timelog\TimelogController@_ajaxDeleteTimelogGet') }}"

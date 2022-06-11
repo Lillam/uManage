@@ -1,12 +1,3 @@
-.store_product_title_wrapper {
-    background-color: #f1f1f1;
-    border-bottom: solid 1px rgba(0,0,0,0.2);
-}
-
-.store_product_title_wrapper > div > div {
-    padding: 10px;
-}
-
 .store_product_title_wrapper .product_basket_button {
     line-height: 20px;
     padding: 10px;
@@ -38,11 +29,11 @@
 }
 
 .store_product_item {
-    border-bottom: solid 1px rgba(0,0,0,0.2);
+    border-bottom: solid 1px rgba(0,0,0,0.1);
     padding: 30px;
 }
 
-.store_product_item:nth-child(2n+2) {
+.store_product_item:nth-child(2n+1) {
     background-color: #f1f1f1;
 }
 

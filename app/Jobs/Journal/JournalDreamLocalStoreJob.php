@@ -39,7 +39,7 @@ class JournalDreamLocalStoreJob implements ShouldQueue
         foreach ($this->getDreamJournals() as $dream_journal) {
             $this->put[$dream_journal->id] = [
                 'id'         => $dream_journal->id,
-                'user_id'    => $dream_journal->id,
+                'user_id'    => $dream_journal->user_id,
                 'rating'     => $dream_journal->rating,
                 'content'    => $dream_journal->content,
                 'meaning'    => $dream_journal->meaning,
@@ -49,7 +49,7 @@ class JournalDreamLocalStoreJob implements ShouldQueue
             ];
         }
 
-        // after getting all of the results, turn the entire collection into a json object and store it into a file.
+        // after getting all the results, turn the entire collection into a json object and store it into a file.
         // this will be stored inside the local storage; public/storage/journal_dreams/journal_dreams.json
         Storage::disk('local')
             ->put("journal_dreams/journal_dreams.json", json_encode($this->put));

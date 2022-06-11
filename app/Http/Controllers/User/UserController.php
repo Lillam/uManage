@@ -22,6 +22,7 @@ class UserController extends Controller
     public function __construct()
     {
         parent::__construct();
+
         $this->middleware('throttle:3,1')->only('_viewUserLoginPost');
     }
 
@@ -29,16 +30,16 @@ class UserController extends Controller
      * when the user has signed in they are going to be needing a particular page that they are greeted with, this will
      * be the route to maintaining teh user's home screen.
      *
-     * @param Request $request
      * @return Factory|View
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function _viewUserDashboardGet(Request $request): Factory|View
+    public function _viewUserDashboardGet(): Factory|View
     {
         $this->vs->set('title', "Dashboard - {$this->vs->get('user')->getFullName()}")
                  ->set('ref', 'dashboard')
                  ->set('current_page', 'page.dashboard')
+                 ->set('has_title', false)
                  ->set('has_sidebar', false);
 
         $this->vs->get('user')->can('Policy@canI');
@@ -51,12 +52,9 @@ class UserController extends Controller
     * void of the header and footer of the system because the user will not necessarily need to view these particular
     * elements until being signed in.
     *
-    * @param Request $request
     * @return Factory|View|RedirectResponse
-    * @throws ContainerExceptionInterface
-    * @throws NotFoundExceptionInterface
-    */
-    public function _viewUserLoginGet(Request $request): Factory|View|RedirectResponse
+     */
+    public function _viewUserLoginGet(): Factory|View|RedirectResponse
     {
         if ($this->vs->get('user') instanceof User)
             return redirect()->action('User\UserController@_viewUserDashboardGet');
@@ -65,15 +63,16 @@ class UserController extends Controller
                  ->set('current_page', 'login')
                  ->set('has_sidebar', false)
                  ->set('has_header', false)
+                 ->set('has_title', false)
                  ->set('has_footer', false);
 
         return view('user.view_user_login');
     }
 
     /**
-    * This method handles the posting of a user attempting to log into the system. all this method takes is a
+    * This method handles the posting of a user attempting to log into the system. all this method takes is an
     * email and a password and if they match the user's entry then the user will be redirected their designated
-    * page, otherwise they will be redirected back to the sign in page with the corresponding errors...
+    * page, otherwise they will be redirected back to the sign-in page with the corresponding errors...
     *
     * @param Request $request
     * @return RedirectResponse|Redirector
@@ -101,10 +100,9 @@ class UserController extends Controller
     * this method is for returning all the users in the system to a page... this will be the default method of being
     * able to look at what users are currently in the system, currently with no restriction at all...
     *
-    * @param Request $request
     * @return Factory|View
     */
-    public function _viewUsersGet(Request $request): Factory|View
+    public function _viewUsersGet(): Factory|View
     {
         $users = User::all();
 
@@ -118,11 +116,10 @@ class UserController extends Controller
     /**
     * this method is simply returning a single user page...
     *
-    * @param Request $request
-    * @param $user_id
+    * @param int $user_id
     * @return Factory|RedirectResponse|View
     */
-    public function _viewUserGet(Request $request, int $user_id): Factory|RedirectResponse|View
+    public function _viewUserGet(int $user_id): Factory|RedirectResponse|View
     {
         // find the user that the requested user is trying to view, we are going to be wanting to accumulate a variety
         // of this particular user's data from the get go so that we can print a dashboard like view with a variety
@@ -173,14 +170,14 @@ class UserController extends Controller
     public function _viewUserEditGet(Request $request): Factory|View
     {
         // todo this method needs fleshing out for everything that this method is going to need to acquire...
-        // todo this method also needs the view service setting the title of the page...
+        //      this method also needs the view service setting the title of the page...
         return view('user.view_user_edit');
     }
 
     public function _viewUserEditPost(Request $request)
     {
         // todo this method needs fleshing out and placing all the logic in place that i'm going to be needing for the
-        //  user editing process...
+        //      user editing process...
     }
 
     /**
@@ -188,10 +185,9 @@ class UserController extends Controller
     * the logout method will direct the user back to the login page, as that is the only page a user should be able to
     * access whilst not logged in, or even forgot password.
     *
-    * @param Request $request
     * @return RedirectResponse|Redirector
     */
-    public function _userLogout(Request $request): RedirectResponse|Redirector
+    public function _userLogout(): RedirectResponse|Redirector
     {
         Auth::logout();
         return redirect()->action([self::class, '_viewUserLoginGet']);

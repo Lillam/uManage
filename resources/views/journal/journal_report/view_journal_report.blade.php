@@ -6,22 +6,25 @@
     {!! ($vs->js)('assets/vendor/chart/chart') !!}
     {!! ($vs->js)('views/journal_report/view_journal_report') !!}
 @endsection
-@section('body')
+@section('title-block')
+    <div class="uk-width-expand">
+        <p><span class="journal_report_date">{{ $date->format('F Y') }}</span></p>
+    </div>
     {{-- Navigation: Click events applied to left and right buttons for cycling into the future and past
         dates so that you can view the differences between months --}}
-    <div class="journal_report_navigation">
-        <div class="uk-flex">
-            <div class="uk-width-expand uk-flex uk-flex-middle">
-                <span class="journal_report_date">{{ $date->format('F Y') }}</span>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="journal_report_calendar_left fa fa-arrow-left"></a>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="journal_report_calendar_right fa fa-arrow-right"></a>
-            </div>
+    <div class="uk-flex journal_report_navigation">
+        <div class="uk-width-auto">
+            <a class="journal_report_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="journal_report_calendar_right uk-button uk-icon-button fa fa-arrow-right"></a>
         </div>
     </div>
+@endsection
+@section('sidebar')
+    @include('library.journal.journals_sidebar')
+@endsection
+@section('body')
     <div class="uk-container journal_reports"
         data-view_journals_report_url="{{ action('Journal\JournalReportController@_ajaxViewJournalsReportGet') }}"
         data-date="{{ $date->format('Y-m') }}">

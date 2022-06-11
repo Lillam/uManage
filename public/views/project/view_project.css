@@ -16,10 +16,6 @@
     font-weight: 700;
 }
 
-#project {
-    transition: 0.5s;
-}
-
 /* Project Sidebar */
 .project_sidebar {
     position: fixed;
@@ -28,7 +24,6 @@
     width: 350px;
     height: 100vh;
     background-color: #f1f1f1;
-    transition: 0.5s;
     border-left: solid 2px rgba(0,0,0,0.1);
     padding: 81px 20px 20px 20px;
 }

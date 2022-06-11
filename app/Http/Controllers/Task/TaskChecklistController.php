@@ -17,14 +17,6 @@ use App\Repositories\Task\TaskChecklistRepository;
 class TaskChecklistController extends Controller
 {
     /**
-    * TaskChecklistController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * This particular method is for viewing the checklists of a task. A task id will be passed through the javascript
     * ajax method which will look for all checklists that relate to this parameter set and return the entire checklist
     * with the necessary checklist items.

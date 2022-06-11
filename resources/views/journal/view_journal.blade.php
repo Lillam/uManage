@@ -10,6 +10,30 @@
 {{--    \App\Http\Controllers\Journal\JournalAchievementController::class,--}}
 {{--    $vs->user_module_access--}}
 {{--))--}}
+@section('title-block')
+    <div class="uk-width-expand">
+        <p>{{ $journal->when->format('jS F Y') }}</p>
+    </div>
+    <div class="uk-flex journal_navigation">
+        <div class="uk-width-auto">
+            <a href="{{ $yesterday_link }}"
+               class="uk-button uk-icon-button fa fa-arrow-left journal_navigation_button"></a>
+        </div>
+        <div class="uk-width-auto">
+            <a href="{{ $tomorrow_link }}"
+               class="uk-button uk-icon-button fa fa-arrow-right journal_navigation_button"></a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="uk-button uk-icon-button journal_information fa fa-info-circle"></a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="uk-button uk-icon-button delete_journal fa fa-trash"></a>
+        </div>
+    </div>
+@endsection
+@section('sidebar')
+    @include('library.journal.journals_sidebar')
+@endsection
 @section('body')
     {{-- Editing content of the journal entry today --}}
     <div id="journal" class="{{ ($journal_achievements_enabled === true) ? '' : 'journal_sidebar_closed' }}"
@@ -17,26 +41,7 @@
         data-edit_journal_url="{{ action('Journal\JournalController@_ajaxEditJournalPost') }}"
         data-delete_journal_url="{{ action('Journal\JournalController@_ajaxDeleteJournalPost') }}">
         <div class="journal_content">
-            <div class="journal_navigation_wrapper uk-flex">
-                <div class="uk-width-expand uk-flex uk-flex-middle">
-                    <span>{{ $journal->when->format('jS F Y') }}</span>
-                </div>
-                <div class="uk-width-auto uk-border-left">
-                    <a href="{{ $yesterday_link }}"
-                       class="uk-button uk-icon-button fa fa-arrow-left journal_navigation"></a>
-                </div>
-                <div class="uk-width-auto uk-border-left">
-                    <a href="{{ $tomorrow_link }}"
-                       class="uk-button uk-icon-button fa fa-arrow-right journal_navigation"></a>
-                </div>
-                <div class="uk-width-auto uk-border-left">
-                    <a class="uk-button uk-icon-button delete_journal"><i class="fa fa-trash"></i></a>
-                </div>
-                <div class="uk-width-auto uk-border-left">
-                    <a class="uk-button uk-icon-button journal_information"><i class="fa fa-info-circle"></i></a>
-                </div>
-            </div>
-            <div class="section">
+            <div class="section no-border-top">
                 <h2>Overall</h2>
                 <div class="overall box">{!! $journal->overall !== ''
                     ? $journal->overall

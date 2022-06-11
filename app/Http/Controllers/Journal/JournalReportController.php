@@ -14,14 +14,6 @@ use Illuminate\Contracts\View\Factory;
 class JournalReportController extends Controller
 {
     /**
-    * JournalReportController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * This method is specifically for showing the daily progress of the users ratings. this will be a page to highlight
     * occurrences quickly throughout the month, how much has been rated in comparison to how many achievements happened
     * that day.
@@ -40,7 +32,7 @@ class JournalReportController extends Controller
             : Carbon::now();
 
         $this->vs->set('title', "Journal Report - {$this->vs->get('user')->getFullName()}")
-            ->set('current_page', 'page.journals');
+            ->set('current_page', 'page.journals.report');
 
         return view('journal.journal_report.view_journal_report', compact(
             'date'
@@ -64,7 +56,7 @@ class JournalReportController extends Controller
         // month will be set to today.
         $date = Carbon::parse($request->input('date'));
 
-        // checking to see whether or not we have a direction, by default unless requested by the user this will be null
+        // checking to see whether we have a direction or not, by default unless requested by the user this will be null
         // or '', and if this is the case we are going to iterate on over past this logic. however if it is set then
         // we are either going to be incrementing a month, or decrementing a month and then returning this specific
         // date and altering it for when we grab the necessary data for the month in question.
@@ -73,12 +65,12 @@ class JournalReportController extends Controller
         // if the direction has been marked as left, then we are going back in time; it'll take this month and then sub
         // a month
         if (! empty($direction) && $direction === 'left')
-            $date = $date->subMonth(1);
+            $date = $date->subMonth();
 
         // if the direction has been marked as right, then we are going forward in time; it'll take this month and then
         // add a month
         if (! empty($direction) && $direction === 'right')
-            $date = $date->addMonth(1);
+            $date = $date->addMonth();
 
         // acquire all the journals that have a when between the start and end of the month for the month of which has
         // been designated above.

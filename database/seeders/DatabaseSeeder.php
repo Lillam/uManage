@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
              StoreProductSeeder::class,
              // journal seeders
              JournalSeeder::class,
+             JournalFinanceSeeder::class,
+             JournalDreamSeeder::class,
              // project seeders
              ProjectSeeder::class,
              //ProjectUserContributorSeeder::class,

@@ -12,14 +12,6 @@ use App\Http\Controllers\Controller;
 class JournalAchievementController extends Controller
 {
     /**
-    * JournalAchievementController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return Factory|View
     */

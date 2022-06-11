@@ -21,6 +21,7 @@ use App\Http\Controllers\Timelog\TimelogController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Task\TaskReportController;
 use App\Http\Controllers\Task\TaskCommentController;
+use App\Http\Controllers\User\UserSettingController;
 use App\Http\Controllers\Store\StoreBasketController;
 use App\Http\Controllers\Store\StoreProductController;
 use App\Http\Controllers\Task\TaskChecklistController;
@@ -32,38 +33,106 @@ use App\Http\Controllers\Journal\JournalFinanceController;
 use App\Http\Controllers\Project\ProjectSettingController;
 use App\Http\Controllers\System\SystemChangelogController;
 use App\Http\Controllers\Task\TaskChecklistItemController;
+use App\Http\Controllers\Journal\JournalDashboardController;
+use App\Http\Controllers\Project\ProjectDashboardController;
 use App\Http\Controllers\Journal\JournalAchievementController;
+use App\Http\Controllers\Journal\JournalDreamDashboardController;
+use App\Http\Controllers\Journal\JournalFinanceDashboardController;
 
-// initial predefined routes for the user to be able to attempt to access the system.
-Route::get( '/login',  [UserController::class, '_viewUserLoginGet']);
-Route::post('/login',  [UserController::class, '_viewUserLoginPost']);
-Route::get( '/logout', [UserController::class, '_userLogout']);
+
+/*
+|-----------------------------------------------------------------------------------------------------------------------
+| Global Redirections
+|-----------------------------------------------------------------------------------------------------------------------
+|
+| Here is where all the redirections will live. If there's ever a route that needs re-routing elsewhere, they will be
+| placed here.
+|
+*/
 
 Route::get('/', fn () => redirect()->action([UserController::class, '_viewUserDashboardGet']));
 
+/*
+|-----------------------------------------------------------------------------------------------------------------------
+| Unauthenticated Routes
+|-----------------------------------------------------------------------------------------------------------------------
+|
+| Here is where all the routes for unauthenticated users will reside. These routes can be accessed by anyone wanting
+| to interact with the system without actually being signed in.
+|
+*/
+
+Route::get( '/login',  [UserController::class, '_viewUserLoginGet'])->name('user.login');
+Route::post('/login',  [UserController::class, '_viewUserLoginPost'])->name('user.login');
+Route::get( '/logout', [UserController::class, '_userLogout'])->name('user.logout');
+
+/*
+|-----------------------------------------------------------------------------------------------------------------------
+| Authenticated Routes
+|-----------------------------------------------------------------------------------------------------------------------
+|
+| Here is where all the routes where the user is needed to be signed in order to access them; the following middleware
+| will be doing the following:
+| - auth: checking if the user is logged in
+| - auth_user: after the user has been authenticated, apply everything the user will need to utilise the application.
+| - module_check: checking to see if the user has the module against their user profile.
+|
+*/
+
 Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function () {
     // App Routes
-    Route::get('/apps',                                 [SystemModuleController::class, '_viewSystemModuleDashboardGet']);
+    Route::get('/apps', [SystemModuleController::class, '_viewSystemModuleDashboardGet']);
 
-    // User Routes
-    Route::get('/dashboard',                            [UserController::class, '_viewUserDashboardGet']);
-    Route::get('/users',                                [UserController::class, '_viewUsersGet']);
-    Route::get('/user/{id}',                            [UserController::class, '_viewUserGet']);
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | User Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | The routes that will interact in some way with the user; viewing their dashboards, viewing their user page,
+    | being able to change their password, view their module access and more.
+    |
+    */
 
-    // Project Routes
-    Route::get('/projects',                             [ProjectController::class, '_viewProjectsGet']);
-    Route::get('/project/{code}',                       [ProjectController::class, '_viewProjectGet']);
-    Route::get('/project/delete/{id}',                  [ProjectController::class, '_deleteProjectGet']);
-    Route::get('/ajax/projects',                        [ProjectController::class, '_ajaxViewProjectsGet']);
-    Route::get( '/ajax/make/project',                   [ProjectController::class, '_ajaxViewCreateProjectGet']);
-    Route::post('/ajax/make/project',                   [ProjectController::class, '_ajaxCreateProjectPost']);
+    Route::get('/dashboard', [UserController::class, '_viewUserDashboardGet'])->name('user.dashboard');
+    Route::get('/users',     [UserController::class, '_viewUsersGet']);
+    Route::get('/user/{id}', [UserController::class, '_viewUserGet']);
+
+    Route::get('/ajax/collapse', [UserSettingController::class, '_ajaxSetSidebarCollapsed'])
+        ->name('user.settings.sidebar-collapse');
+
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Project Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | The routes that will interact in some way with the projects. Viewing their project listings, viewing project tasks
+    | being able to add more, delete etc.
+    |
+    */
+
+    Route::get('/projects/dashboard',          [ProjectDashboardController::class, '_viewProjectsDashboardGet'])->name('projects.dashboard');
+    Route::get('/projects',                    [ProjectController::class, '_viewProjectsGet'])->name('projects.list');
+    Route::get('/project/{code}',              [ProjectController::class, '_viewProjectGet']);
+    Route::get('/project/delete/{id}',         [ProjectController::class, '_deleteProjectGet']);
+    Route::get('/ajax/projects',               [ProjectController::class, '_ajaxViewProjectsGet']);
+    Route::get( '/ajax/make/project',          [ProjectController::class, '_ajaxViewCreateProjectGet']);
+    Route::post('/ajax/make/project',          [ProjectController::class, '_ajaxCreateProjectPost']);
 
     // Project Settings Routes
-    Route::get( '/project/{code}/settings',             [ProjectSettingController::class, '_viewProjectSettingsGet']);
-    Route::post('/ajax/edit/project/settings',          [ProjectSettingController::class, '_editProjectSettingsPost']);
+    Route::get( '/project/{code}/settings',    [ProjectSettingController::class, '_viewProjectSettingsGet'])->name('projects.settings');
+    Route::post('/ajax/edit/project/settings', [ProjectSettingController::class, '_editProjectSettingsPost']);
 
-    // Task Routes
-    Route::get( '/tasks',                               [TaskController::class, '_viewTasksGet']);
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Task Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | The routes that will interact in some way with the tasks. Viewing their tasks individually, modifying information
+    | about such and more.
+    |
+    */
+
+    Route::get( '/tasks',                               [TaskController::class, '_viewTasksGet'])->name('projects.tasks');
     Route::get( '/task/{code}/{id}',                    [TaskController::class, '_viewTaskGet']);
     Route::get( '/delete/task/{code}/{id}',             [TaskController::class, '_deleteTaskGet']);
     Route::get( '/ajax/search/tasks',                   [TaskController::class, '_ajaxSearchTasksGet']);
@@ -101,14 +170,15 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/ajax/view/task_log_activity',          [TaskLogController::class, '_ajaxViewTaskLogActivityGet']);
 
     // Journals
-    Route::get('/journals',                             [JournalController::class, '_viewJournalsGet']);
-    Route::get('/ajax/view/journals',                   [JournalController::class, '_ajaxViewJournalsGet']);
-    Route::get('/journal/{date}',                       [JournalController::class, '_viewJournalGet']);
-    Route::post('/ajax/journal/edit',                   [JournalController::class, '_ajaxEditJournalPost']);
-    Route::post('/ajax/delete/journal',                 [JournalController::class, '_ajaxDeleteJournalPost']);
+    Route::get('/journals/calendar',                    [JournalController::class, '_viewJournalsGet'])->name('journals.calendar');
+    Route::get('/journals/dashboard',                   [JournalDashboardController::class, '_viewJournalsDashboardGet'])->name('journals.dashboard');
+    Route::get('/ajax/view/journals',                   [JournalController::class, '_ajaxViewJournalsGet'])->name('journals.ajax');
+    Route::get('/journal/{date}',                       [JournalController::class, '_viewJournalGet'])->name('journals.journal');
+    Route::post('/ajax/journal/edit',                   [JournalController::class, '_ajaxEditJournalPost'])->name('journals.journal.edit');
+    Route::post('/ajax/delete/journal',                 [JournalController::class, '_ajaxDeleteJournalPost'])->name('journals.journal.delete');
 
-    Route::get('/journals/report',                      [JournalReportController::class, '_viewJournalsReportGet']);
-    Route::get('/ajax/view/journals/report',            [JournalReportController::class, '_ajaxViewJournalsReportGet']);
+    Route::get('/journals/report',                      [JournalReportController::class, '_viewJournalsReportGet'])->name('journals.report');
+    Route::get('/ajax/view/journals/report',            [JournalReportController::class, '_ajaxViewJournalsReportGet'])->name('journals.report.ajax');
 
     Route::get( '/ajax/view/journal/achievements',      [JournalAchievementController::class, '_ajaxViewJournalAchievementsGet']);
     Route::post('/ajax/add/journal/achievement',        [JournalAchievementController::class, '_ajaxMakeJournalAchievementPost']);
@@ -116,24 +186,26 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::post('/ajax/delete/journal/achievement',     [JournalAchievementController::class, '_ajaxDeleteJournalAchievementPost']);
 
     // Dream Journals
-    Route::get('/dreams/journals',                      [JournalDreamController::class, '_viewJournalDreamsGet']);
-    Route::get('/ajax/view/dreams/journals',            [JournalDreamController::class, '_ajaxViewJournalDreamsGet']);
+    Route::get('/dreams/journals/dashboard',            [JournalDreamDashboardController::class, '_viewJournalsDreamsDashboardGet'])->name('journals.dreams.dashboard');
+    Route::get('/dreams/journals/calendar',             [JournalDreamController::class, '_viewJournalDreamsGet'])->name('journals.dreams.calendar');
+    Route::get('/ajax/view/dreams/journals',            [JournalDreamController::class, '_ajaxViewJournalDreamsGet'])->name('journals.dreams.calendar.ajax');
     Route::get('/dreams/journals/{date}',               [JournalDreamController::class, '_viewJournalDreamGet']);
     Route::post('/ajax/journal_dream/edit',             [JournalDreamController::class, '_editJournalDreamPost']);
     Route::post('/ajax/delete/journal_dream',           [JournalDreamController::class, '_ajaxDeleteJournalDreamPost']);
 
-    Route::get('/finance/journals',                     [JournalFinanceController::class, '_viewJournalFinancesGet']);
+    Route::get('/finances/journals/dashboard',          [JournalFinanceDashboardController::class, '_viewJournalsFinancesDashboardGet'])->name('journals.finances.dashboard');
+    Route::get('/finance/journals/calendar',            [JournalFinanceController::class, '_viewJournalFinancesGet'])->name('journals.finances.calendar');
     Route::get('/ajax/view/finances/journals',          [JournalFinanceController::class, '_ajaxViewJournalFinancesGet']);
 
     // Timelogging
-    Route::get( '/timelog',                             [TimelogController::class, '_viewTimelogCalendarGet']);
+    Route::get( '/timelogs/calendar',                   [TimelogController::class, '_viewTimelogCalendarGet'])->name('timelogs.calendar');
     Route::get( '/ajax/view/timelogs',                  [TimelogController::class, '_ajaxViewTimelogsGet']);
     Route::get( '/ajax/view/timelogs_calendar',         [TimelogController::class, '_ajaxViewTimelogsCalendarGet']);
     Route::post('/ajax/make/timelog',                   [TimelogController::class, '_ajaxMakeTimelogPost']);
     Route::get( '/ajax/delete/timelog',                 [TimelogController::class, '_ajaxDeleteTimelogGet']);
 
-    Route::get( '/timelog/report',                      [TimelogReportController::class, '_viewTimelogReportGet']);
-    Route::get( '/ajax/view/timelog_report',            [TimelogReportController::class, '_ajaxViewTimelogReportGet']);
+    Route::get( '/timelog/report',                      [TimelogReportController::class, '_viewTimelogReportGet'])->name('timelogs.report');
+    Route::get( '/ajax/view/timelog_report',            [TimelogReportController::class, '_ajaxViewTimelogReportGet'])->name('timelogs.report.ajax');
 
     // Account Managing
     Route::get( 'accounts',                             [AccountController::class, '_viewAccountsGet']);
@@ -146,7 +218,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/system/changelogs',                    [SystemChangelogController::class, '_viewSystemChangelogsGet']);
     Route::get('/system/changelogs/{id}',               [SystemChangelogController::class, '_viewSystemChangelogGet']);
     Route::get('/system/changelogs/edit/{id?}',         [SystemChangelogController::class, '_editSystemChangelogGet']);
-    Route::get('/system/store/all',                     [SystemController::class, '_storeAllModulesLocally']);
+    Route::get('/system/store/all',                     [SystemController::class, '_storeAllModulesLocally'])->name('system.store');
     Route::get('/system/perform',                       [SystemController::class, '_performRandomJob']);
     Route::get('/system/emojis',                        [SystemController::class, '_getSummernoteEmojis']);
 

@@ -32,6 +32,11 @@ class ViewService
     private bool $has_footer = true;
 
     /**
+     * @var bool
+     */
+    private bool $has_title = true;
+
+    /**
     * @var bool
     */
     private bool $has_sidebar = true;
@@ -54,10 +59,14 @@ class ViewService
         return (object) [
             'title'              => $this->getTitle(),
             'current_page'       => $this->getCurrentPage(),
-            'is_page'            => fn (string $page): string => $page === $this->getCurrentPage() ? 'active' : '',
+            'is_page'            => fn (string $page): string => mb_strpos(
+                $this->getCurrentPage(),
+                $page
+            ) !== false ? 'active' : '',
             'has_header'         => $this->getHasHeader(),
             'has_footer'         => $this->getHasFooter(),
             'has_sidebar'        => $this->getHasSidebar(),
+            'has_title'          => $this->getHasTitle(),
             'application_theme'  => $this->getApplicationTheme(),
 
             // deciding which user is the currently logged in user, and then also having a setting which will let
@@ -149,6 +158,21 @@ class ViewService
     }
 
     /**
+     * @param bool $has_title
+     * @return $this
+     */
+    public function setHasTitle(bool $has_title): self
+    {
+        $this->has_title = $has_title;
+        return $this;
+    }
+
+    public function getHasTitle(): bool
+    {
+        return $this->has_title;
+    }
+
+    /**
     * @param bool $has_sidebar
     * @return $this
     */
@@ -223,17 +247,19 @@ class ViewService
     /*
     |-------------------------------------------------------------------------------------------------------------------
     | Global Getter Setters
+    |-------------------------------------------------------------------------------------------------------------------
     |
     | From here on is a variety of global getters and setters, that are more defined as helper methods for being able to
     | Quickly access some variable in the view service, without actually having to type out the full getter setter
     | method.
-    |---------------------------------------------------------------------------------------------------------------- */
+    |
+    */
 
     /**
     * Method for acquiring any of the items inside this particular class. ->get('title') will in fact, return whatever
     * value that is currently set against this object.
     *
-    * @param $key
+    * @param string $key
     * @return mixed
     */
     public function get(string $key): mixed
@@ -246,10 +272,10 @@ class ViewService
     * specific areas of the system do not require the use of a variable inside here, we can unset it to save some
     * memory.
     *
-    * @param $key
+    * @param string $key
     * @return $this
     */
-    public function remove($key): self
+    public function remove(string $key): self
     {
         unset($this->$key);
         return $this;

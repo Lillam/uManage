@@ -58,33 +58,6 @@
     visibility: visible;
 }
 
-.delete_journal {
-    background-color: #f0506e !important;
-    color: #fff !important;
-}
-
-.delete_journal:hover {
-    opacity: 0.8;
-}
-
-.delete_journal,
-.journal_navigation,
-.journal_information {
-    border: solid 1px rgba(0,0,0,0) !important;
-    color: #444 !important;
-    background-color: transparent !important;
-}
-
-.delete_journal:hover,
-.journal_navigation:hover,
-.journal_information:hover {
-    background-color: #fff !important;
-    border: solid 1px rgba(0,0,0,0.2) !important;
-}
-
-#journal .journal_content {
-    transition: 0.5s;
-}
 
 #journal .journal_content .journal_navigation_wrapper {
     background-color: #f1f1f1;
@@ -109,7 +82,6 @@
     background-color: rgb(246,246,246);
     padding: 30px 30px 30px 30px;
     border-left: solid 1px rgba(0,0,0,0.2);
-    transition: 0.5s;
 }
 
 @media(min-width: 991px) {
@@ -119,6 +91,10 @@
 
     #journal .journal_content {
         padding-right: 400px;
+    }
+
+    .title-navigation {
+        padding-right: 430px !important;
     }
 }
 
@@ -132,4 +108,23 @@
 
 #journal.journal_sidebar_open .journal_sidebar {
     right: 0;
+}
+
+.journal_navigation > div {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.journal_navigation .journal_navigation_button,
+.journal_navigation .delete_journal,
+.journal_navigation .journal_information {
+    background-color: #ffffff;
+    border: solid 1px rgba(0,0,0,0.1);
+}
+
+.journal_navigation .journal_navigation_button:hover,
+.journal_navigation .delete_journal:hover,
+.journal_navigation .journal_information:hover {
+    background-color: rgba(0,0,0,0.1);
 }

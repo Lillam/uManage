@@ -15,15 +15,15 @@ class JournalSeeder extends Seeder
     /**
     * This method is 100% reading from a local file that constantly gets saved to whenever we are making amends or
     * creating new journal entries. this is for being able to retain the very important information, whilst retaining
-    * the ability to fresh migrate the database.
+    * the ability to freshly migrate the database.
     *
     * @throws FileNotFoundException
     * @return void
     */
-    public function run()
+    public function run(): void
     {
         foreach (Storage::disk('local')->allFiles('journals') as $file) {
-            $journals = json_decode(Storage::disk('local')->get($file));
+            $journals = collect(json_decode(Storage::disk('local')->get($file)));
 
             DB::transaction(function () use ($journals) {
                 $bar = $this->command->getOutput()->createProgressBar($journals->count());

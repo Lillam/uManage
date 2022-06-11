@@ -9,7 +9,9 @@
             </div>
             <div class="timelog_information uk-flex">
                 <div class="timelog_task_project uk-width-expand">
-                    <span class="badge" style="background-color: {{ $timelog->project->getColor() }}">{{ $timelog->project->code }}-{{ $timelog->task->id }}</span>
+                    <span class="badge"
+                          style="background-color: {{ $timelog->project->getColor() }}"
+                    >{{ $timelog->project->code }}-{{ $timelog->task->id }}</span>
                 </div>
                 <div class="timelog_time_spent uk-width-auto">
                     <b>{{ TimelogRepository::convertTimelogTimeSpent($timelog->time_spent) }}</b>

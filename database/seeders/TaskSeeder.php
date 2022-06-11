@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Exception;
 use App\Models\Task\Task;
 use App\Models\Timelog\Timelog;
 use Illuminate\Database\Seeder;
@@ -11,7 +12,6 @@ use App\Models\Task\TaskChecklist;
 use App\Models\Project\ProjectSetting;
 use App\Models\Task\TaskChecklistItem;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class TaskSeeder extends Seeder
 {
@@ -19,15 +19,14 @@ class TaskSeeder extends Seeder
     * Run the database seeders.
     *
     * @return void
-    * @throws FileNotFoundException
     */
-    public function run()
+    public function run(): void
     {
-        if (! Storage::disk('local')->has('tasks/tasks.json'))
+        if (! Storage::disk('local')->exists('tasks/tasks.json'))
             return;
 
         $this->process(collect(
-            json_decode(Storage::disk('local')->get('tasks/extract_timelogs.json'))
+            json_decode(Storage::disk('local')->get('tasks/tasks.json'))
         ));
     }
 
@@ -35,7 +34,7 @@ class TaskSeeder extends Seeder
     * @param $tasks
     * @return void
     */
-    public function process($tasks)
+    public function process($tasks): void
     {
         DB::transaction(function () use ($tasks) {
             // when we are going to seed the tasks in the system; we are just going to update all the project settings
@@ -51,15 +50,10 @@ class TaskSeeder extends Seeder
 
             $bar = $this->command->getOutput()->createProgressBar(count($tasks));
 
-            $the_task_id = 0;
-            $timelog_id = 0;
-
             foreach ($tasks as $task_id => $task) {
-                // remove the auto incremenetal factor for now.
-                $the_task_id += 1;
                 try {
-                    $the_new_task = Task::updateOrCreate(['id' => $the_task_id], [
-                        'id'                 => $the_task_id,
+                    $the_new_task = Task::updateOrCreate(['id' => $task_id], [
+                        'id'                 => $task_id,
                         'project_id'         => $task->project_id,
                         'user_id'            => 1,
                         'name'               => $task->name,
@@ -70,7 +64,7 @@ class TaskSeeder extends Seeder
                         'task_priority_id'   => $task->task_priority_id,
                         'due_date'           => $task->due_date,
                     ]);
-                } catch (\Exception $exception) {
+                } catch (Exception $exception) {
                     continue;
                 }
 
@@ -82,11 +76,10 @@ class TaskSeeder extends Seeder
                 );
 
                 if (! empty($task->task_timelogs)) {
-                    foreach ($task->task_timelogs as $task_timelog) {
-                        $timelog_id += 1;
-                        Timelog::updateOrCreate(['id' => $timelog_id], [
-                            'id'         => $timelog_id,
-                            'task_id'    => $the_task_id,
+                    foreach ($task->task_timelogs as $task_timelog_id => $task_timelog) {
+                        Timelog::updateOrCreate(['id' => $task_timelog_id], [
+                            'id'         => $task_timelog_id,
+                            'task_id'    => $task_id,
                             'project_id' => $task->project_id,
                             'user_id'    => $task_timelog->user_id,
                             'note'       => $task_timelog->note,
@@ -102,7 +95,7 @@ class TaskSeeder extends Seeder
                         TaskComment::updateOrCreate(['id' => $task_comment_id], [
                             'id'         => $task_comment_id,
                             'user_id'    => $task_comment->user_id,
-                            'task_id'    => $the_task_id,
+                            'task_id'    => $task_id,
                             'project_id' => $task->project_id,
                             'parent_id'  => $task_comment->parent_id,
                             'content'    => $task_comment->content,
@@ -114,7 +107,7 @@ class TaskSeeder extends Seeder
                     foreach ($task->task_checklists as $task_checklist_id => $task_checklist) {
                         TaskChecklist::updateOrCreate(['id' => $task_checklist_id], [
                             'id'         => $task_checklist_id,
-                            'task_id'    => $the_task_id,
+                            'task_id'    => $task_id,
                             'project_id' => $task->project_id,
                             'user_id'    => 1,
                             'name'       => $task_checklist->name,
@@ -128,7 +121,7 @@ class TaskSeeder extends Seeder
                                 TaskChecklistItem::updateOrCreate(['id' => $task_checklist_item_id], [
                                     'id'                => $task_checklist_item_id,
                                     'task_checklist_id' => $task_checklist_id,
-                                    'task_id'           => $the_task_id,
+                                    'task_id'           => $task_id,
                                     'project_id'        => $task->project_id,
                                     'user_id'           => 1,
                                     'name'              => $task_checklist_item->name,

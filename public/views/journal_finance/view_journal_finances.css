@@ -1,3 +1,20 @@
+.journal_finance_navigation > div {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.journal_finance_navigation > div .journal_finance_calendar_left,
+.journal_finance_navigation > div .journal_finance_calendar_right {
+    background-color: #ffffff;
+    border: solid 1px rgba(0,0,0,0.1);
+}
+
+.journal_finance_navigation > div .journal_finance_calendar_left:hover,
+.journal_finance_navigation > div .journal_finance_calendar_right:hover {
+    background-color: rgba(0,0,0,0.1);
+}
+
 .journal_finance_month {
     position: relative;
 }

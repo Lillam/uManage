@@ -1,4 +1,4 @@
-@extends('template.master')
+s@extends('template.master')
 @section('css')
     {!! ($vs->css)('views/system_modules/view_system_modules_dashboard') !!}
 @endsection

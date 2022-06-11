@@ -11,17 +11,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectSeeder extends Seeder
 {
-    public $key = 0;
-
     /**
     * Run the database seeders.
     *
     * @return void
-    * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
     */
     public function run()
     {
-        if (! Storage::disk('local')->has('projects/projects.json')) return;
+        if (! Storage::disk('local')->exists('projects/projects.json')) return;
+
         $this->process(collect(json_decode(Storage::disk('local')->get('projects/projects.json'))));
     }
 
@@ -33,7 +31,7 @@ class ProjectSeeder extends Seeder
         DB::transaction(function () use ($projects) {
             $bar = $this->command->getOutput()->createProgressBar(count($projects));
             $parsedown = (new Parsedown())->setSafeMode(true);
-            foreach ($projects as $project_id => $project) {
+            foreach ($projects as $project) {
                 Project::updateOrCreate(['id' => $project->id], [
                     'id'              => $project->id,
                     'user_id'         => $project->user_id,
@@ -55,14 +53,5 @@ class ProjectSeeder extends Seeder
                 ]); $bar->advance();
             } $bar->finish();
         }); DB::commit();
-    }
-
-    /**
-    * @return int
-    */
-    public function increment(): int
-    {
-        $this->key += 1;
-        return $this->key;
     }
 }

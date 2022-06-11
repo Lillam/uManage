@@ -10,9 +10,15 @@
     {!! ($vs->js)('views/project/view_projects') !!}
     {!! ($vs->js)('views/task/view_tasks') !!}
 @endsection
+@section('title-block')
+    <p>Profile</p>
+@endsection
+@section('sidebar')
+    <h2>{{ $user->getFullName() }}</h2>
+@endsection
 @section('body')
     {{-- The User's Banner Strip --}}
-    <div class="section">
+    <div class="section no-border-top">
         {{-- User Profile Image --}}
         <div class="user_profile_wrapper">
             <div class="uk-grid uk-grid-small" uk-grid>

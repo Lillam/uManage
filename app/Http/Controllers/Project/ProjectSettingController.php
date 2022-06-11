@@ -12,23 +12,13 @@ use Illuminate\Contracts\View\Factory;
 use Psr\Container\NotFoundExceptionInterface;
 use Psr\Container\ContainerExceptionInterface;
 
-
 class ProjectSettingController extends Controller
 {
     /**
-    * ProjectSettingController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-    * @param Request $request
     * @param $project_code
     * @return Factory|View
     */
-    public function _viewProjectSettingsGet(Request $request, $project_code): Factory|View
+    public function _viewProjectSettingsGet($project_code): Factory|View
     {
         $project_setting = ProjectSetting::query()
             ->select('project_setting.*')
@@ -66,7 +56,7 @@ class ProjectSettingController extends Controller
         $project = Project::where('id', '=', $project_id)->first();
 
         if ($this->vs->get('user')->cannot('ProjectPolicy@editProject', $project))
-            return response()->json(['erorr' => 'You are unable to edit this particular project']);
+            return response()->json(['error' => 'You are unable to edit this particular project']);
 
         $project->$field = $value;
         $project->save();

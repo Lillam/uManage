@@ -9,48 +9,47 @@
     {!! ($vs->js)('views/project/view_project') !!}
     {!! ($vs->js)('views/task/view_tasks') !!}
 @endsection
+@section('title-navigation')
+    <div class="uk-width-expand">
+        <p>{{ $project->name }}</p>
+    </div>
+@endsection
+@section('sidebar')
+    @include('library.project.projects_sidebar')
+@endsection
 @section('body')
     <div id="project">
-        <div class="project_banner uk-flex uk-flex-middle" style="background-color: {{ $project->getColor() }}">
-            <h1>{{ $project->name }}</h1>
-        </div>
         <div class="progress">
             <div class="progress_percent" style="width: {{ $project->getTaskCompletedPercentage() }}">
             </div>
         </div>
 
         {{-- Project Navigation --}}
-        <div class="navigation task_navigation">
-            <div class="uk-flex">
-                <div class="uk-width-expand uk-flex uk-flex-middle">
-                    <span class="title">{{ $project->name }}</span>
-                </div>
-                <div class="uk-width-auto uk-border-left uk-hidden">
-                    <a class="tasks_navigation_left uk-button uk-button-icon"><i class="fa fa-arrow-left"></i></a>
-                </div>
-                <div class="uk-width-auto uk-border-left uk-flex uk-flex-middle">
-                    <p style="margin: 0;"><span class="count">0</span>/<span class="total">0</span></p>
-                </div>
-                <div class="uk-width-auto uk-border-left uk-hidden">
-                    <a class="tasks_navigation_right uk-button uk-button-icon"><i class="fa fa-arrow-right"></i></a>
-                </div>
-                <div class="uk-width-auto uk-border-left">
-                    <a class="project_settings_button uk-button uk-icon-button"
-                       href="{{ action('Project\ProjectSettingController@_viewProjectSettingsGet', $project->code) }}">
-                        <i class="fa fa-cog"></i>
-                    </a>
-                </div>
-                <div class="uk-width-auto uk-border-left">
-                    <a class="project_advanced_search uk-button uk-icon-button"><i class="fa fa-search"></i></a>
-                </div>
-            </div>
-        </div>
-
-        {{-- The project progress in progressbar format. --}}
-        <div class="progress">
-            <div class="progress_percent" style="width: {{ $project->getTaskCompletedPercentage() }}">
-            </div>
-        </div>
+{{--        <div class="navigation task_navigation">--}}
+{{--            <div class="uk-flex">--}}
+{{--                <div class="uk-width-expand uk-flex uk-flex-middle">--}}
+{{--                    <span class="title">{{ $project->name }}</span>--}}
+{{--                </div>--}}
+{{--                <div class="uk-width-auto uk-border-left uk-hidden">--}}
+{{--                    <a class="tasks_navigation_left uk-button uk-button-icon"><i class="fa fa-arrow-left"></i></a>--}}
+{{--                </div>--}}
+{{--                <div class="uk-width-auto uk-border-left uk-flex uk-flex-middle">--}}
+{{--                    <p style="margin: 0;"><span class="count">0</span>/<span class="total">0</span></p>--}}
+{{--                </div>--}}
+{{--                <div class="uk-width-auto uk-border-left uk-hidden">--}}
+{{--                    <a class="tasks_navigation_right uk-button uk-button-icon"><i class="fa fa-arrow-right"></i></a>--}}
+{{--                </div>--}}
+{{--                <div class="uk-width-auto uk-border-left">--}}
+{{--                    <a class="project_settings_button uk-button uk-icon-button"--}}
+{{--                       href="{{ action('Project\ProjectSettingController@_viewProjectSettingsGet', $project->code) }}">--}}
+{{--                        <i class="fa fa-cog"></i>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
+{{--                <div class="uk-width-auto uk-border-left">--}}
+{{--                    <a class="project_advanced_search uk-button uk-icon-button"><i class="fa fa-search"></i></a>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
 
         {{-- Acquiring the tasks that are currently residing in this particular project. --}}
         <div class="tasks"

@@ -6,21 +6,23 @@
     {!! ($vs->js)('assets/vendor/chart/chart') !!}
     {!! ($vs->js)('views/timelog/timelog_report/view_timelog_report') !!}
 @endsection
-@section('body')
-    <div class="timelog_report_navigation">
-        <div class="uk-flex">
-            <div class="uk-width-expand uk-flex uk-flex-middle">
-                <span class="timelog_report_date">{{ $date->format('F Y') }}</span>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="timelog_report_navigation_left fa fa-arrow-left"></a>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="timelog_report_navigation_right fa fa-arrow-right"></a>
-            </div>
+@section('title-block')
+    <div class="uk-width-expand">
+        <span class="timelog_report_date">{{ $date->format('F Y') }}</span>
+    </div>
+    <div class="uk-flex timelog_report_navigation">
+        <div class="uk-width-auto">
+            <a class="timelog_report_navigation_left uk-button uk-icon-button fa fa-arrow-left"></a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="timelog_report_navigation_right uk-button uk-icon-button fa fa-arrow-right"></a>
         </div>
     </div>
-
+@endsection
+@section('sidebar')
+    @include('library.timelog.timelog_sidebar')
+@endsection
+@section('body')
     <div class="uk-container timelog_reports"
          data-view_timelog_reports_url="{{ action('Timelog\TimelogReportController@_ajaxViewTimelogReportGet') }}"
          data-date="{{ $date->format('Y-m') }}">

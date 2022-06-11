@@ -15,16 +15,6 @@ use Illuminate\Contracts\Foundation\Application;
 class JournalFinanceController extends Controller
 {
     /**
-    * JournalFinanceController constructor.
-    *
-    * @return void
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return Application|Factory|View
     */
@@ -35,7 +25,7 @@ class JournalFinanceController extends Controller
             : Carbon::now();
 
         $this->vs->set('title', "Journal Finances - {$this->vs->get('user')->getFullName()}")
-                  ->set('current_page', 'page.journals.finances');
+                  ->set('current_page', 'page.journals.finances.calendar');
 
         return view('journal.journal_finance.view_journal_finances', compact(
             'date'

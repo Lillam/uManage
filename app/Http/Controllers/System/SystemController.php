@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\System;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
@@ -16,14 +15,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SystemController extends Controller
 {
-    /**
-    * SystemController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function _performRandomJob()
     {
 //        $dates = (new DateRule())
@@ -72,10 +63,9 @@ class SystemController extends Controller
     * designed to locally store them data from the database that won't be initially seeded; to retain a checkpoint
     * on where the application is.
     *
-    * @param Request $request
     * @return RedirectResponse
     */
-    public function _storeAllModulesLocally(Request $request): RedirectResponse
+    public function _storeAllModulesLocally(): RedirectResponse
     {
         $local_store_jobs = [
             TaskLocalStoreJob::class,
@@ -86,7 +76,7 @@ class SystemController extends Controller
         ];
 
         foreach ($local_store_jobs as $local_store_job) {
-            dispatch_now(new $local_store_job);
+            dispatch(new $local_store_job);
         }
 
         return back();

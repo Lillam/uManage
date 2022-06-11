@@ -73,9 +73,9 @@ class User extends Authenticatable
 
     /**
     * this method will be for returning the users full name, rather than writing out
-    * $user->first_name . ' ' . $user->last_name, we can simply write $user->getFullName(); which will pretty much execute
-    * the same logic set, but with less amount of work in the direct code. this will of course be checking whether or
-    * not the user has a last name to user, otherwise this will be just spitting back the users first name.
+    * $user->first_name . ' ' . $user->last_name, we can simply write $user->getFullName(); which will pretty much
+    * execute the same logic set, but with less amount of work in the direct code. this will of course be checking
+    * whether the user has a last name to user or not, otherwise this will be just spitting back the users first name.
     *
     * @return string
     */
@@ -132,7 +132,7 @@ class User extends Authenticatable
     */
 
     /**
-    * this method will be grabbing all of the projects that this user has against their name. this will be used in a
+    * this method will be grabbing all the projects that this user has against their name. this will be used in a
     * variety of locations, and this relationship model will be useful for grabbing a variety of user information
     * around the system
     *
@@ -144,7 +144,7 @@ class User extends Authenticatable
     }
 
     /**
-    * this method will be grabbing all of the tasks that the user has reported in their name, this will be used in a
+    * this method will be grabbing all the tasks that the user has reported in their name, this will be used in a
     * variety of locations, and this relationship model will be useful for grabbing everything that this user has
     * reported to the system from a task perspective.
     *
@@ -180,7 +180,7 @@ class User extends Authenticatable
     }
 
     /**
-    * Relatiosnhip which ties a user to accounts, the accounts module which will return a collection of elements from
+    * Relationship which ties a user to accounts, the account's module which will return a collection of elements from
     * the database that is tied to the user in question...
     *
     * @return HasMany

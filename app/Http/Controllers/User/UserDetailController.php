@@ -7,11 +7,5 @@ use App\Http\Controllers\Controller;
 
 class UserDetailController extends Controller
 {
-    /**
-    * UserDetailController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 }

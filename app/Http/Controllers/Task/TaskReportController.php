@@ -10,14 +10,6 @@ use App\Http\Controllers\Controller;
 class TaskReportController extends Controller
 {
     /**
-    * TaskReportController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return JsonResponse
     */

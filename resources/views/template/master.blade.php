@@ -10,16 +10,22 @@
         {!! ($vs->css)('assets/vendor/uikit/uikit.min') !!}
         {!! ($vs->css)('assets/vendor/fontawesome/all') !!}
         {!! ($vs->css)('assets/vendor/summernote/summernote-lite') !!}
-        @if((bool) env('PUSHER_ENABLED'))
+        @if(env('PUSHER_ENABLED'))
             {!! ($vs->css)('css/app') !!}
         @endif
         {!! ($vs->css)('assets/css/application') !!}
     </head>
-    <body class="{{ $theme }} {{ $current_page }} {{ $sidebar_class }}"
-          data-get_emojis_url="{{ action('System\SystemController@_getSummernoteEmojis') }}">
+    <body class="{{ $theme }} {{ $current_page }} {{ $sidebar_class }} {{ $sidebar_collapsed }}"
+          data-get_emojis_url="{{ action('System\SystemController@_getSummernoteEmojis') }}"
+          data-collapse_sidebar_url="{{ route('user.settings.sidebar-collapse') }}">
         {{-- Header --}}
         @include('template.header')
         {{-- Body --}}
+        @if ($vs->has_title)
+            <div class="title-block">
+                @yield('title-block')
+            </div>
+        @endif
         @yield('body')
         {{-- Ajax Message Helper --}}
         <div class="ajax_message_helper"></div>
@@ -29,7 +35,7 @@
         {!! ($vs->js)('assets/vendor/uikit/jquery') !!}
         {!! ($vs->js)('assets/vendor/uikit/uikit.min') !!}
         {!! ($vs->js)('assets/vendor/summernote/summernote-lite') !!}
-        @if ((bool) env('PUSHER_ENABLED'))
+        @if (env('PUSHER_ENABLED'))
             {!! ($vs->js)('js/app.js') !!}
         @endif
         @yield('js')

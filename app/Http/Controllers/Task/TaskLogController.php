@@ -15,14 +15,6 @@ use Illuminate\Contracts\Foundation\Application;
 class TaskLogController extends Controller
 {
     /**
-    * TaskLogController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return JsonResponse
     * @throws Throwable

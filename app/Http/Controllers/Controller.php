@@ -16,16 +16,16 @@ class Controller extends BaseController
     /**
     * @var ViewService $vs | vs for ViewService
     */
-    protected $vs;
+    protected ViewService $vs;
 
     /**
-    * Controller constructor.
+    * Controller constructor. - utilised for applying all the necessary pieces that the controllers will be needing on
+    * a global scale.
     *
     * @return void
     */
     public function __construct()
     {
-        $this->vs = app('vs');
-        $this->vs->set('user', Auth::user());
+        $this->vs = app('vs')->set('user', Auth::user());
     }
 }

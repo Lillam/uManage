@@ -43,7 +43,7 @@ class TaskController extends Controller
     public function _viewTasksGet(Request $request): Factory|View
     {
         $this->vs->set('title', '- Tasks')
-                 ->set('current_page', 'page.tasks');
+                 ->set('current_page', 'page.projects.tasks.list');
 
         \Illuminate\Support\Facades\Request::method();
 
@@ -119,7 +119,7 @@ class TaskController extends Controller
         $task->total_time_logged = TimelogRepository::getTotalTimeLogged($task);
 
         $this->vs->set('title', " - Task - {$task->name}")
-                 ->set('current_page', 'page.tasks');
+                 ->set('current_page', 'page.projects.tasks.task');
 
         return view('task.view_task', compact(
             'task',

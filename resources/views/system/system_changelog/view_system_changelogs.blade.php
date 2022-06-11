@@ -2,6 +2,9 @@
 @section('css')
     {!! ($vs->css)('views/system/system_changelog/view_system_changelogs') !!}
 @endsection
+@section('sidebar')
+    <h2>Change logs</h2>
+@endsection
 @section('body')
     {{-- Journal Navigation --}}
     <div class="system_changelog_navigation">

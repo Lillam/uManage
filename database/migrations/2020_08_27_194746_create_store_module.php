@@ -18,6 +18,7 @@ class CreateStoreModule extends Migration
     {
         if (! $this->alreadyMigrated('store_product'))
             $this->setupStoreProductModule();
+
         if (! $this->alreadyMigrated('store_basket'))
             $this->setupStoreBasketModule();
     }

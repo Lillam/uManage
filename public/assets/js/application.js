@@ -90,8 +90,8 @@ $(() => {
     });
 
     // when the user has opted to click on save new project, this will run the logic through the (create project) method
-    // which will handle all of the checking as to whether or not the details required to create a project has been
-    // filled or not, handling the responses in kind depending on what might be missing or yet needed.
+    // which will handle the checking whether the details required to create a project has been filled or not, handling
+    // the responses in kind depending on what might be missing or yet needed.
     $body.on('click', '.save_new_project', function (event) {
         event.stopPropagation();
         event.preventDefault();
@@ -99,8 +99,8 @@ $(() => {
     });
 
     // when the user has opted to click on save new task, this will run the logic through the (create task) method
-    // which will handle all of the checking as to whether or not the details required for creating a new task has been
-    // filled or not, handling the responses in kind depending on what might be missing or yet needed.
+    // which will handle all the checking whether the details required for creating a new task has been filled or not,
+    // handling the responses in kind depending on what might be missing or yet needed.
     $body.on('click', '.save_new_task', function (event) {
         event.stopPropagation();
         event.preventDefault();
@@ -127,7 +127,7 @@ $(() => {
             method: 'get',
             url: url,
             data: {},
-            success: function (data) {
+            success: (data) => {
                 $('.make_task_modal').remove();
                 $('body').append(data);
                 UIkit.modal('.make_task_modal').show();
@@ -150,12 +150,32 @@ $(() => {
             method: 'get',
             url: url,
             data: {},
-            success: function (data) {
+            success: (data) => {
                 $('.make_project_modal').remove();
                 $('body').append(data);
                 UIkit.modal('.make_project_modal').show();
             }
         })
+    });
+
+    // If the user is in desire of making some more space for their viewing they are going to be able to collapse the
+    // sidebar; should they do this we're going to make an ajax request to the server in order to confirm this action
+    // so that on their next refresh the website will be remembered and the sidebar will either be hidden or visible
+    // entirely depending on the users' preference.
+    $body.on('click', '.close-sidebar', () => {
+        let url = $body.data('collapse_sidebar_url'),
+            collapsed = $body.hasClass('sidebar-closed');
+
+        $.ajax({
+            method: 'get',
+            url: url,
+            data: {
+                is_collapsed: !! collapsed ? 0 : 1
+            },
+            success: () => {
+                $body.toggleClass('sidebar-closed');
+            }
+        });
     });
 });
 
@@ -174,6 +194,7 @@ $.fn.extend({
         if (this.length === 0) {
             throw new Error("Cannot manipulate an element if there is no element!");
         }
+
         var element = this[0],
             range = document.createRange(),
             selection = window.getSelection(),
@@ -213,7 +234,7 @@ let ajax_message_helper = function ($object, data) {
 
 /**
 * when the user begins to open a summernote object, we are going to check to see if there is a placeholder element inside
-* and set it's value to nothing, we are going to delete the object in question from memory, store it's value in the
+* and set its value to nothing, we are going to delete the object in question from memory, store its value in the
 * cache, so that once we are done editing or messing with this instance, if nothing has changed then we set the value
 * back to what the cache value was.
 *
@@ -222,7 +243,7 @@ let ajax_message_helper = function ($object, data) {
 * @param value | the value for the key that is being stored.
 * @return void
 */
-var handle_summernote_open = function (key, value) {
+const handle_summernote_open = function (key, value) {
     let $object = $('.' + key);
     if ($object.find('.placeholder').length >= 1) {
         $object.html('');
@@ -242,9 +263,9 @@ var handle_summernote_open = function (key, value) {
 * @param key            | the identifier for the content should the content have been saved into the system.
 * @param update_on_save | whether we're opting to update the element when we have left the summernote leave...
 */
-var handle_summernote_leave = function ($object, handle, key, update_on_save = true) {
+const handle_summernote_leave = function ($object, handle, key, update_on_save = true) {
     // regardless of whether or not we are saving or cancelling, we are wanting to reset the value of the object
-    // back to its' original value... on the exit of the summernote, the opbject will be set to the previous value
+    // back to its original value... on the exit of the summernote, the object will be set to the previous value
     // and the cache key will be set to nothing.
     if (update_on_save === true) {
         $object.html(window[key]);

@@ -14,24 +14,15 @@ use App\Repositories\Project\ProjectSettingRepository;
 class ProjectController extends Controller
 {
     /**
-    * ProjectController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * This method is for returning the projects view to the user, this will return just a simple view with all the
     * projects that the specific user in question can see.
     *
-    * @param Request $request
     * @return Factory|View
     */
-    public function _viewProjectsGet(Request $request): Factory|View
+    public function _viewProjectsGet(): Factory|View
     {
         $this->vs->set('title', '- Projects')
-                 ->set('current_page', 'page.projects');
+                 ->set('current_page', 'page.projects.list');
 
         return view('project.view_projects');
     }
@@ -44,7 +35,8 @@ class ProjectController extends Controller
     {
         $user_id = $request->input('user_id') ?? $this->vs->get('user')->id;
 
-        $projects = Project::select('*')
+        $projects = Project::query()
+            ->select('*')
             ->with([
                 'project_setting',
                 'user_contributors',
@@ -67,9 +59,9 @@ class ProjectController extends Controller
     }
 
     /**
-    * This method is for returning a project specifically, we are going to be looking for a project with the passed id
-    * and then we are going to check whether or not this user in question can see this particular project... if the
-    * signed in user cannot see the project the user will be sent back to the view projects page.
+    * This method is for returning a project specifically, we are going to be looking for a project with the passed id;
+    * then we are going to check whether this user in question can see this particular project or not... if the
+    * authenticated user cannot see the project the user will be sent back to the view projects page.
     *
     * @param Request $request
     * @param string $project_code

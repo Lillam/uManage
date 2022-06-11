@@ -7,11 +7,5 @@ use App\Http\Controllers\Controller;
 
 class TaskStatusController extends Controller
 {
-    /**
-    * TaskStatusController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 }

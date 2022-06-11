@@ -7,11 +7,5 @@ use App\Http\Controllers\Controller;
 
 class TaskFileController extends Controller
 {
-    /**
-    * TaskFileController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+
 }

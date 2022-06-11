@@ -76,6 +76,7 @@ class CreateUsersTable extends Migration
         Schema::create('user_setting', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->string('theme_color', 12)->nullable();
+            $table->boolean('sidebar_closed')->default(false);
         });
 
         Schema::table('user_setting', function (Blueprint $table) {

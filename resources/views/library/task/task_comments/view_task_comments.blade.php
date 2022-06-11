@@ -1,3 +1,4 @@
+<h2 class="section_title">Comments</h2>
 {{-- This file is specifically utilised for iterating over task comments where they are necesasry, this specific file
 is to be returned or included whenever ($task) exists with the relationship ->task_comments associated to it. all
 comments will be universalised around the system regardless where we are showing them, in which this is the go to file

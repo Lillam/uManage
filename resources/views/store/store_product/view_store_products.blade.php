@@ -2,26 +2,26 @@
 @section('css')
     {!! ($vs->css)('views/store/store_product/view_store_products') !!}
 @endsection
-@section('body')
+@section('title-block')
     {{-- Store Products Title --}}
-    <div class="store_product_title_wrapper">
-        <div class="uk-flex">
-            <div class="uk-width-expand uk-flex uk-flex-middle">
-                <span class="store_product_title">Store</span>
-            </div>
-            <div class="uk-width-auto uk-border-left uk-flex uk-flex-middle">
-                <span>{{ $user->basket_price }}</span>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="product_basket_button" href="{{ action('Store\StoreBasketController@_viewStoreBasketGet') }}">
-                    <span class="product_basket_count">{{ $user->basket_items }}</span>
-                    <i class="fa fa-shopping-basket"></i>
-                </a>
-            </div>
+    <div class="uk-width-expand">
+        <span class="store_product_title">Store</span>
+    </div>
+    <div class="uk-flex store_product_title_wrapper">
+        <div class="uk-width-auto uk-flex uk-flex-middle">
+            <span>£{{ $user->basket_price }}</span>
+        </div>
+        <div class="uk-width-auto uk-margin-left">
+            <a class="product_basket_button" href="{{ action('Store\StoreBasketController@_viewStoreBasketGet') }}">
+                <span class="product_basket_count">{{ $user->basket_items }}</span>
+                <i class="fa fa-shopping-basket"></i>
+            </a>
         </div>
     </div>
+@endsection
+@section('body')
     @foreach($store_products as $store_product_key => $store_product)
-        <div class="store_product_item">
+        <div class="store_product_item no-border-top">
             <div class="uk-flex">
                 <div class="uk-width-expand@s">
                     <div class="uk-flex">

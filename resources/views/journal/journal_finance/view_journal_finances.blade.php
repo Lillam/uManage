@@ -5,21 +5,24 @@
 @section('js')
     {!! ($vs->js)('views/journal_finance/view_journal_finances') !!}
 @endsection
-@section('body')
+@section('sidebar')
+    @include('library.journal.journals_sidebar')
+@endsection
+@section('title-block')
+    <div class="uk-width-expand">
+        <p><span class="journal_finance_date">{{ $date->format('F Y') }}</span></p>
+    </div>
     {{-- Journal Navigation --}}
-    <div class="journal_finance_navigation navigation">
-        <div class="uk-flex">
-            <div class="uk-width-expand uk-flex uk-flex-middle">
-                <span class="journal_finance_date">{{ $date->format('F Y') }}</span>
-            </div>
-            <div class="uk-width-auto uk-border-left">
-                <a class="journal_finance_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
-            </div>
-            <div class="uk-width-auto uk-text-right uk-border-left">
-                <a class="journal_finance_calendar_right uk-button uk-icon-button fa fa-arrow-right"></a>
-            </div>
+    <div class="journal_finance_navigation uk-flex">
+        <div class="uk-width-auto">
+            <a class="journal_finance_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
+        </div>
+        <div class="uk-width-auto uk-text-right">
+            <a class="journal_finance_calendar_right uk-button uk-icon-button fa fa-arrow-right"></a>
         </div>
     </div>
+@endsection
+@section('body')
     {{--<div class="progress journal_progress"><div class="progress_percent" style="width: 0%;"></div></div>--}}
     {{-- Journals Container --}}
     {{-- Ajax View Journals --}}

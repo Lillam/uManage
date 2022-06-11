@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use View;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
@@ -13,14 +13,15 @@ class ViewServiceProvider extends ServiceProvider
      *
     * @return void
     */
-    public function register()
+    public function register(): void
     {
         View::composer('*', function ($view) {
             return $view->with([
-                'vs'            => $view_service = app('vs')->all(),
-                'theme'         => $view_service->application_theme,
-                'current_page'  => $view_service->current_page,
-                'sidebar_class' => $view_service->has_sidebar ? 'has-sidebar' : ''
+                'vs'                => $view_service = app('vs')->all(),
+                'theme'             => $view_service->application_theme,
+                'current_page'      => $view_service->current_page,
+                'sidebar_class'     => $view_service->has_sidebar ? 'has-sidebar' : '',
+                'sidebar_collapsed' => $view_service->user?->user_setting?->sidebar_collapsed ? 'sidebar-closed' : ''
             ]);
         });
     }

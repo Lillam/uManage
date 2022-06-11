@@ -13,24 +13,15 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
-use Illuminate\Support\Collection;
 use App\Repositories\Timelog\TimelogRepository;
 
 class TimelogController extends Controller
 {
     /**
-    * TimelogController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
-    * This method is just for returning to the user, a visual of the days of the week, we will grab todays date. and
+    * This method is just for returning to the user, a visual of the days of the week, we will grab today's date. and
     * then we will acquire the start of the week and the end of the week. so regardless of where we are during the
     * week we are always going to be returning a visual to the user of (x) days 7... sunday to monday... and displaying
-    * a 7 day week calendar every week, procedurally
+    * a 7-day week calendar every week, procedurally
     *
     * @param Request $request
     * @return Factory|View
@@ -40,7 +31,7 @@ class TimelogController extends Controller
         $days = (object) DateTimeHelper::days(Carbon::now());
 
         $this->vs->set('title', '- Timelogging')
-                 ->set('current_page', 'page.timelogs');
+                 ->set('current_page', 'page.timelogs.calendar');
 
         return view('timelog.view_timelog_calendar', compact(
             'days'
@@ -68,7 +59,7 @@ class TimelogController extends Controller
 
         // if the direction has been set, and the direction has been specified to right, then we are looking to gather
         // timelogs in the future, or, perhaps we've gone into the past and are attempting to come back to the present.
-        // either way this is t aking the dates, 7 days from the start of the week, so we have a perpetual movement of
+        // either way this is taking the dates, 7 days from the start of the week, so we have a perpetual movement of
         // dates into the future.
         if (! empty($direction) && $direction === 'right') {
             $date = $date->addDays(7);
@@ -98,7 +89,7 @@ class TimelogController extends Controller
         // amount of hours for the week in question, assorted by days from monday - sunday within the week.
         $timelog_data = TimelogRepository::sortTimelogs($timelogs);
 
-        // after ac1uiring the timelog data, we are returning an object with the following timelog_data_hours in the
+        // after acquiring the timelog data, we are returning an object with the following timelog_data_hours in the
         // format of:
         // monday->total_hours = 6800.
         // tuesday->total_hours = 7800.
@@ -106,7 +97,7 @@ class TimelogController extends Controller
         $timelog_hours = $timelog_data->timelog_date_hours;
         $timelogs      = $timelog_data->timelog_data;
 
-        // return the above data in a json format so that the frontend is able to render all of the visuals for the date
+        // return the above data in a json format so that the frontend is able to render all the visuals for the date
         // in question that the user has requested to see. this will also be returning an array of timelogs, the current
         // date we are looking at, as well as the title difference which will be date-date, 01-01-2019 - 01-02-2019
         return response()->json([
@@ -185,7 +176,7 @@ class TimelogController extends Controller
 
     /**
     * This method is simply for being able to delete the timelog in question; this method is going to allow the
-    * deletion of a timelog and then return whether or not the user is allowed to do so, or some other unaccounted
+    * deletion of a timelog and then return whether the user is allowed to do so or not, or some other unaccounted
     * error.
     *
     * @param Request $request

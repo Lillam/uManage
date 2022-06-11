@@ -106,12 +106,13 @@ class Journal extends Model
     }
 
     /**
+    * @param int $amount
     * @return string
     */
-    public function getShortOverall(): string
+    public function getShortOverall(int $amount = 85): string
     {
         return $this->overall !== null
-            ? strip_tags(mb_substr($this->overall, 0, 85)) . '...'
+            ? strip_tags(mb_substr($this->overall, 0, $amount)) . '...'
             : '';
     }
 

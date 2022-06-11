@@ -14,14 +14,6 @@ use App\Http\Controllers\Controller;
 class TaskCommentController extends Controller
 {
     /**
-    * TaskCommentController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * This method will be viewing the task comments via ajax, this will be called on initial load of the task page...
     * so we are offsetting the initial page load. this also gives us the ability to refresh the section should we need
     * to. This method will be requiring a task_id by default, so that we can grab the current existing comments against

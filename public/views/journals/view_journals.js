@@ -45,7 +45,7 @@ var view_journals = function (direction = null) {
             $('.journal_progress').find('.progress_percent').attr('style', `width: ${data.journal_percentage}%;`);
 
             // if the direction is not null, and we have a direction set left or right, then we are going to be
-            // putting in the url paramaters, the date of which we are looking at, so that when we next refresh, or
+            // putting in the url parameters, the date of which we are looking at, so that when we next refresh, or
             // decide to go back a page, then you're always going to be looking at the right view without needing too
             // much annoying back and forth clicking
             if (direction !== null) {

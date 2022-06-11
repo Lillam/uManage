@@ -11,8 +11,16 @@
     {!! ($vs->js)('views/task/task_timelogs/view_task_logs') !!}
     {!! ($vs->js)('views/task/view_task') !!}
 @endsection
+@section('sidebar')
+    @include('library.project.projects_sidebar')
+@endsection
+@section('title-block')
+    <div class="uk-width-expand">
+        <p>{!! TaskPrinter::getProjectBadge($task, $task->name) !!}</p>
+    </div>
+@endsection
 @section('body')
-    <div id="task" class="section"
+    <div id="task" class="section no-border-top"
         data-project_id="{{ $task->project_id }}"
         data-task_id="{{ $task->id }}"
         data-edit_task_url="{{ action('Task\TaskController@_ajaxEditTaskPost') }}">
@@ -37,7 +45,6 @@
 {{--                    </a>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            {!! TaskPrinter::getProjectBadge($task) !!}
             <div class="task_title_wrapper">
                 <h2 class="task_name name" contenteditable>{{ $task->name }}</h2>
             </div>
@@ -70,7 +77,6 @@
                  data-delete_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
             ></div>
             {{-- Task Comments --}}
-            <h2 class="section_title">Comments</h2>
             <div class="task_comments"
                  data-page="1"
                  data-view_task_comments_url="{{ action('Task\TaskCommentController@_ajaxViewTaskCommentsGet') }}"

@@ -18,14 +18,6 @@ use App\Http\Controllers\Controller;
 class TaskChecklistItemController extends Controller
 {
     /**
-    * TaskChecklistItemController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * this method is for creating checklist items, this will be handling the post request which will have been sent via
     * ajax.
     *

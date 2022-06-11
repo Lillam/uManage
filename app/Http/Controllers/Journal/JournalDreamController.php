@@ -15,14 +15,6 @@ use Illuminate\Contracts\Foundation\Application;
 class JournalDreamController extends Controller
 {
     /**
-    * JournalDreamController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    /**
     * @param Request $request
     * @return Factory|View
     */
@@ -31,7 +23,7 @@ class JournalDreamController extends Controller
         $date = Carbon::now();
 
         $this->vs->set('title', "Dream Journals - {$this->vs->get('user')->getFullName()}")
-                 ->set('current_page', 'page.journals.dreams');
+                 ->set('current_page', 'page.journals.dreams.calendar');
 
         return view('journal.journal_Dream.view_journal_dreams', compact(
             'date'
