@@ -625,7 +625,7 @@ body.login .login_form p:last-of-type {
 .box_wrapper {
     padding: 10px;
     background-color: #fff;
-    border: solid 1px rgba(0,0,0,0.2);
+    border: solid 1px rgba(0,0,0,0.1);
     border-radius: 4px;
 }
 
@@ -1391,7 +1391,7 @@ span.small {
 
 .box {
     padding: 20px;
-    border: solid 1px rgba(0,0,0,0.2);
+    border: solid 1px rgba(0,0,0,0.1);
     border-radius: 14px;
 }
 

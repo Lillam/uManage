@@ -39,11 +39,12 @@
     color: #ffffff;
     font-weight: bold;
     text-shadow: 1px 1px #f1f1f1;
+    display: block;
 }
 
 .day_ratings .day_rating p {
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 20px;
+    line-height: 30px;
     color: #ffffff;
     font-weight: bold;
 }
