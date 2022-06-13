@@ -176,9 +176,9 @@ return [
         ',
         'icon' => 'fa-tasks',
         'images' => [
-            asset('assets/images/packages/timelog/timelog_package_image_1.png'),
-            asset('assets/images/packages/timelog/timelog_package_image_2.png'),
-            asset('assets/images/packages/timelog/timelog_package_image_3.png')
+            asset('assets/images/packages/time_log/timelog_package_image_1.png'),
+            asset('assets/images/packages/time_log/timelog_package_image_2.png'),
+            asset('assets/images/packages/time_log/timelog_package_image_3.png')
         ]
     ],
     'App\Http\Controllers\User\UserController'                      => [

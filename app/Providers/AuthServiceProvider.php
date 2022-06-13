@@ -8,7 +8,7 @@ use App\Policies\User\UserPolicy;
 use Illuminate\Support\Facades\Gate;
 use App\Policies\System\SystemPolicy;
 use App\Policies\Project\ProjectPolicy;
-use App\Policies\Timelog\TimelogPolicy;
+use App\Policies\TimeLog\TimeLogPolicy;
 use App\Policies\System\SystemChangelogPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -28,7 +28,7 @@ class AuthServiceProvider extends ServiceProvider
         SystemChangelogPolicy::class,
         SystemPolicy::class,
         TaskPolicy::class,
-        TimelogPolicy::class,
+        TimeLogPolicy::class,
         UserPolicy::class,
         Policy::class
     ];

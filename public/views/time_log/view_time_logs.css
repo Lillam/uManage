@@ -1,22 +1,22 @@
-.timelog_entry {
+.time_log_entry {
     padding: 10px 10px 0;
     background-color: #fff;
     border: solid 1px rgba(0,0,0,0.2);
     position: relative;
 }
 
-*+.timelog_entry {
+*+.time_log_entry {
     margin-top: 10px;
 }
 
-.timelog_entry .timelog_information {
+.time_log_entry .time_log_information {
     background-color: #f1f1f1;
     border-top: solid 1px rgba(0,0,0,0.2);
     padding: 6px 10px 10px;
     margin: 10px -10px 0;
 }
 
-.timelog_entry .delete_timelog {
+.time_log_entry .delete_time_log {
     position: absolute;
     top: -7px;
     right: -7px;
@@ -32,11 +32,11 @@
     border: solid 1px rgba(0,0,0,0.4);
 }
 
-.timelog_entry:hover .delete_timelog {
+.time_log_entry:hover .delete_time_log {
     display: block;
 }
 
-.timelog_entry .timelog_content p {
+.time_log_entry .time_log_content p {
     font-size: 12px !important;
     color: rgba(0,0,0,0.2) !important;
 }

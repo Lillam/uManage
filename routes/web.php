@@ -201,24 +201,24 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/ajax/view/finances/journals',          [JournalFinanceController::class, '_ajaxViewJournalFinancesGet']);
 
     // TimeLogging
-    Route::get( '/timelogs/calendar',                   [TimeLogController::class, '_viewTimelogCalendarGet'])->name('timelogs.calendar');
-    Route::get( '/ajax/view/timelogs',                  [TimeLogController::class, '_ajaxViewTimelogsGet']);
-    Route::get( '/ajax/view/timelogs_calendar',         [TimeLogController::class, '_ajaxViewTimelogsCalendarGet']);
-    Route::post('/ajax/make/timelog',                   [TimeLogController::class, '_ajaxMakeTimelogPost']);
-    Route::get( '/ajax/delete/timelog',                 [TimeLogController::class, '_ajaxDeleteTimelogGet']);
+    Route::get( '/time-logs/calendar',                   [TimeLogController::class, '_viewTimeLogCalendarGet'])->name('time-logs.calendar');
+    Route::get( '/ajax/view/time-logs',                  [TimeLogController::class, '_ajaxViewTimeLogsGet']);
+    Route::get( '/ajax/view/time-logs_calendar',         [TimeLogController::class, '_ajaxViewTimeLogsCalendarGet']);
+    Route::post('/ajax/make/time-log',                   [TimeLogController::class, '_ajaxMakeTimeLogPost']);
+    Route::get( '/ajax/delete/time-log',                 [TimeLogController::class, '_ajaxDeleteTimeLogGet']);
 
-    Route::get( '/timelog/report',                      [TimeLogReportController::class, '_viewTimelogReportGet'])->name('timelogs.report');
-    Route::get( '/ajax/view/timelog_report',            [TimeLogReportController::class, '_ajaxViewTimelogReportGet'])->name('timelogs.report.ajax');
+    Route::get( '/time-log/report',                      [TimeLogReportController::class, '_viewTimeLogReportGet'])->name('time-logs.report');
+    Route::get( '/ajax/view/time-log-report',            [TimeLogReportController::class, '_ajaxViewTimeLogReportGet'])->name('time-logs.report.ajax');
 
     // Account Managing
-    Route::get( 'accounts',                             [AccountController::class, '_viewAccountsGet']);
+    Route::get( 'accounts',                             [AccountController::class, '_viewAccountsGet'])->name('accounts');
     Route::get( 'ajax/view/accounts',                   [AccountController::class, '_ajaxViewAccountsGet']);
     Route::post('ajax/make/accounts',                   [AccountController::class, '_ajaxMakeAccountsPost']);
     Route::get( 'ajax/delete/accounts',                 [AccountController::class, '_ajaxDeleteAccountsGet']);
     Route::get( 'ajax/view/password',                   [AccountController::class, '_ajaxViewAccountsPasswordGet']);
 
     // System routes:
-    Route::get('/system/changelogs',                    [SystemChangelogController::class, '_viewSystemChangelogsGet']);
+    Route::get('/system/changelogs',                    [SystemChangelogController::class, '_viewSystemChangelogsGet'])->name('system.changelogs');
     Route::get('/system/changelogs/{id}',               [SystemChangelogController::class, '_viewSystemChangelogGet']);
     Route::get('/system/changelogs/edit/{id?}',         [SystemChangelogController::class, '_editSystemChangelogGet']);
     Route::get('/system/store/all',                     [SystemController::class, '_storeAllModulesLocally'])->name('system.store');
@@ -226,7 +226,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/system/emojis',                        [SystemController::class, '_getSummernoteEmojis']);
 
     // Store Pages
-    Route::get('/store/products',                       [StoreProductController::class, '_viewStoreProductsGet']);
+    Route::get('/store/products',                       [StoreProductController::class, '_viewStoreProductsGet'])->name('store.products');
     Route::get('/store/product/{name}',                 [StoreProductController::class, '_viewStoreProductGet']);
 
     Route::get('/store/basket',                         [StoreBasketController::class, '_viewStoreBasketGet']);

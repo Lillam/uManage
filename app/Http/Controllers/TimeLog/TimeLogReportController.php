@@ -21,16 +21,16 @@ class TimeLogReportController extends Controller
     * @param Request $request
     * @return Factory|View
     */
-    public function _viewTimelogReportGet(Request $request): Factory|View
+    public function _viewTimeLogReportGet(Request $request): Factory|View
     {
         $date = $request->input('date')
             ? Carbon::parse($request->input('date'))
             : Carbon::now();
 
         $this->vs->set('title', '- TimeLog Report')
-            ->set('current_page', 'page.timelogs.report');
+            ->set('current_page', 'page.time-logs.report');
 
-        return view('timelog.timelog_report.view_timelog_report', compact(
+        return view('time_log.time_log_report.view_time_log_report', compact(
             'date'
         ));
     }
@@ -42,7 +42,7 @@ class TimeLogReportController extends Controller
     * @param Request $request
     * @return JsonResponse
     */
-    public function _ajaxViewTimelogReportGet(Request $request): JsonResponse
+    public function _ajaxViewTimeLogReportGet(Request $request): JsonResponse
     {
         $date      = Carbon::parse($request->input('date'));
         $direction = $request->input('direction');
@@ -53,36 +53,36 @@ class TimeLogReportController extends Controller
         if ($direction === 'right')
             $date = $date->addMonth(1);
 
-        $timelogs = TimeLog::with(['task', 'project'])
+        $time_logs = TimeLog::with(['task', 'project'])
             ->where('from', '>=', Carbon::parse($date)->startOfMonth())
             ->where('to', '<=', Carbon::parse($date)->endOfMonth())
             ->get();
 
         $projects = $tasks = $day_logs = [];
 
-        // iterating over the timelogs that is against the user in question; so this will want to be revolving around
-        // the currently signed in user; and iterate over all of their logs to gather a sense of how productive they're
-        // being on a month to month
-        foreach ($timelogs as $timelog) {
+        // iterating over the time logs that is against the user in question; so this will want to be revolving around
+        // the currently authenticated user; and iterate over all of their logs to gather a sense of how productive
+        // they're being on a month to month
+        foreach ($time_logs as $time_log) {
             // acquiring time by project...
-            $timelog->project->time_logged   += round($timelog->time_spent / 60, 2);
-            $projects[$timelog->project->id] = $timelog->project;
+            $time_log->project->time_logged   += round($time_log->time_spent / 60, 2);
+            $projects[$time_log->project->id] = $time_log->project;
 
             // acquiring time by task...
-            $timelog->task->time_logged += round($timelog->time_spent / 60, 2);
-            $timelog->task->color       = $timelog->project->color;
-            $timelog->task->code        = "{$timelog->project->code}-{$timelog->task->id}";
-            $tasks[$timelog->task_id]   = $timelog->task;
+            $time_log->task->time_logged += round($time_log->time_spent / 60, 2);
+            $time_log->task->color       = $time_log->project->color;
+            $time_log->task->code        = "{$time_log->project->code}-{$time_log->task->id}";
+            $tasks[$time_log->task_id]   = $time_log->task;
 
             // acquiring time logging by day...
-            if (! empty($day_logs[$timelog->from->format('d-m-Y')])) {
-                $day_logs[$timelog->from->format('d-m-Y')] += round($timelog->time_spent / 60, 2);
+            if (! empty($day_logs[$time_log->from->format('d-m-Y')])) {
+                $day_logs[$time_log->from->format('d-m-Y')] += round($time_log->time_spent / 60, 2);
                 continue;
             }
 
             // if we haven't set it yet, then we are going to do that right here, otherwise if we did set it, we are
             // going to append to this above, and then just continue so this snippet of code doesn't get read.
-            $day_logs[$timelog->from->format('d-m-Y')]  = round($timelog->time_spent / 60, 2);
+            $day_logs[$time_log->from->format('d-m-Y')]  = round($time_log->time_spent / 60, 2);
         }
 
         $projects = collect($projects)->sortBy('time_logged');
@@ -96,9 +96,9 @@ class TimeLogReportController extends Controller
         $task_values    = $tasks->pluck('time_logged')->toArray();
         $task_colors    = $tasks->pluck('color')->toArray();
 
-        $daylog_labels  = array_keys($day_logs);
-        $daylog_values  = array_values($day_logs);
-        $daylog_colors  = array_fill(0, count($day_logs), '#40e0d0');
+        $day_log_labels  = array_keys($day_logs);
+        $day_log_values  = array_values($day_logs);
+        $day_log_colors  = array_fill(0, count($day_logs), '#40e0d0');
 
         return response()->json([
             // default date data...
@@ -113,9 +113,9 @@ class TimeLogReportController extends Controller
             'task_values'    => $task_values,
             'task_colors'    => $task_colors,
             // day item logging data...
-            'daylog_labels'  => $daylog_labels,
-            'daylog_values'  => $daylog_values,
-            'daylog_colors'  => $daylog_colors
+            'daylog_labels'  => $day_log_labels,
+            'daylog_values'  => $day_log_values,
+            'daylog_colors'  => $day_log_colors
         ]);
     }
 }

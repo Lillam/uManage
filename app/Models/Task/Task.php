@@ -316,13 +316,13 @@ class Task extends Model
 
     /**
     * It is possible to log time against tasks, and with this in mind, when a user is logging multiple times against a
-    * task, or even multiple users are logging time against this task, then we are going to want to collect all timelog
+    * task, or even multiple users are logging time against this task, then we are going to want to collect all time_log
     * entries that were created for this task and collate them together to get a total amount of time worked on this.
     * this will be joined on task_id...
     *
     * @return HasMany
     */
-    public function task_timelogs(): HasMany
+    public function task_time_logs(): HasMany
     {
         return $this->hasMany(TimeLog::class, 'task_id', 'id');
     }

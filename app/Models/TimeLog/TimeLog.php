@@ -111,7 +111,7 @@ class TimeLog extends Model
     */
 
     /**
-    * Every time logging entry will be connected to a user, each timelog entry will only ever be connected to One user
+    * Every time logging entry will be connected to a user, each time_log entry will only ever be connected to One user
     * this will be an effective method for acquiring the user in question that we are dealing with...
     *
     * @return HasOne
@@ -123,7 +123,7 @@ class TimeLog extends Model
 
     /**
     * Every time logging entry will be connected to a task, there's no sense on logging time against nothing, and each
-    * timelog entry that enters the database will have One task to bring back from it.
+    * time_log entry that enters the database will have One task to bring back from it.
     *
     * @return HasOne
     */
@@ -134,7 +134,7 @@ class TimeLog extends Model
 
     /**
     * Every time logging entry will be connected to a project, there's no sense on logging time against nothing, and
-    * each timelog entry that enters the database will have one Project to bring back from it.
+    * each time_log entry that enters the database will have one Project to bring back from it.
     *
     * @return HasOne
     */

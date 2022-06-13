@@ -3,13 +3,13 @@
     {!! ($vs->css)('views/user/view_user') !!}
     {!! ($vs->css)('views/task/view_task_list') !!}
     {!! ($vs->css)('views/project/view_projects') !!}
-    {!! ($vs->css)('views/timelog/view_timelogs') !!}
+    {!! ($vs->css)('views/time_log/view_time_logs') !!}
 @endsection
 @section('js')
     {!! ($vs->js)('assets/vendor/chart/chart') !!}
     {!! ($vs->js)('views/task/view_tasks') !!}
     {!! ($vs->js)('views/project/view_projects') !!}
-    {!! ($vs->js)('views/timelog/view_timelogs') !!}
+    {!! ($vs->js)('views/time_log/view_time_logs') !!}
     {!! ($vs->js)('views/task/task_report/view_task_report.js') !!}
 @endsection
 @section('body')
@@ -43,8 +43,8 @@
         <div class="uk-grid uk-grid-medium" uk-grid>
             <div class="uk-width-1-4@m">
                 <h2 class="section_title">Recent Activity</h2>
-                <div class="timelogs_box"
-                     data-get_timelogs_url="{{ action('TimeLog\TimeLogController@_ajaxViewTimelogsGet') }}">
+                <div class="time_logs_box"
+                     data-get_time_logs_url="{{ action('TimeLog\TimeLogController@_ajaxViewTimeLogsGet') }}">
                 </div>
             </div>
             <div class="uk-width-1-2@m">

@@ -73,14 +73,14 @@ class TaskController extends Controller
                 'tasks.task_watcher_users',
                 'tasks.task_checklists',
                 'tasks.task_checklists.task_checklist_items',
-                'tasks.task_timelogs',
-                'tasks.task_timelogs.user',
+                'tasks.task_time_logs',
+                'tasks.task_time_logs.user',
                 'tasks.project'
             ])
             ->first();
 
-        // checking whether or not the project that we're looking at exists in the system, after checking that this
-        // exists, we then check to see  if the signed in user trying to view it... has the permission to view this
+        // checking whether the project that we're looking at exists in the system or not, after checking that this
+        // exists, we then check to see  if the authenticated user trying to view it... has the permission to view this
         // particular task/project combination.
         if (! $project instanceof Project || Auth::user()->cannot('ProjectPolicy@viewProject', $project))
             return $project instanceof Project
@@ -115,7 +115,7 @@ class TaskController extends Controller
 
         // Acquire all the task time logging, along with the total amount of time logged, this will be grabbing all time
         // logging of all users that has ever placed against the selected task.
-        $task->task_timelogs     = TimeLogRepository::sortTaskTimelogs($task);
+        $task->task_time_logs    = TimeLogRepository::sortTaskTimeLogs($task);
         $task->total_time_logged = TimeLogRepository::getTotalTimeLogged($task);
 
         $this->vs->set('title', " - Task - {$task->name}")

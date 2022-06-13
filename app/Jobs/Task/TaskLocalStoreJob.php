@@ -37,7 +37,7 @@ class TaskLocalStoreJob implements ShouldQueue
             'task_comments',
             'task_checklists',
             'task_checklists.task_checklist_items',
-            'task_timelogs'
+            'task_time_logs'
         ])->get();
     }
 
@@ -51,7 +51,7 @@ class TaskLocalStoreJob implements ShouldQueue
         $tc   = 'task_checklists';
         $tci  = 'task_checklist_items';
         $tcom = 'task_comments';
-        $tt   = 'task_timelogs';
+        $ttl   = 'task_time_logs';
 
         foreach ($this->tasks as $task) {
             $this->put_tasks[$task->id] = [
@@ -80,20 +80,18 @@ class TaskLocalStoreJob implements ShouldQueue
                 }
             }
 
-            if ($task->task_timelogs->isNotEmpty()) {
-                foreach ($task->task_timelogs as $task_timelog) {
-                    $this->put_tasks[$task->id][$tt][$task_timelog->id] = [
-                        'id'         => $task_timelog->id,
-                        'task_id'    => $task_timelog->task_id,
-                        'user_id'    => $task_timelog->user_id,
-                        'project_id' => $task_timelog->project_id,
-                        'note'       => $task_timelog->note,
-                        'from'       => $task_timelog->from,
-                        'to'         => $task_timelog->to,
-                        'time_spent' => $task_timelog->time_spent
+            if ($task->task_time_logs->isNotEmpty()) {
+                foreach ($task->task_time_logs as $task_time_log) {
+                    $this->put_tasks[$task->id][$ttl][$task_time_log->id] = [
+                        'id'         => $task_time_log->id,
+                        'task_id'    => $task_time_log->task_id,
+                        'user_id'    => $task_time_log->user_id,
+                        'project_id' => $task_time_log->project_id,
+                        'note'       => $task_time_log->note,
+                        'from'       => $task_time_log->from,
+                        'to'         => $task_time_log->to,
+                        'time_spent' => $task_time_log->time_spent
                     ];
-
-                    $task_timelogs[] = $task_timelog;
                 }
             }
 

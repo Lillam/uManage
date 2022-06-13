@@ -75,24 +75,24 @@ class TaskSeeder extends Seeder
                     ProjectSetting::$tasks_in[$the_new_task->task_status_id]
                 );
 
-                if (! empty($task->task_timelogs)) {
-                    foreach ($task->task_timelogs as $task_timelog_id => $task_timelog) {
-                        TimeLog::updateOrCreate(['id' => $task_timelog_id], [
-                            'id'         => $task_timelog_id,
+                if (! empty($task->task_time_logs)) {
+                    foreach ($task->task_time_logs as $task_time_log_id => $task_time_log) {
+                        TimeLog::query()->updateOrCreate(['id' => $task_time_log_id], [
+                            'id'         => $task_time_log_id,
                             'task_id'    => $task_id,
                             'project_id' => $task->project_id,
-                            'user_id'    => $task_timelog->user_id,
-                            'note'       => $task_timelog->note,
-                            'from'       => str_replace('T00:00:00.000000Z', '', $task_timelog->from),
-                            'to'         => str_replace('T00:00:00.000000Z', '', $task_timelog->to),
-                            'time_spent' => $task_timelog->time_spent
+                            'user_id'    => $task_time_log->user_id,
+                            'note'       => $task_time_log->note,
+                            'from'       => str_replace('T00:00:00.000000Z', '', $task_time_log->from),
+                            'to'         => str_replace('T00:00:00.000000Z', '', $task_time_log->to),
+                            'time_spent' => $task_time_log->time_spent
                         ]);
                     }
                 }
 
                 if (! empty($task->task_comments)) {
                     foreach ($task->task_comments as $task_comment_id => $task_comment) {
-                        TaskComment::updateOrCreate(['id' => $task_comment_id], [
+                        TaskComment::query()->updateOrCreate(['id' => $task_comment_id], [
                             'id'         => $task_comment_id,
                             'user_id'    => $task_comment->user_id,
                             'task_id'    => $task_id,
@@ -105,7 +105,7 @@ class TaskSeeder extends Seeder
 
                 if (! empty($task->task_checklists)) {
                     foreach ($task->task_checklists as $task_checklist_id => $task_checklist) {
-                        TaskChecklist::updateOrCreate(['id' => $task_checklist_id], [
+                        TaskChecklist::query()->updateOrCreate(['id' => $task_checklist_id], [
                             'id'         => $task_checklist_id,
                             'task_id'    => $task_id,
                             'project_id' => $task->project_id,
@@ -118,7 +118,7 @@ class TaskSeeder extends Seeder
                             foreach ($task_checklist->task_checklist_items as $task_checklist_item_id
                                 => $task_checklist_item
                             ) {
-                                TaskChecklistItem::updateOrCreate(['id' => $task_checklist_item_id], [
+                                TaskChecklistItem::query()->updateOrCreate(['id' => $task_checklist_item_id], [
                                     'id'                => $task_checklist_item_id,
                                     'task_checklist_id' => $task_checklist_id,
                                     'task_id'           => $task_id,

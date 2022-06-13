@@ -1,25 +1,25 @@
-.timelog_date {
+.time_log_date {
     z-index: 1;
 }
 
-.timelog_date_picker_wrapper {
+.time_log_date_picker_wrapper {
     background-color: #f1f1f1;
     border-bottom: solid 1px rgba(0,0,0,0.2);
 }
 
-.timelog_date_picker_wrapper > div > div {
+.time_log_date_picker_wrapper > div > div {
     padding: 10px;
 }
 
-.timelog_date_picker_wrapper > div > div:first-of-type {
+.time_log_date_picker_wrapper > div > div:first-of-type {
     padding-left: 20px;
 }
 
-.timelog_date_picker_wrapper > div > div:last-of-type {
+.time_log_date_picker_wrapper > div > div:last-of-type {
     border-left: solid 1px rgba(0,0,0,0.1);
 }
 
-.timelogs {
+.time_logs {
     border-bottom: 0;
     border-top: 0;
     background-color: #fff;
@@ -27,38 +27,38 @@
     border-bottom-right-radius: 4px;
 }
 
-.timelogs > div {
+.time_logs > div {
     height: 100%;
 }
 
-.timelogs::-webkit-scrollbar {
+.time_logs::-webkit-scrollbar {
     display: none;
 }
 
-.timelogs .timelog_day_wrapper {
+.time_logs .time_log_day_wrapper {
     width: 100%;
     padding: 0 10px 10px;
     position: relative;
 }
 
 @media(min-width: 1000px) {
-    .timelogs {
+    .time_logs {
         overflow: auto;
         max-height: calc(100vh - 80px);
         height: calc(100vh - 80px);
     }
 
-    .timelogs  .timelog_day_wrapper {
+    .time_logs  .time_log_day_wrapper {
         width: 14.285714285714%;
         border-left: solid 1px rgba(0,0,0,0.2);
     }
 }
 
-.timelog_day_wrapper:first-of-type {
+.time_log_day_wrapper:first-of-type {
     border-left: 0;
 }
 
-.timelog_day_wrapper .add_timelog_entry {
+.time_log_day_wrapper .add_time_log_entry {
     display: block;
     background-color: #1e87f0;
     color: #fff;
@@ -67,37 +67,37 @@
     margin-top: 10px;
 }
 
-.timelog_day_wrapper:hover .add_timelog_entry {
+.time_log_day_wrapper:hover .add_time_log_entry {
     visibility: visible;
 }
 
 @media(min-width: 1000px) {
-    .timelog_day_wrapper .add_timelog_entry {
+    .time_log_day_wrapper .add_time_log_entry {
         visibility: hidden;
     }
 }
 
-.timelog_day_wrapper {
+.time_log_day_wrapper {
     position:  relative;
 }
-.timelog_day_wrapper .timelog_date {
+.time_log_day_wrapper .time_log_date {
     position: sticky;
     top:  0;
     left: 0;
     background-color: #fff;
 }
 
-.timelog_day_wrapper.today,
-.timelog_day_wrapper.today .timelog_date {
+.time_log_day_wrapper.today,
+.time_log_day_wrapper.today .time_log_date {
     background-color: #f1f1f1;
 }
 
-.add_timelog_entry:hover {
+.add_time_log_entry:hover {
     opacity: 0.8;
 }
 
-#add_timelog_modal .uk-modal-dialog input,
-#add_timelog_modal .uk-modal-dialog textarea {
+#add_time_log_modal .uk-modal-dialog input,
+#add_time_log_modal .uk-modal-dialog textarea {
     width: 100%;
     border-radius: 4px;
     border: solid 1px #bbb;
@@ -106,7 +106,7 @@
     font-size: 16px;
 }
 
-.timelogs .timelog_entry {
+.time_logs .time_log_entry {
     padding: 10px;
     border: solid 1px rgba(0,0,0,0.2);
     background-color: #f7f7f7;
@@ -117,11 +117,11 @@
     word-break: break-word;
 }
 
-.timelogs .today .timelog_entry {
+.time_logs .today .time_log_entry {
     background-color: #fff;
 }
 
-.timelogs .timelog_entry .timelog_entry_options {
+.time_logs .time_log_entry .time_log_entry_options {
     position: absolute;
     top: 0;
     left: 0;
@@ -133,21 +133,21 @@
     padding: 10px;
 }
 
-.timelogs .timelog_entry:hover .timelog_entry_options {
+.time_logs .time_log_entry:hover .time_log_entry_options {
     display: flex;
 }
 
-.timelogs .timelog_entry:last-of-type {
+.time_logs .time_log_entry:last-of-type {
     margin-bottom: 0;
 }
 
-.timelogs .timelog_date_title {
+.time_logs .time_log_date_title {
     padding: 10px;
     margin: 0 -10px;
     background-color: #fff;
 }
 
-.timelogs .today .timelog_date_title {
+.time_logs .today .time_log_date_title {
     background-color: #f1f1f1;
 }
 
@@ -168,8 +168,8 @@
     z-index: 1000;
 }
 
-.timelog_entry .edit_timelog,
-.timelog_entry .delete_timelog {
+.time_log_entry .edit_time_log,
+.time_log_entry .delete_time_log {
     padding: 5px 10px;
     color: #fff;
     text-align: center;
@@ -181,66 +181,66 @@
     vertical-align: center;
 }
 
-.timelog_entry .delete_timelog {
+.time_log_entry .delete_time_log {
     background-color: rgba(240, 80, 110, 0.5);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-left: solid 1px rgba(0,0,0,0.1);
 }
 
-.timelog_entry .delete_timelog:hover {
+.time_log_entry .delete_time_log:hover {
     background-color: rgba(240, 80, 110, 1);
 }
 
-.timelog_entry .edit_timelog {
+.time_log_entry .edit_time_log {
     background-color: rgba(30, 135, 240, 0.5);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.timelog_entry .edit_timelog:hover {
+.time_log_entry .edit_time_log:hover {
     background-color: rgba(30, 135, 240, 1);
 }
 
 @media(min-width: 1000px) {
-    .timelog_day_timelogs {
+    .time_log_day_time_logs {
         max-height: 83vh;
         overflow-y: auto;
         overflow-x: visible;
     }
 }
 
-.timelog_day_timelogs::-webkit-scrollbar {
+.time_log_day_time_logs::-webkit-scrollbar {
     display: none;
 }
 
-.timelog_title {
+.time_log_title {
     font-size: 14px;
     color: rgba(0,0,0,0.6);
     white-space: nowrap;
     overflow: hidden;
 }
 
-.timelog_entry .timelog_content p {
+.time_log_entry .time_log_content p {
     font-size: 10px;
     line-height: 14px;
     color: rgba(0,0,0,0.2);
     margin-top: 8px;
 }
 
-.timelog_calendar_navigation > div {
+.time_log_calendar_navigation > div {
     display: flex;
     align-items: center;
     margin-left: 10px;
 }
 
-.timelog_calendar_navigation > div .timelog_calendar_left,
-.timelog_calendar_navigation > div .timelog_calendar_right {
+.time_log_calendar_navigation > div .time_log_calendar_left,
+.time_log_calendar_navigation > div .time_log_calendar_right {
     background-color: #ffffff;
     border: solid 1px rgba(0,0,0,0.1);
 }
 
-.timelog_calendar_navigation > div .timelog_calendar_left:hover,
-.timelog_calendar_navigation > div .timelog_calendar_right:hover {
+.time_log_calendar_navigation > div .time_log_calendar_left:hover,
+.time_log_calendar_navigation > div .time_log_calendar_right:hover {
     background-color: rgba(0,0,0,0.1);
 }

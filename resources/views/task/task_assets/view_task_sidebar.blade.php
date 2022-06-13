@@ -121,21 +121,21 @@
             </div>
         </div>
         {{-- Timelogging --}}
-        @if ($task->task_timelogs->isNotEmpty())
+        @if ($task->task_time_logs->isNotEmpty())
             <div class="uk-width-1-1">
-                <label class="label"><i class="fa fa-calendar"></i> Timelogs</label>
-                @foreach ($task->task_timelogs as $timelog)
-                    <div class="task_timelog_row uk-flex">
-                        <div class="uk-width-auto task_timelog_user">
-                            {!! UserPrinter::userBadge($timelog->user, false, $task->project->getColor()) !!}
+                <label class="label"><i class="fa fa-calendar"></i> Time Logs</label>
+                @foreach ($task->task_time_logs as $time_log)
+                    <div class="task_time_log_row uk-flex">
+                        <div class="uk-width-auto task_time_log_user">
+                            {!! UserPrinter::userBadge($time_log->user, false, $task->project->getColor()) !!}
                         </div>
-                        <div class="uk-width-auto task_timelog_time_spent">
-                            {{ TimeLogRepository::convertTimelogTimeSpent($timelog->time_spent) }}
+                        <div class="uk-width-auto task_time_log_time_spent">
+                            {{ TimeLogRepository::convertTimelogTimeSpent($time_log->time_spent) }}
                         </div>
-                        <div class="uk-width-expand uk-flex uk-flex-middle task_timelog_time_spent_percent">
+                        <div class="uk-width-expand uk-flex uk-flex-middle task_time_log_time_spent_percent">
                             <div class="progress">
                                 <div class="progress_percent"
-                                     style="width: {{ (($timelog->time_spent / $task->total_time_logged) * 100) }}%">
+                                     style="width: {{ (($time_log->time_spent / $task->total_time_logged) * 100) }}%">
                                 </div>
                             </div>
                         </div>

@@ -3,72 +3,74 @@
 namespace App\Repositories\TimeLog;
 
 use App\Models\Task\Task;
+use Illuminate\Support\Collection;
 
 class TimeLogRepository
 {
     /**
-    * Method for speifically iterating over the timelogs and assorting them into a readable array that I can return
-    * into a JSON array from the timelog controller method that calls this. this will give the system a day by day
-    * ordered timelog array along with the hours that sit against that particular day.
+    * Method for specifically iterating over the time logs and assorting them into a readable array that I can return
+    * into a JSON array from the time_log controller method that calls this. this will give the system a day by day
+    * ordered time_log array along with the hours that sit against that particular day.
     *
-    * @param $timelogs
+    * @param $time_logs
     * @return object
     */
-    public static function sortTimelogs($timelogs): object
+    public static function sortTimeLogs($time_logs): object
     {
-        $timelog_data = $timelog_date_hours = [];
+        $time_log_data = $time_log_date_hours = [];
 
-        foreach ($timelogs as $timelog) {
-            // organise these timelogs into an associate array, by date.
-            $timelog_data[$timelog->from->format('d-m-Y')][] = (object) [
-                'id'         => $timelog->id,
-                'from'       => $timelog->from,
-                'note'       => $timelog->getShortNote(),
-                'time_spent' => self::convertTimelogTimeSpent($timelog->time_spent,  true),
-                'task'       => $timelog->task,
-                'project'    => $timelog->project
+        foreach ($time_logs as $time_log) {
+            // organise these time logs into an associate array, by date.
+            $time_log_data[$time_log->from->format('d-m-Y')][] = (object) [
+                'id'         => $time_log->id,
+                'from'       => $time_log->from,
+                'note'       => $time_log->getShortNote(),
+                'time_spent' => self::convertTimeLogTimeSpent($time_log->time_spent),
+                'task'       => $time_log->task,
+                'project'    => $time_log->project
             ];
 
-            if (! empty($timelog_date_hours[$timelog->from->format('d-m-Y')])) {
-                $timelog_date_hours[$timelog->from->format('d-m-Y')] += $timelog->time_spent;
-            } else {
-                $timelog_date_hours[$timelog->from->format('d-m-Y')] = $timelog->time_spent;
+            if (! empty($time_log_date_hours[$time_log->from->format('d-m-Y')])) {
+                $time_log_date_hours[$time_log->from->format('d-m-Y')] += $time_log->time_spent;
+                continue;
             }
+
+            $time_log_date_hours[$time_log->from->format('d-m-Y')] = $time_log->time_spent;
         }
 
         return (object) [
-            "timelog_data"       => $timelog_data,
-            "timelog_date_hours" => $timelog_date_hours
+            "time_log_data"       => $time_log_data,
+            "time_log_date_hours" => $time_log_date_hours
         ];
     }
 
     /**
-    * This method is converting the timespent timelogging, timelogs will be stored in accurate minutes. so, we will be
-    * first trying to calculate how many we have left after we have taken all the 60s (hours) away, and whatever is
+    * This method is converting the time spent time logging, time logs will be stored in accurate minutes. so, we will
+    * be first trying to calculate how many we have left after we have taken all the 60s (hours) away, and whatever is
     * left will be the direct minutes over hours
     *
     * @param $time_spent
     * @return string
     */
-    public static function convertTimelogTimeSpent($time_spent, $short = false): string
+    public static function convertTimeLogTimeSpent($time_spent): string
     {
         $minutes = ($time_spent % 60);
-        $hours = round(($time_spent - $minutes) / 60, 0);
+        $hours = round(($time_spent - $minutes) / 60);
 
         $return  = (int) $hours   !== 0 ? "{$hours}h" : '';
-        $return .= (int) $minutes !== 0 ? " {$minutes}m" : '';
+        $return .= $minutes !== 0 ? " {$minutes}m" : '';
 
         return $return;
     }
 
     /**
-    * This method translates the timespent from a string, 1h 30m into a minute number, 1h 30m will translate directly to
-    * 90 into the database. we are storing all values as minutes in the database.
+    * This method translates the time spent from a string, 1h 30m into a minute number, 1h 30m will translate directly
+    * to 90 into the database. we are storing all values as minutes in the database.
     *
     * @param $time_spent
     * @return int
     */
-    public static function translateTimespent($time_spent): int
+    public static function translateTimeSpent($time_spent): int
     {
         $time_pieces = explode(' ', $time_spent);
         $time_to_return = 0;
@@ -88,35 +90,31 @@ class TimeLogRepository
     }
 
     /**
-    * This method is entirely for mapping out the task timelogs to a user specific.  this will be mapping only the
+    * This method is entirely for mapping out the task time logs to a user specific.  this will be mapping only the
     * necessary information, the user, and the time spent.
     *
     * @param Task $task
-    * @return array|\Illuminate\Support\Collection
+    * @return array|Collection
     */
-    public static function sortTaskTimelogs(Task $task)
+    public static function sortTaskTimeLogs(Task $task): array|Collection
     {
-        $timelog_map = collect();
+        $time_log_map = collect();
 
-        if (! $task instanceof Task) {
-            return $timelog_map;
-        }
-
-        foreach ($task->task_timelogs as $timelog) {
-            if (! empty($timelog_map[$timelog->user_id])) {
-                $timelog_map[$timelog->user_id]->time_spent += $timelog->time_spent;
+        foreach ($task->task_time_logs as $time_log) {
+            if (! empty($time_log_map[$time_log->user_id])) {
+                $time_log_map[$time_log->user_id]->time_spent += $time_log->time_spent;
                 continue;
             }
 
             // we should only hit this section of the code, if we have not made it into the if statement above. this
-            // code will be ignored (this is setting the item into the array.
-            $timelog_map[$timelog->user_id] = (object) [
-                'user' => $timelog->user,
-                'time_spent' => $timelog->time_spent
+            // code will be ignored (this is setting the item into the array).
+            $time_log_map[$time_log->user_id] = (object) [
+                'user' => $time_log->user,
+                'time_spent' => $time_log->time_spent
             ];
         }
 
-        return collect($timelog_map);
+        return collect($time_log_map);
     }
 
     /**
@@ -130,8 +128,8 @@ class TimeLogRepository
     public static function getTotalTimeLogged(Task $task): int
     {
         $total_time_logged = 0;
-        $task->task_timelogs->map(function ($timelog) use (&$total_time_logged) {
-            $total_time_logged += $timelog->time_spent;
+        $task->task_time_logs->map(function ($time_log) use (&$total_time_logged) {
+            $total_time_logged += $time_log->time_spent;
         });
 
         return $total_time_logged;
