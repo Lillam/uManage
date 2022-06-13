@@ -22,8 +22,10 @@ class CreateUsersTable extends Migration
     {
         if (! $this->alreadyMigrated('user'))
             $this->setupUserModule();
+
         if (! $this->alreadyMigrated('user_detail'))
             $this->setupUserDetailsModule();
+
         if (! $this->alreadyMigrated('user_setting'))
             $this->setupUserSettingsModule();
     }

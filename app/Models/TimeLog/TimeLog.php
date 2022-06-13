@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Timelog;
+namespace App\Models\TimeLog;
 
 use App\Models\Task\Task;
 use App\Models\User\User;
@@ -12,7 +12,7 @@ use App\Models\Traits\Getters\GetterMarkdown;
 use App\Models\Traits\Setters\SetterMarkdown;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class Timelog extends Model
+class TimeLog extends Model
 {
     use GetterMarkdown, SetterMarkdown;
 
@@ -22,7 +22,7 @@ class Timelog extends Model
     *
     * @var string
     */
-    protected $table = 'timelog';
+    protected $table = 'time_log';
 
     /**
     * @var array
@@ -56,7 +56,7 @@ class Timelog extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the Timelog.
+    | question, in this case: the TimeLog.
     |
     */
 
@@ -77,7 +77,7 @@ class Timelog extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Timelog
+    | question, in this case: the TimeLog
     |
     */
 
@@ -106,7 +106,7 @@ class Timelog extends Model
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
     | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Timelog.
+    | specific instance: the TimeLog.
     |
     */
 

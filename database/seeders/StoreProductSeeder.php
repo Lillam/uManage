@@ -56,7 +56,7 @@ class StoreProductSeeder extends Seeder
             $this->increment() => (object) [
                 'name' => 'Time logging',
                 'package' => [
-                    \App\Http\Controllers\Timelog\TimelogController::class
+                    \App\Http\Controllers\TimeLog\TimeLogController::class
                 ],
                 'price' => '5.99'
             ]

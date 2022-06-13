@@ -12,8 +12,8 @@ class CreateTasksModule extends Migration
     /**
     * Run the migrations.
     *
-    * This method is for setting up the task system in general, all things related to tasks will be set up within this
-    * particular method set. up will be running through all the set up processes that are set within this class...
+    * This method is for setting up the task system in general, all things related to the tasks will be set up within
+    * this particular method set. up will be running through all the set-up processes that are set within this class...
     * the process in which these are handled will need to be in order of which keys are needing to be set, a key cannot
     * be set on a row that isn't there, so be careful when adding to this ordering and take keys into consideration
     *
@@ -23,22 +23,31 @@ class CreateTasksModule extends Migration
     {
         if (! $this->alreadyMigrated('task_priority'))
             $this->setupTaskPriorityModule();
+
         if (! $this->alreadyMigrated('task_status'))
             $this->setupTaskStatusModule();
+
         if (! $this->alreadyMigrated('task_issue_type'))
             $this->setupTaskIssueTypeModule();
+
         if (! $this->alreadyMigrated('task'))
             $this->setupTaskModule();
+
         if (! $this->alreadyMigrated('task_file'))
             $this->setUpTaskFileModule();
+
         if (! $this->alreadyMigrated('task_comment'))
             $this->setupTaskCommentModule();
+
         if (! $this->alreadyMigrated('task_watcher_user'))
             $this->setupTaskWatcherUserModule();
+
         if (! $this->alreadyMigrated('task_checklist'))
             $this->setupTaskChecklistModule();
+
         if (! $this->alreadyMigrated('task_checklist_item'))
             $this->setUpTaskChecklistItemModule();
+
         if (! $this->alreadyMigrated('task_log'))
             $this->setupTaskLogModule();
     }

@@ -99,7 +99,7 @@ class ProjectController extends Controller
             abort(403);
 
         $this->vs->set('title', " - Project - {$project->name}")
-                 ->set('current_page', 'page.projects');
+                 ->set('current_page', 'page.projects.list');
 
         return view('project.view_project', compact(
             'project',

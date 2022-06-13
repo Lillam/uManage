@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Exception;
 use App\Models\Task\Task;
-use App\Models\Timelog\Timelog;
+use App\Models\TimeLog\TimeLog;
 use Illuminate\Database\Seeder;
 use App\Models\Task\TaskComment;
 use Illuminate\Support\Facades\DB;
@@ -77,7 +77,7 @@ class TaskSeeder extends Seeder
 
                 if (! empty($task->task_timelogs)) {
                     foreach ($task->task_timelogs as $task_timelog_id => $task_timelog) {
-                        Timelog::updateOrCreate(['id' => $task_timelog_id], [
+                        TimeLog::updateOrCreate(['id' => $task_timelog_id], [
                             'id'         => $task_timelog_id,
                             'task_id'    => $task_id,
                             'project_id' => $task->project_id,

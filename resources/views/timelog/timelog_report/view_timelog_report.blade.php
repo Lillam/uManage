@@ -24,7 +24,7 @@
 @endsection
 @section('body')
     <div class="uk-container timelog_reports"
-         data-view_timelog_reports_url="{{ action('Timelog\TimelogReportController@_ajaxViewTimelogReportGet') }}"
+         data-view_timelog_reports_url="{{ action('TimeLog\TimeLogReportController@_ajaxViewTimelogReportGet') }}"
          data-date="{{ $date->format('Y-m') }}">
         <div class="uk-grid uk-grid-small" uk-grid>
             <div class="uk-width-1-3@m">

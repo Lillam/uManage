@@ -18,7 +18,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use App\Models\Project\ProjectSetting;
 use App\Repositories\Task\TaskRepository;
-use App\Repositories\Timelog\TimelogRepository;
+use App\Repositories\TimeLog\TimeLogRepository;
 use App\Http\Controllers\Project\ProjectController;
 use App\Repositories\Project\ProjectSettingRepository;
 
@@ -115,11 +115,11 @@ class TaskController extends Controller
 
         // Acquire all the task time logging, along with the total amount of time logged, this will be grabbing all time
         // logging of all users that has ever placed against the selected task.
-        $task->task_timelogs     = TimelogRepository::sortTaskTimelogs($task);
-        $task->total_time_logged = TimelogRepository::getTotalTimeLogged($task);
+        $task->task_timelogs     = TimeLogRepository::sortTaskTimelogs($task);
+        $task->total_time_logged = TimeLogRepository::getTotalTimeLogged($task);
 
         $this->vs->set('title', " - Task - {$task->name}")
-                 ->set('current_page', 'page.projects.tasks.task');
+                 ->set('current_page', 'page.projects.tasks.list');
 
         return view('task.view_task', compact(
             'task',

@@ -43,7 +43,7 @@ $(() => {
     // when the user has finished creating a timelog entry, they will need a button in order to click on for adding the
     // entry into the backend of the website. this button will be taking the values that we're storing below and make
     // a request with these details. once the system has created the entry and a response is given, we will be refreshing
-    // the Timelog calendar view.
+    // the TimeLog calendar view.
     $body.on('click', '.make_timelog', function  (event) {
         let $this = $(this),
             $add_timelog_modal = $this.closest('#add_timelog_modal'),

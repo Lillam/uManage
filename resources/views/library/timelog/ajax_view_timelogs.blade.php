@@ -14,7 +14,7 @@
                     >{{ $timelog->project->code }}-{{ $timelog->task->id }}</span>
                 </div>
                 <div class="timelog_time_spent uk-width-auto">
-                    <b>{{ TimelogRepository::convertTimelogTimeSpent($timelog->time_spent) }}</b>
+                    <b>{{ TimeLogRepository::convertTimelogTimeSpent($timelog->time_spent) }}</b>
                 </div>
             </div>
             <a class="delete_timelog"><i class="fa fa-trash"></i></a>

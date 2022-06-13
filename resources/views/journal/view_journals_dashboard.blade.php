@@ -17,21 +17,23 @@
         <div class="uk-grid uk-grid-small day_ratings" uk-grid>
             <div class="uk-width-1-3@l uk-width-1-1">
                 <div class="day_rating good uk-flex uk-flex-middle">
-                    <p><span>{{ $good_days }}</span>Total Amazing Days</p>
+                    <p><span>{{ $good_days }}</span>Amazing Days</p>
                 </div>
             </div>
             <div class="uk-width-1-3@l uk-width-1-2@s uk-width-1-1">
                 <div class="day_rating average uk-flex uk-flex-middle">
-                    <p><span >{{ $average_days }}</span>Total Average Days</p>
+                    <p><span >{{ $average_days }}</span>Average Days</p>
                 </div>
             </div>
             <div class="uk-width-1-3@l uk-width-1-2@s uk-width-1-1">
                 <div class="day_rating bad uk-flex uk-flex-middle">
-                    <p><span>{{ $bad_days }}</span>Total Bad Days</p>
+                    <p><span>{{ $bad_days }}</span>Bad Days</p>
                 </div>
             </div>
         </div>
-        <h2 class="section_title uk-margin-top">Last 5 Days Journals</h2>
+    </div>
+    <div class="section">
+        <h2 class="section_title">Last 5 Days Journals</h2>
         <div class="uk-grid uk-grid-small" uk-grid>
             @foreach ($last_5_days as $journal)
                 <div class="uk-width-1-5@xl uk-width-1-4@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">

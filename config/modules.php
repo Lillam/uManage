@@ -13,7 +13,6 @@
 */
 
 return [
-    // Account Management
     /**
     |-------------------------------------------------------------------------------------------------------------------
     | Account Management Module
@@ -68,6 +67,7 @@ return [
             \App\Http\Controllers\Project\ProjectController::class,
             \App\Http\Controllers\Project\ProjectSettingController::class,
             \App\Http\Controllers\Project\ProjectUserContributorController::class,
+            \App\Http\Controllers\Task\TaskDashboardController::class,
             \App\Http\Controllers\Task\TaskChecklistController::class,
             \App\Http\Controllers\Task\TaskChecklistItemController::class,
             \App\Http\Controllers\Task\TaskCommentController::class,
@@ -84,18 +84,18 @@ return [
 
     /**
     |-------------------------------------------------------------------------------------------------------------------
-    | Timelogging Module
+    | TimeLogging Module
     |-------------------------------------------------------------------------------------------------------------------
     |
-    | The Timelogging module; with the required controllers that the user will be allowed access to when having access
+    | The TimeLogging module; with the required controllers that the user will be allowed access to when having access
     | to the module in question.
     |
     */
     4 => (object) [
         'name' => 'Time Keeping',
         'controllers' => [
-            \App\Http\Controllers\Timelog\TimelogController::class,
-            \App\Http\Controllers\Timelog\TimelogReportController::class,
+            \App\Http\Controllers\TimeLog\TimeLogController::class,
+            \App\Http\Controllers\TimeLog\TimeLogReportController::class,
         ]
     ],
 

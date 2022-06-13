@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class JournalModule extends Migration
+class CreateJournalModule extends Migration
 {
     use MigratorChecks;
 
@@ -18,10 +18,13 @@ class JournalModule extends Migration
     {
         if (! $this->alreadyMigrated('journal'))
             $this->setupJournalModule();
+
         if (! $this->alreadyMigrated('journal_achievement'))
             $this->setupJournalAchievements();
+
         if (! $this->alreadyMigrated('journal_dream'))
             $this->setupJournalDream();
+
         if (! $this->alreadyMigrated('journal_finance'))
             $this->setupJournalFinance();
     }

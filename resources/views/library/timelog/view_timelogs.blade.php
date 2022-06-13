@@ -12,7 +12,7 @@
                     </span>
                     <span class="uk-width-expand uk-text-right">
                         <b>{{ ! empty($timelog_hours[$day->format('d-m-Y')]) ?
-                            TimelogRepository::convertTimelogTimeSpent($timelog_hours[$day->format('d-m-Y')], true): '0h'
+                            TimeLogRepository::convertTimelogTimeSpent($timelog_hours[$day->format('d-m-Y')], true): '0h'
                         }}</b>
                     </span>
                 </span>

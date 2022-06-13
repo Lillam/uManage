@@ -5,31 +5,32 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTimelogModule extends Migration
+class CreateTimeLogsModule extends Migration
 {
     use MigratorChecks;
 
     /**
     * Run the migrations.
     *
-    * @return void
-    * This method is designed for setting up the timelog module, when creating new amendments please consider keys
+    * This method is designed for setting up the time log module, when creating new amendments please consider keys
     * and place them in the order of which they are going to be requiring the keys in, if a new addition requires a key
     * to be set in order to add a constraint, then it is going to need to be in place first. this will iterate over all
     * setup phases that are set within the up method.
+    *
+    * @return void
     */
-    public function up()
+    public function up(): void
     {
-        if (! $this->alreadyMigrated('timelog'))
-            $this->setUpTimelogModule();
+        if (! $this->alreadyMigrated('time_log'))
+            $this->setUpTimeLogModule();
     }
 
     /**
     * @return void
     */
-    public function setUpTimelogModule(): void
+    public function setUpTimeLogModule(): void
     {
-        Schema::create('timelog', function (Blueprint $table) {
+        Schema::create('time_log', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('task_id');
             $table->unsignedBigInteger('project_id');
@@ -41,7 +42,7 @@ class CreateTimelogModule extends Migration
             $table->timestamps();
         });
 
-        Schema::table('timelog', function (Blueprint $table) {
+        Schema::table('time_log', function (Blueprint $table) {
             $table->foreign('task_id')
                 ->references('id')
                 ->on('task')

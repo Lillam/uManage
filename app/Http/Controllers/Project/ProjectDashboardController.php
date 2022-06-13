@@ -14,7 +14,7 @@ class ProjectDashboardController extends Controller
      */
     public function _viewProjectsDashboardGet(): Application|Factory|View
     {
-        $this->vs->set('has_sidebar', true)
+        $this->vs->set('has_title', false)
                  ->set('current_page', 'page.projects.dashboard');
 
         return view('project.view_project_dashboard');

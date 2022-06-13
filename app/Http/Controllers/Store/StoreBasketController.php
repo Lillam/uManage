@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Store;
 
+use App\Models\Store\StoreProduct;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Store\StoreBasket;
-use App\Models\Store\StoreProduct;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
@@ -37,32 +37,34 @@ class StoreBasketController extends Controller
     }
 
     /**
-    * @param string $product
+    * @param StoreProduct $product
     * @return RedirectResponse
     */
-    public function _addToStoreBasketGet(string $product): RedirectResponse
+    public function _addToStoreBasketGet(StoreProduct $product): RedirectResponse
     {
         try {
-            StoreBasket::create([
-                'user_id'          => Auth::id(),
-                'store_product_id' => $product
-            ]);
+            StoreBasket::query()
+                ->create([
+                    'user_id'          => Auth::id(),
+                    'store_product_id' => $product->id
+                ]);
         } catch (\Exception $exception) {
-
+            dd($exception);
         } return back();
     }
 
     /**
-    * @param string $product
+    * @param StoreProduct $product
     * @return RedirectResponse
     */
-    public function _removeFromStoreBasketGet(string $product): RedirectResponse
+    public function _removeFromStoreBasketGet(StoreProduct $product): RedirectResponse
     {
         try {
-            StoreBasket::where([
-                'user_id'          => Auth::id(),
-                'store_product_id' => $product
-            ])->delete();
+            StoreBasket::query()
+                ->where([
+                    'user_id'          => Auth::id(),
+                    'store_product_id' => $product->id
+                ])->delete();
         } catch (\Exception $exception) {
 
         } return back();

@@ -165,7 +165,7 @@ return [
         'description' => '',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Timelog\TimelogController'                => [
+    'App\Http\Controllers\TimeLog\TimeLogController' => [
         'name' => 'Timelogging',
         'description' => '
             Are you a fan of keeping track of all the work that you do? Are you a fan of being able to see where all 

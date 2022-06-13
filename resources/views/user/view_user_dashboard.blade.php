@@ -44,7 +44,7 @@
             <div class="uk-width-1-4@m">
                 <h2 class="section_title">Recent Activity</h2>
                 <div class="timelogs_box"
-                     data-get_timelogs_url="{{ action('Timelog\TimelogController@_ajaxViewTimelogsGet') }}">
+                     data-get_timelogs_url="{{ action('TimeLog\TimeLogController@_ajaxViewTimelogsGet') }}">
                 </div>
             </div>
             <div class="uk-width-1-2@m">

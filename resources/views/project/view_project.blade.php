@@ -9,7 +9,7 @@
     {!! ($vs->js)('views/project/view_project') !!}
     {!! ($vs->js)('views/task/view_tasks') !!}
 @endsection
-@section('title-navigation')
+@section('title-block')
     <div class="uk-width-expand">
         <p>{{ $project->name }}</p>
     </div>

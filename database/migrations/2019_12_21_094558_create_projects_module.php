@@ -21,8 +21,10 @@ class CreateProjectsModule extends Migration
     {
         if (! $this->alreadyMigrated('project'))
             $this->setupProjectModule();
+
         if (! $this->alreadyMigrated('project_setting'))
             $this->setupProjectSettingsModule();
+
         if (! $this->alreadyMigrated('project_user_contributor'))
             $this->setupProjectUserContributorModule();
     }

@@ -27,14 +27,14 @@
 @endsection
 @section('body')
     <div class="timelog_calendar"
-         data-view_timelogs_url="{{ action('Timelog\TimelogController@_ajaxViewTimelogsCalendarGet') }}"
-         data-delete_timelog_url="{{ action('Timelog\TimelogController@_ajaxDeleteTimelogGet') }}"
+         data-view_timelogs_url="{{ action('TimeLog\TimeLogController@_ajaxViewTimelogsCalendarGet') }}"
+         data-delete_timelog_url="{{ action('TimeLog\TimeLogController@_ajaxDeleteTimelogGet') }}"
          data-current_date="{{ $days->monday->format('d.m.Y') }}">
         <div class="timelogs"></div>
     </div>
 
     <div id="add_timelog_modal" uk-modal
-        data-make_timelog_url="{{ action('Timelog\TimelogController@_ajaxMakeTimelogPost') }}"
+        data-make_timelog_url="{{ action('TimeLog\TimeLogController@_ajaxMakeTimelogPost') }}"
         data-search_tasks_url="{{ action('Task\TaskController@_ajaxSearchTasksGet') }}">
         <div class="uk-modal-dialog uk-margin-auto-vertical">
             <button class="uk-modal-close-default" type="button" uk-close></button>

@@ -5,7 +5,7 @@ namespace App\Models\Task;
 use Carbon\Carbon;
 use App\Models\User\User;
 use App\Models\Project\Project;
-use App\Models\Timelog\Timelog;
+use App\Models\TimeLog\TimeLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use App\Repositories\Task\TaskLogRepository;
@@ -324,6 +324,6 @@ class Task extends Model
     */
     public function task_timelogs(): HasMany
     {
-        return $this->hasMany(Timelog::class, 'task_id', 'id');
+        return $this->hasMany(TimeLog::class, 'task_id', 'id');
     }
 }

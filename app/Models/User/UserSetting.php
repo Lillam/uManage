@@ -28,8 +28,8 @@ class UserSetting extends Model
     * @var array
     */
     protected $casts = [
-        'user_id'     => 'int',
-        'theme_color' => 'string',
+        'user_id'           => 'int',
+        'theme_color'       => 'string',
         'sidebar_collapsed' => 'boolean',
     ];
 

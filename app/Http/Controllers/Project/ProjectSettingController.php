@@ -15,6 +15,16 @@ use Psr\Container\ContainerExceptionInterface;
 class ProjectSettingController extends Controller
 {
     /**
+     * @return Factory|View
+     */
+    public function _viewProjectsSettingsGet(): Factory|View
+    {
+        $this->vs->set('current_page', 'page.projects.settings');
+
+        return view('project.project_setting.view_projects_settings');
+    }
+
+    /**
     * @param $project_code
     * @return Factory|View
     */

@@ -63,7 +63,7 @@ class Account extends Model
 
     /**
     * This method will return the account password in a decrypted format so that the user in question will be able to
-    * access their password to an aaccount they have specified in the system.
+    * access their password to an account they have specified in the system.
     *
     * @return string
     */
@@ -87,31 +87,29 @@ class Account extends Model
     }
 
     /**
-    * The account has potential to be a rather lenghty string, and again, not a lot of room on the frontend to display
+    * The account has potential to be a rather lengthy string, and again, not a lot of room on the frontend to display
     * this, so this method will allow the system to display the content on a line; limited to 25 characters by default
     *
-    * @var $limit
+    * @var int $limit
     * @return string
     */
-    public function getShortAccount($limit = 25): string
+    public function getShortAccount(int $limit = 25): string
     {
-        $extra = '';
-        if (mb_strlen($this->account) > $limit) $extra = '...';
+        $extra = mb_strlen($this->account) > $limit ? '...' : '';
         return mb_substr($this->account, 0, $limit) . $extra;
     }
 
     /**
     * The account's password variable will be a rather lengthy one due to it displaying in encrypted form, and because
-    * it is encrypted, we aren't going to need to dipslay the entire lot... in which this will allow the content to be
+    * it is encrypted, we aren't going to need to display the entire lot... in which this will allow the content to be
     * displayed on the frontend in a condensed view.
     *
-    * @param $limit
+    * @param int $limit
     * @return string
     */
-    public function getShortPassword($limit = 25): string
+    public function getShortPassword(int $limit = 25): string
     {
-        $extra = '';
-        if (mb_strlen($this->password) > $limit) $extra = '...';
+        $extra = mb_strlen($this->password) > $limit ? '...' : '';
         return mb_substr($this->password, 0, $limit) . $extra;
     }
 
@@ -127,7 +125,7 @@ class Account extends Model
     /**
     * Each account in the system is of course, going to be belonging to a user, this method is the defining principle
     * that the account in question belongs to a designated user; this will allow the user to display this only for the
-    * user in question, we can also display for more powerful users; who the account is belonging to.
+    * user in question, we can also display for more powerful users; who the account belongs to.
     *
     * @return BelongsTo
     */

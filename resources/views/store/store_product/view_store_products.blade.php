@@ -55,10 +55,10 @@
                     <a href="{{ action('Store\StoreProductController@_viewStoreProductGet', $store_product->alias) }}"
                        class="view_product">Read More</a>
                     @if (array_key_exists($store_product->id, $user->user_basket_products))
-                        <a href="{{ action('Store\StoreBasketController@_removeFromStoreBasketGet', $store_product->alias) }}"
+                        <a href="{{ action('Store\StoreBasketController@_removeFromStoreBasketGet', $store_product->id) }}"
                            class="add_product_to_basket">Remove from Basket</a>
                     @else
-                        <a href="{{ action('Store\StoreBasketController@_addToStoreBasketGet', $store_product->alias) }}"
+                        <a href="{{ action('Store\StoreBasketController@_addToStoreBasketGet', $store_product->id) }}"
                            class="add_product_to_basket">Add to Basket</a>
                     @endif
                 </div>

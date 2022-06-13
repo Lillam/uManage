@@ -18,10 +18,13 @@ class CreateSystemModule extends Migration
     {
         if (! $this->alreadyMigrated('system_changelog'))
             $this->setupSystemChangelogModule();
+
         if (! $this->alreadyMigrated('system_module'))
             $this->setupSystemModuleModule();
+
         if (! $this->alreadyMigrated('system_module_access'))
             $this->setupSystemModuleAccessModule();
+
         if (! $this->alreadyMigrated('system_module_access_user'))
             $this->setupSystemModuleAccessUserModule();
     }

@@ -130,7 +130,7 @@
                             {!! UserPrinter::userBadge($timelog->user, false, $task->project->getColor()) !!}
                         </div>
                         <div class="uk-width-auto task_timelog_time_spent">
-                            {{ TimelogRepository::convertTimelogTimeSpent($timelog->time_spent) }}
+                            {{ TimeLogRepository::convertTimelogTimeSpent($timelog->time_spent) }}
                         </div>
                         <div class="uk-width-expand uk-flex uk-flex-middle task_timelog_time_spent_percent">
                             <div class="progress">

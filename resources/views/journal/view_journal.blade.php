@@ -42,7 +42,7 @@
         data-delete_journal_url="{{ action('Journal\JournalController@_ajaxDeleteJournalPost') }}">
         <div class="journal_content">
             <div class="section no-border-top">
-                <h2>Overall</h2>
+                <h2 class="section_title">Overall</h2>
                 <div class="overall box">{!! $journal->overall !== ''
                     ? $journal->overall
                     : '<span class="placeholder">Talk about the overall day</span>' !!}
@@ -51,7 +51,9 @@
                     <a class="save_overall uk-button uk-button-small uk-button-primary">Save</a>
                     <a class="cancel_overall uk-button uk-button-small uk-button-danger">Cancel</a>
                 </div>
-                <h2 class="uk-margin-top">Lowest Part of the Day?</h2>
+            </div>
+            <div class="section">
+                <h2 class="section_title">Lowest Part of the Day?</h2>
                 <div class="lowest_point box">{!! $journal->lowest_point !== '' ?
                     $journal->lowest_point
                     : '<span class="placeholder">Talk about the lowest part of the day</span>' !!}
@@ -60,7 +62,9 @@
                     <a class="save_lowest_point uk-button uk-button-primary">Save</a>
                     <a class="cancel_lowest_point uk-button uk-button-danger">Cancel</a>
                 </div>
-                <h2 class="uk-margin-top">Highest Part of the Day?</h2>
+            </div>
+            <div class="section">
+                <h2 class="section_title">Highest Part of the Day?</h2>
                 <div class="highest_point box">{!! $journal->highest_point !== ''
                     ? $journal->highest_point
                     : '<span class="placeholder">Talk about the highest part of the day</span>' !!}
@@ -75,7 +79,7 @@
         <div class="journal_sidebar">
             <h2>Rate the day</h2>
             <div class="">
-                @for($i = 1; $i <= 5; ++$i)
+                @for ($i = 1; $i <= 5; ++$i)
                     <a class="journal_rating {{ $journal->rating >= $i ? 'fa fa-star' : 'far fa-star' }}"
                        data-rating="{{ $i }}">
                     </a>

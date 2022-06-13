@@ -247,7 +247,7 @@ return [
 
         // Timelogging
         // Repositories
-        'TimelogRepository' => App\Repositories\Timelog\TimelogRepository::class,
+        'TimeLogRepository' => App\Repositories\TimeLog\TimeLogRepository::class,
 
         // User
         // Printers

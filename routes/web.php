@@ -17,7 +17,7 @@ use App\Http\Controllers\Task\TaskLogController;
 use App\Http\Controllers\System\SystemController;
 use App\Http\Controllers\Journal\JournalController;
 use App\Http\Controllers\Account\AccountController;
-use App\Http\Controllers\Timelog\TimelogController;
+use App\Http\Controllers\TimeLog\TimeLogController;
 use App\Http\Controllers\Project\ProjectController;
 use App\Http\Controllers\Task\TaskReportController;
 use App\Http\Controllers\Task\TaskCommentController;
@@ -25,10 +25,11 @@ use App\Http\Controllers\User\UserSettingController;
 use App\Http\Controllers\Store\StoreBasketController;
 use App\Http\Controllers\Store\StoreProductController;
 use App\Http\Controllers\Task\TaskChecklistController;
+use App\Http\Controllers\Task\TaskDashboardController;
 use App\Http\Controllers\System\SystemModuleController;
 use App\Http\Controllers\Journal\JournalDreamController;
 use App\Http\Controllers\Journal\JournalReportController;
-use App\Http\Controllers\Timelog\TimelogReportController;
+use App\Http\Controllers\TimeLog\TimeLogReportController;
 use App\Http\Controllers\Journal\JournalFinanceController;
 use App\Http\Controllers\Project\ProjectSettingController;
 use App\Http\Controllers\System\SystemChangelogController;
@@ -119,7 +120,8 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::post('/ajax/make/project',          [ProjectController::class, '_ajaxCreateProjectPost']);
 
     // Project Settings Routes
-    Route::get( '/project/{code}/settings',    [ProjectSettingController::class, '_viewProjectSettingsGet'])->name('projects.settings');
+    Route::get('/projects/settings',           [ProjectSettingController::class, '_viewProjectsSettingsGet'])->name('projects.settings');
+    Route::get( '/project/{code}/settings',    [ProjectSettingController::class, '_viewProjectSettingsGet'])->name('projects.project.settings');
     Route::post('/ajax/edit/project/settings', [ProjectSettingController::class, '_editProjectSettingsPost']);
 
     /*
@@ -132,6 +134,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     |
     */
 
+    Route::get('/tasks/dashboard',                      [TaskDashboardController::class, '_viewTasksDashboardGet'])->name('projects.tasks.dashboard');
     Route::get( '/tasks',                               [TaskController::class, '_viewTasksGet'])->name('projects.tasks');
     Route::get( '/task/{code}/{id}',                    [TaskController::class, '_viewTaskGet']);
     Route::get( '/delete/task/{code}/{id}',             [TaskController::class, '_deleteTaskGet']);
@@ -197,15 +200,15 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/finance/journals/calendar',            [JournalFinanceController::class, '_viewJournalFinancesGet'])->name('journals.finances.calendar');
     Route::get('/ajax/view/finances/journals',          [JournalFinanceController::class, '_ajaxViewJournalFinancesGet']);
 
-    // Timelogging
-    Route::get( '/timelogs/calendar',                   [TimelogController::class, '_viewTimelogCalendarGet'])->name('timelogs.calendar');
-    Route::get( '/ajax/view/timelogs',                  [TimelogController::class, '_ajaxViewTimelogsGet']);
-    Route::get( '/ajax/view/timelogs_calendar',         [TimelogController::class, '_ajaxViewTimelogsCalendarGet']);
-    Route::post('/ajax/make/timelog',                   [TimelogController::class, '_ajaxMakeTimelogPost']);
-    Route::get( '/ajax/delete/timelog',                 [TimelogController::class, '_ajaxDeleteTimelogGet']);
+    // TimeLogging
+    Route::get( '/timelogs/calendar',                   [TimeLogController::class, '_viewTimelogCalendarGet'])->name('timelogs.calendar');
+    Route::get( '/ajax/view/timelogs',                  [TimeLogController::class, '_ajaxViewTimelogsGet']);
+    Route::get( '/ajax/view/timelogs_calendar',         [TimeLogController::class, '_ajaxViewTimelogsCalendarGet']);
+    Route::post('/ajax/make/timelog',                   [TimeLogController::class, '_ajaxMakeTimelogPost']);
+    Route::get( '/ajax/delete/timelog',                 [TimeLogController::class, '_ajaxDeleteTimelogGet']);
 
-    Route::get( '/timelog/report',                      [TimelogReportController::class, '_viewTimelogReportGet'])->name('timelogs.report');
-    Route::get( '/ajax/view/timelog_report',            [TimelogReportController::class, '_ajaxViewTimelogReportGet'])->name('timelogs.report.ajax');
+    Route::get( '/timelog/report',                      [TimeLogReportController::class, '_viewTimelogReportGet'])->name('timelogs.report');
+    Route::get( '/ajax/view/timelog_report',            [TimeLogReportController::class, '_ajaxViewTimelogReportGet'])->name('timelogs.report.ajax');
 
     // Account Managing
     Route::get( 'accounts',                             [AccountController::class, '_viewAccountsGet']);

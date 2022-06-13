@@ -20,7 +20,7 @@
             </li>
             <li>
                 <a class="{{ ($vs->is_page)('page.timelogs') }}"
-                   href="{{ action('Timelog\TimelogController@_viewTimelogCalendarGet') }}"
+                   href="{{ route('timelogs.calendar') }}"
                 ><i class="fa fa-clock"></i></a>
             </li>
             <li>

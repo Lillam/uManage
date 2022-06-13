@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Timelog;
+namespace App\Http\Controllers\TimeLog;
 
 use Exception;
 use Throwable;
 use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\Timelog\Timelog;
+use App\Models\TimeLog\TimeLog;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
-use App\Repositories\Timelog\TimelogRepository;
+use App\Repositories\TimeLog\TimeLogRepository;
 
-class TimelogController extends Controller
+class TimeLogController extends Controller
 {
     /**
     * This method is just for returning to the user, a visual of the days of the week, we will grab today's date. and
@@ -23,10 +23,9 @@ class TimelogController extends Controller
     * week we are always going to be returning a visual to the user of (x) days 7... sunday to monday... and displaying
     * a 7-day week calendar every week, procedurally
     *
-    * @param Request $request
     * @return Factory|View
     */
-    public function _viewTimelogCalendarGet(Request $request): Factory|View
+    public function _viewTimelogCalendarGet(): Factory|View
     {
         $days = (object) DateTimeHelper::days(Carbon::now());
 
@@ -67,7 +66,7 @@ class TimelogController extends Controller
 
         // if the direction has been set and the direction has been specified to the left, then we are looking to gather
         // timelogs in the past, or perhaps we have gone into the future and are attempting to come back to the present.
-        // either way this is taking the dates 7 days from the start of the week so we have a perpetual movement of
+        // either way this is taking the dates 7 days from the start of the week; so we have a perpetual movement of
         // dates into the past.
         if (! empty($direction) && $direction === 'left') {
             $date = $date->subDays(7);
@@ -79,15 +78,15 @@ class TimelogController extends Controller
 
         // acquire all the timelogs for the user of which is signed in, that are in between this particular monday, or
         // a monday that we have specified, and between this sunday, or the sunday that was the end of the week specified.
-        $timelogs = Timelog::with('task', 'project')
+        $timelogs = TimeLog::with('task', 'project')
             ->where('from', '>=', $days->monday)
             ->where('to', '<=', $days->sunday)
             ->where('user_id', '=', Auth::id())
             ->get();
 
-        // acquire the timelog data, which will be sorted by the TimelogRepository, this will be bringing back the total
+        // acquire the timelog data, which will be sorted by the TimeLogRepository, this will be bringing back the total
         // amount of hours for the week in question, assorted by days from monday - sunday within the week.
-        $timelog_data = TimelogRepository::sortTimelogs($timelogs);
+        $timelog_data = TimeLogRepository::sortTimelogs($timelogs);
 
         // after acquiring the timelog data, we are returning an object with the following timelog_data_hours in the
         // format of:
@@ -123,7 +122,7 @@ class TimelogController extends Controller
     */
     public function _ajaxViewTimelogsGet(Request $request): JsonResponse
     {
-        $timelogs = Timelog::where('user_id', '=', Auth::id())
+        $timelogs = TimeLog::where('user_id', '=', Auth::id())
             ->orderBy('id', 'desc')
             ->limit(5)
             ->get();
@@ -136,9 +135,9 @@ class TimelogController extends Controller
     }
 
     /**
-    * This method is for saving new Timelog posts. this method will be called every time the user is attempting to make
-    * a new Timelog entry, this method doesn't in truth need to return anything, providing this method doesn't return
-    * an error, the javascript will refresh the Timelogging and will instantly show the new Timelog entry...
+    * This method is for saving new TimeLog posts. this method will be called every time the user is attempting to make
+    * a new TimeLog entry, this method doesn't in truth need to return anything, providing this method doesn't return
+    * an error, the javascript will refresh the Timelogging and will instantly show the new TimeLog entry...
     *
     * @param Request $request
     * @return void
@@ -150,7 +149,7 @@ class TimelogController extends Controller
 
         // send this logic off the timelog repository so that we are able to more effectively manage how the handling of
         // time is captured for this particular method.
-        $time_spent = TimelogRepository::translateTimespent($request->input('time_spent'));
+        $time_spent = TimeLogRepository::translateTimespent($request->input('time_spent'));
 
         // dates, we are going to be inserting when this was from and when it was to, so that we are able to handle the
         // ordering of these entries more accurately and quite possibly look towards displaying these in a timely
@@ -160,10 +159,10 @@ class TimelogController extends Controller
 
         $timelog_note = $request->input('timelog_note') ?: '';
 
-        // create the Timelog entry based on all of the information that is collected above, we aren't going to store
+        // create the TimeLog entry based on all of the information that is collected above, we aren't going to store
         // this information as there is no need to retain it for any form of return type, thus we are going to end here
         // assuming this does not error, the method will proceed with a void.
-        Timelog::create([
+        TimeLog::create([
             'task_id'    => $task_id,
             'project_id' => $project_id,
             'user_id'    => $this->vs->get('user')->id,
@@ -185,9 +184,9 @@ class TimelogController extends Controller
     */
     public function _ajaxDeleteTimelogGet(Request $request): JsonResponse
     {
-        $timelog = Timelog::where('id', '=', $request->input('timelog_id'))->first();
+        $timelog = TimeLog::where('id', '=', $request->input('timelog_id'))->first();
 
-        if (! $timelog instanceof Timelog) {
+        if (! $timelog instanceof TimeLog) {
             return response()->json(['error' => 'The timelog you have requested to delete does not exist']);
         }
 

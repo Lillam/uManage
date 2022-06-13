@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Repositories\Timelog;
+namespace App\Repositories\TimeLog;
 
 use App\Models\Task\Task;
 
-class TimelogRepository
+class TimeLogRepository
 {
     /**
     * Method for speifically iterating over the timelogs and assorting them into a readable array that I can return

@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Timelog;
+namespace App\Http\Controllers\TimeLog;
 
 use Carbon\Carbon;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
-use App\Models\Timelog\Timelog;
+use App\Models\TimeLog\TimeLog;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
 
-class TimelogReportController extends Controller
+class TimeLogReportController extends Controller
 {
     /**
-    * This method opens up the ability for being able to see the reporting page of timelogs... this is just going to
+    * This method opens up the ability for being able to see the reporting page of time logs... this is just going to
     * be returning a view, and the view comes with a date that is automatically injected onto the page so that when
-    * the ajax runs on the page load, it'll find all of the reporting information regarding the timelogs in the month
+    * the ajax runs on the page load, it'll find all the reporting information regarding the time logs in the month
     * specified.
     *
     * @param Request $request
@@ -27,7 +27,7 @@ class TimelogReportController extends Controller
             ? Carbon::parse($request->input('date'))
             : Carbon::now();
 
-        $this->vs->set('title', '- Timelog Report')
+        $this->vs->set('title', '- TimeLog Report')
             ->set('current_page', 'page.timelogs.report');
 
         return view('timelog.timelog_report.view_timelog_report', compact(
@@ -53,7 +53,7 @@ class TimelogReportController extends Controller
         if ($direction === 'right')
             $date = $date->addMonth(1);
 
-        $timelogs = Timelog::with(['task', 'project'])
+        $timelogs = TimeLog::with(['task', 'project'])
             ->where('from', '>=', Carbon::parse($date)->startOfMonth())
             ->where('to', '<=', Carbon::parse($date)->endOfMonth())
             ->get();

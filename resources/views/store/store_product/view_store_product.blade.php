@@ -12,12 +12,12 @@
             </div>
             <div class="uk-width-auto uk-border-left">
                 @if (array_key_exists($store_product->id, $user->user_basket_products))
-                    <a href="{{ action('Store\StoreBasketController@_removeFromStoreBasketGet', $store_product->alias) }}"
+                    <a href="{{ action('Store\StoreBasketController@_removeFromStoreBasketGet', $store_product->id) }}"
                        class="add_product_to_basket">
                         <i class="fa fa-minus"></i>
                     </a>
                 @else
-                    <a href="{{ action('Store\StoreBasketController@_addToStoreBasketGet', $store_product->alias) }}"
+                    <a href="{{ action('Store\StoreBasketController@_addToStoreBasketGet', $store_product->id) }}"
                        class="add_product_to_basket">
                         <i class="fa fa-plus"></i>
                     </a>

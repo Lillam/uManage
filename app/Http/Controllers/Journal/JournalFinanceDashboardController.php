@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Journal;
 
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\Foundation\Application;
 
 class JournalFinanceDashboardController extends Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-    public function _viewJournalsFinancesDashboardGet()
+    /**
+     * @return Application|Factory|View
+     */
+    public function _viewJournalsFinancesDashboardGet(): Application|Factory|View
     {
         $this->vs->set('current_page', 'page.journals.finances.dashboard');
 

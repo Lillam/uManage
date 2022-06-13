@@ -20,7 +20,7 @@
     </div>
 @endsection
 @section('body')
-    <div id="task" class="section no-border-top"
+    <div id="task"
         data-project_id="{{ $task->project_id }}"
         data-task_id="{{ $task->id }}"
         data-edit_task_url="{{ action('Task\TaskController@_ajaxEditTaskPost') }}">
@@ -45,42 +45,49 @@
 {{--                    </a>--}}
 {{--                </div>--}}
 {{--            </div>--}}
-            <div class="task_title_wrapper">
-                <h2 class="task_name name" contenteditable>{{ $task->name }}</h2>
-            </div>
-            {{-- Task Description --}}
-            <h2 class="section_title">Description</h2>
-            <div class="description box">
-                @if (! empty($task->description))
-                    {!! $task->description !!}
-                @else
-                    <span class="placeholder">Enter a description</span>
-                @endif
-            </div>
-            <div class="description_options uk-margin-small-top uk-hidden">
-                <a class="save save_description">Save</a>
-                <a class="cancel cancel_description">Cancel</a>
+            <div class="section no-border-top">
+                <h2 class="section_title">Title</h2>
+                <div class="task_title_wrapper">
+                    <h2 class="task_name name" contenteditable>{{ $task->name }}</h2>
+                </div>
+                {{-- Task Description --}}
+                <h2 class="section_title uk-margin-top">Description</h2>
+                <div class="description box">
+                    @if (! empty($task->description))
+                        {!! $task->description !!}
+                    @else
+                        <span class="placeholder">Enter a description</span>
+                    @endif
+                </div>
+                <div class="description_options uk-margin-small-top uk-hidden">
+                    <a class="save save_description">Save</a>
+                    <a class="cancel cancel_description">Cancel</a>
+                </div>
             </div>
             {{--Task Checklists--}}
-            <h2 class="section_title">Sub Tasks</h2>
-            <div class="task_checklists_wrapper"
-                 data-make_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxMakeTaskChecklistPost') }}"
-                 data-view_task_checklists_url="{{ action('Task\TaskChecklistController@_ajaxViewTaskChecklistsGet') }}"
-                 data-edit_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistPost') }}"
-                 data-delete_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxDeleteTaskChecklistPost') }}"
-                 data-edit_task_checklist_order_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistOrderPost') }}"
-                 data-edit_task_checklist_zipped_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistEditZipStatus') }}"
-                 data-make_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxMakeTaskChecklistItemPost') }}"
-                 data-view_task_checklist_items_url="{{ action('Task\TaskChecklistItemController@_ajaxViewTaskChecklistItemsGet') }}"
-                 data-edit_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemPost') }}"
-                 data-edit_task_checklist_item_order_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemOrderPost') }}"
-                 data-delete_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
-            ></div>
+            <div class="section">
+                <h2 class="section_title">Sub Tasks</h2>
+                <div class="task_checklists_wrapper"
+                     data-make_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxMakeTaskChecklistPost') }}"
+                     data-view_task_checklists_url="{{ action('Task\TaskChecklistController@_ajaxViewTaskChecklistsGet') }}"
+                     data-edit_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistPost') }}"
+                     data-delete_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxDeleteTaskChecklistPost') }}"
+                     data-edit_task_checklist_order_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistOrderPost') }}"
+                     data-edit_task_checklist_zipped_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistEditZipStatus') }}"
+                     data-make_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxMakeTaskChecklistItemPost') }}"
+                     data-view_task_checklist_items_url="{{ action('Task\TaskChecklistItemController@_ajaxViewTaskChecklistItemsGet') }}"
+                     data-edit_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemPost') }}"
+                     data-edit_task_checklist_item_order_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemOrderPost') }}"
+                     data-delete_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
+                ></div>
+            </div>
             {{-- Task Comments --}}
-            <div class="task_comments"
-                 data-page="1"
-                 data-view_task_comments_url="{{ action('Task\TaskCommentController@_ajaxViewTaskCommentsGet') }}"
-                 data-delete_task_comment_url="{{ action('Task\TaskCommentController@_ajaxDeleteTaskCommentPost') }}">
+            <div class="section">
+                <div class="task_comments"
+                     data-page="1"
+                     data-view_task_comments_url="{{ action('Task\TaskCommentController@_ajaxViewTaskCommentsGet') }}"
+                     data-delete_task_comment_url="{{ action('Task\TaskCommentController@_ajaxDeleteTaskCommentPost') }}">
+                </div>
             </div>
         </div>
         {{-- Task  Sidebar  (Information about the task) --}}
