@@ -46,8 +46,8 @@
                 <div class="uk-width-expand@m">
                     @foreach ($store_product->package as $package)
                         <p class="product_package_item">
-                            <span class="product_package_image"><i class="fa {{ __("system/lang_system_module.{$package}.icon") }}"></i></span>
-                            {{ __("system/lang_system_module.{$package}.name") }}
+                            <span class="product_package_image"><i class="fa {{ __("system.{$package}.icon") }}"></i></span>
+                            {{ __("system.{$package}.name") }}
                         </p>
                     @endforeach
                 </div>

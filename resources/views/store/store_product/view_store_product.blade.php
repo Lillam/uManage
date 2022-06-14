@@ -34,13 +34,13 @@
     </div>
 
     @foreach ($store_product->package as $package)
-        @if(gettype(__("system/lang_system_module.{$package}.images")) !== 'string')
-            @php($images = array_merge($images, __("system/lang_system_module.{$package}.images")))
+        @if(gettype(__("system.{$package}.images")) !== 'string')
+            @php($images = array_merge($images, __("system.{$package}.images")))
         @endif
         <div class="section">
-            <span class="product_package_image"><i class="fa {{ __("system/lang_system_module.{$package}.icon") }}"></i></span>
-            <h2 class="section_title">{{ __("system/lang_system_module.{$package}.name") }}</h2>
-            <p>{{ __("system/lang_system_module.{$package}.description") }}</p>
+            <span class="product_package_image"><i class="fa {{ __("system.{$package}.icon") }}"></i></span>
+            <h2 class="section_title">{{ __("system.{$package}.name") }}</h2>
+            <p>{{ __("system.{$package}.description") }}</p>
         </div>
     @endforeach
 
@@ -51,7 +51,7 @@
                 @foreach ($images as $image)
                     <div class="uk-width-1-3@l uk-width-1-2@m">
                         <div class="store_product_preview_image">
-                            <img src="{{ $image }}" alt="{{ __("system/lang_system_module.{$package}.name") }}">
+                            <img src="{{ $image }}" alt="{{ __("system.{$package}.name") }}">
                         </div>
                     </div>
                 @endforeach

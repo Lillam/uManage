@@ -51,7 +51,7 @@ use App\Http\Controllers\Journal\JournalFinanceDashboardController;
 |
 */
 
-Route::get('/', fn () => redirect()->action([UserController::class, '_viewUserDashboardGet']));
+Route::get('/', fn () => redirect()->action([UserController::class, '_viewUserDashboardGet']))->name('user.dashboard');
 
 /*
 |-----------------------------------------------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/project/{code}',              [ProjectController::class, '_viewProjectGet']);
     Route::get('/project/delete/{id}',         [ProjectController::class, '_deleteProjectGet']);
     Route::get('/ajax/projects',               [ProjectController::class, '_ajaxViewProjectsGet']);
-    Route::get( '/ajax/make/project',          [ProjectController::class, '_ajaxViewCreateProjectGet']);
+    Route::get( '/ajax/make/project',          [ProjectController::class, '_ajaxViewCreateProjectGet'])->name('projects.create');
     Route::post('/ajax/make/project',          [ProjectController::class, '_ajaxCreateProjectPost']);
 
     // Project Settings Routes
@@ -140,7 +140,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get( '/delete/task/{code}/{id}',             [TaskController::class, '_deleteTaskGet']);
     Route::get( '/ajax/search/tasks',                   [TaskController::class, '_ajaxSearchTasksGet']);
     Route::get( '/ajax/tasks',                          [TaskController::class, '_ajaxViewTasksGet']);
-    Route::get( '/ajax/create/task',                    [TaskController::class, '_ajaxViewCreateTaskGet']);
+    Route::get( '/ajax/create/task',                    [TaskController::class, '_ajaxViewCreateTaskGet'])->name('projects.tasks.create');
     Route::post('/ajax/create/task',                    [TaskController::class, '_ajaxCreateTaskPost']);
     Route::post('/ajax/task/edit',                      [TaskController::class, '_ajaxEditTaskPost']);
 
@@ -201,14 +201,14 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/ajax/view/finances/journals',          [JournalFinanceController::class, '_ajaxViewJournalFinancesGet']);
 
     // TimeLogging
-    Route::get( '/time-logs/calendar',                   [TimeLogController::class, '_viewTimeLogCalendarGet'])->name('time-logs.calendar');
-    Route::get( '/ajax/view/time-logs',                  [TimeLogController::class, '_ajaxViewTimeLogsGet']);
-    Route::get( '/ajax/view/time-logs_calendar',         [TimeLogController::class, '_ajaxViewTimeLogsCalendarGet']);
-    Route::post('/ajax/make/time-log',                   [TimeLogController::class, '_ajaxMakeTimeLogPost']);
-    Route::get( '/ajax/delete/time-log',                 [TimeLogController::class, '_ajaxDeleteTimeLogGet']);
+    Route::get( '/time-logs/calendar',                  [TimeLogController::class, '_viewTimeLogCalendarGet'])->name('time-logs.calendar');
+    Route::get( '/ajax/view/time-logs',                 [TimeLogController::class, '_ajaxViewTimeLogsGet']);
+    Route::get( '/ajax/view/time-logs_calendar',        [TimeLogController::class, '_ajaxViewTimeLogsCalendarGet']);
+    Route::post('/ajax/make/time-log',                  [TimeLogController::class, '_ajaxMakeTimeLogPost']);
+    Route::get( '/ajax/delete/time-log',                [TimeLogController::class, '_ajaxDeleteTimeLogGet']);
 
-    Route::get( '/time-log/report',                      [TimeLogReportController::class, '_viewTimeLogReportGet'])->name('time-logs.report');
-    Route::get( '/ajax/view/time-log-report',            [TimeLogReportController::class, '_ajaxViewTimeLogReportGet'])->name('time-logs.report.ajax');
+    Route::get( '/time-log/report',                     [TimeLogReportController::class, '_viewTimeLogReportGet'])->name('time-logs.report');
+    Route::get( '/ajax/view/time-log-report',           [TimeLogReportController::class, '_ajaxViewTimeLogReportGet'])->name('time-logs.report.ajax');
 
     // Account Managing
     Route::get( 'accounts',                             [AccountController::class, '_viewAccountsGet'])->name('accounts');

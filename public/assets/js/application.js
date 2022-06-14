@@ -166,16 +166,26 @@ $(() => {
         let url = $body.data('collapse_sidebar_url'),
             collapsed = $body.hasClass('sidebar-closed');
 
-        $.ajax({
-            method: 'get',
-            url: url,
-            data: {
-                is_collapsed: !! collapsed ? 0 : 1
-            },
-            success: () => {
-                $body.toggleClass('sidebar-closed');
-            }
-        });
+        // this functionality on wants to happen when the screen is greater >= 800; otherwise this will be hidden on
+        // mobile and the functionality will no longer be "state" dependant. and if we're on a screen size of <= 799
+        // then this can be ignored.
+        if (window.innerWidth > 800) {
+            $.ajax({
+                method: 'get',
+                url: url,
+                data: {
+                    is_collapsed: !! collapsed ? 0 : 1
+                },
+                success: () => {
+                    $body.toggleClass('sidebar-closed');
+                }
+            });
+
+            $body.removeClass('sidebar-open');
+            return;
+        }
+
+        $body.toggleClass('sidebar-open');
     });
 });
 
