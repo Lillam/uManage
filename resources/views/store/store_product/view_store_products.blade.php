@@ -31,7 +31,7 @@
                             </span>
                         </div>
                         <div class="uk-width-expand uk-flex uk-flex-middle">
-                            <h2>{{ $store_product->name }}</h2>
+                            <h2 class="store_product_name">{{ $store_product->name }}</h2>
                         </div>
                     </div>
                 </div>

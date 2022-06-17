@@ -14,24 +14,28 @@
     width: 300px;
     background-color: #f1f1f1;
     border-left: solid 1px rgba(0,0,0,0.1);
-    padding: 20px;
+    padding: 30px;
 }
 
-.accounts_wrapper.accounts_sidebar_closed .accounts_sidebar {
+.accounts_sidebar_closed .accounts_wrapper .accounts_sidebar {
     right: -300px !important;
 }
 
-.accounts_wrapper.accounts_sidebar_open .accounts_sidebar {
+.accounts_sidebar_open .accounts_wrapper .accounts_sidebar {
     right: 0;
 }
 
 @media(min-width: 991px) {
-    .accounts_wrapper {
+    body:not(.accounts_sidebar_closed) .accounts_wrapper {
         padding-right: 300px;
     }
 
     .accounts_wrapper .accounts_sidebar {
         right: 0;
+    }
+
+    body:not(.accounts_sidebar_closed) .title-block {
+        padding-right: 330px !important;
     }
 }
 
@@ -51,18 +55,13 @@
     margin: 0;
 }
 
-.accounts_wrapper .accounts_title > div:last-of-type {
-    border-left: solid 1px rgba(0,0,0,0.1);
+.accounts_title .accounts_info {
+    background-color: #ffffff;
+    border: solid 1px rgba(0,0,0,0.1);
 }
 
-.accounts_wrapper .accounts_title .accounts_info {
-    background-color: transparent;
-    border: solid 1px transparent;
-}
-
-.accounts_wrapper .accounts_title .accounts_info:hover {
-    background-color: #fff;
-    border-color: rgba(0,0,0,0.1);
+.accounts_title .accounts_info:hover {
+    border-color: rgba(0,0,0,0.2);
 }
 
 .accounts_wrapper .accounts_sidebar .accounts_label {
@@ -78,10 +77,14 @@
 }
 
 .accounts_wrapper .accounts .account_item_wrapper {
-    padding: 20px;
+    padding: 10px 30px;
     background-color: #fff;
     border-top: solid 1px rgba(0,0,0,0.1);
     word-break: break-word;
+}
+
+.accounts_wrapper .accounts .account_item_wrapper a {
+    display: block;
 }
 
 .accounts_wrapper .accounts .account_item_wrapper:first-of-type {

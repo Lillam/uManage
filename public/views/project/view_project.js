@@ -14,16 +14,16 @@ $(() => {
         $project.toggleClass('sidebar_open');
     });
 
-    // we need the ability to be able to close the project siebar (filtering) so that the user will be able to return
+    // we need the ability to be able to close the project sidebar (filtering) so that the user will be able to return
     // to viewing the tasks inside the project.
     $body.on('click', '.close_project_sidebar', function (event) {
         $('#project').removeClass('sidebar_open');
     });
 
-    // when clicking on the project sidebar, we are going to be wanting to stop the propagration of bubbling up to take
+    // when clicking on the project sidebar, we are going to be wanting to stop the propagation of bubbling up to take
     // away the open class, the open class wants to remain when clicking anywhere inside the  project sidebar so that
-    // the user will be able to decide whether or not the filters that they have applied are the one's that they are
-    // wanting.
+    // the user will be able to decide whether the filters that they have applied are the one's that they are
+    // wanting or not .
     $body.on('click', '.project_sidebar', function (event) {
         event.stopPropagation();
     });
@@ -51,12 +51,12 @@ $(() => {
 
     // this method is entirely for searching the table on this page, this method will be working from the keyup callback
     // which will redraw the table based on the information that will be sat in the table at the current iteration of
-    // ajaxed data inside.
+    // ajax data inside.
     $('#task_search').on('keypress', function (event) {
         let $this = $(this);
 
         // clearing the timeout for the window search... (this might be better off being named window.task_search_timeout
-        // so that i'm able to utilise more than one timeout for search should i ever need to...
+        // so that I'm able to utilise more than one timeout for search should I ever need to...
         clearTimeout(window.search_timeout);
         window.search_timeout = setTimeout(function () {
             // when the timeout has been hit we are going to want to actually fire up to the database and reload the
@@ -72,8 +72,8 @@ $(() => {
         let $this = $(this),
             params = new URLSearchParams(window.location.search);
 
-        // remove all of the params from the header, as we will no longer be utilising this as we have requested
-        // to the system to clear the filters...
+        // remove all the params from the header, as we will no longer be utilising this as we have requested to the
+        // system to clear the filters...
         params.delete('task_status');
         params.delete('task_priority');
         params.delete('task_issue_type');
@@ -93,7 +93,7 @@ $(() => {
             window.location.origin + window.location.pathname + '?' + params.toString() + window.location.hash
         );
 
-        // after we have cleared all of the filters, we are going to want to refresh the table so that everything can
+        // after we have cleared all the filters, we are going to want to refresh the table so that everything can
         // load back in...
         view_tasks();
     });
@@ -102,15 +102,14 @@ $(() => {
     // .task_status_checkbox
     // .task_issue_type_checkbox
     // .task_priority_checkbox
-    // these checkboxes are going to be inside of the filtrattion area of any task tabling system... this is globalised
+    // these checkboxes are going to be inside the filtration area of any task tabling system... this is globalised
     // to an element requiring a hidden input, and a variety of checkboxes with a designated data attribute assigned to
     // it for the ID pass.
     // all of these inputs will be in the format of 1,2,3,4,5,6,7,8,9,10 and be pushed tto a search where in those ids
-    // once this has been accomplished the table/element will  be refreshed to accomodate the new search parameters.
+    // once this has been accomplished the table/element will  be refreshed to accommodate the new search parameters.
     $body.on('change', '.task_status_checkbox, .task_issue_type_checkbox, .task_priority_checkbox', function (event) {
-        let $this = $(this);
-
-        var $input = '',
+        let $this = $(this),
+            $input = '',
             input_id_attribute = '';
 
         if ($this.hasClass('task_status_checkbox')) {
@@ -128,8 +127,7 @@ $(() => {
             input_id_attribute = 'task_priority_id';
         }
 
-        let current_value = $input.val() !== '' ?
-                $input.val() : '',
+        let current_value = $input.val() !== '' ? $input.val() : '',
             new_value = '',
             params = new URLSearchParams(window.location.search);
 
@@ -177,9 +175,12 @@ $(() => {
     $body.on('click', '.add_project_task_button', function (event) {
         event.preventDefault();
         event.stopPropagation();
+        let $sidebar_add_new_task = $('.sidebar_add_new_task');
+
         $('#add_sidebar_button').click();
-        if (! $('.sidebar_add_new_task').hasClass('active')) {
-            $('.sidebar_add_new_task').click();
+
+        if (! $sidebar_add_new_task.hasClass('active')) {
+            $sidebar_add_new_task.click();
         }
     });
 });

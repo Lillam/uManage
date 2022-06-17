@@ -93,20 +93,24 @@
         padding-right: 400px;
     }
 
+    body:not(.journal_sidebar_closed) .title-block {
+        padding-right: 430px !important;
+    }
+
     .title-navigation {
         padding-right: 430px !important;
     }
 }
 
-#journal.journal_sidebar_closed .journal_content {
+.journal_sidebar_closed #journal .journal_content {
     padding-right: 0;
 }
 
-#journal.journal_sidebar_closed .journal_sidebar {
+.journal_sidebar_closed #journal .journal_sidebar {
     right: -500px;
 }
 
-#journal.journal_sidebar_open .journal_sidebar {
+.journal_sidebar_open #journal .journal_sidebar {
     right: 0;
 }
 

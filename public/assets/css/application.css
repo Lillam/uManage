@@ -1353,6 +1353,10 @@ span.small {
     .section {
         padding: 15px;
     }
+
+    .title-block {
+        padding: 0 15px 0 25px;
+    }
 }
 
 .section > h2,

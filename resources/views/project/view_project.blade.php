@@ -13,6 +13,26 @@
     <div class="uk-width-expand">
         <p>{{ $project->name }}</p>
     </div>
+    <div class="task_navigation uk-flex">
+        <div class="uk-width-auto uk-hidden">
+            <a class="tasks_navigation_left uk-button uk-button-icon"><i class="fa fa-arrow-left"></i></a>
+        </div>
+        <div class="uk-width-auto uk-flex uk-flex-middle">
+            <p style="margin: 0;"><span class="count">0</span>/<span class="total">0</span></p>
+        </div>
+        <div class="uk-width-auto uk-hidden">
+            <a class="tasks_navigation_right uk-button uk-button-icon"><i class="fa fa-arrow-right"></i></a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="project_settings_button uk-button uk-icon-button"
+               href="{{ action('Project\ProjectSettingController@_viewProjectSettingsGet', $project->code) }}">
+                <i class="fa fa-cog"></i>
+            </a>
+        </div>
+        <div class="uk-width-auto">
+            <a class="project_advanced_search uk-button uk-icon-button"><i class="fa fa-search"></i></a>
+        </div>
+    </div>
 @endsection
 @section('sidebar')
     @include('library.project.projects_sidebar')
@@ -20,8 +40,7 @@
 @section('body')
     <div id="project">
         <div class="progress">
-            <div class="progress_percent" style="width: {{ $project->getTaskCompletedPercentage() }}">
-            </div>
+            <div class="progress_percent" style="width: {{ $project->getTaskCompletedPercentage() }}"></div>
         </div>
 
         {{-- Project Navigation --}}

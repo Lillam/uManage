@@ -119,8 +119,16 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get( '/ajax/make/project',          [ProjectController::class, '_ajaxViewCreateProjectGet'])->name('projects.create');
     Route::post('/ajax/make/project',          [ProjectController::class, '_ajaxCreateProjectPost']);
 
-    // Project Settings Routes
-    Route::get('/projects/settings',           [ProjectSettingController::class, '_viewProjectsSettingsGet'])->name('projects.settings');
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Project Settings Route
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | The routes that will interact with project settings in any form; allowing the user to manipulate projects in their
+    | way that benefits the way they want view them.
+    |
+    */
+    Route::get( '/projects/settings',          [ProjectSettingController::class, '_viewProjectsSettingsGet'])->name('projects.settings');
     Route::get( '/project/{code}/settings',    [ProjectSettingController::class, '_viewProjectSettingsGet'])->name('projects.project.settings');
     Route::post('/ajax/edit/project/settings', [ProjectSettingController::class, '_editProjectSettingsPost']);
 
@@ -134,7 +142,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     |
     */
 
-    Route::get('/tasks/dashboard',                      [TaskDashboardController::class, '_viewTasksDashboardGet'])->name('projects.tasks.dashboard');
+    Route::get( '/tasks/dashboard',                     [TaskDashboardController::class, '_viewTasksDashboardGet'])->name('projects.tasks.dashboard');
     Route::get( '/tasks',                               [TaskController::class, '_viewTasksGet'])->name('projects.tasks');
     Route::get( '/task/{code}/{id}',                    [TaskController::class, '_viewTaskGet']);
     Route::get( '/delete/task/{code}/{id}',             [TaskController::class, '_deleteTaskGet']);
@@ -144,7 +152,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::post('/ajax/create/task',                    [TaskController::class, '_ajaxCreateTaskPost']);
     Route::post('/ajax/task/edit',                      [TaskController::class, '_ajaxEditTaskPost']);
 
-    Route::get('/ajax/tasks/report',                    [TaskReportController::class, '_ajaxViewTasksReportGet']);
+    Route::get( '/ajax/tasks/report',                   [TaskReportController::class, '_ajaxViewTasksReportGet']);
 
     // Task Comments
     Route::get( '/ajax/view/task/comments',             [TaskCommentController::class, '_ajaxViewTaskCommentsGet']);
@@ -168,7 +176,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::post('/ajax/edit/task_checklist_item/order', [TaskChecklistItemController::class, '_ajaxEditTaskChecklistItemOrderPost']);
 
     // Task Logs
-    Route::get('/task-activity',                        [TaskLogController::class, '_viewTaskLogActivityGet']);
+    Route::get('/task-activity',                        [TaskLogController::class, '_viewTaskLogActivityGet'])->name('project.tasks.activity');
     Route::get('/ajax/view/task/logs',                  [TaskLogController::class, '_ajaxViewTaskLogsGet']);
     Route::get('/ajax/view/task_log_activity',          [TaskLogController::class, '_ajaxViewTaskLogActivityGet']);
 
@@ -211,11 +219,12 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get( '/ajax/view/time-log-report',           [TimeLogReportController::class, '_ajaxViewTimeLogReportGet'])->name('time-logs.report.ajax');
 
     // Account Managing
-    Route::get( 'accounts',                             [AccountController::class, '_viewAccountsGet'])->name('accounts');
-    Route::get( 'ajax/view/accounts',                   [AccountController::class, '_ajaxViewAccountsGet']);
-    Route::post('ajax/make/accounts',                   [AccountController::class, '_ajaxMakeAccountsPost']);
-    Route::get( 'ajax/delete/accounts',                 [AccountController::class, '_ajaxDeleteAccountsGet']);
-    Route::get( 'ajax/view/password',                   [AccountController::class, '_ajaxViewAccountsPasswordGet']);
+    Route::get( '/accounts',                            [AccountController::class, '_viewAccountsGet'])->name('accounts');
+    Route::get( '/accounts/{account}',                  [AccountController::class, '_viewAccountGet'])->name('accounts.account');
+    Route::get( '/ajax/view/accounts',                  [AccountController::class, '_ajaxViewAccountsGet'])->name('accounts.ajax');
+    Route::post('/ajax/make/accounts',                  [AccountController::class, '_ajaxMakeAccountsPost'])->name('accounts.create.ajax');
+    Route::get( '/ajax/delete/accounts',                [AccountController::class, '_ajaxDeleteAccountsGet'])->name('accounts.delete.ajax');
+    Route::get( '/ajax/view/password',                  [AccountController::class, '_ajaxViewAccountsPasswordGet'])->name('accounts.password.view.ajax');
 
     // System routes:
     Route::get('/system/changelogs',                    [SystemChangelogController::class, '_viewSystemChangelogsGet'])->name('system.changelogs');

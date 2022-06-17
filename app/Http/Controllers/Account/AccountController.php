@@ -6,22 +6,12 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Account\Account;
 use Illuminate\Http\JsonResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
-use App\Http\Controllers\Controller;
 
 class AccountController extends Controller
 {
-    /**
-    * AccountController constructor.
-    *
-    * @return void
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
     * @param Request $request
     * @return Factory|View
@@ -29,9 +19,24 @@ class AccountController extends Controller
     public function _viewAccountsGet(Request $request): Factory|View
     {
         $this->vs->set('title', '- Account Management')
-                 ->set('current_page', 'page.accounts');
+                 ->set('current_page', 'page.accounts.list');
 
         return view('account.view_accounts');
+    }
+
+    /**
+     * @param Request $request
+     * @param Account $account
+     * @return Factory|View
+     */
+    public function _viewAccountGet(Request $request, Account $account): Factory|View
+    {
+        $this->vs->set('title', '- {Account} - Account Management')
+                 ->set('current_page', 'page.accounts.list');
+
+        return view('account.view_account', compact(
+            'account'
+        ));
     }
 
     /**
@@ -40,8 +45,9 @@ class AccountController extends Controller
     */
     public function _ajaxViewAccountsGet(Request $request): Factory|View
     {
-        $accounts = Account::where('user_id', '=', $this->vs->get('user')->id)
-            ->orderBy('application', 'asc')
+        $accounts = Account::query()
+            ->where('user_id', '=', $this->vs->get('user')->id)
+            ->orderBy('application')
             ->get();
 
         return view('account.ajax_view_accounts', compact(
@@ -59,9 +65,9 @@ class AccountController extends Controller
         $account     = $request->input('account');
         $application = $request->input('application');
         $password    = $request->input('password');
-        $order       = Account::where('user_id', '=', $user_id)->count();
+        $order       = Account::query()->where('user_id', '=', $user_id)->count();
 
-        Account::create([
+        Account::query()->create([
             'user_id'     => $user_id,
             'account'     => $account,
             'application' => $application,
@@ -70,7 +76,7 @@ class AccountController extends Controller
         ]);
 
         return response()->json([
-            'success' => 'Account has been ceated'
+            'success' => 'Account has been created'
         ]);
     }
 
@@ -83,7 +89,8 @@ class AccountController extends Controller
         $account_id = $request->input('account_id');
         $show       = $request->input('show');
 
-        $account = Account::where('user_id', '=', Auth::id())
+        $account = Account::query()
+            ->where('user_id', '=', Auth::id())
             ->where('id', '=', $account_id)
             ->first();
 
@@ -101,7 +108,8 @@ class AccountController extends Controller
     */
     public function _ajaxDeleteAccountsGet(Request $request): JsonResponse
     {
-        Account::where('user_id', '=', Auth::id())
+        Account::query()
+            ->where('user_id', '=', Auth::id())
             ->where('id', '=', $request->input('account_id'))
             ->delete();
 

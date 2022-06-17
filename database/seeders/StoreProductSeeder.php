@@ -15,7 +15,7 @@ class StoreProductSeeder extends Seeder
     *
     * @return void
     */
-    public function run()
+    public function run(): void
     {
         $products = [
             $this->increment() => (object) [
@@ -31,6 +31,7 @@ class StoreProductSeeder extends Seeder
                     \App\Http\Controllers\Journal\JournalController::class,
                     \App\Http\Controllers\Journal\JournalAchievementController::class,
                     \App\Http\Controllers\Journal\JournalDreamController::class,
+                    \App\Http\Controllers\Journal\JournalFinanceController::class
                 ],
                 'price' => '19.99'
             ],

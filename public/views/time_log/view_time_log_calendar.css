@@ -1,3 +1,17 @@
+.time_log_calendar {
+    overflow-x: auto;
+}
+
+.time_log_calendar::-webkit-scrollbar {
+    background-color: transparent;
+    width: 0;
+    height: 0;
+}
+
+.time_log_calendar > div {
+    min-width: 1182px;
+}
+
 .time_log_date {
     z-index: 1;
 }
@@ -36,9 +50,10 @@
 }
 
 .time_logs .time_log_day_wrapper {
-    width: 100%;
     padding: 0 10px 10px;
     position: relative;
+    width: 14.285714285714%;
+    border-left: solid 1px rgba(0,0,0,0.2);
 }
 
 @media(min-width: 1000px) {
@@ -46,11 +61,6 @@
         overflow: auto;
         max-height: calc(100vh - 80px);
         height: calc(100vh - 80px);
-    }
-
-    .time_logs  .time_log_day_wrapper {
-        width: 14.285714285714%;
-        border-left: solid 1px rgba(0,0,0,0.2);
     }
 }
 

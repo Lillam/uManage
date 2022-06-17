@@ -2,14 +2,14 @@
 
 return [
     /*
-     |--------------------------------------------------------------------------------------------------------------------
-     | System Module Languages
-     |--------------------------------------------------------------------------------------------------------------------
-     |
-     | The following language lines are used during authentication for various messages that we need to display to the
-     | user. You are free to modify these language lines according to your application's requirements.
-     |
-     */
+    |-------------------------------------------------------------------------------------------------------------------
+    | System Module Languages
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | The following language lines are used during authentication for various messages that we need to display to the
+    | user. You are free to modify these language lines according to your application's requirements.
+    |
+    */
 
     'model' => [
         'statuses' => [
@@ -61,6 +61,16 @@ return [
         ',
         'icon' => 'fa-moon'
     ],
+    'App\Http\Controllers\Journal\JournalFinanceController'         => [
+        'name'        => 'Finance Journals',
+        'description' => '
+            Everyone spends their money in a variety of ways; Journalise and visualise the way that you are spending
+            your money. This package offers a dashboard to where your money goes, how much money goes on specific days 
+            and you can begin analysing yourself on your spending to take better control of your money, or simple better
+            see where it is going. 
+        ',
+        'icon'        => 'fa-dollar-sign'
+    ],
     'App\Http\Controllers\Project\ProjectController'                => [
         'name' => 'Projects',
         'description' => '
@@ -78,12 +88,22 @@ return [
     ],
     'App\Http\Controllers\Project\ProjectSettingController'         => [
         'name' => 'Projects Settings',
-        'description' => '',
+        'description' => '
+            Ability to edit and manipulate the visuals of projects, the name of the project, the display of the project
+            whether you desire a kanban view of your projects or table oriented view. Depending on the rest of perks 
+            that you might have applied from this module, you will be able to manipulate all regarding contributions,
+            Commenting, checklist items, checklist grouping and more. 
+        ',
         'icon' => 'fa-cog'
     ],
     'App\Http\Controllers\Project\ProjectUserContributorController' => [
         'name' => 'Project Contributors',
-        'description' => '',
+        'description' => '
+            Your projects can have a multitude of contributors. Invite and add others to your projects and get help in 
+            further developing yourself and your projects. Contributors can be applied to tasks within a project as well
+            as applied to the project itself, meaning that anyone assigned as a contributor to a project will/can be 
+            automatically assigned to every task within.
+        ',
         'icon' => 'fa-users'
     ],
     'App\Http\Controllers\Store\StoreProductController'             => [
@@ -118,56 +138,102 @@ return [
     ],
     'App\Http\Controllers\Task\TaskChecklistController'             => [
         'name' => 'Task Checklists',
-        'description' => '',
+        'description' => '
+            Feel as though Tasks just aren\'t enough to visualise everything you need to do? feel like one task 
+            encompasses more than one problem? With this package you will be able to create a checklist of todos which 
+            makes your todo list a bit more of a grouped thing; Create as many checklists for your tasks as they need 
+            to get the job done!
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskChecklistItemController'         => [
         'name' => 'Task Checklist Items',
-        'description' => '',
+        'description' => '
+            Items for the checklists that allow you to create individual subsidiary tasks on your task that better aid 
+            you in creating a more structured list of what needs to be achieved. The ability to create, update, delete
+            and even reorganise the way in which these display to the frontend, fully customisable for you to get the 
+            job done.
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskCommentController'               => [
         'name' => 'Task Comments',
-        'description' => '',
+        'description' => '
+            Collaborate on tasks with the ability to comment on tasks. You will be able to create comments, react with 
+            emojis along with the ability to have conversational threads, replies and more. These count as task logs 
+            which will work in tandem with all other task logging; which will also be visualised in the task log 
+            dashboard and timeline.
+        ',
         'icon' => 'fa-comment'
     ],
     'App\Http\Controllers\Task\TaskController'                      => [
         'name' => 'Tasks',
-        'description' => '',
+        'description' => '
+            Your projects can have the possibility of adding tasks, A To Do list so to speak. A place where you can 
+            visualise all the things that you may want to get out of a project. Depending on your further additions you 
+            would be able to apply files, issues, statuses and more in order to give yourself some structure on your 
+            goals. 
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskFileController'                  => [
         'name' => 'Task Files',
-        'description' => '',
+        'description' => '
+            When manipulating tasks you may find yourself wanting to collate ideas and add files to your tasks. Giving 
+            you the ability to upload any file you desire, with the exempt executable files you will be able to 
+            download, upload, delete and manipulate your uploads in any way you deem fit.
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskIssueTypeController'             => [
         'name' => 'Task Issue Types',
-        'description' => '',
+        'description' => '
+            When creating tasks it helps to categorise them. Be greeted with the default: [Bug, Feature, Research]
+            along with the possibility of adding even more if you find that these are not enough. 
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskLogController'                   => [
         'name' => 'Task Logging',
-        'description' => '',
+        'description' => '
+            If you ever want to visualise what it is you get up, how much you get up or even reminding yourself what it 
+            was that you got up. All amendments to your project/tasks will be logged accordingly. Logging will commence
+            upon this being purchased. This feature will also give you access to a timeline of all logs, alongside a 
+            dashboard to visualise the most recent changes.
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskPriorityController'              => [
         'name' => 'Task Priorities',
-        'description' => '',
+        'description' => '
+            You may find yourself wanting to have priorities when creating yourself tasks; by default you will have 
+            access to [Lowest, Low, Medium, High, Highest] along with the ability to create, edit and delete any 
+            priority you may desire in order for visualising your project.
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskStatusController'                => [
         'name' => 'Task Statuses',
-        'description' => '',
+        'description' => '
+            Somewhat of a standard, however you may assign statuses to tickets; if you are in a collaborative experience
+            it will help to have a visual cue letting you know the status in which a ticket is in. out of the box you 
+            will have access to: [ToDo, InProgress, Done, Archived]. And you will also be able to add more at your
+            leisure along with creating, editing, and deleting any of the existing.
+        ',
         'icon' => 'fa-tasks'
     ],
     'App\Http\Controllers\Task\TaskWatcherUserController'           => [
         'name' => 'Task Watchers',
-        'description' => '',
+        'description' => '
+            Should you find yourself in a situation you have contributors in your project; you can assign yourself as a 
+            watcher or add the said user as a watcher and whomever has been added as a watcher can be notified of the 
+            changes that have been made. Fully customisable on the parameters in which the user would be notified on 
+            changes and to what frequency.
+        ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\TimeLog\TimeLogController' => [
-        'name' => 'Timelogging',
+    'App\Http\Controllers\TimeLog\TimeLogController'                => [
+        'name' => 'Time Logging',
         'description' => '
             Are you a fan of keeping track of all the work that you do? Are you a fan of being able to see where all 
             your time has gone? you will be given a month by month report which keeps track of all the tasks and 
@@ -177,9 +243,9 @@ return [
         ',
         'icon' => 'fa-tasks',
         'images' => [
-            asset('assets/images/packages/time_log/timelog_package_image_1.png'),
-            asset('assets/images/packages/time_log/timelog_package_image_2.png'),
-            asset('assets/images/packages/time_log/timelog_package_image_3.png')
+            asset('assets/images/packages/time_log/time_log_package_image_1.png'),
+            asset('assets/images/packages/time_log/time_log_package_image_2.png'),
+            asset('assets/images/packages/time_log/time_log_package_image_3.png')
         ]
     ],
     'App\Http\Controllers\User\UserController'                      => [

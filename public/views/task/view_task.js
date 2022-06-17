@@ -1,7 +1,10 @@
 $(() => {
-    let $body = $('body');
+    let $body = $('body'),
+        $task_title = $('.task_name_title');
 
-    $body.on('keypress', '.task_name', function (event) {
+    $body.on('keydown', '.task_name', function (event) {
+        $task_title.html($(this).text().trim());
+
         if (event.key === 'Enter') {
             event.preventDefault();
             update_task('name', $(this).text().trim());

@@ -1,8 +1,8 @@
 /**
 * @type {{toolbar: *[][]}}
 * we are setting a global default for the summernote objects that we are going to be working with around the system
-* anywhere that requires a summernote will be utilising these options so we have a sense of standardisation and not
-* re-using and recreating the same set of options on every page that is requiring them.
+* anywhere that requires a summernote will be utilising these options so that we have a sense of standardisation and
+* not re-using and recreating the same set of options on every page that is requiring them.
 */
 window.summernote_options = {
     toolbar: [
@@ -35,19 +35,14 @@ window.summernote_options = {
                 return item.indexOf(keyword) == 0;
             }));
         },
-        template: function (item) {
-            var content = window.emoji_items[item];
-            return `${content} :${item}:`;
-        },
-        content: function (item) {
-            return window.emoji_items[item];
-        }
+        template: (item) => `${window.emoji_items[item]} :${item}:`,
+        content: (item) => window.emoji_items[item]
     }
 };
 
 $(() => {
     // Setting up ajax with the necessary headers so that no matter where im making the ajax call im not going to need
-    // to pass in the csrf token every time, this makes ajaxing everywhere much easier to deal with.
+    // to pass in the csrf token every time, this makes ajax-ing everywhere much easier to deal with.
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -62,7 +57,10 @@ $(() => {
     // then we are going to attempt to remove the open class, from all sidebars... so that they will be then re-hidden
     // this is a makeshift blur for the sidebar...
     $html.on('click', function (event) {
-        $('.open').removeClass('open');
+        // $('.open').removeClass('open');
+        ['open', 'accounts_sidebar_open', 'journal_sidebar_open'].forEach((itemClass) => {
+            $(`.${itemClass}`).removeClass(itemClass);
+        })
     });
 
     // when wea re dealing with ajax requests... there is going to need to be a method of which allows me to close the
@@ -200,24 +198,26 @@ $.fn.extend({
     * @returns {placeCursorAtEnd}
     */
     placeCursorAtEnd: function() {
-        // Places the cursor at the end of a contenteditable container (should also work for textarea / input)
+        // Places the cursor at the end of a content-editable container (should also work for textarea / input)
         if (this.length === 0) {
             throw new Error("Cannot manipulate an element if there is no element!");
         }
 
-        var element = this[0],
+        let element = this[0],
             range = document.createRange(),
             selection = window.getSelection(),
             childLength = element.childNodes.length;
 
         if (childLength > 0) {
-            var lastNode = element.childNodes[childLength - 1];
-            var lastNodeChildren = lastNode.childNodes.length;
+            let lastNode = element.childNodes[childLength - 1],
+                lastNodeChildren = lastNode.childNodes.length;
+
             range.setStart(lastNode, lastNodeChildren);
             range.collapse(true);
             selection.removeAllRanges();
             selection.addRange(range);
         }
+
         return this;
     }
 });
@@ -232,7 +232,7 @@ $.fn.extend({
 * @param data    | The data of which we are injecting into Object.
 */
 let ajax_message_helper = function ($object, data) {
-    var html = data.response;
+    let html = data.response;
         html += '<a class="ajax_message_helper_close"><i class="fa fa-close"></i></a>';
 
     $object.html(html);
@@ -274,10 +274,10 @@ const handle_summernote_open = function (key, value) {
 * @param update_on_save | whether we're opting to update the element when we have left the summernote leave...
 */
 const handle_summernote_leave = function ($object, handle, key, update_on_save = true) {
-    // regardless of whether or not we are saving or cancelling, we are wanting to reset the value of the object
+    // regardless of whether we are saving or cancelling, we are wanting to reset the value of the object
     // back to its original value... on the exit of the summernote, the object will be set to the previous value
     // and the cache key will be set to nothing.
-    if (update_on_save === true) {
+    if (update_on_save) {
         $object.html(window[key]);
     }
     delete window[key];
@@ -353,7 +353,7 @@ var create_project = function () {
         },
         success: function (data) {
             // if we are on a page that has the function of (view_projects) defined then we are going to want to
-            // call it so that the projects are showing the up to date version of all projects that are in the system
+            // call it so that the projects are showing the up-to-date version of all projects that are in the system
             // ready for this particular user.
             if (typeof (view_projects) !== "undefined") {
                 view_projects();
@@ -405,9 +405,9 @@ var create_task = function () {
 };
 
 /**
-* This method is dedicated for setting up charts on a more dynamic way, without having to continously setting up a
-* statement of newchart here and there when we can just simply pass in the element targeter, this is going to replace
-* and reduce the amoount of code around the system (the need for duplicated setup methods of the charts)
+* This method is dedicated for setting up charts on a more dynamic way, without having to continuously setting up a
+* statement of new chart here and there when we can just simply pass in the element target, this is going to replace
+* and reduce the amount of code around the system (the need for duplicated setup methods of the charts)
 *
 * This construct of code is in need of chart.js which can be found at: https://www.chartjs.org/docs
 *
@@ -443,7 +443,7 @@ const setup_chart = function (chart_element, chart_type, chart_data) {
 };
 
 /**
-* A method that is going to be running off to acqurie all the emojis for the web page... and if we already have them
+* A method that is going to be running off to acquire all the emojis for the web page... and if we already have them
 * loaded, then we aren't going to bother trying to acquire them again; only load them when we are going to be utilising
 * them... otherwise, this is going to be a constant and continuously requested piece of code when it isn't really needed
 * all the time.

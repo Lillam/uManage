@@ -36,9 +36,9 @@
         <h2 class="section_title">Last 5 Days Journals</h2>
         <div class="uk-grid uk-grid-small" uk-grid>
             @foreach ($last_5_days as $journal)
-                <div class="uk-width-1-5@xl uk-width-1-4@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
+                <div class="uk-width-1-5@l uk-width-1-4@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
                     <a href="{{ route('journals.journal', $journal->when->format('Y-m-d')) }}">
-                        <div class="box_wrapper no-border ">
+                        <div class="box_wrapper no-border">
                             <h2>{!! $journal->when->format('l dS Y') !!}</h2>
                             <div class="journal_overall_content">
                                 <p> {{ $journal->getShortOverall(70) }}</p>

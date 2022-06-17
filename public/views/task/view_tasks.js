@@ -8,7 +8,7 @@ $(() => {
     });
 
     // when the page loads and there is a $('.tasks') object present in the dom... then we are going to be making a
-    // a query to the database which will look for all tasks against the parameters that are set initially.
+    // query to the database which will look for all tasks against the parameters that are set initially.
     view_tasks();
 });
 
@@ -18,10 +18,8 @@ $(() => {
 *
 * Assuming these variables are present the system will utilise them otherwise they will be inserted as null and blank
 * values and in essence, be ignored.
-*
-* @param direction
 */
-var view_tasks = function () {
+const view_tasks = function () {
     let $tasks = $('.tasks'),
         url = $tasks.attr('data-get_tasks_url'),
         tasks_per_page = $tasks.data('items_per_page');
@@ -41,7 +39,7 @@ var view_tasks = function () {
                 tasks_per_page: parseInt(tasks_per_page),
             },
             success: function (data) {
-                var $task_navigation = $tasks.parent().find('.task_navigation'),
+                let $task_navigation = $('.task_navigation'),
                     $task_left_navigation = $task_navigation.find('.tasks_navigation_left'),
                     $task_right_navigation = $task_navigation.find('.tasks_navigation_right'),
                     $tasks_count = $task_navigation.find('.count'),
@@ -80,6 +78,6 @@ var view_tasks = function () {
     console.log('The url was not found, check to see if there is $(.tasks) html dom element');
 };
 
-var initialise_board = function () {
+const initialise_board = function () {
 
 };

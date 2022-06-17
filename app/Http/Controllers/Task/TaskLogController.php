@@ -77,7 +77,7 @@ class TaskLogController extends Controller
             ->orderBy('when', 'desc')
             ->simplePaginate(25);
 
-        $this->vs->set('current_page', 'page.tasks.activity')
+        $this->vs->set('current_page', 'page.projects.tasks.activity')
                  ->set('title',        '- Task Activity');
 
         return view('task.task_log_activity.view_task_log_activity', compact(
@@ -87,9 +87,9 @@ class TaskLogController extends Controller
 
     /**
     * This method will simply be returning html that the ajax will be dumping into the page and re-adjusting the
-    * content that is already on page, this will just grab the next set of 15 in the task... and if there are any
-    * more in the database, then we are going to return a load more button with the next url as well, and if the
-    * mext url is null, then we are going to return nothing.
+    * content that is already on page, this will just grab the next set of 15 in the task... and if there are any others
+    * in the database, then we are going to return a load more button with the next url as well, and if the
+    * next url is null, then we are going to return nothing.
     *
     * @param Request $request
     * @return Application|Factory|View

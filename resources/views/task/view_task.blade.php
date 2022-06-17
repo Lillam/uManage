@@ -65,22 +65,19 @@
                 </div>
             </div>
             {{--Task Checklists--}}
-            <div class="section">
-                <h2 class="section_title">Sub Tasks</h2>
-                <div class="task_checklists_wrapper"
-                     data-make_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxMakeTaskChecklistPost') }}"
-                     data-view_task_checklists_url="{{ action('Task\TaskChecklistController@_ajaxViewTaskChecklistsGet') }}"
-                     data-edit_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistPost') }}"
-                     data-delete_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxDeleteTaskChecklistPost') }}"
-                     data-edit_task_checklist_order_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistOrderPost') }}"
-                     data-edit_task_checklist_zipped_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistEditZipStatus') }}"
-                     data-make_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxMakeTaskChecklistItemPost') }}"
-                     data-view_task_checklist_items_url="{{ action('Task\TaskChecklistItemController@_ajaxViewTaskChecklistItemsGet') }}"
-                     data-edit_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemPost') }}"
-                     data-edit_task_checklist_item_order_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemOrderPost') }}"
-                     data-delete_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
-                ></div>
-            </div>
+            <div class="task_checklists_wrapper"
+                 data-make_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxMakeTaskChecklistPost') }}"
+                 data-view_task_checklists_url="{{ action('Task\TaskChecklistController@_ajaxViewTaskChecklistsGet') }}"
+                 data-edit_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistPost') }}"
+                 data-delete_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxDeleteTaskChecklistPost') }}"
+                 data-edit_task_checklist_order_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistOrderPost') }}"
+                 data-edit_task_checklist_zipped_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistEditZipStatus') }}"
+                 data-make_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxMakeTaskChecklistItemPost') }}"
+                 data-view_task_checklist_items_url="{{ action('Task\TaskChecklistItemController@_ajaxViewTaskChecklistItemsGet') }}"
+                 data-edit_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemPost') }}"
+                 data-edit_task_checklist_item_order_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemOrderPost') }}"
+                 data-delete_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
+            ></div>
             {{-- Task Comments --}}
             <div class="section">
                 <div class="task_comments"

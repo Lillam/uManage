@@ -2,8 +2,8 @@ $(() => {
     let $body = $('body');
 
     // when the user is either clicking on any of the editing areas, we are going to be turning the element into a
-    // summernote object so that the user has free reign over editing the content of which sits inside the elements:
-    // overall, highest point and lowest point... (Summernote Preparation).
+    // summernote object so that the user has free rein over editing the content of which sits inside the elements:
+    // overall, highest and lowest point... (Summernote Preparation).
     $body.on('click', '.overall, .highest_point, .lowest_point', function (event) {
         let $this = $(this),
             original_class = $this[0].classList[0],
@@ -42,22 +42,22 @@ $(() => {
         $this.parent().addClass('uk-hidden');
 
         // we have to define this after we have finished editing, so that we can grab exactly what is currently
-        // sitting iwthin this containing element.
+        // sitting within this containing element.
         let content = $this.parent().parent().find(`.${target_class}`).html();
 
         // edit the journal, with the target class and the content of which we have decided to edit. with the content
         // needed. (this method will be making an ajax call).
         edit_journal(target_class, content);
 
-        // when the user has opted to save, whether or not they have done anything specific, the value inside the cache,
+        // when the user has opted to save, whether they have done anything specific or not, the value inside the cache,
         // is going to want to be deleted. we no longer need to reference what it might have been and can continue
         // as normal.
         cache_delete(target_class);
     });
 
-    // when the user clicks on cancel of the above elements, overall, highest point, lowest point then we should assume
+    // when the user clicks on cancel of the above elements, overall, highest, or lowest point then we should assume
     // that the user is no longer wishing to make any amends, in which, we are going to destroy the summernote object
-    // returning the element back to it's divider self, and remove any new content that would have been added to it.
+    // returning the element back to its divider self, and remove any new content that would have been added to it.
     $body.on('click', '.cancel_overall, .cancel_highest_point, .cancel_lowest_point', function (event) {
         let $this = $(this),
             class_list = $this[0].classList,
@@ -71,7 +71,7 @@ $(() => {
         cache_delete(target_class);
     });
 
-    // this functionality is specifically for deleting an journal entry when on the page, pressing this will kick the
+    // this functionality is specifically for deleting a journal entry when on the page, pressing this will kick the
     // user back to the list page... whilst deleting the current day's entry. this functionality is built for those that
     // click on a day that they can't really enter on, and decide to leave it there, rather than a blank entry sit in
     // the database, they can opt to remove it from their list for a cleaner view.
@@ -115,17 +115,17 @@ $(() => {
     });
 
     // when the user has focused on the new journal achievement input, the button for saving will become visible; rather
-    // than displaying it and wasting space for readability, when the user has focused then we give the option to
-    // save the new journal achievement entry.
+    // than displaying it and wasting space for readability, when the user has focused then we give the option to save
+    // the new journal achievement entry.
     $body.on('focus', '.new_journal_achievement', function (event) {
         let $this = $(this);
         $this.parent().next().removeClass('uk-hidden');
     });
 
-    // on the keyup of the new journal achievement element, we are going to be wanting to decide whether or not the
-    // save button should have the class of disabled or not, if the input is not empty, then the saving button becomes
-    // enabled, otherwise there's no point allowing the user to click on a button when no value is currently present
-    // saving the server an unnecessary request.
+    // on the keyup of the new journal achievement element, we are going to be wanting to decide whether the save button
+    // should have the class of disabled or not, if the input is not empty, then the saving button becomes enabled,
+    // otherwise there's no point allowing the user to click on a button when no value is currently present saving the
+    // server an unnecessary request.
     $body.on('keyup', '.new_journal_achievement', function (event) {
         let $this = $(this);
 
@@ -141,10 +141,10 @@ $(() => {
         }
     });
 
-    // when the user walks away from the input, the system is going to need to know whether or not there is a value in
-    // the input, for a reason of re-hiding the button that allows the user to save, however the system will only hide
-    // the button. if the input has no value, otherwise, if the input does have a value the button for saving will
-    // remain until the user decides to take further action.
+    // when the user walks away from the input, the system is going to need to know whether there is a value in
+    // the input or not, for a reason of re-hiding the button that allows the user to save, however the system will
+    // only hide the button. if the input has no value, otherwise, if the input does have a value the button for saving
+    // will remain until the user decides to take further action.
     $body.on('blur', '.new_journal_achievement', function (event) {
         let $this = $(this);
         if ($this.val() !== '') {
@@ -160,7 +160,7 @@ $(() => {
     // and not even bother making an ajax request. Otherwise, if the value is not present; then the system will go ahead
     // make the request, reload the journal achievements on the page to make sure that the visualised changes have been
     // rendered to the user; once this has happened the button will be re-assigned the value of disabled whilst the
-    // input has it's value removed.
+    // input has its value removed.
     $body.on('click', '.save_new_journal_achievement', function (event) {
         let $this = $(this),
             journal_id = $('#journal').data('journal_id'),
@@ -194,10 +194,10 @@ $(() => {
 
     // the user might want to delete an achievement for a variety of reasons, whatever the reason is unnecessary but the
     // means to be able to delete one is there, when the user clicks delete achievement button an ajax request will be
-    // fired with the journal_id as well as the journal_achievement id to ensure that we are in fact going to be deleting
-    // the correct journal entry at all times. then when the journal has been successfully deleted, the system will
-    // spit back an ajax response that appears on screen to the user.. letting them know something has happened as well
-    // as reloading the journal achievements to reflect the change that has just been made.
+    // fired with the journal_id as well as the journal_achievement id to ensure that we are in fact going to be
+    // deleting the correct journal entry at all times. then when the journal has been successfully deleted, the system
+    // will spit back an ajax response that appears on screen to the user... letting them know something has happened
+    // as well as reloading the journal achievements to reflect the change that has just been made.
     $body.on('click', '.delete_journal_achievement', function (event) {
         let $this = $(this),
             delete_journal_achievement_url = $('#journal_achievements').data('drop_journal_achievements_url'),
@@ -219,9 +219,9 @@ $(() => {
     });
 
     // when the user is key pressing on the journal_achievement_content AKA journal_achievement.name, then we are going
-    // to want to check whether or not enter has been pressed, and if the enter button gets pressed then we should
-    // assume that the user has finished with editing the particular entry and then we are going to fire the change
-    // through the edit_journal_achievement method so it can build the request for updating.
+    // to want to check whether enter has been pressed or not, and if the enter button gets pressed then we should
+    // assume that the user has finished with editing the particular entry; then we are going to fire the change
+    // through the edit_journal_achievement method, so it can build the request for updating.
     $body.on('keypress', '.journal_achievement_content', function (event) {
         let $this = $(this),
             journal_achievement_id = $this.closest('.journal_achievement').data('journal_achievement_id'),
@@ -238,19 +238,16 @@ $(() => {
     });
 
     $body.on('click', '.journal_information', function (event) {
-        let $this = $(this),
-            $journal = $('#journal');
-
         event.stopPropagation();
 
         if (window.innerWidth <= 991) {
-            $journal.removeClass('journal_sidebar_closed');
-            $journal.toggleClass('journal_sidebar_open');
+            $body.removeClass('journal_sidebar_closed');
+            $body.toggleClass('journal_sidebar_open');
         }
 
         if (window.innerWidth > 991) {
-            $journal.toggleClass('journal_sidebar_closed');
-            $journal.removeClass('journal_sidebar_open');
+            $body.toggleClass('journal_sidebar_closed');
+            $body.removeClass('journal_sidebar_open');
         }
     });
 
@@ -258,22 +255,18 @@ $(() => {
         event.stopPropagation();
     });
 
-    $body.on('click', function (event) {
-       $('.journal_sidebar_open').removeClass('journal_sidebar_open');
-    });
-
     // instantiate the journal achievements against this journal entry.
     view_journal_achievements();
 });
 
 /**
-* This method is built for grabbing all of the journal achievements that happen to be on the journal entry that we are
+* This method is built for grabbing all the journal achievements that happen to be on the journal entry that we are
 * looking at. This will be called on load so that the journal achievements are automatically there when the page
 * has loaded.
 *
 * @param callback (null|function)
 */
-var view_journal_achievements = function (callback = null) {
+const view_journal_achievements = function (callback = null) {
     let $journal_achievements = $('#journal_achievements'),
         get_journal_achievements_url = $journal_achievements.data('get_journal_achievements_url'),
         journal_id = $('#journal').data('journal_id');
@@ -295,7 +288,7 @@ var view_journal_achievements = function (callback = null) {
 };
 
 /**
-* This method is specifically for crafting the request and response to and from the server in regards to editing
+* This method is specifically for crafting the request and response to and from the server in regard to editing
 * journals. the field and value are completely variable that we are able to pass through in the code in order to
 * manipulate the journal
 *
@@ -303,7 +296,7 @@ var view_journal_achievements = function (callback = null) {
 * @param value    (wildcard|variable)
 * @param callback (null|function)
 */
-var edit_journal = function (field, value, callback = null) {
+const edit_journal = function (field, value, callback = null) {
     let $journal = $('#journal'),
         journal_id = $journal.data('journal_id'),
         edit_journal_url = $journal.data('edit_journal_url');
@@ -327,7 +320,7 @@ var edit_journal = function (field, value, callback = null) {
 };
 
 /**
-* This method is specifically for crafting the request and response to and from the server in regards to editing
+* This method is specifically for crafting the request and response to and from the server in regard to editing
 * journal achievements. The field and value are completely variable, that we are able to pass through in the code in
 * order to manipulate the journal achievement
 *
@@ -336,7 +329,7 @@ var edit_journal = function (field, value, callback = null) {
 * @param journal_achievement_id (integer)
 * @param callback               (null|function)
 */
-var edit_journal_achievement = function (field, value, journal_achievement_id, callback = null) {
+const edit_journal_achievement = function (field, value, journal_achievement_id, callback = null) {
     let $journal_achievements = $('#journal_achievements'),
         edit_journal_achievement_url = $journal_achievements.data('edit_journal_achievements_url');
 

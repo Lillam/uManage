@@ -22,7 +22,10 @@ class TaskPrinter
             $html .= "<span class='task_project_code'>{$task->project->code}-</span>";
             $html .= "$task->id";
         $html .= '</span> ';
-        $html .= $extra;
+
+        if ($extra) {
+            $html .= "<span class='task_name_title'>$extra</span>";
+        }
 
         return $html;
     }

@@ -15,23 +15,21 @@ $(() => {
         event.stopPropagation();
     });
 
-    // when the user clicks on the accounts info button. depending on the screensize, we are either going to hide, or
-    // open the sidebar, this will happen on both screensizes, however there are some styles in place, which will
-    // either say whether or not the position is fixed over, or pushing the content to the side... only if the
+    // when the user clicks on the account's info button. depending on the screen size, we are either going to hide, or
+    // open the sidebar, this will happen on both screen sizes, however there are some styles in place, which will
+    // either say whether the position is fixed over, or pushing the content to the side... only if the
     // screen size is above 991... then we are going to push it in, otherwise we are going to overlay.
     $body.on('click', '.accounts_info', function (event) {
         event.stopPropagation();
 
-        let $accounts_wrapper = $('.accounts_wrapper');
-
         if (window.innerWidth <= 991) {
-            $accounts_wrapper.removeClass('accounts_sidebar_closed');
-            $accounts_wrapper.toggleClass('accounts_sidebar_open');
+            $body.removeClass('accounts_sidebar_closed');
+            $body.toggleClass('accounts_sidebar_open');
         }
 
         if (window.innerWidth > 991) {
-            $accounts_wrapper.toggleClass('accounts_sidebar_closed');
-            $accounts_wrapper.removeClass('accounts_sidebar_open');
+            $body.toggleClass('accounts_sidebar_closed');
+            $body.removeClass('accounts_sidebar_open');
         }
     });
 
@@ -56,7 +54,7 @@ $(() => {
         $this.toggleClass('active');
     });
 
-    // when the user clicks on a delete account password button, then this is going to find the account row for this
+    // when the user clicks on the delete account password button, then this is going to find the account row for this
     // entry, pass in the id to delete account method, which will fire off to the server, in order to delete this
     // particular row, as the user is opting to get rid of it.
     $body.on('click', '.delete_account_password', function (event) {
@@ -114,7 +112,7 @@ var make_account = function () {
             application: $accounts_sidebar.find('.account_application').val(),
             password: $accounts_sidebar.find('.account_password').val()
         },
-        success: function (data) {
+        success: function () {
             view_accounts();
             $accounts_sidebar.find('input').val('');
         }
