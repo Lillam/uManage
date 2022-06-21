@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use SplFileInfo;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-use RecursiveCallbackFilterIterator;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
@@ -44,13 +40,16 @@ class RouteServiceProvider extends ServiceProvider
     */
     public function map(): void
     {
-        $this->mapModuleRoutes();
+        $this->mapModuleWebRoutes();
+        $this->mapModuleApiRoutes();
         $this->mapApiRoutes();
         $this->mapWebRoutes();
     }
 
     /**
     * Define the core "web" routes for the application. These routes all receive session state, CSRF protection, etc.
+    * these routes would be considered public facing routes, routes that don't need the user to be authenticated and
+    * can be accessed without being signed in.
     *
     * @return void
     */
@@ -61,37 +60,37 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Recursively find all the files within routes/modules and begin mapping them into their necessary routes;
-     * accordingly with their corresponding type.
-     *
-     * todo This needs modifying; I'm not 100% sold on the way that the whole recursively grabbing files works whilst it
-     *      is nice to have the dynamic nature to it, I just don't envy the way that this is written. Probably consider
-     *      something more manual for the time being. (appending module route files into the modules.php).
-     *
-     * *.web.php will be mapped as web routes
-     * *.api.php will be mapped as api routes
-     * *.console.php will be mapped as console routes
-     * *.channels.php will be mapped as channel routes.
-     *
-     * @return void
-     */
-    protected function mapModuleRoutes(): void
+    * Acquire all the module web routes from the modules directory of /routes. Iterate over them and apply the web
+    * routes into the routing making it easier for the developer to segment routing.
+    *
+    * @return void
+    */
+    protected function mapModuleWebRoutes(): void
     {
-        foreach (new RecursiveIteratorIterator(
-            new RecursiveCallbackFilterIterator(
-                new RecursiveDirectoryIterator(base_path('routes/modules')),
-                function (SplFileInfo $current): bool {
-                    return $current->getFilename()[0] !== '.';
-                }
-            )
-        ) as $file) {
+        foreach (config('module_routing.web') as $web_route_file) {
             Route::middleware(['web', 'auth', 'auth_user', 'module_check'])->namespace($this->namespace)
-                                                                           ->group($file->getRealPath());
+                                                                           ->group(base_path($web_route_file));
         }
     }
 
     /**
-    * Define the "api" routes for the application. These routes are typically stateless.
+    * Acquire all the module api routes from the modules directory of /routes. Iterate over them and apply the api
+    *routes into the routing, making it easier for the developer to segment routing.
+    *
+    * @return void
+    */
+    protected function mapModuleApiRoutes(): void
+    {
+        foreach (config('module_routing.api') as $api_route_file) {
+            Route::prefix('api')->middleware('api')
+                                      ->namespace($this->namespace)
+                                      ->group(base_path($api_route_file));
+        }
+    }
+
+    /**
+    * Define the "api" routes for the application. These routes are typically stateless. all these routes would be
+    * considered public facing api routes that don't need any form of authentication.
     *
     * @return void
     */

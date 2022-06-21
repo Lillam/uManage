@@ -25,7 +25,7 @@ return [
         'name' => 'Account Management',
         'controllers' => [
             \App\Http\Controllers\Account\AccountController::class
-        ]
+        ],
     ],
 
     /**
