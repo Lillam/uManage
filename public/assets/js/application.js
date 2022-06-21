@@ -185,6 +185,13 @@ $(() => {
 
         $body.toggleClass('sidebar-open');
     });
+
+    $body.on('click', '[data-confirm]', function (event) {
+        event.stopImmediatePropagation();
+        event.stopPropagation();
+        event.preventDefault();
+        confirm('are you sure you want to do this?');
+    });
 });
 
 // methods for extending query... anything that extends jquery in any specific way will be implemented right here in this
@@ -199,7 +206,7 @@ $.fn.extend({
     */
     placeCursorAtEnd: function() {
         // Places the cursor at the end of a content-editable container (should also work for textarea / input)
-        if (this.length === 0) {
+        if (!! this.length) {
             throw new Error("Cannot manipulate an element if there is no element!");
         }
 

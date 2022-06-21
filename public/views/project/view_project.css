@@ -1,3 +1,7 @@
+.sidebar_open .title-block {
+    padding-right: 380px !important;
+}
+
 .project_banner {
     padding: 20px;
     min-height: 150px;
@@ -33,10 +37,10 @@
     height: 100vh;
     background-color: #f1f1f1;
     border-left: solid 2px rgba(0,0,0,0.1);
-    padding: 81px 20px 20px 20px;
+    padding: 30px;
 }
 
-#project.sidebar_open {
+.sidebar_open #project {
     padding-right: 350px;
 }
 
@@ -50,7 +54,7 @@
     border: solid 1px rgba(0,0,0,0.2);
 }
 
-#project.sidebar_open .project_sidebar {
+.sidebar_open #project .project_sidebar {
     right: 0;
 }
 

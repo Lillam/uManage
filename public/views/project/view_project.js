@@ -10,14 +10,13 @@ $(() => {
         event.preventDefault();
         event.stopPropagation();
 
-        let $project = $('#project');
-        $project.toggleClass('sidebar_open');
+        $body.toggleClass('sidebar_open');
     });
 
     // we need the ability to be able to close the project sidebar (filtering) so that the user will be able to return
     // to viewing the tasks inside the project.
     $body.on('click', '.close_project_sidebar', function (event) {
-        $('#project').removeClass('sidebar_open');
+        $body.removeClass('sidebar_open');
     });
 
     // when clicking on the project sidebar, we are going to be wanting to stop the propagation of bubbling up to take

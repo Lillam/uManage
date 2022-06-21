@@ -13,7 +13,7 @@ class TaskRepository
     /**
     * This method is entirely for bringing back the search and will be returning the html for the search data of tasks
     * the user will be searching for a task whether that's by a numerical value, or whether that's in the name of the
-    * task... the data will be iterated over and be placed into a dropddown so that javascript can take this html and
+    * task... the data will be iterated over and be placed into a dropdown so that javascript can take this html and
     * dump it to the frontend.
     *
     * @param $tasks
@@ -42,19 +42,19 @@ class TaskRepository
     * the following variables that will be required in this are:
     *
     * @param array|object $filters
-    * @return object
+    * @return Collection|LengthAwarePaginator
     */
-    public static function getTasks(array|object $filters = []): object
+    public static function getTasks(array|object $filters = []): Collection|LengthAwarePaginator
     {
-        $tasks = Task::select('*');
-
-        $tasks = $tasks->with([
-            'project',
-            'task_issue_type',
-            'task_status',
-            'task_priority',
-            'task_assigned_user'
-        ]);
+        $tasks = Task::query()
+            ->select('*')
+            ->with([
+                'project',
+                'task_issue_type',
+                'task_status',
+                'task_priority',
+                'task_assigned_user'
+            ]);
 
         // if the project id has been specified, then we are only going to be wanting to get the tasks that are currently
         // sitting within this particular passed project id, otherwise, if we have not set project, then we are looking
@@ -75,7 +75,7 @@ class TaskRepository
             $tasks = $tasks->whereIn('task.task_issue_type_id', explode(',', $filters->task_issue_types));
 
         // if the task priorities has been specified then we are only looking for tasks that are against the specific
-        // task priority ids that we are passing through to this filter... the task pririty ids are going to be pushed
+        // task priority ids that we are passing through to this filter... the task priority ids are going to be pushed
         // up in a comma separated value... which we will implode in a ',' and then look for tasks with those passed ids
         if (! empty($filters->task_priorities))
             $tasks = $tasks->whereIn('task.task_priority_id', explode(',', $filters->task_priorities));
@@ -86,9 +86,9 @@ class TaskRepository
         if (! empty($filters->search))
             $tasks = $tasks->whereRaw("task.name LIKE '%{$filters->search}%'");
 
-        // return the collection, however, before we are doing this, we are going to check whether or not the pagination
-        // filter has been passed, and if it has; then we are going to return a subset amount of tasks, and this will
-        // be determined where ever the implementation is being included.
+        // return the collection, however, before we are doing this, we are going to check whether the pagination filter
+        // has been passed or not, and if it has; then we are going to return a subset amount of tasks, and this will be
+        // determined where ever the implementation is being included.
         return (bool) $filters->pagination === true
             ? $tasks->paginate($filters->tasks_per_page)
             : $tasks->get();
@@ -122,7 +122,9 @@ class TaskRepository
         $task_statuses = self::sortTasksIntoTypes($tasks);
 
         return response()->json([
-            'html' => view('library.task.task.ajax_view_tasks_board', compact('task_statuses'))->render()
+            'html' => view('library.task.task.ajax_view_tasks_board', compact(
+                'task_statuses')
+            )->render()
         ]);
     }
 
@@ -132,10 +134,12 @@ class TaskRepository
     */
     public static function sortTasksIntoTypes(Collection|LengthAwarePaginator $tasks): Collection|LengthAwarePaginator
     {
-        $task_statuses = TaskStatus::select('*')
-            ->where('id', '!=', 4)
+        $task_statuses = TaskStatus::query()
+            ->select('*')
+            ->where('id', '!=', TaskStatus::$TYPE_ARCHIVED)
             ->get()
             ->keyBy('id');
+
         foreach ($task_statuses as $task_status) {
             $task_status->status_tasks = collect();
         }

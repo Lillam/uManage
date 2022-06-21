@@ -19,7 +19,8 @@ class ProjectSettingController extends Controller
      */
     public function _viewProjectsSettingsGet(): Factory|View
     {
-        $this->vs->set('current_page', 'page.projects.settings');
+        $this->vs->set('current_page', 'page.projects.settings')
+                 ->set('title', '- Projects - Settings');
 
         return view('project.project_setting.view_projects_settings');
     }

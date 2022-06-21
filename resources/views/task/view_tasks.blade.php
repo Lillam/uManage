@@ -31,7 +31,7 @@
     <div class="tasks"
          data-page="1"
          data-pagination="true"
-         data-get_tasks_url="{{ action('Task\TaskController@_ajaxViewTasksGet') }}"
+         data-get_tasks_url="{{ route('projects.tasks.ajax') }}"
          data-items_per_page="25">
     </div>
 @endsection

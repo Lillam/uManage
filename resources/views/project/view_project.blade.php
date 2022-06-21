@@ -75,7 +75,7 @@
              data-page="1"
              data-pagination="true"
              data-items_per_page="17"
-             data-get_tasks_url="{{ action('Task\TaskController@_ajaxViewTasksGet') }}"
+             data-get_tasks_url="{{ route('projects.tasks.ajax') }}"
              data-project_id="{{ $project->id }}">
         </div>
 
@@ -84,6 +84,7 @@
         <div class="project_sidebar">
             {{-- Statuses --}}
             <h2>Filters <a class="close_project_sidebar"><i class="fa fa-close"></i></a></h2>
+            <label for="task_search" class="uk-hidden">Search for tasks</label>
             <input type="text" id="task_search" placeholder="Search...">
             <div class="uk-grid uk-grid-small">
                 <div class="uk-width-1-1">

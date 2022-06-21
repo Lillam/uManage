@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\Store;
 
-use App\Models\Store\StoreProduct;
+use Exception;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Store\StoreBasket;
+use App\Models\Store\StoreProduct;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class StoreBasketController extends Controller
@@ -48,7 +49,7 @@ class StoreBasketController extends Controller
                     'user_id'          => Auth::id(),
                     'store_product_id' => $product->id
                 ]);
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             dd($exception);
         } return back();
     }
@@ -65,8 +66,8 @@ class StoreBasketController extends Controller
                     'user_id'          => Auth::id(),
                     'store_product_id' => $product->id
                 ])->delete();
-        } catch (\Exception $exception) {
-
+        } catch (Exception $exception) {
+            dd($exception);
         } return back();
     }
 }

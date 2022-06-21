@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;

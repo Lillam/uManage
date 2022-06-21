@@ -1,12 +1,11 @@
 $(() => {
-    let $body = $('body');
-
     view_task_report();
 });
 
-var view_task_report = function () {
+const view_task_report = function () {
     let $task_report = $('.task_report'),
         view_task_report_url = $task_report.data('get_task_report_url');
+
     $.ajax({
         method: 'get',
         url: view_task_report_url,

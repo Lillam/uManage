@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
-use Illuminate\View\View;
+use Throwable;
 use App\Models\Task\Task;
+use Illuminate\View\View;
 use App\Models\Task\TaskLog;
 use Illuminate\Http\Request;
 use App\Models\Project\Project;
@@ -15,8 +16,8 @@ use App\Models\Task\TaskIssueType;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\View\Factory;
 use App\Models\Project\ProjectSetting;
+use Illuminate\Contracts\View\Factory;
 use App\Repositories\Task\TaskRepository;
 use App\Repositories\TimeLog\TimeLogRepository;
 use App\Http\Controllers\Project\ProjectController;
@@ -24,14 +25,6 @@ use App\Repositories\Project\ProjectSettingRepository;
 
 class TaskController extends Controller
 {
-    /**
-    * TaskController constructor.
-    */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
     * This method is strictly for showing the tasks page, this will give the user all the tasks that the user has
     * against their name and list them all. this method will be taking request parameters which will allow the user
@@ -63,7 +56,8 @@ class TaskController extends Controller
     */
     public function _viewTaskGet(Request $request, $project_code, $task_id): Factory|RedirectResponse|View
     {
-        $project = Project::where('code', '=', $project_code)
+        $project = Project::query()
+            ->where('code', '=', $project_code)
             ->with([
                 'user_contributors',
                 'tasks' => function ($query) use ($task_id) {
@@ -100,7 +94,7 @@ class TaskController extends Controller
         // it attached onto (task).
         unset($project);
 
-        // acquire all of the users for this project, so we are able to add this to the watchers, and the assignee
+        // acquire all the users for this project, so we are able to add this to the watchers, and the assignee
         // of the project, we are only going to want to reference users that are within this project spec, and only
         // those that have been granted permission to view will be showing up within the task additions.
         $task->project_users = $task->project->user_contributors->map(function ($project_user) {
@@ -141,7 +135,9 @@ class TaskController extends Controller
     public function _ajaxSearchTasksGet(Request $request): string
     {
         $name = $request->input('name');
-        $tasks = Task::with('project')
+
+        $tasks = Task::query()
+            ->with('project')
             ->whereRaw("name like '%$name%'")
             ->orWhere('id', '=', $name)
             ->get();
@@ -170,11 +166,14 @@ class TaskController extends Controller
             'tasks_per_page'   => (integer) $request->input('tasks_per_page')
         ];
 
-        $project_setting = ProjectSetting::where('project_id', '=', $filters->project_id)->first();
+        $project_setting = ProjectSetting::query()
+            ->where('project_id', '=', $filters->project_id)
+            ->first();
+
         if ($project_setting instanceof ProjectSetting && $project_setting->view_id === 2)
             $filters->pagination = false;
 
-        // we are just going to be gathering all of the filters, and shoving them off to the task repository get tasks
+        // we are just going to be gathering all the filters, and shoving them off to the task repository get tasks
         // method so that we can simply return a collection of tasks...
         $tasks = TaskRepository::getTasks($filters);
 
@@ -211,18 +210,19 @@ class TaskController extends Controller
     */
     public function _ajaxCreateTaskPost(Request $request): JsonResponse
     {
-        $task = Task::create([
+        $task = Task::query()->create([
             'project_id'       => (int) $request->input('project_id'),
             'user_id'          => Auth::id(),
-            'name'             => (string) $request->input('name'),
-            'description'      => (string) $request->input('description'),
+            'name'             => $request->input('name'),
+            'description'      => $request->input('description'),
             'assigned_user_id' => null,
-            'task_status_id'   => 1,
+            'task_status_id'   => TaskStatus::$TYPE_TODO,
             'task_priority_id' => 1 ,
             'due_date'         => null
         ]);
 
         $task->log(TaskLog::TASK_MAKE, $task->name);
+
         $task->project->project_setting->increment('tasks_total');
         $task->project->project_setting->increment('tasks_in_todo');
 
@@ -242,11 +242,15 @@ class TaskController extends Controller
     */
     public function _ajaxEditTaskPost(Request $request): JsonResponse
     {
+        // todo update this into the method parameter, allowing for model route binding; alleviating the need for a
+        //      custom query to the database.
         $task_id    = (int) $request->input('task_id');
-        $field      = (string) $request->input('field');
+        $field      = $request->input('field');
         $value      = $request->input('value');
 
-        $task = Task::select('*')
+        /** @var Task $task */
+        $task = Task::query()
+            ->select('*')
             ->with([
                 'project',
                 'project.project_setting',
@@ -295,7 +299,7 @@ class TaskController extends Controller
     /**
     * This method is for deleting tasks itself; once we have no use for a task in the system, whether that's because of
     * duplication, or mistake in the creation process and or it's no longer desired to be there, then we might as well
-    * just remove the task altogether from the system (which will allow for space saving)
+    * just remove the task altogether from the system (which will allow for saving space)
     *
     * @param Request $request
     * @param $project_code
@@ -304,7 +308,8 @@ class TaskController extends Controller
     */
     public function _deleteTaskGet(Request $request, $project_code, $task_id): RedirectResponse
     {
-        $project = Project::select('*')
+        $project = Project::query()
+            ->select('*')
             ->where('code', '=', $project_code)
             ->where('user_id', '=', $this->vs->get('user')->id)
             ->with([
@@ -318,8 +323,8 @@ class TaskController extends Controller
             ])->first();
 
         // if we don't have access to the project in question, aka, if this project exists, or the user doesn't have
-        // permission to view, like wise, if the task they're looking at doesn't  exists, or has no permission, then
-        // we're going to return back, for now.
+        // permission to view, like wise, if the task they're looking at doesn't exist, or has no permission, then
+        // we're going to return, for now.
         if (! $project instanceof Project || ! ($task = $project->tasks->first()) instanceof Task)
             return back();
 
@@ -331,8 +336,8 @@ class TaskController extends Controller
         // delete this particular task...
         $project->tasks->first()->delete();
 
-        // decrement the total number of tasks when the task has been deleted, as we now have one task less to deal with
-        // and we're now in a (x) number of tasks after it has been deleted.
+        // decrement the total number of tasks when the task has been deleted, as we now have one task less to deal
+        // with, and then we're now in a (x) number of tasks after it has been deleted.
         $project->project_setting->decrement('tasks_total');
 
         return redirect()->action($project->getUrl());

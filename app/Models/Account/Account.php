@@ -76,13 +76,13 @@ class Account extends Model
     * The application name has potentially to be a rather lengthy name, however; not enough space on the frontend so
     * this is a method that will allow the user to get the application name in a shortened down condensed version.
     *
+    * @param int $limit
     * @return string
     */
-    public function getShortApplication(): string
+    public function getShortApplication(int $limit = 10): string
     {
-        $limit = 10;
-        $extra = '';
-        if (mb_strlen($this->application) > $limit) $extra = '...';
+        $extra = mb_strlen($this->application) > $limit ? '...' : '';
+
         return mb_substr($this->application, 0, $limit) . $extra;
     }
 
@@ -96,6 +96,7 @@ class Account extends Model
     public function getShortAccount(int $limit = 25): string
     {
         $extra = mb_strlen($this->account) > $limit ? '...' : '';
+
         return mb_substr($this->account, 0, $limit) . $extra;
     }
 
@@ -110,6 +111,7 @@ class Account extends Model
     public function getShortPassword(int $limit = 25): string
     {
         $extra = mb_strlen($this->password) > $limit ? '...' : '';
+
         return mb_substr($this->password, 0, $limit) . $extra;
     }
 

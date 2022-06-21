@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Helpers\Text\TextHelper;
 use App\Models\Store\StoreProduct;
+use Illuminate\Database\Seeder;
 
 class StoreProductSeeder extends Seeder
 {
@@ -41,16 +41,16 @@ class StoreProductSeeder extends Seeder
                     \App\Http\Controllers\Project\ProjectController::class,
                     \App\Http\Controllers\Project\ProjectSettingController::class,
                     \App\Http\Controllers\Project\ProjectUserContributorController::class,
-                    \App\Http\Controllers\Task\TaskChecklistController::class,
-                    \App\Http\Controllers\Task\TaskChecklistItemController::class,
-                    \App\Http\Controllers\Task\TaskCommentController::class,
-                    \App\Http\Controllers\Task\TaskController::class,
-                    \App\Http\Controllers\Task\TaskFileController::class,
-                    \App\Http\Controllers\Task\TaskIssueTypeController::class,
-                    \App\Http\Controllers\Task\TaskLogController::class,
-                    \App\Http\Controllers\Task\TaskPriorityController::class,
-                    \App\Http\Controllers\Task\TaskStatusController::class,
-                    \App\Http\Controllers\Task\TaskWatcherUserController::class,
+                    \App\Http\Controllers\Project\Task\TaskChecklistController::class,
+                    \App\Http\Controllers\Project\Task\TaskChecklistItemController::class,
+                    \App\Http\Controllers\Project\Task\TaskCommentController::class,
+                    \App\Http\Controllers\Project\Task\TaskController::class,
+                    \App\Http\Controllers\Project\Task\TaskFileController::class,
+                    \App\Http\Controllers\Project\Task\TaskIssueTypeController::class,
+                    \App\Http\Controllers\Project\Task\TaskLogController::class,
+                    \App\Http\Controllers\Project\Task\TaskPriorityController::class,
+                    \App\Http\Controllers\Project\Task\TaskStatusController::class,
+                    \App\Http\Controllers\Project\Task\TaskWatcherUserController::class,
                 ],
                 'price' => '59.99'
             ],

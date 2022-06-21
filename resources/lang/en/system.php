@@ -136,7 +136,7 @@ return [
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\Task\TaskChecklistController'             => [
+    'App\Http\Controllers\Project\Task\TaskChecklistController' => [
         'name' => 'Task Checklists',
         'description' => '
             Feel as though Tasks just aren\'t enough to visualise everything you need to do? feel like one task 
@@ -146,7 +146,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskChecklistItemController'         => [
+    'App\Http\Controllers\Project\Task\TaskChecklistItemController' => [
         'name' => 'Task Checklist Items',
         'description' => '
             Items for the checklists that allow you to create individual subsidiary tasks on your task that better aid 
@@ -156,7 +156,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskCommentController'               => [
+    'App\Http\Controllers\Project\Task\TaskCommentController' => [
         'name' => 'Task Comments',
         'description' => '
             Collaborate on tasks with the ability to comment on tasks. You will be able to create comments, react with 
@@ -166,7 +166,7 @@ return [
         ',
         'icon' => 'fa-comment'
     ],
-    'App\Http\Controllers\Task\TaskController'                      => [
+    'App\Http\Controllers\Project\Task\TaskController' => [
         'name' => 'Tasks',
         'description' => '
             Your projects can have the possibility of adding tasks, A To Do list so to speak. A place where you can 
@@ -176,7 +176,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskFileController'                  => [
+    'App\Http\Controllers\Project\Task\TaskFileController' => [
         'name' => 'Task Files',
         'description' => '
             When manipulating tasks you may find yourself wanting to collate ideas and add files to your tasks. Giving 
@@ -185,7 +185,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskIssueTypeController'             => [
+    'App\Http\Controllers\Project\Task\TaskIssueTypeController' => [
         'name' => 'Task Issue Types',
         'description' => '
             When creating tasks it helps to categorise them. Be greeted with the default: [Bug, Feature, Research]
@@ -193,7 +193,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskLogController'                   => [
+    'App\Http\Controllers\Project\Task\TaskLogController' => [
         'name' => 'Task Logging',
         'description' => '
             If you ever want to visualise what it is you get up, how much you get up or even reminding yourself what it 
@@ -203,7 +203,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskPriorityController'              => [
+    'App\Http\Controllers\Project\Task\TaskPriorityController' => [
         'name' => 'Task Priorities',
         'description' => '
             You may find yourself wanting to have priorities when creating yourself tasks; by default you will have 
@@ -212,7 +212,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskStatusController'                => [
+    'App\Http\Controllers\Project\Task\TaskStatusController' => [
         'name' => 'Task Statuses',
         'description' => '
             Somewhat of a standard, however you may assign statuses to tickets; if you are in a collaborative experience
@@ -222,7 +222,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Task\TaskWatcherUserController'           => [
+    'App\Http\Controllers\Project\Task\TaskWatcherUserController' => [
         'name' => 'Task Watchers',
         'description' => '
             Should you find yourself in a situation you have contributors in your project; you can assign yourself as a 

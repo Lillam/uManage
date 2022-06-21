@@ -23,7 +23,7 @@
     <div id="task"
         data-project_id="{{ $task->project_id }}"
         data-task_id="{{ $task->id }}"
-        data-edit_task_url="{{ action('Task\TaskController@_ajaxEditTaskPost') }}">
+        data-edit_task_url="{{ route('projects.tasks.task.edit.ajax') }}">
         <div class="task_content">
             {{-- Task Title --}}
 {{--            <div class="navigation task_title_wrapper uk-flex">--}}
@@ -66,24 +66,24 @@
             </div>
             {{--Task Checklists--}}
             <div class="task_checklists_wrapper"
-                 data-make_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxMakeTaskChecklistPost') }}"
-                 data-view_task_checklists_url="{{ action('Task\TaskChecklistController@_ajaxViewTaskChecklistsGet') }}"
-                 data-edit_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistPost') }}"
-                 data-delete_task_checklist_url="{{ action('Task\TaskChecklistController@_ajaxDeleteTaskChecklistPost') }}"
-                 data-edit_task_checklist_order_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistOrderPost') }}"
-                 data-edit_task_checklist_zipped_url="{{ action('Task\TaskChecklistController@_ajaxEditTaskChecklistEditZipStatus') }}"
-                 data-make_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxMakeTaskChecklistItemPost') }}"
-                 data-view_task_checklist_items_url="{{ action('Task\TaskChecklistItemController@_ajaxViewTaskChecklistItemsGet') }}"
-                 data-edit_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemPost') }}"
-                 data-edit_task_checklist_item_order_url="{{ action('Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemOrderPost') }}"
-                 data-delete_task_checklist_item_url="{{ action('Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
+                 data-make_task_checklist_url="{{ route('projects.tasks.task.checklists.create.ajax') }}"
+                 data-view_task_checklists_url="{{ action('Project\Task\TaskChecklistController@_ajaxViewTaskChecklistsGet') }}"
+                 data-edit_task_checklist_url="{{ action('Project\Task\TaskChecklistController@_ajaxEditTaskChecklistPost') }}"
+                 data-delete_task_checklist_url="{{ action('Project\Task\TaskChecklistController@_ajaxDeleteTaskChecklistPost') }}"
+                 data-edit_task_checklist_order_url="{{ action('Project\Task\TaskChecklistController@_ajaxEditTaskChecklistOrderPost') }}"
+                 data-edit_task_checklist_zipped_url="{{ action('Project\Task\TaskChecklistController@_ajaxEditTaskChecklistEditZipStatus') }}"
+                 data-make_task_checklist_item_url="{{ route('projects.tasks.task.checklist.checklist_item.create.ajax') }}"
+                 data-view_task_checklist_items_url="{{ action('Project\Task\TaskChecklistItemController@_ajaxViewTaskChecklistItemsGet') }}"
+                 data-edit_task_checklist_item_url="{{ action('Project\Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemPost') }}"
+                 data-edit_task_checklist_item_order_url="{{ action('Project\Task\TaskChecklistItemController@_ajaxEditTaskChecklistItemOrderPost') }}"
+                 data-delete_task_checklist_item_url="{{ action('Project\Task\TaskChecklistItemController@_ajaxDeleteTaskChecklistItemPost') }}"
             ></div>
             {{-- Task Comments --}}
             <div class="section">
                 <div class="task_comments"
                      data-page="1"
-                     data-view_task_comments_url="{{ action('Task\TaskCommentController@_ajaxViewTaskCommentsGet') }}"
-                     data-delete_task_comment_url="{{ action('Task\TaskCommentController@_ajaxDeleteTaskCommentPost') }}">
+                     data-view_task_comments_url="{{ action('Project\Task\TaskCommentController@_ajaxViewTaskCommentsGet') }}"
+                     data-delete_task_comment_url="{{ action('Project\Task\TaskCommentController@_ajaxDeleteTaskCommentPost') }}">
                 </div>
             </div>
         </div>

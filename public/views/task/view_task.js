@@ -50,14 +50,14 @@ $(() => {
 
     // this set of logic is devoted to handling the process logic for description editing, if you are to click cancel,
     // it will fire off a summernote leave function... which will simply put the content back to what it was prior to
-    // clicking on it, however if you are to click submit, then it will proceed to editing the task in question and then.
+    // the click, however if you are to click submit, then it will proceed to editing the task in question and then.
     $body.on('click', '.save_description, .cancel_description', function (event) {
         event.preventDefault();
         let $this = $(this),
             $description = $('.description'),
             handle = $this.hasClass('cancel') ? 'cancel' : 'save',
             field = 'description',
-            update_on_save = $this.hasClass('cancel') ? true : false;
+            update_on_save = $this.hasClass('cancel');
 
         $description.summernote('destroy');
 
@@ -133,7 +133,7 @@ if (typeof (Echo) !== "undefined") {
 * @param value    (variable)
 * @param callback (function)
 */
-var update_task = function (field, value, callback = null) {
+const update_task = function (field, value, callback = null) {
     let $task = $('#task'),
         url = $task.data('edit_task_url'),
         task_id = $task.data('task_id'),

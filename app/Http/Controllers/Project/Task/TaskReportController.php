@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
 use Illuminate\Http\Request;
 use App\Models\Task\TaskStatus;
@@ -15,10 +15,13 @@ class TaskReportController extends Controller
     */
     public function _ajaxViewTasksReportGet(Request $request): JsonResponse
     {
-        $task_statuses = TaskStatus::selectRaw('count(DISTINCT task.id) as task_count,' .
-            'task_status.name,' .
-            'task_status.color,' .
-            'task_status.type')
+        $task_statuses = TaskStatus::query()
+            ->selectRaw(
+                'count(DISTINCT task.id) as task_count,' .
+                'task_status.name,' .
+                'task_status.color,' .
+                'task_status.type'
+            )
             ->leftJoin('task', 'task.task_status_id', '=', 'task_status.id')
             ->groupBy('task_status.id')
             ->get();
@@ -58,11 +61,15 @@ class TaskReportController extends Controller
             $total_tasks += $task_status->task_count;
         }
 
-        $tasks_in_todo[]      = $tasks_in_progress[] =
-        $tasks_in_completed[] = $tasks_in_archived[] = $total_tasks;
+        $tasks_in_todo[]      =
+        $tasks_in_progress[]  =
+        $tasks_in_completed[] =
+        $tasks_in_archived[]  = $total_tasks;
 
-        $tasks_in_todo_colors[]      = $tasks_in_progress_colors[] =
-        $tasks_in_completed_colors[] = $tasks_in_archived_colors[] = '#eee';
+        $tasks_in_todo_colors[]      =
+        $tasks_in_progress_colors[]  =
+        $tasks_in_completed_colors[] =
+        $tasks_in_archived_colors[]  = '#eee';
 
         return response()->json([
             'tasks_in_todo'             => $tasks_in_todo,

@@ -837,7 +837,7 @@ body.login .login_form p:last-of-type {
     position: absolute;
     left: 50px;
     bottom: 0;
-    width: 300px;
+    width: 200px;
     border-radius: 4px;
     z-index: 10000;
 }

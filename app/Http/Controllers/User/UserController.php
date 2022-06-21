@@ -140,7 +140,7 @@ class UserController extends Controller
         if (! $user instanceof User || $this->vs->get('user')->cannot('UserPolicy@viewUser', $user))
             return redirect()->action('User\UserController@_viewUsersGet');
 
-        // when we're looking at the user in question then we are going to be gathering the users people that are
+        // when we're looking at the user in question then we are going to be gathering the user's people that are
         // attached to some of their projects, this will give an i   dea for the user on the amount of people they are
         // going to be working with on a variety of different projects. this can get quite large, as we are going to be
         // looking at a user project collection, so if the same user is connected to a variety of other projects, then
@@ -190,6 +190,7 @@ class UserController extends Controller
     public function _userLogout(): RedirectResponse|Redirector
     {
         Auth::logout();
+
         return redirect()->action([self::class, '_viewUserLoginGet']);
     }
 }

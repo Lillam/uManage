@@ -69,7 +69,7 @@ class ViewService
             'has_title'          => $this->getHasTitle(),
             'application_theme'  => $this->getApplicationTheme(),
 
-            // deciding which user is the currently logged in user, and then also having a setting which will let
+            // deciding which user is the currently authenticated user, and then also having a setting which will let
             // the system know who the user is currently viewing; rather than overwriting the user that is in
             // place.
             'user'               => $this->getUser(),
@@ -88,6 +88,7 @@ class ViewService
     public function setTitle(string $title): self
     {
         $this->title = $title;
+
         return $this;
     }
 
@@ -106,6 +107,7 @@ class ViewService
     public function setCurrentPage(string $current_page): self
     {
         $this->current_page = $current_page;
+
         return $this;
     }
 
@@ -118,14 +120,15 @@ class ViewService
     }
 
     /**
-    * @param bool $has_header | A deciding factor as to whether or not the header is visible on the frontend, in the
-    *                         | application the header tag is wrapped in an has_header wrapper; and if this is false
+    * @param bool $has_header | A deciding factor whether the header is visible on the frontend or not, in the
+    *                         | application the header tag is wrapped in a has_header wrapper; and if this is false
     *                         | the header is not visible.
     * @return $this
     */
     public function setHasHeader(bool $has_header): self
     {
         $this->has_header = $has_header;
+
         return $this;
     }
 
@@ -138,14 +141,15 @@ class ViewService
     }
 
     /**
-    * @param bool $has_footer | A deciding factor as to whether or not the footer is visible on the frontend, in the
-    *                         | application the footer tag is wrapped in an has_footer wrapper; and if this is false,
+    * @param bool $has_footer | A deciding factor whether the footer is visible on the frontend or not, in the
+    *                         | application the footer tag is wrapped in a has_footer wrapper; and if this is false,
     *                         | the footer is not visible.
     * @return $this
     */
     public function setHasFooter(bool $has_footer): self
     {
         $this->has_footer = $has_footer;
+
         return $this;
     }
 
@@ -164,6 +168,7 @@ class ViewService
     public function setHasTitle(bool $has_title): self
     {
         $this->has_title = $has_title;
+
         return $this;
     }
 
@@ -179,6 +184,7 @@ class ViewService
     public function setHasSidebar(bool $has_sidebar): self
     {
         $this->has_sidebar = $has_sidebar;
+
         return $this;
     }
 
@@ -197,6 +203,7 @@ class ViewService
     public function setApplicationTheme(string $application_theme): self
     {
         $this->application_theme = $application_theme;
+
         return $this;
     }
 
@@ -215,6 +222,7 @@ class ViewService
     public function setUser(User $user): self
     {
         $this->user = $user;
+
         return $this;
     }
 
@@ -233,6 +241,7 @@ class ViewService
     public function setViewingUser(User $viewing_user): self
     {
         $this->viewing_user = $viewing_user;
+
         return $this;
     }
 
@@ -278,6 +287,7 @@ class ViewService
     public function remove(string $key): self
     {
         unset($this->$key);
+
         return $this;
     }
 
@@ -292,6 +302,7 @@ class ViewService
     public function set(string $key, mixed $value): self
     {
         $this->$key = $value;
+
         return $this;
     }
 
@@ -305,6 +316,7 @@ class ViewService
     private function getCssAsset(string $asset): string
     {
         $file = asset(str_replace('.css', '', $asset) . '.css');
+
         return "<link href='$file' rel='stylesheet' type='text/css' />";
     }
 
@@ -318,6 +330,7 @@ class ViewService
     private function getJsAsset(string $asset): string
     {
         $file = asset(str_replace('.js', '', $asset) . '.js');
+
         return "<script src='$file'></script>";
     }
 }

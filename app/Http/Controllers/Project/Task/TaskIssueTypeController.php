@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 class TaskIssueTypeController extends Controller

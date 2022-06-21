@@ -4,9 +4,9 @@ namespace App\Http\Controllers\System;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
 use App\Models\System\SystemChangelog;
 use Illuminate\Contracts\View\Factory;
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class SystemChangelogController extends Controller
@@ -34,7 +34,9 @@ class SystemChangelogController extends Controller
     */
     public function _viewSystemChangelogGet(Request $request, $id): Application|Factory|View
     {
-        $system_changelog = SystemChangelog::where('id', '=', $id)->first();
+        $system_changelog = SystemChangelog::query()
+            ->where('id', '=', $id)
+            ->first();
 
         if (! $system_changelog instanceof SystemChangelog)
             abort(404);

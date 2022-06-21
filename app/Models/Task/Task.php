@@ -146,7 +146,7 @@ class Task extends Model
     */
     public function getUrl(): string
     {
-        return action('Task\TaskController@_viewTaskGet', [$this->project->code, $this->id]);
+        return route('projects.tasks.task', [$this->project->code, $this->id]);
     }
 
     /*

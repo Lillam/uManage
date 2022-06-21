@@ -11,33 +11,33 @@
 */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Task\TaskController;
 use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\Task\TaskLogController;
 use App\Http\Controllers\System\SystemController;
-use App\Http\Controllers\Journal\JournalController;
 use App\Http\Controllers\Account\AccountController;
-use App\Http\Controllers\TimeLog\TimeLogController;
+use App\Http\Controllers\Journal\JournalController;
 use App\Http\Controllers\Project\ProjectController;
-use App\Http\Controllers\Task\TaskReportController;
-use App\Http\Controllers\Task\TaskCommentController;
+use App\Http\Controllers\TimeLog\TimeLogController;
 use App\Http\Controllers\User\UserSettingController;
+use App\Http\Controllers\Project\Task\TaskController;
 use App\Http\Controllers\Store\StoreBasketController;
 use App\Http\Controllers\Store\StoreProductController;
-use App\Http\Controllers\Task\TaskChecklistController;
-use App\Http\Controllers\Task\TaskDashboardController;
 use App\Http\Controllers\System\SystemModuleController;
+use App\Http\Controllers\Project\Task\TaskLogController;
 use App\Http\Controllers\Journal\JournalDreamController;
-use App\Http\Controllers\Journal\JournalReportController;
 use App\Http\Controllers\TimeLog\TimeLogReportController;
+use App\Http\Controllers\Journal\JournalReportController;
 use App\Http\Controllers\Journal\JournalFinanceController;
 use App\Http\Controllers\Project\ProjectSettingController;
 use App\Http\Controllers\System\SystemChangelogController;
-use App\Http\Controllers\Task\TaskChecklistItemController;
+use App\Http\Controllers\Project\Task\TaskReportController;
 use App\Http\Controllers\Journal\JournalDashboardController;
 use App\Http\Controllers\Project\ProjectDashboardController;
+use App\Http\Controllers\Project\Task\TaskCommentController;
+use App\Http\Controllers\Project\Task\TaskChecklistController;
 use App\Http\Controllers\Journal\JournalAchievementController;
+use App\Http\Controllers\Project\Task\TaskDashboardController;
 use App\Http\Controllers\Journal\JournalDreamDashboardController;
+use App\Http\Controllers\Project\Task\TaskChecklistItemController;
 use App\Http\Controllers\Journal\JournalFinanceDashboardController;
 
 
@@ -51,7 +51,8 @@ use App\Http\Controllers\Journal\JournalFinanceDashboardController;
 |
 */
 
-Route::get('/', fn () => redirect()->action([UserController::class, '_viewUserDashboardGet']))->name('user.dashboard');
+Route::get('/', fn () => redirect()->action([UserController::class, '_viewUserDashboardGet']))
+    ->name('user.dashboard');
 
 /*
 |-----------------------------------------------------------------------------------------------------------------------
@@ -81,7 +82,6 @@ Route::get( '/logout', [UserController::class, '_userLogout'])->name('user.logou
 */
 
 Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function () {
-    // App Routes
     Route::get('/apps', [SystemModuleController::class, '_viewSystemModuleDashboardGet']);
 
     /*
@@ -106,18 +106,35 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     | Project Routes
     |-------------------------------------------------------------------------------------------------------------------
     |
+    | The routes that will interact in some way with the accounts. Viewing their account listings, viewing the passwords
+    | and more of the account.
+    |
+    */
+
+    Route::get( '/accounts', [AccountController::class, '_viewAccountsGet'])->name('accounts');
+    Route::get( '/accounts/{account}', [AccountController::class, '_viewAccountGet'])->name('accounts.account');
+    Route::get( '/ajax/view/accounts', [AccountController::class, '_ajaxViewAccountsGet'])->name('accounts.ajax');
+    Route::post('/ajax/make/accounts', [AccountController::class, '_ajaxMakeAccountsPost'])->name('accounts.create.ajax');
+    Route::get( '/ajax/delete/accounts', [AccountController::class, '_ajaxDeleteAccountsGet'])->name('accounts.delete.ajax');
+    Route::get( '/ajax/view/password', [AccountController::class, '_ajaxViewAccountsPasswordGet'])->name('accounts.password.view.ajax');
+
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Project Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
     | The routes that will interact in some way with the projects. Viewing their project listings, viewing project tasks
     | being able to add more, delete etc.
     |
     */
 
-    Route::get('/projects/dashboard',          [ProjectDashboardController::class, '_viewProjectsDashboardGet'])->name('projects.dashboard');
-    Route::get('/projects',                    [ProjectController::class, '_viewProjectsGet'])->name('projects.list');
-    Route::get('/project/{code}',              [ProjectController::class, '_viewProjectGet']);
-    Route::get('/project/delete/{id}',         [ProjectController::class, '_deleteProjectGet']);
-    Route::get('/ajax/projects',               [ProjectController::class, '_ajaxViewProjectsGet']);
-    Route::get( '/ajax/make/project',          [ProjectController::class, '_ajaxViewCreateProjectGet'])->name('projects.create');
-    Route::post('/ajax/make/project',          [ProjectController::class, '_ajaxCreateProjectPost']);
+    Route::get('/projects/dashboard',  [ProjectDashboardController::class, '_viewProjectsDashboardGet'])->name('projects.dashboard');
+    Route::get('/projects',            [ProjectController::class, '_viewProjectsGet'])->name('projects.list');
+    Route::get('/project/{code}',      [ProjectController::class, '_viewProjectGet']);
+    Route::get('/project/delete/{id}', [ProjectController::class, '_deleteProjectGet']);
+    Route::get('/ajax/projects',       [ProjectController::class, '_ajaxViewProjectsGet'])->name('projects.list.ajax');
+    Route::get( '/ajax/make/project',  [ProjectController::class, '_ajaxViewCreateProjectGet'])->name('projects.create');
+    Route::post('/ajax/make/project',  [ProjectController::class, '_ajaxCreateProjectPost']);
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
@@ -140,63 +157,128 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     | The routes that will interact in some way with the tasks. Viewing their tasks individually, modifying information
     | about such and more.
     |
+    | ToDo - Move the Ajax routes into api instead.
+    |
     */
 
     Route::get( '/tasks/dashboard',                     [TaskDashboardController::class, '_viewTasksDashboardGet'])->name('projects.tasks.dashboard');
     Route::get( '/tasks',                               [TaskController::class, '_viewTasksGet'])->name('projects.tasks');
-    Route::get( '/task/{code}/{id}',                    [TaskController::class, '_viewTaskGet']);
+    Route::get( '/task/{code}/{id}',                    [TaskController::class, '_viewTaskGet'])->name('projects.tasks.task');
     Route::get( '/delete/task/{code}/{id}',             [TaskController::class, '_deleteTaskGet']);
     Route::get( '/ajax/search/tasks',                   [TaskController::class, '_ajaxSearchTasksGet']);
-    Route::get( '/ajax/tasks',                          [TaskController::class, '_ajaxViewTasksGet']);
+    Route::get( '/ajax/tasks',                          [TaskController::class, '_ajaxViewTasksGet'])->name('projects.tasks.ajax');
     Route::get( '/ajax/create/task',                    [TaskController::class, '_ajaxViewCreateTaskGet'])->name('projects.tasks.create');
     Route::post('/ajax/create/task',                    [TaskController::class, '_ajaxCreateTaskPost']);
-    Route::post('/ajax/task/edit',                      [TaskController::class, '_ajaxEditTaskPost']);
+    Route::post('/ajax/task/edit',                      [TaskController::class, '_ajaxEditTaskPost'])->name('projects.tasks.task.edit.ajax');
 
-    Route::get( '/ajax/tasks/report',                   [TaskReportController::class, '_ajaxViewTasksReportGet']);
+    Route::get( '/ajax/tasks/report',                   [TaskReportController::class, '_ajaxViewTasksReportGet'])->name('projects.tasks.report.ajax');
 
-    // Task Comments
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Task Comment Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All Routes that are regarding interaction between the user and the comments of a task will be found within this
+    | block up until the next title.
+    |
+    */
+
     Route::get( '/ajax/view/task/comments',             [TaskCommentController::class, '_ajaxViewTaskCommentsGet']);
     Route::post('/ajax/make/task/comment',              [TaskCommentController::class, '_ajaxMakeTaskCommentPost']);
     Route::post('/ajax/delete/task/comment',            [TaskCommentController::class, '_ajaxDeleteTaskCommentPost']);
 
-    // Task Checklists
-    Route::post('/ajax/make/task/checklist',            [TaskChecklistController::class, '_ajaxMakeTaskChecklistPost']);
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Task Checklist Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and task checklists of a task. All routes of such will
+    | be found within this block up until the next title.
+    |
+    */
+
+    Route::post('/ajax/make/task/checklist',            [TaskChecklistController::class, '_ajaxMakeTaskChecklistPost'])->name('projects.tasks.task.checklists.create.ajax');
     Route::get( '/ajax/view/task/checklists',           [TaskChecklistController::class, '_ajaxViewTaskChecklistsGet']);
     Route::post('/ajax/edit/task/checklist',            [TaskChecklistController::class, '_ajaxEditTaskChecklistPost']);
     Route::post('/ajax/delete/task/checklist',          [TaskChecklistController::class, '_ajaxDeleteTaskChecklistPost']);
     Route::post('/ajax/edit/task_checklist/order',      [TaskChecklistController::class, '_ajaxEditTaskChecklistOrderPost']);
     Route::post('/ajax/edit/task_checklist/zipped',     [TaskChecklistController::class, '_ajaxEditTaskChecklistEditZipStatus']);
 
-    // Task Checklist items
-    Route::post('/ajax/make/task/checklist_item',       [TaskChecklistItemController::class, '_ajaxMakeTaskChecklistItemPost']);
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Task Checklist Item Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the task checklist items of a task and checklist.
+    | All routes of such will be fond within this block up until the next title.
+    |
+    */
+
+    Route::post('/ajax/make/task/checklist_item',       [TaskChecklistItemController::class, '_ajaxMakeTaskChecklistItemPost'])->name('projects.tasks.task.checklist.checklist_item.create.ajax');
     Route::get( '/ajax/view/task/checklist_items',      [TaskChecklistItemController::class, '_ajaxViewTaskChecklistItemsGet']);
     Route::post('/ajax/check/task_checklist_item',      [TaskChecklistItemController::class, '_ajaxCheckTaskChecklistItemPost']);
     Route::post('/ajax/edit/task_checklist_item',       [TaskChecklistItemController::class, '_ajaxEditTaskChecklistItemPost']);
     Route::post('/ajax/delete/task_checklist_item',     [TaskChecklistItemController::class, '_ajaxDeleteTaskChecklistItemPost']);
     Route::post('/ajax/edit/task_checklist_item/order', [TaskChecklistItemController::class, '_ajaxEditTaskChecklistItemOrderPost']);
 
-    // Task Logs
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Task Log Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the system on anything task related, all task logs
+    | will be handled within this block up until the next title block.
+    |
+    */
+
     Route::get('/task-activity',                        [TaskLogController::class, '_viewTaskLogActivityGet'])->name('project.tasks.activity');
     Route::get('/ajax/view/task/logs',                  [TaskLogController::class, '_ajaxViewTaskLogsGet']);
     Route::get('/ajax/view/task_log_activity',          [TaskLogController::class, '_ajaxViewTaskLogActivityGet']);
 
-    // Journals
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Daily Journal Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All Routes that are regarding interaction between the user and the daily journals. All routes of such will be
+    | found within this block, up until the next title block.
+    |
+    */
+
     Route::get('/journals/calendar',                    [JournalController::class, '_viewJournalsGet'])->name('journals.calendar');
     Route::get('/journals/dashboard',                   [JournalDashboardController::class, '_viewJournalsDashboardGet'])->name('journals.dashboard');
     Route::get('/ajax/view/journals',                   [JournalController::class, '_ajaxViewJournalsGet'])->name('journals.ajax');
     Route::get('/journal/{date}',                       [JournalController::class, '_viewJournalGet'])->name('journals.journal');
     Route::post('/ajax/journal/edit',                   [JournalController::class, '_ajaxEditJournalPost'])->name('journals.journal.edit');
     Route::post('/ajax/delete/journal',                 [JournalController::class, '_ajaxDeleteJournalPost'])->name('journals.journal.delete');
-
     Route::get('/journals/report',                      [JournalReportController::class, '_viewJournalsReportGet'])->name('journals.report');
     Route::get('/ajax/view/journals/report',            [JournalReportController::class, '_ajaxViewJournalsReportGet'])->name('journals.report.ajax');
+
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Daily Journal Achievement Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All Routes that are regarding interaction between the user and the journal achievements. All routes of such will
+    | be found within this block up until the next title block
+    |
+    */
 
     Route::get( '/ajax/view/journal/achievements',      [JournalAchievementController::class, '_ajaxViewJournalAchievementsGet']);
     Route::post('/ajax/add/journal/achievement',        [JournalAchievementController::class, '_ajaxMakeJournalAchievementPost']);
     Route::post('/ajax/edit/journal/achievement',       [JournalAchievementController::class, '_ajaxEditJournalAchievementPost']);
     Route::post('/ajax/delete/journal/achievement',     [JournalAchievementController::class, '_ajaxDeleteJournalAchievementPost']);
 
-    // Dream Journals
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Dream Journal Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the dream journals. All routes of such will be
+    | found within this block up until the next title block.
+    |
+    */
+
     Route::get('/dreams/journals/dashboard',            [JournalDreamDashboardController::class, '_viewJournalsDreamsDashboardGet'])->name('journals.dreams.dashboard');
     Route::get('/dreams/journals/calendar',             [JournalDreamController::class, '_viewJournalDreamsGet'])->name('journals.dreams.calendar');
     Route::get('/ajax/view/dreams/journals',            [JournalDreamController::class, '_ajaxViewJournalDreamsGet'])->name('journals.dreams.calendar.ajax');
@@ -204,43 +286,81 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::post('/ajax/journal_dream/edit',             [JournalDreamController::class, '_editJournalDreamPost']);
     Route::post('/ajax/delete/journal_dream',           [JournalDreamController::class, '_ajaxDeleteJournalDreamPost']);
 
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Finance Journal Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the finance journals. All routes of such will be
+    | found within this block up until the next title block.
+    |
+    */
+
     Route::get('/finances/journals/dashboard',          [JournalFinanceDashboardController::class, '_viewJournalsFinancesDashboardGet'])->name('journals.finances.dashboard');
     Route::get('/finance/journals/calendar',            [JournalFinanceController::class, '_viewJournalFinancesGet'])->name('journals.finances.calendar');
     Route::get('/ajax/view/finances/journals',          [JournalFinanceController::class, '_ajaxViewJournalFinancesGet']);
 
-    // TimeLogging
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Time Log Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All Routes that are regarding interaction between the user and time logging. All routes of such will be found
+    | within this block up until the next title block.
+    |
+    */
+
     Route::get( '/time-logs/calendar',                  [TimeLogController::class, '_viewTimeLogCalendarGet'])->name('time-logs.calendar');
-    Route::get( '/ajax/view/time-logs',                 [TimeLogController::class, '_ajaxViewTimeLogsGet']);
-    Route::get( '/ajax/view/time-logs_calendar',        [TimeLogController::class, '_ajaxViewTimeLogsCalendarGet']);
+    Route::get( '/ajax/view/time-logs',                 [TimeLogController::class, '_ajaxViewTimeLogsGet'])->name('time-logs.ajax');
+    Route::get( '/ajax/view/time-logs-calendar',        [TimeLogController::class, '_ajaxViewTimeLogsCalendarGet'])->name('time-logs.calendar.ajax');
     Route::post('/ajax/make/time-log',                  [TimeLogController::class, '_ajaxMakeTimeLogPost']);
     Route::get( '/ajax/delete/time-log',                [TimeLogController::class, '_ajaxDeleteTimeLogGet']);
 
     Route::get( '/time-log/report',                     [TimeLogReportController::class, '_viewTimeLogReportGet'])->name('time-logs.report');
     Route::get( '/ajax/view/time-log-report',           [TimeLogReportController::class, '_ajaxViewTimeLogReportGet'])->name('time-logs.report.ajax');
 
-    // Account Managing
-    Route::get( '/accounts',                            [AccountController::class, '_viewAccountsGet'])->name('accounts');
-    Route::get( '/accounts/{account}',                  [AccountController::class, '_viewAccountGet'])->name('accounts.account');
-    Route::get( '/ajax/view/accounts',                  [AccountController::class, '_ajaxViewAccountsGet'])->name('accounts.ajax');
-    Route::post('/ajax/make/accounts',                  [AccountController::class, '_ajaxMakeAccountsPost'])->name('accounts.create.ajax');
-    Route::get( '/ajax/delete/accounts',                [AccountController::class, '_ajaxDeleteAccountsGet'])->name('accounts.delete.ajax');
-    Route::get( '/ajax/view/password',                  [AccountController::class, '_ajaxViewAccountsPasswordGet'])->name('accounts.password.view.ajax');
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | System Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All Routes that are regarding interaction between the user and the system, such as change logs, or storing their
+    | data locally will be found within this block up until the next title.
+    |
+    */
 
-    // System routes:
-    Route::get('/system/changelogs',                    [SystemChangelogController::class, '_viewSystemChangelogsGet'])->name('system.changelogs');
-    Route::get('/system/changelogs/{id}',               [SystemChangelogController::class, '_viewSystemChangelogGet']);
-    Route::get('/system/changelogs/edit/{id?}',         [SystemChangelogController::class, '_editSystemChangelogGet']);
-    Route::get('/system/store/all',                     [SystemController::class, '_storeAllModulesLocally'])->name('system.store');
-    Route::get('/system/perform',                       [SystemController::class, '_performRandomJob']);
-    Route::get('/system/emojis',                        [SystemController::class, '_getSummernoteEmojis']);
+    Route::get('/system/changelogs',            [SystemChangelogController::class, '_viewSystemChangelogsGet'])->name('system.changelogs');
+    Route::get('/system/changelogs/{id}',       [SystemChangelogController::class, '_viewSystemChangelogGet']);
+    Route::get('/system/changelogs/edit/{id?}', [SystemChangelogController::class, '_editSystemChangelogGet']);
+    Route::get('/system/store/all',             [SystemController::class, '_storeAllModulesLocally'])->name('system.store');
+    Route::get('/system/perform',               [SystemController::class, '_performRandomJob']);
+    Route::get('/system/emojis',                [SystemController::class, '_getSummernoteEmojis']);
 
-    // Store Pages
-    Route::get('/store/products',                       [StoreProductController::class, '_viewStoreProductsGet'])->name('store.products');
-    Route::get('/store/product/{name}',                 [StoreProductController::class, '_viewStoreProductGet']);
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Store Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the store. All routes of such will be found within
+    | this block, up until the next title block.
+    |
+    */
 
-    Route::get('/store/basket',                         [StoreBasketController::class, '_viewStoreBasketGet']);
-    Route::get('/store/basket/add/{product}',           [StoreBasketController::class, '_addToStoreBasketGet']);
-    Route::get('/store/basket/remove/{product}',        [StoreBasketController::class, '_removeFromStoreBasketGet']);
+    Route::get('/store/products',                [StoreProductController::class, '_viewStoreProductsGet'])->name('store.products');
+    Route::get('/store/product/{name}',          [StoreProductController::class, '_viewStoreProductGet']);
+    Route::get('/store/basket',                  [StoreBasketController::class, '_viewStoreBasketGet']);
+    Route::get('/store/basket/add/{product}',    [StoreBasketController::class, '_addToStoreBasketGet']);
+    Route::get('/store/basket/remove/{product}', [StoreBasketController::class, '_removeFromStoreBasketGet']);
 
-    Route::get('/test',                                 [SystemController::class, '_performRandomJob']);
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Miscellaneous Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | Any route that doesn't necessarily fall into a category of a module. non-permanent routes could be located and
+    | situated here.
+    |
+    */
+
+    Route::get('/test', [SystemController::class, '_performRandomJob']);
 });

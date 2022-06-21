@@ -2,8 +2,6 @@
 this is the file that will be returned every time we are requesting to get some tasks from the system and can return
 them in this particular format, all tasks will be standardised to the same visuals no matter where we are looking at
 them. --}}
-{{--<div class="section">--}}
-{{--    <div class="task-wrapper">--}}
 {{-- Iterate over all the tasks... --}}
 @foreach ($tasks as $task_key => $task)
     <a href="{{ $task->getUrl() }}">
@@ -37,5 +35,3 @@ the tasks/project/filteringg that they're trying to view... --}}
 @if ($tasks->isEmpty())
     <p>Looks like there aren't any results...</p>
 @endif
-{{--    </div>--}}
-{{--</div>--}}

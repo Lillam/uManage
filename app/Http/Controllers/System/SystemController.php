@@ -7,11 +7,11 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use App\Jobs\Task\TaskLocalStoreJob;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Storage;
 use App\Jobs\Account\AccountLocalStoreJob;
 use App\Jobs\Journal\JournalLocalStoreJob;
 use App\Jobs\Project\ProjectLocalStoreJob;
 use App\Jobs\Journal\JournalDreamLocalStoreJob;
-use Illuminate\Support\Facades\Storage;
 
 class SystemController extends Controller
 {
@@ -42,7 +42,7 @@ class SystemController extends Controller
     }
 
     /**
-    * This method is just a hub for being able to acquire all of the emojis that are supported by the system, I will be
+    * This method is just a hub for being able to acquire all the emojis that are supported by the system, I will be
     * collectively going through all the emojis in place and adding their counterpart into the system, into the php
     * array from the file "assets/vendor/emoji/emoji.php"... this will give us knowledge of every emoji that is in the
     * system as well as being able to collectively store these somewhere...
@@ -52,8 +52,7 @@ class SystemController extends Controller
     */
     public function _getSummernoteEmojis(Request $request): JsonResponse
     {
-        $emojis = include 'assets/vendor/emoji/emoji.php';
-        return response()->json($emojis);
+        return response()->json(include 'assets/vendor/emoji/emoji.php');
     }
 
     /**

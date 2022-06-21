@@ -35,7 +35,7 @@
 
     <div id="add_time_log_modal" uk-modal
          data-make_time_log_url="{{ action('TimeLog\TimeLogController@_ajaxMakeTimeLogPost') }}"
-         data-search_tasks_url="{{ action('Task\TaskController@_ajaxSearchTasksGet') }}">
+         data-search_tasks_url="{{ action('Project\Task\TaskController@_ajaxSearchTasksGet') }}">
         <div class="uk-modal-dialog uk-margin-auto-vertical">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-modal-header">

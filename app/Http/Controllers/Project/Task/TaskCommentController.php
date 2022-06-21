@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
 use Throwable;
 use App\Models\Task\Task;
@@ -23,32 +23,34 @@ class TaskCommentController extends Controller
     * @return JsonResponse
     * @throws Throwable
     */
-    public function _ajaxViewTaskCommentsGet(Request $request)
+    public function _ajaxViewTaskCommentsGet(Request $request): JsonResponse
     {
         $task_id    = (int) $request->input('task_id');
         $project_id = (int) $request->input('project_id');
         $page       = (int) $request->input('page') ?: 1;
         $limit      = 5;
-        $offset     = (int) $limit * ($page - 1);
+        $offset     = $limit * ($page - 1);
 
-        // lets grab the task that we are going to be attaching a comment to, we are going to need to see if this
+        // let's grab the task that we are going to be attaching a comment to, we are going to need to see if this
         // particular task in question exists for us to connect this comment to, if it does proceed, if it does not
         // we are going to want to end here...
-        $task = Task::where('id', '=', $task_id)
+        $task = Task::query()
+            ->where('id', '=', $task_id)
             ->where('project_id', '=', $project_id)
             ->where('user_id', '=', Auth::id())
             ->first();
 
-        $task_comments_count = TaskComment::where('task_id', '=', $task_id)
+        $task_comments_count = TaskComment::query()
+            ->where('task_id', '=', $task_id)
             ->where('project_id', '=', $project_id)
             ->where('user_id', '=', Auth::id())
             ->count();
 
-        // acquire the total number of pages that we are going to be able to show, this will be needed to see whether or
-        // not we can go left or right.
+        // acquire the total number of pages that we are going to be able to show, this will be needed to see if we can
+        // go left or right.
         $total_pages = ceil($task_comments_count / $limit);
 
-        // acquire all of the task comments that are for this particular task, this will return every comment that exists
+        // acquire all the task comments that are for this particular task, this will return every comment that exists
         // with the passed task id.
         $task_comments = TaskComment::where('task_id', '=', $task_id)
             ->where('project_id', '=', $project_id)
@@ -81,12 +83,13 @@ class TaskCommentController extends Controller
         $project_id = $request->input('project_id');
         $content    = $request->input('content');
 
-        $comment = TaskComment::create([
-            'task_id'    => $task_id,
-            'project_id' => $project_id,
-            'user_id'    => $this->vs->get('user')->id,
-            'content'    => $content
-        ]);
+        $comment = TaskComment::query()
+            ->create([
+                'task_id'    => $task_id,
+                'project_id' => $project_id,
+                'user_id'    => $this->vs->get('user')->id,
+                'content'    => $content
+            ]);
 
         $comment->log(TaskLog::TASK_COMMENT);
 
@@ -112,7 +115,12 @@ class TaskCommentController extends Controller
     */
     public function _ajaxDeleteTaskCommentPost(Request $request): JsonResponse
     {
-        TaskComment::where('id', '=', $request->input('task_comment_id'))->delete();
-        return response()->json([ 'response' => 'Successfully deleted comment' ]);
+        TaskComment::query()
+            ->where('id', '=', $request->input('task_comment_id'))
+            ->delete();
+
+        return response()->json([
+            'response' => 'Successfully deleted comment'
+        ]);
     }
 }

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
 use Carbon\Carbon;
 use Illuminate\View\View;
 use App\Models\Task\TaskLog;
 use Illuminate\Http\Request;
 use App\Helpers\Text\TextHelper;
-use App\Models\Task\TaskChecklist;
 use Illuminate\Http\JsonResponse;
+use App\Models\Task\TaskChecklist;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task\TaskChecklistItem;
 use Illuminate\Contracts\View\Factory;
-use App\Http\Controllers\Controller;
 
 class TaskChecklistItemController extends Controller
 {
@@ -67,7 +67,7 @@ class TaskChecklistItemController extends Controller
     /**
     * This particular method is a point of optimisation for returning a subset of checklist items based on a checklist
     * id we are passing through. rather than returning the entire checklist groups over and over we are just returning
-    * the checklist in question's checklist items to give a visual represenation of refreshing.
+    * the checklist in question's checklist items to give a visual representation of refreshing.
     *
     * @param Request $request
     * @return Factory|View
@@ -130,7 +130,7 @@ class TaskChecklistItemController extends Controller
         // log the change that we have made...
         $task_checklist_item->log($task_log_constant, $new, $old);
 
-        // update the particular checklist item with the necessary data that will have been buuilt above, this bas been
+        // update the particular checklist item with the necessary data that will have been built above, this bas been
         // done in the way that this method can be utilised for any form of update providing that we are sending the
         // necessary data to update a checklist item.
         $task_checklist_item->update($data);
@@ -177,9 +177,8 @@ class TaskChecklistItemController extends Controller
     /**
     * This method is for handling the posting of the Task Checklist item ordering... this will fire up an array of
     * checklist item ids [1 => 1, 2 => 2, 4 => 3, 3 => 4] etc. and run through this into a transaction that the system
-    * will be able to execute as one request as opposed to (x) number of task checklist items...
-    * This method will also be returning a json response so that the user can have an instant feedback that something
-    * has happened.
+    * will be able to execute as one request as opposed to (x) number of task checklist items... This method will also
+    * be returning a json response so that the user can have an instant feedback that something has happened.
     *
     * @param Request $request
     * @return JsonResponse
@@ -207,7 +206,7 @@ class TaskChecklistItemController extends Controller
             // commit the transaction, all the above rows will be inserted into one call.
             DB::commit();
 
-            // once we have commited the above changes to the database, we are going to want to alert the user that the
+            // once we have committed the above changes to the database, we are going to want to alert the user that the
             // changes have been made successfully... we are going to be returning this as a json object so that the
             // javascript can better handle the content.
             return response()->json([ 'response' => 'Items have been successfully reordered' ]);
@@ -215,7 +214,7 @@ class TaskChecklistItemController extends Controller
 
         // if we have made it here, then we have somehow managed to push a variety of checklist items to the system that
         // did not need updating, however, we are still going to want to greet the user with some form of response, so
-        // the user know's that something has happened, we are going to be returning this response as json so that the
+        // the user knows that something has happened, we are going to be returning this response as json so that the
         // frontend javascript can handle the visuals.
         return response()->json([ 'response' => 'No items were received to update' ]);
     }

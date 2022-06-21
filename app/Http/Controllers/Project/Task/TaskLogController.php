@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
 use Throwable;
 use Illuminate\View\View;
 use App\Models\Task\TaskLog;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\Factory;
 use App\Repositories\Task\TaskLogRepository;
 use Illuminate\Contracts\Foundation\Application;
 
@@ -23,21 +23,24 @@ class TaskLogController extends Controller
     {
         $task_id = (int) $request->input('task_id');
         $page    = (int) $request->input('page') ?: 1;
-        $limit   = (int) 5;
-        $offset  = (int) $limit * ($page - 1);
+        $limit   = 5;
+        $offset  = $limit * ($page - 1);
 
         // acquire the total number of task logs in the system so that we are going to be able to calculate how many
         // pages there are. if (the current page is the page we are on, then the pagination will need to be cancelled
-        $task_log_count = TaskLog::where('task_id', '=', $task_id)->count();
+        $task_log_count = TaskLog::query()
+            ->where('task_id', '=', $task_id)
+            ->count();
 
-        // acquire the total number of pages that we are going to be able to show, this will be needed to see whether or
-        // not we can go left or right.
+        // acquire the total number of pages that we are going to be able to show, this will be needed to see if we can
+        // go left or right.
         $total_pages = ceil($task_log_count / $limit);
 
         // acquire all the task logs that are sitting in the system against this particular task, and then we are going
-        // to offset by a page, as well as limmit it to a small number so that the user will be able to flick through
+        // to offset by a page, as well as limit it to a small number so that the user will be able to flick through
         // the logs in the system.
-        $task_logs = TaskLog::where('task_id', '=', $task_id)
+        $task_logs = TaskLog::query()
+            ->where('task_id', '=', $task_id)
             ->orderBy('when', 'desc')
             ->limit($limit)
             ->offset($offset)
@@ -65,7 +68,8 @@ class TaskLogController extends Controller
     */
     public function _viewTaskLogActivityGet(Request $request): Application|Factory|View
     {
-        $task_logs = TaskLog::select('*')
+        $task_logs = TaskLog::query()
+            ->select('*')
             ->with([
                 'task',
                 'task_checklist',
@@ -96,18 +100,15 @@ class TaskLogController extends Controller
     */
     public function _ajaxViewTaskLogActivityGet(Request $request): Application|Factory|View
     {
-        $project_id = $request->input('project_id');
-        $task_id = $request->input('task_id');
+        $task_logs = TaskLog::query()->select('*');
 
-        $task_logs = TaskLog::select('*');
+        if ($project_id = $request->input('project_id')) {
+            $task_logs = $task_logs->where('project_id', '=', $project_id);
+        }
 
-        $task_logs = $project_id !== null
-            ? $task_logs->where('project_id', '=', $project_id)
-            : $task_logs;
-
-        $task_logs = $task_id !== null
-            ? $task_logs->where('task_id', '=', $task_id)
-            : $task_logs;
+        if ($task_id = $request->input('task_id')) {
+            $task_logs = $task_logs->where('task_id', '=', $task_id);
+        }
 
         $task_logs = $task_logs->paginate(15);
 

@@ -6,9 +6,9 @@ use App\Models\User\User;
 use Illuminate\Http\Request;
 use App\Models\Store\StoreProduct;
 use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class StoreProductController extends Controller
@@ -29,7 +29,8 @@ class StoreProductController extends Controller
     */
     public function _viewStoreProductsGet(Request $request): Application|Factory|View
     {
-        $user = User::select('*')
+        $user = User::query()
+            ->select('*')
             ->with([
                 'user_basket_products',
                 'user_basket_products.store_product'
@@ -63,7 +64,8 @@ class StoreProductController extends Controller
     */
     public function _viewStoreProductGet(Request $request, string $product): Application|Factory|View
     {
-        $user = User::select('*')
+        $user = User::query()
+            ->select('*')
             ->with([
                 'user_basket_products',
                 'user_basket_products.store_product'
@@ -75,7 +77,10 @@ class StoreProductController extends Controller
 
         $user->user_basket_products = $user->user_basket_products->keyBy('store_product_id')->toArray();
 
-        $store_product = StoreProduct::where('alias', '=', $product)->first();
+        $store_product = StoreProduct::query()
+            ->where('alias', '=', $product)
+            ->first();
+
         $store_product->package = json_decode($store_product->package);
 
         $this->vs->set('title', " - Store Products - {$store_product->name}")

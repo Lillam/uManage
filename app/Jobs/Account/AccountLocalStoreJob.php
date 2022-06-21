@@ -18,7 +18,12 @@ class AccountLocalStoreJob implements ShouldQueue
     /**
     * @var Account[]|Collection
     */
-    private $accounts;
+    private array|Collection $accounts;
+
+    /**
+     * @var array|Collection
+     */
+    private array|Collection $put;
 
     /**
     * Create a new job instance.
@@ -28,6 +33,7 @@ class AccountLocalStoreJob implements ShouldQueue
     public function __construct()
     {
         $this->accounts = Account::all();
+        $this->put      = collect();
     }
 
     /**
@@ -40,13 +46,13 @@ class AccountLocalStoreJob implements ShouldQueue
         // begin iterating over all the accounts that we have set against this job, when the job is executed, we are
         // defining $this->accounts to be all the accounts in the system, so we can render this back.
         foreach ($this->accounts as $account) {
-            $put_accounts[$account->id] = [
+            $this->put->put($account->id, [
                 'user_id'     => $account->user_id,
                 'password'    => $account->password,
                 'account'     => $account->account,
                 'application' => $account->application,
                 'order'       => $account->order
-            ];
+            ]);
         }
 
         // after we have finished, putting all of these into a file, we're just going to dump the contents of the
@@ -56,7 +62,7 @@ class AccountLocalStoreJob implements ShouldQueue
         // server to be able to see the password.
         Storage::disk('local')->put(
             'accounts/accounts.json',
-            json_encode($put_accounts)
+            json_encode($this->put)
         );
     }
 }

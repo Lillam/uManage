@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Task;
+namespace App\Http\Controllers\Project\Task;
 
 use Carbon\Carbon;
 use Illuminate\View\View;
-use App\Models\Task\TaskLog;
 use Illuminate\Http\Request;
+use App\Models\Task\TaskLog;
 use Illuminate\Http\JsonResponse;
 use App\Models\Task\TaskChecklist;
 use Illuminate\Support\Facades\DB;
@@ -97,7 +97,7 @@ class TaskChecklistController extends Controller
         $task_checklist->log(TaskLog::TASK_CHECKLIST_NAME, $name, $task_checklist->name);
 
         // after we are satisfied that the log has been met, then we are going to actually update the task checklist
-        // entry in the databse
+        // entry in the database
         $task_checklist->update([
             'name' => $name
         ]);
@@ -152,11 +152,12 @@ class TaskChecklistController extends Controller
             });
 
             // once we have collected all the update queries into a transaction, we are going to be simultaneously
-            // running these from one transaction rather than progressively updating them in seperate connection queries.
+            // running these from one transaction rather than progressively updating them in separate connection
+            // queries.
             DB::commit();
 
-            // return to the user that the checklists have been updated accordingly, this will be returned in json format
-            // so that the frontend javascript can put this data into an alert.
+            // return to the user that the checklists have been updated accordingly, this will be returned in json
+            // format so that the frontend javascript can put this data into an alert.
             return response()->json([
                 'response' => 'Items have been successfully reordered'
             ]);
@@ -174,7 +175,7 @@ class TaskChecklistController extends Controller
     * This method is simply just allowing the user to send off a request which will delete the checklist. because of
     * the constraint this method will delete all and any checklist items that are sitting inside this checklist group
     * which will need to be taken into consideration. This will also return a json response alert to the user so that
-    * the javascript can process the event and alert whether or not it was a success...
+    * the javascript can process the event and alert whether it was a success or not...
     *
     * @param Request $request
     * @return JsonResponse
@@ -192,8 +193,8 @@ class TaskChecklistController extends Controller
             ->where('user_id', '=', Auth::id())
             ->first();
 
-        // delete the task checklist in question, when this hapepns, this is going to cascade to it's children, and
-        // delete all of the checklist items that have the checklist item.s
+        // delete the task checklist in question, when this happens, this is going to cascade to its children, and
+        // delete all the checklist items that have the checklist item.s
         $task_checklist->delete();
 
         // we are making the assumption that there was a checklist to delete, and we are going to be alerting the user

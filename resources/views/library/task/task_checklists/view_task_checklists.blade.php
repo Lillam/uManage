@@ -39,7 +39,7 @@ be rendering this particular checklist sets of elements... --}}
                 </div>
                 <div class="new_task_checklist_item uk-flex">
                     <div class="uk-width-expand">
-                        <label for="new_task_checklist_item_input">Add New Checklist Item</label>
+                        <label for="new_task_checklist_item_input" class="uk-hidden">Add New Checklist Item</label>
                         <input id="new_task_checklist_item_input"
                                class="new_task_checklist_item_input"
                                placeholder="New Checklist Item..."

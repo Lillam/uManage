@@ -78,7 +78,8 @@ class TimeLogController extends Controller
 
         // acquire all the time logs for the user of which is signed in, that are in between this particular monday, or
         // a monday that we have specified, and between this sunday, or the sunday that was the end of the week specified.
-        $time_logs = TimeLog::with('task', 'project')
+        $time_logs = TimeLog::query()
+            ->with('task', 'project')
             ->where('from', '>=', $days->monday)
             ->where('to', '<=', $days->sunday)
             ->where('user_id', '=', Auth::id())
@@ -122,13 +123,14 @@ class TimeLogController extends Controller
     */
     public function _ajaxViewTimeLogsGet(): JsonResponse
     {
-        $time_logs = TimeLog::where('user_id', '=', Auth::id())
+        $time_logs = TimeLog::query()
+            ->where('user_id', '=', Auth::id())
             ->orderBy('id', 'desc')
             ->limit(5)
             ->get();
 
         return response()->json([
-            'html' => view('library.time_log.ajax_view_timelogs', compact(
+            'html' => view('library.time_log.ajax_view_time_logs', compact(
                 'time_logs'
             ))->render()
         ]);
@@ -137,7 +139,7 @@ class TimeLogController extends Controller
     /**
     * This method is for saving new TimeLog posts. this method will be called every time the user is attempting to make
     * a new TimeLog entry, this method doesn't in truth need to return anything, providing this method doesn't return
-    * an error, the javascript will refresh the Timelogging and will instantly show the new TimeLog entry...
+    * an error, the javascript will refresh the Time Logging and will instantly show the new TimeLog entry...
     *
     * @param Request $request
     * @return void
@@ -161,7 +163,7 @@ class TimeLogController extends Controller
         // create the TimeLog entry based on all the information that is collected above, we aren't going to store this
         // information as there is no need to retain it for any form of return type, thus we are going to end here
         // assuming this does not error, the method will proceed with a void.
-        TimeLog::create([
+        TimeLog::query()->create([
             'task_id'    => $task_id,
             'project_id' => $project_id,
             'user_id'    => $this->vs->get('user')->id,
@@ -187,15 +189,24 @@ class TimeLogController extends Controller
             ->where('id', '=', $request->input('time_log_id'))
             ->first();
 
+        $response = [
+            'error' => 'Something went wrong...'
+        ];
+
         if (! $time_log instanceof TimeLog) {
-            return response()->json(['error' => 'The time_log you have requested to delete does not exist']);
+            $response = [
+                'error' => 'The time_log you have requested to delete does not exist'
+            ];
         }
 
         if ($this->vs->get('user')->can('TimeLogPolicy@editTimeLog', $time_log)) {
             $time_log->delete();
-            return response()->json([ 'success' => 'The time_log has been successfully deleted' ]);
+
+            $response = [
+                'success' => 'The time_log has been successfully deleted'
+            ];
         }
 
-        return response()->json([ 'error' => 'Something went wrong...' ]);
+        return response()->json($response);
     }
 }

@@ -75,22 +75,26 @@ $(() => {
     // user back to the list page... whilst deleting the current day's entry. this functionality is built for those that
     // click on a day that they can't really enter on, and decide to leave it there, rather than a blank entry sit in
     // the database, they can opt to remove it from their list for a cleaner view.
-    $body.on('click', '.delete_journal', function (event) {
-        let $this = $(this),
-            $journal = $('#journal'),
+    $body.on('click', '.delete_journal', () => {
+        let $journal = $('#journal'),
             delete_journal_url = $journal.data('delete_journal_url'),
             journal_id = $journal.data('journal_id');
 
-        $.ajax({
-            method: 'post',
-            url: delete_journal_url,
-            data: {
-                journal_id: journal_id
-            },
-            success: function (data) {
-                window.location.href = data.response;
-            }
-        });
+        // todo - create and implement a re-usable confirm component that will make this reuse-able simply by adding an
+        //        attribute to the button. data-confirm or something or other. (I could use a confirm package however
+        //        would prefer to implement something myself.
+        if (window.confirm('Are you sure you want to delete this?')) {
+            $.ajax({
+                method: 'post',
+                url: delete_journal_url,
+                data: {
+                    journal_id: journal_id
+                },
+                success: function (data) {
+                    window.location.href = data.response;
+                }
+            });
+        }
     });
 
     // on the journal page, the user has the option of rating their day, by clicking on 1, 2, 3, 4 or 5 stars will
