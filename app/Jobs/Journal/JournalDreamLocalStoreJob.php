@@ -6,10 +6,10 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Support\Collection;
 use App\Models\Journal\JournalDream;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 
 class JournalDreamLocalStoreJob implements ShouldQueue
 {

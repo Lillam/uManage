@@ -26,7 +26,7 @@
 @endsection
 @section('body')
     <div class="journal_reports"
-        data-view_journals_report_url="{{ action('Journal\JournalReportController@_ajaxViewJournalsReportGet') }}"
+        data-view_journals_report_url="{{ action('Web\Journal\JournalReportController@_ajaxViewJournalsReportGet') }}"
         data-date="{{ $date->format('Y-m') }}">
         <div class="section no-border-top">
             <h2 class="section_title">Overview</h2>

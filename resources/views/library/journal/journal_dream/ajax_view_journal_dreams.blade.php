@@ -6,7 +6,7 @@
             @else
                 <span class="journal_dream_inactive"></span>
             @endif
-            <a href="{{ action('Journal\JournalDreamController@_viewJournalDreamGet', [$date_key]) }}">
+            <a href="{{ action('Web\Journal\JournalDreamController@_viewJournalDreamGet', [$date_key]) }}">
                 <div class="box_wrapper no-border">
                     <h2>{!! $date->title !!}</h2>
                     <div class="journal_dream_content">

@@ -14,7 +14,7 @@
 @section('body')
     <div class="section no-border-top">
         <div class="projects"
-             data-view_projects_url="{{ action('Project\ProjectController@_ajaxViewProjectsGet') }}">
+             data-view_projects_url="{{ action('Web\Project\ProjectController@_ajaxViewProjectsGet') }}">
         </div>
     </div>
 @endsection

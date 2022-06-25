@@ -27,15 +27,15 @@
 @endsection
 @section('body')
     <div class="time_log_calendar"
-         data-view_time_logs_url="{{ action('TimeLog\TimeLogController@_ajaxViewTimeLogsCalendarGet') }}"
-         data-delete_time_log_url="{{ action('TimeLog\TimeLogController@_ajaxDeleteTimeLogGet') }}"
+         data-view_time_logs_url="{{ route('time-logs.calendar.ajax') }}"
+         data-delete_time_log_url="{{ route('time-log.delete.ajax') }}"
          data-current_date="{{ $days->monday->format('d.m.Y') }}">
         <div class="time_logs"></div>
     </div>
 
     <div id="add_time_log_modal" uk-modal
-         data-make_time_log_url="{{ action('TimeLog\TimeLogController@_ajaxMakeTimeLogPost') }}"
-         data-search_tasks_url="{{ action('Project\Task\TaskController@_ajaxSearchTasksGet') }}">
+         data-make_time_log_url="{{ route('time-log.create.ajax') }}"
+         data-search_tasks_url="{{ route('projects.tasks.task.search.ajax') }}">
         <div class="uk-modal-dialog uk-margin-auto-vertical">
             <button class="uk-modal-close-default" type="button" uk-close></button>
             <div class="uk-modal-header">
@@ -44,19 +44,24 @@
             <div class="uk-modal-body" uk-overflow-auto>
                 <form class="uk-form uk-grid uk-grid-small" uk-grid>
                     <div class="uk-width-1-1 task_search_input_wrapper">
+                        <label for="task_id" class="uk-hidden">Task ID</label>
                         <input type="text" id="task_id" placeholder="Search issue..." autocomplete="off">
                         <i class="fa fa-spin fa-spinner"></i>
                     </div>
                     <div class="uk-width-1-1">
+                        <label for="time_log_note" class="uk-hidden">Time Log Note</label>
                         <textarea placeholder="Note..." id="time_log_note"></textarea>
                     </div>
                     <div class="uk-width-1-3">
+                        <label for="time_spent" class="uk-hidden">Time Spent</label>
                         <input type="text" id="time_spent" placeholder="Time spent...">
                     </div>
                     <div class="uk-width-1-3">
+                        <label for="from" class="uk-hidden">From</label>
                         <input type="text" id="from" placeholder="From...">
                     </div>
                     <div class="uk-width-1-3">
+                        <label for="to" class="uk-hidden">To</label>
                         <input type="text" id="to" placeholder="To...">
                     </div>
                 </form>

@@ -19,7 +19,7 @@ return [
         ]
     ],
 
-    'App\Http\Controllers\Account\AccountController'                => [
+    'App\Http\Controllers\Web\Account\AccountController' => [
         'name' => 'Accounts',
         'description' => '
             Are you in need of a place to store all your accounts and passwords? This package will unlock the 
@@ -28,7 +28,7 @@ return [
         ',
         'icon' => 'fa-lock'
     ],
-    'App\Http\Controllers\Journal\JournalAchievementController'     => [
+    'App\Http\Controllers\Web\Journal\JournalAchievementController' => [
         'name' => 'Journal Achievements',
         'description' => ' 
             Do you enjoy keeping track of your achievements? Are you a fan of seeing your daily achievements fruition 
@@ -37,7 +37,7 @@ return [
         ',
         'icon' => 'fa-trophy'
     ],
-    'App\Http\Controllers\Journal\JournalController'                => [
+    'App\Http\Controllers\Web\Journal\JournalController' => [
         'name' => 'Journals',
         'description' => '
             If you enjoy keeping track of your daily life... then you will love what this offers. This package offers 
@@ -51,7 +51,7 @@ return [
             asset('assets/images/packages/journal/journal_package_image_3.png'),
         ]
     ],
-    'App\Http\Controllers\Journal\JournalDreamController'           => [
+    'App\Http\Controllers\Web\Journal\JournalDreamController' => [
         'name' => 'Dream Journals',
         'description' => '
             Everyone has dreams... right? it is not often that you remember it throughout the day, so this place is the 
@@ -61,7 +61,7 @@ return [
         ',
         'icon' => 'fa-moon'
     ],
-    'App\Http\Controllers\Journal\JournalFinanceController'         => [
+    'App\Http\Controllers\Web\Journal\JournalFinanceController' => [
         'name'        => 'Finance Journals',
         'description' => '
             Everyone spends their money in a variety of ways; Journalise and visualise the way that you are spending
@@ -71,7 +71,7 @@ return [
         ',
         'icon'        => 'fa-dollar-sign'
     ],
-    'App\Http\Controllers\Project\ProjectController'                => [
+    'App\Http\Controllers\Web\Project\ProjectController' => [
         'name' => 'Projects',
         'description' => '
             If you are a fan of management, and you are needing a hub for being able to create projects for everything 
@@ -86,7 +86,7 @@ return [
             asset('assets/images/packages/project/project_package_image_5.png'),
         ]
     ],
-    'App\Http\Controllers\Project\ProjectSettingController'         => [
+    'App\Http\Controllers\Web\Project\ProjectSettingController' => [
         'name' => 'Projects Settings',
         'description' => '
             Ability to edit and manipulate the visuals of projects, the name of the project, the display of the project
@@ -96,7 +96,7 @@ return [
         ',
         'icon' => 'fa-cog'
     ],
-    'App\Http\Controllers\Project\ProjectUserContributorController' => [
+    'App\Http\Controllers\Web\Project\ProjectUserContributorController' => [
         'name' => 'Project Contributors',
         'description' => '
             Your projects can have a multitude of contributors. Invite and add others to your projects and get help in 
@@ -106,37 +106,37 @@ return [
         ',
         'icon' => 'fa-users'
     ],
-    'App\Http\Controllers\Store\StoreProductController'             => [
+    'App\Http\Controllers\Web\Store\StoreProductController' => [
         'name' => 'Store Products',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\Store\StoreBasketController'              => [
+    'App\Http\Controllers\Web\Store\StoreBasketController' => [
         'name' => 'Store Basket',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\System\SystemChangelogController'         => [
+    'App\Http\Controllers\Web\System\SystemChangelogController' => [
         'name' => 'System Changelog',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\System\SystemController'                  => [
+    'App\Http\Controllers\Web\System\SystemController' => [
         'name' => 'System',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\System\SystemModuleAccessController'      => [
+    'App\Http\Controllers\Web\System\SystemModuleAccessController' => [
         'name' => 'System Module Access',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\System\SystemModuleController'            => [
+    'App\Http\Controllers\Web\System\SystemModuleController' => [
         'name' => 'System Module',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\Project\Task\TaskChecklistController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskChecklistController' => [
         'name' => 'Task Checklists',
         'description' => '
             Feel as though Tasks just aren\'t enough to visualise everything you need to do? feel like one task 
@@ -146,7 +146,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskChecklistItemController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskChecklistItemController' => [
         'name' => 'Task Checklist Items',
         'description' => '
             Items for the checklists that allow you to create individual subsidiary tasks on your task that better aid 
@@ -156,7 +156,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskCommentController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskCommentController' => [
         'name' => 'Task Comments',
         'description' => '
             Collaborate on tasks with the ability to comment on tasks. You will be able to create comments, react with 
@@ -166,7 +166,7 @@ return [
         ',
         'icon' => 'fa-comment'
     ],
-    'App\Http\Controllers\Project\Task\TaskController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskController' => [
         'name' => 'Tasks',
         'description' => '
             Your projects can have the possibility of adding tasks, A To Do list so to speak. A place where you can 
@@ -176,7 +176,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskFileController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskFileController' => [
         'name' => 'Task Files',
         'description' => '
             When manipulating tasks you may find yourself wanting to collate ideas and add files to your tasks. Giving 
@@ -185,7 +185,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskIssueTypeController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskIssueTypeController' => [
         'name' => 'Task Issue Types',
         'description' => '
             When creating tasks it helps to categorise them. Be greeted with the default: [Bug, Feature, Research]
@@ -193,7 +193,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskLogController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskLogController' => [
         'name' => 'Task Logging',
         'description' => '
             If you ever want to visualise what it is you get up, how much you get up or even reminding yourself what it 
@@ -203,7 +203,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskPriorityController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskPriorityController' => [
         'name' => 'Task Priorities',
         'description' => '
             You may find yourself wanting to have priorities when creating yourself tasks; by default you will have 
@@ -212,7 +212,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskStatusController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskStatusController' => [
         'name' => 'Task Statuses',
         'description' => '
             Somewhat of a standard, however you may assign statuses to tickets; if you are in a collaborative experience
@@ -222,7 +222,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\Project\Task\TaskWatcherUserController' => [
+    'App\Http\Controllers\Web\Project\Task\TaskWatcherUserController' => [
         'name' => 'Task Watchers',
         'description' => '
             Should you find yourself in a situation you have contributors in your project; you can assign yourself as a 
@@ -232,7 +232,7 @@ return [
         ',
         'icon' => 'fa-tasks'
     ],
-    'App\Http\Controllers\TimeLog\TimeLogController'                => [
+    'App\Http\Controllers\Web\TimeLog\TimeLogController' => [
         'name' => 'Time Logging',
         'description' => '
             Are you a fan of keeping track of all the work that you do? Are you a fan of being able to see where all 
@@ -248,17 +248,17 @@ return [
             asset('assets/images/packages/time_log/time_log_package_image_3.png')
         ]
     ],
-    'App\Http\Controllers\User\UserController'                      => [
+    'App\Http\Controllers\Web\User\UserController' => [
         'name' => 'Users',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\User\UserDetailController'                => [
+    'App\Http\Controllers\Web\User\UserDetailController' => [
         'name' => 'User Details',
         'description' => '',
         'icon' => ''
     ],
-    'App\Http\Controllers\User\UserSettingController'               => [
+    'App\Http\Controllers\Web\User\UserSettingController' => [
         'name' => 'User Settings',
         'description' => '',
         'icon' => ''

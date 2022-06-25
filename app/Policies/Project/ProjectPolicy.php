@@ -2,10 +2,10 @@
 
 namespace App\Policies\Project;
 
-use App\Policies\Policy;
-use App\Models\User\User;
+use App\Http\Controllers\Web\Project\ProjectController;
 use App\Models\Project\Project;
-use App\Http\Controllers\Project\ProjectController;
+use App\Models\User\User;
+use App\Policies\Policy;
 
 class ProjectPolicy extends Policy
 {

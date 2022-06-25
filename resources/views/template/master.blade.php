@@ -24,8 +24,9 @@
         {!! ($vs->css)('assets/css/application') !!}
     </head>
     <body class="{{ $theme }} {{ $current_page }} {{ $sidebar_class }} {{ $sidebar_collapsed }}"
-          data-get_emojis_url="{{ action('System\SystemController@_getSummernoteEmojis') }}"
-          data-collapse_sidebar_url="{{ route('user.settings.sidebar-collapse') }}">
+          data-collapse_sidebar_url="{{ route('user.settings.sidebar-collapse') }}"
+          data-get_emojis_url="{{ route('system.emojis') }}"
+    >
         {{-- Header --}}
         @include('template.header')
         {{-- Body --}}

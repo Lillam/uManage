@@ -1,8 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Account\AccountController;
-
 //Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function () {
 //    // Account Managing
 //    Route::get('/accounts', [AccountController::class, '_viewAccountsGet'])->name('accounts');

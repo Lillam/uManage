@@ -26,6 +26,6 @@
     {{-- Displaying the calendar view of dreams in the system --}}
     <div id="journal_dreams"
          data-date="{{ $date->format('Y-m') }}"
-         data-view_journal_dreams_url="{{ action('Journal\JournalDreamController@_ajaxViewJournalDreamsGet') }}">
+         data-view_journal_dreams_url="{{ action('Web\Journal\JournalDreamController@_ajaxViewJournalDreamsGet') }}">
     </div>
 @endsection

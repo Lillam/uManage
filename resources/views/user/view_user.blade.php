@@ -26,7 +26,10 @@
                 <div class="uk-width-1-3@m">
                     <h2 class="section_title">Me</h2>
                     <div class="box">
-                        <img class="profile_image" src="{{ $user->getProfileImage() }}" />
+                        <img class="profile_image"
+                             alt="{{ $user->getFullName() }}"
+                             src="{{ $user->getProfileImage() }}"
+                        />
                     </div>
                 </div>
                 {{-- User Profile Name, and Profile Details --}}
@@ -40,6 +43,7 @@
                             <div class="uk-width-expand">
                                 <div>
                                     @can('UserPolicy@editUser', $user)
+                                        <label for="first_name" class="uk-hidden">First Name</label>
                                         <input type="text" placeholder="Your First Name" value="{{ $user->first_name }}" />
                                     @else
                                         <div class="placeholder">{{ $user->first_name }}</div>
@@ -54,7 +58,8 @@
                             <div class="uk-width-expand">
                                 <div>
                                     @can('UserPolicy@editUser', $user)
-                                        <input type="text" placeholder="Your Last Name" value="{{ $user->last_name }}" />
+                                        <label for="last_name" class="uk-hidden">Last Name</label>
+                                        <input id="last_name" type="text" placeholder="Your Last Name" value="{{ $user->last_name }}" />
                                     @else
                                         <div class="placeholder">{{ $user->last_name }}</div>
                                     @endcan
@@ -68,7 +73,8 @@
                             <div class="uk-width-expand">
                                 <div>
                                     @can('UserPolicy@editUser', $user)
-                                        <input type="text" placeholder="Your Job Title" />
+                                        <label for="job_title" class="uk-hidden">Job Title</label>
+                                        <input id="job_title" type="text" placeholder="Your Job Title" />
                                     @else
                                         <div class="placeholder">Your Job Title</div>
                                     @endcan
@@ -81,7 +87,8 @@
                             </div>
                             <div class="uk-width-expand">
                                 @can('UserPolicy@editUser', $user)
-                                    <input type="text" placeholder="Your Department" />
+                                    <label for="department" class="uk-hidden">Department</label>
+                                    <input id="department" type="text" placeholder="Your Department" />
                                 @else
                                     <div class="placeholder">Your Department</div>
                                 @endcan
@@ -93,7 +100,8 @@
                             </div>
                             <div class="uk-width-expand">
                                 @can('UserPolicy@editUser', $user)
-                                    <input type="text" placeholder="Your Address" />
+                                    <label for="address" class="uk-hidden">Address</label>
+                                    <input id="address" type="text" placeholder="Your Address" />
                                 @else
                                     <div class="placeholder">Your Address</div>
                                 @endcan
@@ -105,7 +113,8 @@
                             </div>
                             <div class="uk-width-expand">
                                 @can('UserPolicy@editUser', $user)
-                                    <input type="text" placeholder="Your Timezone" />
+                                    <label for="timezone" class="uk-hidden">Timezone</label>
+                                    <input id="timezone" type="text" placeholder="Your Timezone" />
                                 @else
                                     <div class="placeholder">Your Timezone</div>
                                 @endcan
@@ -120,7 +129,8 @@
                             </div>
                             <div class="uk-width-expand">
                                 @can('UserPolicy@editUser', $user)
-                                    <input type="text" placeholder="Your Email" value="{{ $user->email }}" />
+                                    <label for="user_email" class="uk-hidden">Email</label>
+                                    <input id="user_email" type="text" placeholder="Your Email" value="{{ $user->email }}" />
                                 @else
                                     <div class="placeholder">{{ $user->email }}</div>
                                 @endcan
@@ -135,7 +145,7 @@
         <div class="section">
             <h2>{{ $user->getFullName() }}'s Projects</h2>
             <div class="projects"
-                 data-view_projects_url="{{ action('Project\ProjectController@_ajaxViewProjectsGet') }}"
+                 data-view_projects_url="{{ route('projects.list.ajax') }}"
                  data-view_mode="slider">
             </div>
         </div>
@@ -149,7 +159,9 @@
                         <div class="user_card">
                             <a href="{{ $user_i_work_with->getUrl() }}">
                                 <div class="uk-flex uk-flex-middle uk-flex-center">
-                                    <img src="{{ $user_i_work_with->getProfileImage() }}" />
+                                    <img alt="{{ $user_i_work_with->getFullName() }}"
+                                         src="{{ $user_i_work_with->getProfileImage() }}"
+                                    />
                                 </div>
                                 <h2>{{ $user_i_work_with->getFullName() }}</h2>
                                 <span>Job Description</span>

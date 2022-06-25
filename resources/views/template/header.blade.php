@@ -45,10 +45,10 @@
                         <img src="{{ $vs->user?->getProfileImage() }}" alt="{{ $vs->user?->getFullName() }}"/>
                     </a>
                     <div class="user-dropdown">
-                        <a href="{{ route('user.dashboard', $vs->user?->id) }}"><i class="fa fa-user"></i>My Account</a>
+                        <a href="{{ route('users.user', $vs->user?->id) }}"><i class="fa fa-user"></i>My Account</a>
                         <a href="{{ route('projects.tasks.create') }}"
                            create-task><i class="fa fa-tasks"></i>Create Task</a>
-                        <a href="{{ route('projects.create') }}"
+                        <a href="{{ route('projects.create.view') }}"
                            create-project><i class="fa fa-sticky-note"></i>Create Project</a>
                         <a href="{{ route('system.store') }}"><i class="fa fa-database"></i>Store All</a>
                         <a href="{{ route('user.logout') }}"><i class="fa fa-sign-out-alt"></i>Logout</a>

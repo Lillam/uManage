@@ -12,7 +12,7 @@
             <span>£{{ $user->basket_price }}</span>
         </div>
         <div class="uk-width-auto uk-margin-left">
-            <a class="product_basket_button" href="{{ action('Store\StoreBasketController@_viewStoreBasketGet') }}">
+            <a class="product_basket_button" href="{{ route('store.basket') }}">
                 <span class="product_basket_count">{{ $user->basket_items }}</span>
                 <i class="fa fa-shopping-basket"></i>
             </a>
@@ -52,14 +52,17 @@
                     @endforeach
                 </div>
                 <div class="uk-width-auto uk-flex uk-flex-bottom @m">
-                    <a href="{{ action('Store\StoreProductController@_viewStoreProductGet', $store_product->alias) }}"
-                       class="view_product">Read More</a>
+                    <a href="{{ route('store.products.product', $store_product->alias) }}"
+                       class="view_product"
+                    >Read More</a>
                     @if (array_key_exists($store_product->id, $user->user_basket_products))
-                        <a href="{{ action('Store\StoreBasketController@_removeFromStoreBasketGet', $store_product->id) }}"
-                           class="add_product_to_basket">Remove from Basket</a>
+                        <a href="{{ route('store.basket.remove', $store_product->id) }}"
+                           class="add_product_to_basket"
+                        >Remove from Basket</a>
                     @else
-                        <a href="{{ action('Store\StoreBasketController@_addToStoreBasketGet', $store_product->id) }}"
-                           class="add_product_to_basket">Add to Basket</a>
+                        <a href="{{ route('store.basket.add', $store_product->id) }}"
+                           class="add_product_to_basket"
+                        >Add to Basket</a>
                     @endif
                 </div>
             </div>

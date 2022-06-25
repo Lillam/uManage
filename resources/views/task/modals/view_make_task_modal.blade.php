@@ -1,4 +1,4 @@
-<div class="make_task_modal" uk-modal data-make_task_url="{{ action('Task\TaskController@_ajaxCreateTaskPost') }}">
+<div class="make_task_modal" uk-modal data-make_task_url="{{ route('projects.tasks.task.create.ajax') }}">
     <div class="uk-modal-dialog uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">

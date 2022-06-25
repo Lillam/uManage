@@ -11,20 +11,19 @@
     <div class="uk-width-auto uk-flex store_product_title_wrapper">
         <div class="uk-width-auto">
             @if (array_key_exists($store_product->id, $user->user_basket_products))
-                <a href="{{ action('Store\StoreBasketController@_removeFromStoreBasketGet', $store_product->id) }}"
+                <a href="{{ route('store.basket.remove', $store_product->id) }}"
                    class="add_product_to_basket uk-button uk-icon-button">
                     <i class="fa fa-minus"></i>
                 </a>
             @else
-                <a href="{{ action('Store\StoreBasketController@_addToStoreBasketGet', $store_product->id) }}"
+                <a href="{{ route('store.basket.add', $store_product->id) }}"
                    class="add_product_to_basket uk-button uk-icon-button">
                     <i class="fa fa-plus"></i>
                 </a>
             @endif
         </div>
         <div class="uk-width-auto">
-            <a href="{{ action('Store\StoreBasketController@_viewStoreBasketGet') }}"
-               class="product_basket_button uk-button uk-icon-button">
+            <a href="{{ route('store.basket') }}" class="product_basket_button uk-button uk-icon-button">
                 <span class="product_basket_count">{{ $user->basket_items }}</span>
                 <i class="fa fa-shopping-basket"></i>
             </a>

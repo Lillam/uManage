@@ -9,9 +9,8 @@
     {{-- Journal Navigation --}}
     <div class="system_changelog_navigation">
         <a class="uk-button uk-icon-button"
-           href="{{ action('System\SystemChangelogController@_editSystemChangelogGet', 'new') }}">
-            <i class="fa fa-plus"></i>
-        </a>
+           href="{{ route('system.changelogs.edit', 'new') }}"
+        ><i class="fa fa-plus"></i></a>
     </div>
 @endsection
 @section('sidebar')

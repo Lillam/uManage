@@ -26,7 +26,7 @@
     {{-- Journals Container --}}
     {{-- Ajax View Journals --}}
     <div id="journals"
-         data-view_journals_url="{{ action('Journal\JournalController@_ajaxViewJournalsGet') }}"
+         data-view_journals_url="{{ action('Web\Journal\JournalController@_ajaxViewJournalsGet') }}"
          data-date="{{ $date->format('Y-m') }}">
     </div>
 @endsection

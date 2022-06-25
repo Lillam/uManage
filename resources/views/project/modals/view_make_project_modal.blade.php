@@ -1,4 +1,4 @@
-<div class="make_project_modal" uk-modal data-make_project_url="{{ action('Project\ProjectController@_ajaxCreateProjectPost') }}">
+<div class="make_project_modal" uk-modal data-make_project_url="{{ route('projects.create.ajax') }}">
     <div class="uk-modal-dialog uk-margin-auto-vertical">
         <button class="uk-modal-close-default" type="button" uk-close></button>
         <div class="uk-modal-header">

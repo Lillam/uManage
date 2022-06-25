@@ -24,7 +24,7 @@ return [
     1 => (object) [
         'name' => 'Account Management',
         'controllers' => [
-            \App\Http\Controllers\Account\AccountController::class
+            \App\Http\Controllers\Web\Account\AccountController::class
         ],
     ],
 
@@ -40,14 +40,14 @@ return [
     2 => (object) [
         'name' => 'Journals',
         'controllers' => [
-            \App\Http\Controllers\Journal\JournalDashboardController::class,
-            \App\Http\Controllers\Journal\JournalController::class,
-            \App\Http\Controllers\Journal\JournalDreamDashboardController::class,
-            \App\Http\Controllers\Journal\JournalDreamController::class,
-            \App\Http\Controllers\Journal\JournalAchievementController::class,
-            \App\Http\Controllers\Journal\JournalReportController::class,
-            \App\Http\Controllers\Journal\JournalFinanceDashboardController::class,
-            \App\Http\Controllers\Journal\JournalFinanceController::class
+            \App\Http\Controllers\Web\Journal\JournalDashboardController::class,
+            \App\Http\Controllers\Web\Journal\JournalController::class,
+            \App\Http\Controllers\Web\Journal\JournalDreamDashboardController::class,
+            \App\Http\Controllers\Web\Journal\JournalDreamController::class,
+            \App\Http\Controllers\Web\Journal\JournalAchievementController::class,
+            \App\Http\Controllers\Web\Journal\JournalReportController::class,
+            \App\Http\Controllers\Web\Journal\JournalFinanceDashboardController::class,
+            \App\Http\Controllers\Web\Journal\JournalFinanceController::class
         ]
     ],
 
@@ -63,22 +63,22 @@ return [
     3 => (object) [
         'name' => 'Project Management',
         'controllers' => [
-            \App\Http\Controllers\Project\ProjectDashboardController::class,
-            \App\Http\Controllers\Project\ProjectController::class,
-            \App\Http\Controllers\Project\ProjectSettingController::class,
-            \App\Http\Controllers\Project\ProjectUserContributorController::class,
-            \App\Http\Controllers\Project\Task\TaskDashboardController::class,
-            \App\Http\Controllers\Project\Task\TaskChecklistController::class,
-            \App\Http\Controllers\Project\Task\TaskChecklistItemController::class,
-            \App\Http\Controllers\Project\Task\TaskCommentController::class,
-            \App\Http\Controllers\Project\Task\TaskController::class,
-            \App\Http\Controllers\Project\Task\TaskFileController::class,
-            \App\Http\Controllers\Project\Task\TaskIssueTypeController::class,
-            \App\Http\Controllers\Project\Task\TaskLogController::class,
-            \App\Http\Controllers\Project\Task\TaskPriorityController::class,
-            \App\Http\Controllers\Project\Task\TaskStatusController::class,
-            \App\Http\Controllers\Project\Task\TaskWatcherUserController::class,
-            \App\Http\Controllers\Project\Task\TaskReportController::class,
+            \App\Http\Controllers\Web\Project\ProjectDashboardController::class,
+            \App\Http\Controllers\Web\Project\ProjectController::class,
+            \App\Http\Controllers\Web\Project\ProjectSettingController::class,
+            \App\Http\Controllers\Web\Project\ProjectUserContributorController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskDashboardController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskChecklistController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskChecklistItemController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskCommentController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskFileController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskIssueTypeController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskLogController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskPriorityController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskStatusController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskWatcherUserController::class,
+            \App\Http\Controllers\Web\Project\Task\TaskReportController::class,
         ]
     ],
 
@@ -94,8 +94,8 @@ return [
     4 => (object) [
         'name' => 'Time Keeping',
         'controllers' => [
-            \App\Http\Controllers\TimeLog\TimeLogController::class,
-            \App\Http\Controllers\TimeLog\TimeLogReportController::class,
+            \App\Http\Controllers\Web\TimeLog\TimeLogController::class,
+            \App\Http\Controllers\Web\TimeLog\TimeLogReportController::class,
         ]
     ],
 
@@ -111,9 +111,9 @@ return [
     5 => (object) [
         'name' => 'Users',
         'controllers' => [
-            \App\Http\Controllers\User\UserController::class,
-            \App\Http\Controllers\User\UserDetailController::class,
-            \App\Http\Controllers\User\UserSettingController::class,
+            \App\Http\Controllers\Web\User\UserController::class,
+            \App\Http\Controllers\Web\User\UserDetailController::class,
+            \App\Http\Controllers\Web\User\UserSettingController::class,
         ]
     ],
 
@@ -129,8 +129,8 @@ return [
     6 => (object) [
         'name' => 'Store',
         'controllers' => [
-            \App\Http\Controllers\Store\StoreProductController::class,
-            \App\Http\Controllers\Store\StoreBasketController::class,
+            \App\Http\Controllers\Web\Store\StoreProductController::class,
+            \App\Http\Controllers\Web\Store\StoreBasketController::class,
         ]
     ],
 
@@ -146,10 +146,10 @@ return [
     7 => (object) [
         'name' => 'System',
         'controllers' => [
-            \App\Http\Controllers\System\SystemChangelogController::class,
-            \App\Http\Controllers\System\SystemController::class,
-            \App\Http\Controllers\System\SystemModuleAccessController::class,
-            \App\Http\Controllers\System\SystemModuleController::class,
+            \App\Http\Controllers\Web\System\SystemChangelogController::class,
+            \App\Http\Controllers\Web\System\SystemController::class,
+            \App\Http\Controllers\Web\System\SystemModuleAccessController::class,
+            \App\Http\Controllers\Web\System\SystemModuleController::class,
         ]
     ]
 ];

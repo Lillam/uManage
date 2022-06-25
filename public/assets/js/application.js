@@ -17,12 +17,13 @@ window.summernote_options = {
             return context.ui.button({
                 contents: '<i class="fa fa-code"></i>',
                 click: function (event) {
-                    $(event.target)
-                        .closest('.note-editor')
-                        .find('.note-editable > p:last-of-type').find('br').remove();
-                    $(event.target)
-                        .closest('.note-editor')
-                        .find('.note-editable > p:last-of-type').append('<pre><code>...</code></pre>');
+                    $(event.target).closest('.note-editor')
+                                   .find('.note-editable > p:last-of-type')
+                                   .find('br')
+                                   .remove();
+                    $(event.target).closest('.note-editor')
+                                   .find('.note-editable > p:last-of-type')
+                                   .append('<pre><code>...</code></pre>');
                 }
             }).render();
         }
@@ -32,11 +33,24 @@ window.summernote_options = {
         match: /:([\-+\w]+)$/,
         search: function (keyword, callback) {
             callback($.grep(window.emojis, function (item) {
-                return item.indexOf(keyword) == 0;
+                return item.indexOf(keyword) === 0;
             }));
         },
         template: (item) => `${window.emoji_items[item]} :${item}:`,
         content: (item) => window.emoji_items[item]
+    },
+    callbacks: {
+        // here we're going to disable the original functionality that summernote has on command + enter | ctrl + enter
+        // so that we can hijack it and implement the feature where pressing it simply submits the content block
+        // instead and looks for the nearest save button.
+        onEnter: function (event) {
+            if (event.metaKey || event.ctrlKey) {
+                event.preventDefault();
+                // this path would be better updated at some point however is going to do the job for now and its main
+                // purpose is to just simply click the save button.
+                $(this).next().next().find('a').first().click();
+            }
+        },
     }
 };
 
@@ -206,7 +220,7 @@ $.fn.extend({
     */
     placeCursorAtEnd: function() {
         // Places the cursor at the end of a content-editable container (should also work for textarea / input)
-        if (!! this.length) {
+        if (! this.length) {
             throw new Error("Cannot manipulate an element if there is no element!");
         }
 

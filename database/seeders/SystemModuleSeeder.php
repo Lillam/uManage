@@ -32,7 +32,7 @@ class SystemModuleSeeder extends Seeder
     *
     * @return void
     */
-    public function run()
+    public function run(): void
     {
         // before this seeder executes, we are going to be deleting everything from the database, so that we can begin
         // re-syncing all the controllers that are going to be in the database.
@@ -41,7 +41,7 @@ class SystemModuleSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar($this->modules->count());
 
         foreach ($this->modules as $id => $module) {
-            SystemModule::create([
+            SystemModule::query()->create([
                 'id'   => $id,
                 'name' => $module->name
             ]);
@@ -50,7 +50,7 @@ class SystemModuleSeeder extends Seeder
                 $methods = $this->extractAppControllerMethods($controller);
                 if (! empty($methods)) {
                     foreach ($methods as $method) {
-                        SystemModuleAccess::create([
+                        SystemModuleAccess::query()->create([
                             'id'               => $this->incrementSystemModuleAccessId(),
                             'system_module_id' => $id,
                             'controller'       => $controller,

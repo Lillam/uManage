@@ -36,10 +36,10 @@
 @endsection
 @section('body')
     {{-- Editing content of the journal entry today --}}
-    <div id="journal" class="{{ ($journal_achievements_enabled === true) ? '' : 'journal_sidebar_closed' }}"
+    <div id="journal" class="{{ ($journal_achievements_enabled) ? '' : 'journal_sidebar_closed' }}"
         data-journal_id="{{ $journal->id }}"
-        data-edit_journal_url="{{ action('Journal\JournalController@_ajaxEditJournalPost') }}"
-        data-delete_journal_url="{{ action('Journal\JournalController@_ajaxDeleteJournalPost') }}">
+        data-edit_journal_url="{{ action('Web\Journal\JournalController@_ajaxEditJournalPost') }}"
+        data-delete_journal_url="{{ action('Web\Journal\JournalController@_ajaxDeleteJournalPost') }}">
         <div class="journal_content">
             <div class="section no-border-top">
                 <h2 class="section_title">Overall</h2>
@@ -85,17 +85,19 @@
                     </a>
                 @endfor
             </div>
-            @if($journal_achievements_enabled)
+            @if ($journal_achievements_enabled)
                 <h2>What have I achieved today?</h2>
                 <div id="journal_achievements"
-                     data-get_journal_achievements_url="{{ action('Journal\JournalAchievementController@_ajaxViewJournalAchievementsGet') }}"
-                     data-make_journal_achievements_url="{{ action('Journal\JournalAchievementController@_ajaxMakeJournalAchievementPost') }}"
-                     data-edit_journal_achievements_url="{{ action('Journal\JournalAchievementController@_ajaxEditJournalAchievementPost') }}"
-                     data-drop_journal_achievements_url="{{ action('Journal\JournalAchievementController@_ajaxDeleteJournalAchievementPost') }}"
+                     data-get_journal_achievements_url="{{ action('Web\Journal\JournalAchievementController@_ajaxViewJournalAchievementsGet') }}"
+                     data-make_journal_achievements_url="{{ action('Web\Journal\JournalAchievementController@_ajaxMakeJournalAchievementPost') }}"
+                     data-edit_journal_achievements_url="{{ action('Web\Journal\JournalAchievementController@_ajaxEditJournalAchievementPost') }}"
+                     data-drop_journal_achievements_url="{{ action('Web\Journal\JournalAchievementController@_ajaxDeleteJournalAchievementPost') }}"
                 ></div>
                 <div class="uk-flex">
                     <div class="uk-width-expand">
+                        <label for="new_journal_achievement" class="uk-hidden">Add new Achievement</label>
                         <input type="text"
+                               id="new_journal_achievement"
                                class="new_journal_achievement"
                                placeholder="Add New Achievement"
                         />

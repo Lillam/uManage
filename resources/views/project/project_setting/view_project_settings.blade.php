@@ -6,14 +6,18 @@
     {!! ($vs->js)('views/project/project_setting/view_project_setting') !!}
 @endsection
 @section('body')
-    <div class="project" data-update_project_url="{{ action('Project\ProjectSettingController@_editProjectSettingsPost') }}">
+    <div class="project" data-update_project_url="{{ route('projects.project.settings.edit') }}">
         <input type="hidden" name="project_id" value="{{ $project_setting->project_id }}" />
         <div class="project_settings_content">
             <div class="section">
                 <h2 class="section_title">Options</h2>
                 <div class="">
-                    <label>Project Color</label>
-                    <input type="color" class="project_color" value="{{ $project_setting->project->color }}" />
+                    <label for="project_color">Project Color</label>
+                    <input type="color"
+                           id="project_color"
+                           class="project_color"
+                           value="{{ $project_setting->project->color }}"
+                    />
                     <div class="project_color_options uk-hidden uk-margin-top">
                         <a class="save_project_color uk-button uk-button-primary uk-button-small">Save</a>
                         <a class="cancel_project_color uk-button uk-button-danger uk-button-small">Cancel</a>
@@ -31,7 +35,7 @@
                 </div>
             </div>
             <div class="section">
-                <a href="{{ action('Project\ProjectController@_deleteProjectGet', $project_setting->project_id) }}"
+                <a href="{{ route('projects.project.delete', $project_setting->project_id) }}"
                    class="delete_project uk-button uk-button-small uk-button-danger">Delete Project</a>
             </div>
         </div>

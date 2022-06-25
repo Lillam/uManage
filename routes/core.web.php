@@ -11,34 +11,34 @@
 */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\User\UserController;
-use App\Http\Controllers\System\SystemController;
-use App\Http\Controllers\Account\AccountController;
-use App\Http\Controllers\Journal\JournalController;
-use App\Http\Controllers\Project\ProjectController;
-use App\Http\Controllers\TimeLog\TimeLogController;
-use App\Http\Controllers\User\UserSettingController;
-use App\Http\Controllers\Project\Task\TaskController;
-use App\Http\Controllers\Store\StoreBasketController;
-use App\Http\Controllers\Store\StoreProductController;
-use App\Http\Controllers\System\SystemModuleController;
-use App\Http\Controllers\Project\Task\TaskLogController;
-use App\Http\Controllers\Journal\JournalDreamController;
-use App\Http\Controllers\TimeLog\TimeLogReportController;
-use App\Http\Controllers\Journal\JournalReportController;
-use App\Http\Controllers\Journal\JournalFinanceController;
-use App\Http\Controllers\Project\ProjectSettingController;
-use App\Http\Controllers\System\SystemChangelogController;
-use App\Http\Controllers\Project\Task\TaskReportController;
-use App\Http\Controllers\Journal\JournalDashboardController;
-use App\Http\Controllers\Project\ProjectDashboardController;
-use App\Http\Controllers\Project\Task\TaskCommentController;
-use App\Http\Controllers\Project\Task\TaskChecklistController;
-use App\Http\Controllers\Journal\JournalAchievementController;
-use App\Http\Controllers\Project\Task\TaskDashboardController;
-use App\Http\Controllers\Journal\JournalDreamDashboardController;
-use App\Http\Controllers\Project\Task\TaskChecklistItemController;
-use App\Http\Controllers\Journal\JournalFinanceDashboardController;
+use App\Http\Controllers\Web\User\UserController;
+use App\Http\Controllers\Web\System\SystemController;
+use App\Http\Controllers\Web\Account\AccountController;
+use App\Http\Controllers\Web\Journal\JournalController;
+use App\Http\Controllers\Web\Project\ProjectController;
+use App\Http\Controllers\Web\TimeLog\TimeLogController;
+use App\Http\Controllers\Web\User\UserSettingController;
+use App\Http\Controllers\Web\Project\Task\TaskController;
+use App\Http\Controllers\Web\Store\StoreBasketController;
+use App\Http\Controllers\Web\Store\StoreProductController;
+use App\Http\Controllers\Web\System\SystemModuleController;
+use App\Http\Controllers\Web\Journal\JournalDreamController;
+use App\Http\Controllers\Web\Project\Task\TaskLogController;
+use App\Http\Controllers\Web\Journal\JournalReportController;
+use App\Http\Controllers\Web\TimeLog\TimeLogReportController;
+use App\Http\Controllers\Web\Journal\JournalFinanceController;
+use App\Http\Controllers\Web\Project\ProjectSettingController;
+use App\Http\Controllers\Web\System\SystemChangelogController;
+use App\Http\Controllers\Web\Project\Task\TaskReportController;
+use App\Http\Controllers\Web\Journal\JournalDashboardController;
+use App\Http\Controllers\Web\Project\ProjectDashboardController;
+use App\Http\Controllers\Web\Project\Task\TaskCommentController;
+use App\Http\Controllers\Web\Journal\JournalAchievementController;
+use App\Http\Controllers\Web\Project\Task\TaskChecklistController;
+use App\Http\Controllers\Web\Project\Task\TaskDashboardController;
+use App\Http\Controllers\Web\Journal\JournalDreamDashboardController;
+use App\Http\Controllers\Web\Project\Task\TaskChecklistItemController;
+use App\Http\Controllers\Web\Journal\JournalFinanceDashboardController;
 
 
 /*
@@ -96,7 +96,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
 
     Route::get('/dashboard', [UserController::class, '_viewUserDashboardGet'])->name('user.dashboard');
     Route::get('/users',     [UserController::class, '_viewUsersGet']);
-    Route::get('/user/{id}', [UserController::class, '_viewUserGet']);
+    Route::get('/user/{id}', [UserController::class, '_viewUserGet'])->name('users.user');
 
     Route::get('/ajax/collapse', [UserSettingController::class, '_ajaxSetSidebarCollapsed'])
         ->name('user.settings.sidebar-collapse');
@@ -130,11 +130,11 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
 
     Route::get('/projects/dashboard',  [ProjectDashboardController::class, '_viewProjectsDashboardGet'])->name('projects.dashboard');
     Route::get('/projects',            [ProjectController::class, '_viewProjectsGet'])->name('projects.list');
-    Route::get('/project/{code}',      [ProjectController::class, '_viewProjectGet']);
-    Route::get('/project/delete/{id}', [ProjectController::class, '_deleteProjectGet']);
+    Route::get('/project/{code}',      [ProjectController::class, '_viewProjectGet'])->name('projects.project');
+    Route::get('/project/delete/{id}', [ProjectController::class, '_deleteProjectGet'])->name('projects.project.delete');
     Route::get('/ajax/projects',       [ProjectController::class, '_ajaxViewProjectsGet'])->name('projects.list.ajax');
-    Route::get( '/ajax/make/project',  [ProjectController::class, '_ajaxViewCreateProjectGet'])->name('projects.create');
-    Route::post('/ajax/make/project',  [ProjectController::class, '_ajaxCreateProjectPost']);
+    Route::get( '/ajax/make/project',  [ProjectController::class, '_ajaxViewCreateProjectGet'])->name('projects.create.view');
+    Route::post('/ajax/make/project',  [ProjectController::class, '_ajaxCreateProjectPost'])->name('projects.create.ajax');
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
@@ -147,7 +147,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     */
     Route::get( '/projects/settings',          [ProjectSettingController::class, '_viewProjectsSettingsGet'])->name('projects.settings');
     Route::get( '/project/{code}/settings',    [ProjectSettingController::class, '_viewProjectSettingsGet'])->name('projects.project.settings');
-    Route::post('/ajax/edit/project/settings', [ProjectSettingController::class, '_editProjectSettingsPost']);
+    Route::post('/ajax/edit/project/settings', [ProjectSettingController::class, '_editProjectSettingsPost'])->name('projects.project.settings.edit');
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
@@ -165,10 +165,10 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get( '/tasks',                               [TaskController::class, '_viewTasksGet'])->name('projects.tasks');
     Route::get( '/task/{code}/{id}',                    [TaskController::class, '_viewTaskGet'])->name('projects.tasks.task');
     Route::get( '/delete/task/{code}/{id}',             [TaskController::class, '_deleteTaskGet']);
-    Route::get( '/ajax/search/tasks',                   [TaskController::class, '_ajaxSearchTasksGet']);
+    Route::get( '/ajax/search/tasks',                   [TaskController::class, '_ajaxSearchTasksGet'])->name('projects.tasks.task.search.ajax');
     Route::get( '/ajax/tasks',                          [TaskController::class, '_ajaxViewTasksGet'])->name('projects.tasks.ajax');
     Route::get( '/ajax/create/task',                    [TaskController::class, '_ajaxViewCreateTaskGet'])->name('projects.tasks.create');
-    Route::post('/ajax/create/task',                    [TaskController::class, '_ajaxCreateTaskPost']);
+    Route::post('/ajax/create/task',                    [TaskController::class, '_ajaxCreateTaskPost'])->name('projects.tasks.task.create.ajax');
     Route::post('/ajax/task/edit',                      [TaskController::class, '_ajaxEditTaskPost'])->name('projects.tasks.task.edit.ajax');
 
     Route::get( '/ajax/tasks/report',                   [TaskReportController::class, '_ajaxViewTasksReportGet'])->name('projects.tasks.report.ajax');
@@ -313,8 +313,8 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get( '/time-logs/calendar',                  [TimeLogController::class, '_viewTimeLogCalendarGet'])->name('time-logs.calendar');
     Route::get( '/ajax/view/time-logs',                 [TimeLogController::class, '_ajaxViewTimeLogsGet'])->name('time-logs.ajax');
     Route::get( '/ajax/view/time-logs-calendar',        [TimeLogController::class, '_ajaxViewTimeLogsCalendarGet'])->name('time-logs.calendar.ajax');
-    Route::post('/ajax/make/time-log',                  [TimeLogController::class, '_ajaxMakeTimeLogPost']);
-    Route::get( '/ajax/delete/time-log',                [TimeLogController::class, '_ajaxDeleteTimeLogGet']);
+    Route::post('/ajax/make/time-log',                  [TimeLogController::class, '_ajaxMakeTimeLogPost'])->name('time-log.create.ajax');
+    Route::get( '/ajax/delete/time-log',                [TimeLogController::class, '_ajaxDeleteTimeLogGet'])->name('time-log.delete.ajax');
 
     Route::get( '/time-log/report',                     [TimeLogReportController::class, '_viewTimeLogReportGet'])->name('time-logs.report');
     Route::get( '/ajax/view/time-log-report',           [TimeLogReportController::class, '_ajaxViewTimeLogReportGet'])->name('time-logs.report.ajax');
@@ -331,10 +331,10 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
 
     Route::get('/system/changelogs',            [SystemChangelogController::class, '_viewSystemChangelogsGet'])->name('system.changelogs');
     Route::get('/system/changelogs/{id}',       [SystemChangelogController::class, '_viewSystemChangelogGet']);
-    Route::get('/system/changelogs/edit/{id?}', [SystemChangelogController::class, '_editSystemChangelogGet']);
+    Route::get('/system/changelogs/edit/{id?}', [SystemChangelogController::class, '_editSystemChangelogGet'])->name('system.changelogs.edit');
     Route::get('/system/store/all',             [SystemController::class, '_storeAllModulesLocally'])->name('system.store');
     Route::get('/system/perform',               [SystemController::class, '_performRandomJob']);
-    Route::get('/system/emojis',                [SystemController::class, '_getSummernoteEmojis']);
+    Route::get('/system/emojis',                [SystemController::class, '_getSummernoteEmojis'])->name('system.emojis');
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
@@ -347,10 +347,10 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     */
 
     Route::get('/store/products',                [StoreProductController::class, '_viewStoreProductsGet'])->name('store.products');
-    Route::get('/store/product/{name}',          [StoreProductController::class, '_viewStoreProductGet']);
-    Route::get('/store/basket',                  [StoreBasketController::class, '_viewStoreBasketGet']);
-    Route::get('/store/basket/add/{product}',    [StoreBasketController::class, '_addToStoreBasketGet']);
-    Route::get('/store/basket/remove/{product}', [StoreBasketController::class, '_removeFromStoreBasketGet']);
+    Route::get('/store/product/{name}',          [StoreProductController::class, '_viewStoreProductGet'])->name('store.products.product');
+    Route::get('/store/basket',                  [StoreBasketController::class, '_viewStoreBasketGet'])->name('store.basket');
+    Route::get('/store/basket/add/{product}',    [StoreBasketController::class, '_addToStoreBasketGet'])->name('store.basket.add');
+    Route::get('/store/basket/remove/{product}', [StoreBasketController::class, '_removeFromStoreBasketGet'])->name('store.basket.remove');
 
     /*
     |-------------------------------------------------------------------------------------------------------------------

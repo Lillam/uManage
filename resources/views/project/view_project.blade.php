@@ -25,7 +25,7 @@
         </div>
         <div class="uk-width-auto">
             <a class="project_settings_button uk-button uk-icon-button"
-               href="{{ action('Project\ProjectSettingController@_viewProjectSettingsGet', $project->code) }}">
+               href="{{ action('Web\Project\ProjectSettingController@_viewProjectSettingsGet', $project->code) }}">
                 <i class="fa fa-cog"></i>
             </a>
         </div>

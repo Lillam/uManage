@@ -18,13 +18,13 @@
                     </div>
                 </div>
                 {{-- Background image for the login screen... --}}
-                <div class="login_title_background"
+                {{--<div class="login_title_background"
                      style="background-image: url({{ asset('images/header_background.jpg') }});">
-                </div>
+                </div>--}}
             </div>
             <div class="uk-width-2-5@l uk-width-1-2@m login_form">
                 <div class="login_form_inner uk-flex uk-flex-middle uk-flex-center">
-                    <form class="" method="POST" action="{{ action('User\UserController@_viewUserLoginPost') }}">
+                    <form class="" method="POST" action="{{ route('user.login') }}">
                         @csrf
                         <div class="input_wrapper {{ $errors->has('email') ? 'error' : '' }}">
                             <input id="email" type="email"

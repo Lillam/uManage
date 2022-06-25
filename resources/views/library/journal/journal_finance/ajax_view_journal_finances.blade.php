@@ -1,7 +1,7 @@
 <div class="uk-grid uk-grid-collapse" uk-grid>
     @foreach ($dates as $date_key => $date)
         <div class="journal_finance_month" data-date="{{ $date_key }}">
-            <a href="{{ action('Journal\JournalDreamController@_viewJournalDreamGet', [$date_key]) }}">
+            <a href="{{ action('Web\Journal\JournalDreamController@_viewJournalDreamGet', [$date_key]) }}">
                 <div class="box_wrapper no-border">
                     <h2>{!! $date->title !!}</h2>
                     <div class="uk-flex">

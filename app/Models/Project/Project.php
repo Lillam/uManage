@@ -165,7 +165,7 @@ class Project extends Model
     */
     public function getUrl(): string
     {
-        return action('Project\ProjectController@_viewProjectGet', $this->code);
+        return route('projects.project', $this->code);
     }
 
     /*
