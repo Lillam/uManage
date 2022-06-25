@@ -52,7 +52,7 @@ class TaskSeeder extends Seeder
 
             foreach ($tasks as $task_id => $task) {
                 try {
-                    $the_new_task = Task::updateOrCreate(['id' => $task_id], [
+                    $the_new_task = Task::query()->updateOrCreate(['id' => $task_id], [
                         'id'                 => $task_id,
                         'project_id'         => $task->project_id,
                         'user_id'            => 1,

@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\Storage;
 
 class JournalDreamSeeder extends Seeder
 {
+    /**
+     * @return void
+     */
     public function run(): void
     {
         $journal_dreams = collect(
@@ -20,7 +23,7 @@ class JournalDreamSeeder extends Seeder
             $bar = $this->command->getOutput()->createProgressBar($journal_dreams->count());
             foreach ($journal_dreams as $journal_dream) {
                 $parsedown = (new Parsedown())->setSafeMode(true);
-                JournalDream::updateOrCreate(['id' => $journal_dream->id], [
+                JournalDream::query()->updateOrCreate(['id' => $journal_dream->id], [
                     'id'      => $journal_dream->id,
                     'user_id' => 1,
                     'rating'  => $journal_dream->rating,

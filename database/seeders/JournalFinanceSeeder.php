@@ -9,7 +9,10 @@ use Illuminate\Support\Facades\Storage;
 
 class JournalFinanceSeeder extends Seeder
 {
-    public function run()
+    /**
+     * @return void
+     */
+    public function run(): void
     {
         $journal_finances = explode(
             "\n",
@@ -18,7 +21,7 @@ class JournalFinanceSeeder extends Seeder
 
         foreach ($journal_finances as $journal_finance) {
             [$date, $cost, $current_balance, $currency, $where] = explode(',', $journal_finance);
-            JournalFinance::create([
+            JournalFinance::query()->create([
                 'user_id' => 122,
                 'spend'   => $cost,
                 'when'    => Carbon::parse($date)->format('Y-m-d'),

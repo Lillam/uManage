@@ -7,14 +7,14 @@ use App\Models\Task\TaskIssueType;
 
 class TaskIssueTypeSeeder extends Seeder
 {
-    public $key = 0;
+    use Incremental;
 
     /**
     * Run the database seeders.
     *
     * @return void
     */
-    public function run()
+    public function run(): void
     {
         $task_issue_types = [
             $this->increment() => (object) [
@@ -37,25 +37,12 @@ class TaskIssueTypeSeeder extends Seeder
         $bar = $this->command->getOutput()->createProgressBar($this->key);
 
         foreach ($task_issue_types as $id => $task_issue_type) {
-            TaskIssueType::updateOrCreate(['id' => $id], [
+            TaskIssueType::query()->updateOrCreate(['id' => $id], [
                 'id' => $id,
                 'name' => $task_issue_type->name,
                 'color' => $task_issue_type->color,
                 'icon' => $task_issue_type->icon
-            ]);
-
-            $bar->advance();
-        }
-
-        $bar->finish();
-    }
-
-    /**
-    * @return int
-    */
-    public function increment(): int
-    {
-        $this->key += 1;
-        return $this->key;
+            ]); $bar->advance();
+        } $bar->finish();
     }
 }

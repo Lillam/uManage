@@ -8,7 +8,6 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Journal\JournalAchievement;
-use Illuminate\Contracts\Filesystem\FileNotFoundException;
 
 class JournalSeeder extends Seeder
 {
@@ -17,7 +16,6 @@ class JournalSeeder extends Seeder
     * creating new journal entries. this is for being able to retain the very important information, whilst retaining
     * the ability to freshly migrate the database.
     *
-    * @throws FileNotFoundException
     * @return void
     */
     public function run(): void
@@ -28,7 +26,7 @@ class JournalSeeder extends Seeder
             DB::transaction(function () use ($journals) {
                 $bar = $this->command->getOutput()->createProgressBar($journals->count());
                 foreach ($journals as $journal_id => $journal) {
-                    Journal::updateOrCreate(['id' => $journal_id], [
+                    Journal::query()->updateOrCreate(['id' => $journal_id], [
                         'id'            => $journal_id,
                         'user_id'       => $journal->user_id,
                         'rating'        => $journal->rating,
@@ -42,7 +40,7 @@ class JournalSeeder extends Seeder
 
                     if (! empty($journal->journal_achievements)) {
                         foreach ($journal->journal_achievements as $journal_achievement_id => $journal_achievement) {
-                            JournalAchievement::updateOrCreate(['id' => $journal_achievement_id], [
+                            JournalAchievement::query()->updateOrCreate(['id' => $journal_achievement_id], [
                                 'id'         => $journal_achievement_id,
                                 'journal_id' => $journal_id,
                                 'name'       => $journal_achievement->name,

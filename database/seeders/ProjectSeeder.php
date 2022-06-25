@@ -16,23 +16,25 @@ class ProjectSeeder extends Seeder
     *
     * @return void
     */
-    public function run()
+    public function run(): void
     {
-        if (! Storage::disk('local')->exists('projects/projects.json')) return;
+        if (! Storage::disk('local')->exists('projects/projects.json'))
+            return;
 
         $this->process(collect(json_decode(Storage::disk('local')->get('projects/projects.json'))));
     }
 
     /**
+    * @return void
     * @param $projects
     */
-    public function process($projects)
+    public function process($projects): void
     {
         DB::transaction(function () use ($projects) {
             $bar = $this->command->getOutput()->createProgressBar(count($projects));
             $parsedown = (new Parsedown())->setSafeMode(true);
             foreach ($projects as $project) {
-                Project::updateOrCreate(['id' => $project->id], [
+                Project::query()->updateOrCreate(['id' => $project->id], [
                     'id'              => $project->id,
                     'user_id'         => $project->user_id,
                     'name'            => $project->name,
@@ -42,7 +44,7 @@ class ProjectSeeder extends Seeder
                     'color'           => $project->color
                 ]);
 
-                ProjectSetting::updateOrCreate(['project_id' => $project->id], [
+                ProjectSetting::query()->updateOrCreate(['project_id' => $project->id], [
                     'project_id'         => $project->id,
                     'view_id'            => 1,
                     'tasks_total'        => 0,

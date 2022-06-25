@@ -2,13 +2,13 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Seeder;
 use App\Helpers\Text\TextHelper;
 use App\Models\Store\StoreProduct;
-use Illuminate\Database\Seeder;
 
 class StoreProductSeeder extends Seeder
 {
-    public $key = 0;
+    use Incremental;
 
     /**
     * Run the database seeders.
@@ -63,22 +63,16 @@ class StoreProductSeeder extends Seeder
             ]
         ];
 
+        $bar = $this->command->getOutput()->createProgressBar(count($products));
+
         foreach ($products as $product_id => $product) {
-            StoreProduct::updateOrCreate(['id' => $product_id], [
+            StoreProduct::query()->updateOrCreate(['id' => $product_id], [
                 'id' => $product_id,
                 'name' => $product->name,
                 'alias' => TextHelper::slugify($product->name),
                 'package' => json_encode($product->package),
                 'price' => $product->price
-            ]);
-        }
-    }
-
-    /**
-    * @return int
-    */
-    public function increment(): int
-    {
-        return $this->key += 1;
+            ]); $bar->advance();
+        } $bar->finish();
     }
 }

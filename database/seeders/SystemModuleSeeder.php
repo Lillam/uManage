@@ -36,7 +36,7 @@ class SystemModuleSeeder extends Seeder
     {
         // before this seeder executes, we are going to be deleting everything from the database, so that we can begin
         // re-syncing all the controllers that are going to be in the database.
-        SystemModule::where('id', '>=', 1)->delete();
+        SystemModule::query()->where('id', '>=', 1)->delete();
 
         $bar = $this->command->getOutput()->createProgressBar($this->modules->count());
 

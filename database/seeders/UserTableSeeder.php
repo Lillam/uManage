@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserTableSeeder extends Seeder
 {
-    public $key = 0;
+    use Incremental;
 
     /**
     * This method is specifically for seeding the system with the core necessity information to be able to begin working
@@ -19,18 +19,33 @@ class UserTableSeeder extends Seeder
     *
     * @return void
     */
-    public function run()
+    public function run(): void
     {
         $users = [
-            $this->increment() => (object) [ 'first_name' => 'Liam',  'last_name'  => 'Taylor',  'email' => 'liam.taylor@outlook.com',   'password'   => Hash::make('lolnah111') ],
-            $this->increment() => (object) [ 'first_name' => 'Jarod', 'last_name'  => 'Edwards', 'email' => 'jarod.edwards@outlook.com', 'password'   => Hash::make('lolnah111') ],
-            $this->increment() => (object) [ 'first_name' => 'Jay',   'last_name'  => 'Davis',   'email' => 'jay.davis@outlook.com',     'password'   => Hash::make('lolnah111') ]
+            $this->increment() => (object) [
+                'first_name' => 'Liam',
+                'last_name'  => 'Taylor',
+                'email'      => 'liam.taylor@outlook.com',
+                'password'   => Hash::make('password')
+            ],
+            $this->increment() => (object) [
+                'first_name' => 'Jarod',
+                'last_name'  => 'Edwards',
+                'email'      => 'jarod.edwards@outlook.com',
+                'password'   => Hash::make('password')
+            ],
+            $this->increment() => (object) [
+                'first_name' => 'Jay',
+                'last_name'  => 'Davis',
+                'email'      => 'jay.davis@outlook.com',
+                'password'   => Hash::make('password')
+            ]
         ];
 
         $bar = $this->command->getOutput()->createProgressBar(count($users));
 
         foreach ($users as $id => $user) {
-            User::updateOrCreate(['id' => $id], [
+            User::query()->updateOrCreate(['id' => $id], [
                 'id'         => $id,
                 'first_name' => $user->first_name,
                 'last_name'  => $user->last_name,
@@ -38,10 +53,5 @@ class UserTableSeeder extends Seeder
                 'password'   => $user->password
             ]); $bar->advance();
         } $bar->finish();
-    }
-
-    public function increment()
-    {
-        return $this->key += 1;
     }
 }

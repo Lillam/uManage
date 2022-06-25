@@ -10,12 +10,12 @@ use Illuminate\Support\Facades\Storage;
 class AccountSeeder extends Seeder
 {
     /**
-    * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-    * @return void
-    */
+     * @return void
+     */
     public function run(): void
     {
-        if (! Storage::disk('local')->has('accounts/accounts.json')) return;
+        if (! Storage::disk('local')->exists('accounts/accounts.json'))
+            return;
 
         $accounts = collect(json_decode(
             Storage::disk('local')
@@ -25,7 +25,7 @@ class AccountSeeder extends Seeder
         DB::transaction(function () use ($accounts) {
             $bar = $this->command->getOutput()->createProgressBar($accounts->count());
             foreach ($accounts as $account_id => $account) {
-                Account::updateOrCreate(['id' => $account_id], [
+                Account::query()->updateOrCreate(['id' => $account_id], [
                     'id'          => $account_id,
                     'account'     => $account->account,
                     'application' => $account->application,
