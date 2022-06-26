@@ -103,7 +103,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
-    | Project Routes
+    | Account Routes
     |-------------------------------------------------------------------------------------------------------------------
     |
     | The routes that will interact in some way with the accounts. Viewing their account listings, viewing the passwords

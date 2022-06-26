@@ -24,20 +24,29 @@
 @endsection
 @section('body')
     <div class="uk-container time_log_reports"
-         data-view_time_log_reports_url="{{ action('TimeLog\TimeLogReportController@_ajaxViewTimeLogReportGet') }}"
+         data-view_time_log_reports_url="{{ route('time-logs.report.ajax') }}"
          data-date="{{ $date->format('Y-m') }}">
         <div class="uk-grid uk-grid-small" uk-grid>
             <div class="uk-width-1-3@m">
                 <div class="box">
-                    <canvas class="time_log_report_by_project" width="100vh" height="77vh"></canvas>
+                    <canvas class="time_log_report_by_project"
+                            width="100vh"
+                            height="77vh"
+                    ></canvas>
                 </div>
                 <div class="box uk-margin-top">
-                    <canvas class="time_log_report_by_day uk-margin-top" width="100vh" height="77vh"></canvas>
+                    <canvas class="time_log_report_by_day uk-margin-top"
+                            width="100vh"
+                            height="77vh"
+                    ></canvas>
                 </div>
             </div>
             <div class="uk-width-2-3@m">
                 <div class="box">
-                    <canvas class="time_log_report_by_task" width="100vh" height="78vh"></canvas>
+                    <canvas class="time_log_report_by_task"
+                            width="100vh"
+                            height="78vh"
+                    ></canvas>
                 </div>
             </div>
         </div>
