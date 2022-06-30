@@ -7,8 +7,8 @@
 @endsection
 @section('body')
     <div id="journal_dream"
-         data-edit_journal_dream_url="{{ action('Journal\JournalDreamController@_editJournalDreamPost') }}"
-         data-delete_journal_dream_url="{{ action('Journal\JournalDreamController@_ajaxDeleteJournalDreamPost') }}"
+         data-edit_journal_dream_url="{{ action('Web\Journal\JournalDreamController@_editJournalDreamPost') }}"
+         data-delete_journal_dream_url="{{ action('Web\Journal\JournalDreamController@_ajaxDeleteJournalDreamPost') }}"
          data-journal_dream_id="{{ $journal_dream->id }}">
         <div class="journal_dream_content">
             <div class="journal_dream_navigation_wrapper navigation">
