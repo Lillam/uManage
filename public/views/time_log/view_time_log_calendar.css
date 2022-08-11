@@ -56,12 +56,10 @@
     border-left: solid 1px rgba(0,0,0,0.2);
 }
 
-@media(min-width: 1000px) {
-    .time_logs {
-        overflow: auto;
-        max-height: calc(100vh - 80px);
-        height: calc(100vh - 80px);
-    }
+.time_logs {
+    overflow: auto;
+    max-height: calc(100vh - 80px);
+    height: calc(100vh - 80px);
 }
 
 .time_log_day_wrapper:first-of-type {

@@ -282,7 +282,7 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/dreams/journals/dashboard',            [JournalDreamDashboardController::class, '_viewJournalsDreamsDashboardGet'])->name('journals.dreams.dashboard');
     Route::get('/dreams/journals/calendar',             [JournalDreamController::class, '_viewJournalDreamsGet'])->name('journals.dreams.calendar');
     Route::get('/ajax/view/dreams/journals',            [JournalDreamController::class, '_ajaxViewJournalDreamsGet'])->name('journals.dreams.calendar.ajax');
-    Route::get('/dreams/journals/{date}',               [JournalDreamController::class, '_viewJournalDreamGet']);
+    Route::get('/dreams/journals/{date}',               [JournalDreamController::class, '_viewJournalDreamGet'])->name('journals.dreams.dream');
     Route::post('/ajax/journal_dream/edit',             [JournalDreamController::class, '_editJournalDreamPost']);
     Route::post('/ajax/delete/journal_dream',           [JournalDreamController::class, '_ajaxDeleteJournalDreamPost']);
 

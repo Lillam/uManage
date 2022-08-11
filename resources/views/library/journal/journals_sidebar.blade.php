@@ -24,7 +24,6 @@
 <a class="{{ ($vs->is_page)('page.journals.dreams.calendar') }}" href="{{ route('journals.dreams.calendar') }}">
     <i class="fa fa-calendar-alt"></i>{{ __('journal.sidebar.dream.calendar') }}
 </a>
-
 <hr />
 
 <h3>Financial Journals</h3>

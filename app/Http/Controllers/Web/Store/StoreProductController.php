@@ -32,27 +32,27 @@ class StoreProductController extends Controller
         $user = User::query()
             ->select('*')
             ->with([
-                'user_basket_products',
-                'user_basket_products.store_product'
+                'userBasketProducts',
+                'userBasketProducts.storeProduct'
             ])
             ->where('id', '=', Auth::id())
             ->first();
 
-        $user->basket_items = $user->user_basket_products->count();
-        $user->basket_price = 0;
+        $user->basketItems = $user->userBasketProducts->count();
+        $user->basketPrice = 0;
 
-        $user->user_basket_products = $user->user_basket_products->keyBy('store_product_id')->toArray();
+        $user->userBasketProducts = $user->userBasketProducts->keyBy('store_product_id')->toArray();
 
-        $store_products = StoreProduct::all()->map(function ($store_product) {
-            $store_product->package = json_decode($store_product->package, true);
-            return $store_product;
+        $storeProducts = StoreProduct::all()->map(function (StoreProduct $storeProduct) {
+            $storeProduct->package = json_decode($storeProduct->package, true);
+            return $storeProduct;
         });
 
         $this->vs->set('title', '- Store Products')
                  ->set('current_page', 'page.store');
 
         return view('store.store_product.view_store_products', compact(
-            'store_products',
+            'storeProducts',
             'user'
         ));
     }
@@ -67,27 +67,27 @@ class StoreProductController extends Controller
         $user = User::query()
             ->select('*')
             ->with([
-                'user_basket_products',
-                'user_basket_products.store_product'
+                'userBasketProducts',
+                'userBasketProducts.storeProduct'
             ])
             ->where('id', '=', Auth::id())
             ->first();
 
-        $user->basket_items = $user->user_basket_products->count();
+        $user->basketItems = $user->userBasketProducts->count();
 
-        $user->user_basket_products = $user->user_basket_products->keyBy('store_product_id')->toArray();
+        $user->userBasketProducts = $user->userBasketProducts->keyBy('store_product_id')->toArray();
 
-        $store_product = StoreProduct::query()
+        $storeProduct = StoreProduct::query()
             ->where('alias', '=', $product)
             ->first();
 
-        $store_product->package = json_decode($store_product->package);
+        $storeProduct->package = json_decode($storeProduct->package);
 
-        $this->vs->set('title', " - Store Products - {$store_product->name}")
+        $this->vs->set('title', " - Store Products - {$storeProduct->name}")
                  ->set('current_page', 'page.store');
 
         return view('store.store_product.view_store_product', compact(
-            'store_product',
+            'storeProduct',
             'user'
         ));
     }

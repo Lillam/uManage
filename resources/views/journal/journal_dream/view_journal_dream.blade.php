@@ -5,6 +5,9 @@
 @section('js')
     {!! ($vs->js)('views/journal_dreams/view_journal_dream') !!}
 @endsection
+@section('sidebar')
+    @include('library.journal.journals_sidebar')
+@endsection
 @section('body')
     <div id="journal_dream"
          data-edit_journal_dream_url="{{ action('Web\Journal\JournalDreamController@_editJournalDreamPost') }}"

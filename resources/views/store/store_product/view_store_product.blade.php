@@ -6,17 +6,17 @@
 @section('title-block')
     {{-- Store Products Title --}}
     <div class="uk-width-expand store_product_title_wrapper">
-        <span class="store_product_title">{{ $store_product->name }}</span>
+        <span class="store_product_title">{{ $storeProduct->name }}</span>
     </div>
     <div class="uk-width-auto uk-flex store_product_title_wrapper">
         <div class="uk-width-auto">
-            @if (array_key_exists($store_product->id, $user->user_basket_products))
-                <a href="{{ route('store.basket.remove', $store_product->id) }}"
+            @if (array_key_exists($storeProduct->id, $user->userBasketProducts))
+                <a href="{{ route('store.basket.remove', $storeProduct->id) }}"
                    class="add_product_to_basket uk-button uk-icon-button">
                     <i class="fa fa-minus"></i>
                 </a>
             @else
-                <a href="{{ route('store.basket.add', $store_product->id) }}"
+                <a href="{{ route('store.basket.add', $storeProduct->id) }}"
                    class="add_product_to_basket uk-button uk-icon-button">
                     <i class="fa fa-plus"></i>
                 </a>
@@ -24,7 +24,7 @@
         </div>
         <div class="uk-width-auto">
             <a href="{{ route('store.basket') }}" class="product_basket_button uk-button uk-icon-button">
-                <span class="product_basket_count">{{ $user->basket_items }}</span>
+                <span class="product_basket_count">{{ $user->basketItems }}</span>
                 <i class="fa fa-shopping-basket"></i>
             </a>
         </div>
@@ -32,7 +32,7 @@
 @endsection
 @section('body')
     @php ($images = [])
-    @foreach ($store_product->package as $package)
+    @foreach ($storeProduct->package as $package)
         @if(gettype(__("system.{$package}.images")) !== 'string')
             @php($images = array_merge($images, __("system.{$package}.images")))
         @endif

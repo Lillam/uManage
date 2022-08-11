@@ -9,18 +9,18 @@
     </div>
     <div class="uk-flex store_product_title_wrapper">
         <div class="uk-width-auto uk-flex uk-flex-middle">
-            <span>£{{ $user->basket_price }}</span>
+            <span>£{{ $user->basketPrice }}</span>
         </div>
         <div class="uk-width-auto uk-margin-left">
             <a class="product_basket_button" href="{{ route('store.basket') }}">
-                <span class="product_basket_count">{{ $user->basket_items }}</span>
+                <span class="product_basket_count">{{ $user->basketItems }}</span>
                 <i class="fa fa-shopping-basket"></i>
             </a>
         </div>
     </div>
 @endsection
 @section('body')
-    @foreach($store_products as $store_product_key => $store_product)
+    @foreach($storeProducts as $storeProductKey => $storeProduct)
         <div class="store_product_item no-border-top">
             <div class="uk-flex">
                 <div class="uk-width-expand@s">
@@ -31,20 +31,20 @@
                             </span>
                         </div>
                         <div class="uk-width-expand uk-flex uk-flex-middle">
-                            <h2 class="store_product_name">{{ $store_product->name }}</h2>
+                            <h2 class="store_product_name">{{ $storeProduct->name }}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="uk-width-auto uk-flex uk-flex-bottom">
                     <span class="product_price">
-                        <span class="product_price_currency">£</span>{{ $store_product->price }}
+                        <span class="product_price_currency">£</span>{{ $storeProduct->price }}
                     </span>
                 </div>
             </div>
             <hr />
             <div class="uk-flex uk-grid uk-grid-small" uk-grid>
                 <div class="uk-width-expand@m">
-                    @foreach ($store_product->package as $package)
+                    @foreach ($storeProduct->package as $package)
                         <p class="product_package_item">
                             <span class="product_package_image"><i class="fa {{ __("system.{$package}.icon") }}"></i></span>
                             {{ __("system.{$package}.name") }}
@@ -52,15 +52,15 @@
                     @endforeach
                 </div>
                 <div class="uk-width-auto uk-flex uk-flex-bottom @m">
-                    <a href="{{ route('store.products.product', $store_product->alias) }}"
+                    <a href="{{ route('store.products.product', $storeProduct->alias) }}"
                        class="view_product"
                     >Read More</a>
-                    @if (array_key_exists($store_product->id, $user->user_basket_products))
-                        <a href="{{ route('store.basket.remove', $store_product->id) }}"
+                    @if (array_key_exists($storeProduct->id, $user->userBasketProducts))
+                        <a href="{{ route('store.basket.remove', $storeProduct->id) }}"
                            class="add_product_to_basket"
                         >Remove from Basket</a>
                     @else
-                        <a href="{{ route('store.basket.add', $store_product->id) }}"
+                        <a href="{{ route('store.basket.add', $storeProduct->id) }}"
                            class="add_product_to_basket"
                         >Add to Basket</a>
                     @endif

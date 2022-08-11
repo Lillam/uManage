@@ -17,7 +17,7 @@ class ProjectPolicy extends Policy
     {
         return array_key_exists(
             ProjectController::class . '@_viewProjectsGet',
-            $self->system_access
+            $self->systemAccess
         );
     }
 

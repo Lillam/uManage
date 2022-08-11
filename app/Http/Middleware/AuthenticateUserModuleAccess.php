@@ -43,7 +43,7 @@ class AuthenticateUserModuleAccess
         // the frontend; and return the next request as the user has already been confirmed the permission set here.
         if (array_key_exists(
             $this->target,
-            app('vs')->get('user')->system_access
+            app('vs')->get('user')->systemAccess
         )) return $next($request);
 
         // if we don't manage to prove that the user has access to a module; then we are going to simply return a 403.

@@ -10,7 +10,7 @@ use App\Providers\ExceptionSolutionProvider;
 
 class RelationNotFoundExceptionSolution implements Solution
 {
-    private $esp;
+    private ExceptionSolutionProvider $esp;
 
     /**
     * RelationNotFoundExceptionSolution constructor.
@@ -67,13 +67,13 @@ class RelationNotFoundExceptionSolution implements Solution
     private function getRelationshipsFromModel(): Collection
     {
         return collect(array_filter(
-            array_map(function ($value) {
+            array_map(function ($value): object {
                 return (object) [
                     'name'        => "**{$value->getName()}**",
                     'return_type' => (string) $value->getReturnType()
                 ];
             }, (new ReflectionClass($this->esp->get('throwable')->model))->getMethods()
-            ), function ($value) {
+            ), function ($value): bool {
                 return strpos($value->return_type, 'Has') !== false ||
                        strpos($value->return_type, 'Belongs') !== false;
             }

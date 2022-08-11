@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use App\Models\User\User;
 use Illuminate\Support\Facades\Auth;
+use App\Models\System\SystemModuleAccess;
 
 class AuthenticateUser
 {
@@ -17,7 +18,7 @@ class AuthenticateUser
     * @param Closure $next
     * @return mixed
     */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next): mixed
     {
         // step one, we are going to check whether the user has been signed in or not... and if that is the case... then
         // we are going to do a variety of things to the users models, so that we can pass this around the entire system
@@ -28,19 +29,23 @@ class AuthenticateUser
         // relationships for the system module access so that we can begin to map it to the user as a better array
         // and sort it so that we have a better method of reference later on in the application.
         if ($user instanceof User) {
-            $user->load('system_module_access', 'system_module_access.system_module');
+            $user->load('systemModuleAccess', 'systemModuleAccess.systemModule');
             // we are going to apply all the modules that the user has access to against them, this will take only
             // unique values out of the system module access; so that we can just simply return a small collection of
             // elements.
-            $user->system_modules = $user->system_module_access->map(function ($system_module_access) {
-                return $system_module_access->system_module;
-            })->unique();
+            $user->system_modules = $user->systemModuleAccess->map(
+                function (SystemModuleAccess $systemModuleAccess) {
+                    return $systemModuleAccess->systemModule;
+                }
+            )->unique();
 
             // this will map the entire collection of user's access and place it into system_access associative array
             // so that we are going to be able to utilise for quick access checking.
-            $user->system_access = array_flip($user->system_module_access->map(function ($system_module_access) {
-                return $system_module_access->getControllerMethod();
-            })->toArray()); unset($user->system_module_access);
+            $user->systemAccess = array_flip(
+                $user->systemModuleAccess->map(function (SystemModuleAccess $systemModuleAccess) {
+                    return $systemModuleAccess->getControllerMethod();
+                })->toArray()
+            ); unset($user->systemModuleAccess);
         }
 
         // apply the user, whether a user or null; we're going to assign it into the view service... so that we will

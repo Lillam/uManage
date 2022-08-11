@@ -162,7 +162,7 @@ class User extends Authenticatable
     *
     * @return HasOne
     */
-    public function user_detail(): HasOne
+    public function userDetail(): HasOne
     {
         return $this->hasOne(UserDetail::class, 'user_id', 'id');
     }
@@ -174,7 +174,7 @@ class User extends Authenticatable
     *
     * @return HasOne
     */
-    public function user_setting(): HasOne
+    public function userSetting(): HasOne
     {
         return $this->hasOne(UserSetting::class, 'user_id', 'id');
     }
@@ -197,7 +197,7 @@ class User extends Authenticatable
     *
     * @return HasManyThrough
     */
-    public function system_module_access(): HasManyThrough
+    public function systemModuleAccess(): HasManyThrough
     {
         return $this->hasManyThrough(
             SystemModuleAccess::class,
@@ -215,7 +215,7 @@ class User extends Authenticatable
     *
     * @return HasMany
     */
-    public function user_basket_products(): HasMany
+    public function userBasketProducts(): HasMany
     {
         return $this->hasMany(StoreBasket::class, 'user_id', 'id');
     }

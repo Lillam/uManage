@@ -32,8 +32,7 @@ class AccountSeeder extends Seeder
                     'password'    => $account->password,
                     'user_id'     => $account->user_id,
                     'order'       => $account->order
-                ]);
-                $bar->advance();
+                ]); $bar->advance();
             } $bar->finish();
         }); DB::commit();
     }

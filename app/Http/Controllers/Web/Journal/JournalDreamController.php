@@ -59,7 +59,8 @@ class JournalDreamController extends Controller
 
         $day_key = array_search($starting_day, $days);
 
-        $journal_dreams = JournalDream::select('*')
+        $journal_dreams = JournalDream::query()
+            ->select('*')
             ->where('user_id', '=', $this->vs->get('user')->id)
             ->where('when', '>=', Carbon::parse($date)->startOfMonth()->format('Y-m-d'))
             ->where('when', '<=', Carbon::parse($date)->endOfMonth()->format('Y-m-d'))
@@ -102,24 +103,19 @@ class JournalDreamController extends Controller
     */
     public function _viewJournalDreamGet(Request $request, $date): Application|Factory|View
     {
-        $journal_dream = JournalDream::where('when', '=', $date)->first();
+        $journal_dream = JournalDream::query()->where('when', '=', $date)->first();
 
         if (! $journal_dream instanceof JournalDream)
-            $journal_dream = JournalDream::create([ 'user_id' => $this->vs->get('user')->id, 'when' => $date ]);
+            $journal_dream = JournalDream::query()
+                ->create([ 'user_id' => $this->vs->get('user')->id, 'when' => $date ]);
 
         // Acquire the journal dream page from yesterday, this will be taking the data that is passed, and then making a
         // new date and reducing a day.
-        $yesterday_link = action(
-            [self::class, '_viewJournalDreamGet'],
-            Carbon::parse($date)->subDay(1)->format('Y-m-d')
-        );
+        $yesterday_link = route('journals.dreams.dream', Carbon::parse($date)->subDay()->format('Y-m-d'));
 
         // Acquire the journal dream page for tomorrow (this will be taking the data that is passed, and then making a
         // new date, and adding a day.
-        $tomorrow_link  = action(
-            [self::class, '_viewJournalDreamGet'],
-            Carbon::parse($date)->addDay(1)->format('Y-m-d')
-        );
+        $tomorrow_link  = route('journals.dreams.dream', Carbon::parse($date)->addDay()->format('Y-m-d'));
 
         $title = 'Dream Journal | '
             . $this->vs->get('user')->getFullName() . ' | '
@@ -146,7 +142,7 @@ class JournalDreamController extends Controller
         $field = $request->input('field');
         $value = $request->input('value');
 
-        $journal_dream = JournalDream::where('id', '=', $journal_dream_id)->first();
+        $journal_dream = JournalDream::query()->where('id', '=', $journal_dream_id)->first();
         $journal_dream->$field = $value;
         $journal_dream->save();
 
@@ -163,7 +159,8 @@ class JournalDreamController extends Controller
     */
     public function _ajaxDeleteJournalDreamPost(Request $request): JsonResponse
     {
-        JournalDream::where('id', '=', $request->input('journal_dream_id'))
+        JournalDream::query()
+            ->where('id', '=', $request->input('journal_dream_id'))
             ->where('user_id', '=', $this->vs->get('user')->id)
             ->delete();
 

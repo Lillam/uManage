@@ -75,13 +75,13 @@ class StoreBasket extends Model
     }
 
     /**
-    * Each item in the baasket model, will of course, have a product against it. of course, no sense of having a basket
+    * Each item in the basket model, will of course, have a product against it. of course, no sense of having a basket
     * item if there is nothing in your basket? this will be an easy method for grabbing the products that are residing
     * in everyone's basket; getting the product specifically.
     *
     * @return BelongsTo
     */
-    public function store_product(): BelongsTo
+    public function storeProduct(): BelongsTo
     {
         return $this->belongsTo(StoreProduct::class, 'store_product_id', 'id');
     }

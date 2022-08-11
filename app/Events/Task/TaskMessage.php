@@ -13,16 +13,16 @@ class TaskMessage implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $message;
-    public $field;
-    public $value;
-    private $target_channel;
+    public string $message;
+    public string $field;
+    public string $value;
+    private string $target_channel;
 
     /**
     * Create a new event instance.
     *
     * @param $message
-    * @param $task
+    * @param Task $task
     * @param $field
     *
     * @return void

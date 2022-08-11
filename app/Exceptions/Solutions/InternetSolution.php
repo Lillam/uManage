@@ -10,7 +10,7 @@ class InternetSolution implements Solution
     /**
     * @var ExceptionSolutionProvider
     */
-    private $esp;
+    private ExceptionSolutionProvider $esp;
 
     /**
     * Upon the construction of this class, we are going to potentially pass in the exception so that we are going to be
@@ -39,14 +39,14 @@ class InternetSolution implements Solution
     */
     public function getSolutionDescription(): string
     {
-        return 'Based on the internet search that has been executed by the SolutionProvider, there has been some links' .
-            ' that has been returned, you are going to want to take a read over these to see if there is a solution to' .
-            ' your problems.';
+        return 'Based on the internet search that has been executed by the SolutionProvider, there has been some' .
+               ' links that has been returned, you are going to want to take a read over these to see if there is a ' .
+               ' solution to your problems.';
     }
 
     /**
      * This method is going to be taking the internet solutions, mapping over them and then dumping everything into a
-     * returnable array to the user. this takes a variety of edgecases from what had come back from get file contents
+     * returnable array to the user. this takes a variety of edge-cases from what had come back from get file contents
      * on a url string... and mapped into an array that takes the url, and then makes a readable string from the url
      *
     * @return array

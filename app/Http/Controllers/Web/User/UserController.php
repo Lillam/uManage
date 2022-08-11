@@ -191,6 +191,6 @@ class UserController extends Controller
     {
         Auth::logout();
 
-        return redirect()->action([self::class, '_viewUserLoginGet']);
+        return redirect()->route('user.logout');
     }
 }
