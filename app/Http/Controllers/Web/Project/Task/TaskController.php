@@ -67,8 +67,8 @@ class TaskController extends Controller
                 'tasks.task_watcher_users',
                 'tasks.task_checklists',
                 'tasks.task_checklists.task_checklist_items',
-                'tasks.task_time_logs',
-                'tasks.task_time_logs.user',
+                'tasks.taskTimeLogs',
+                'tasks.taskTimeLogs.user',
                 'tasks.project'
             ])
             ->first();
@@ -109,7 +109,7 @@ class TaskController extends Controller
 
         // Acquire all the task time logging, along with the total amount of time logged, this will be grabbing all time
         // logging of all users that has ever placed against the selected task.
-        $task->task_time_logs    = TimeLogRepository::sortTaskTimeLogs($task);
+        $task->taskTimeLogs    = TimeLogRepository::sortTaskTimeLogs($task);
         $task->total_time_logged = TimeLogRepository::getTotalTimeLogged($task);
 
         $this->vs->set('title', " - Task - {$task->name}")
@@ -223,8 +223,8 @@ class TaskController extends Controller
 
         $task->log(TaskLog::TASK_MAKE, $task->name);
 
-        $task->project->project_setting->increment('tasks_total');
-        $task->project->project_setting->increment('tasks_in_todo');
+        $task->project->projectSetting->increment('tasks_total');
+        $task->project->projectSetting->increment('tasks_in_todo');
 
         return response()->json([
            'response' => 'Task has been successfully created'
@@ -253,7 +253,7 @@ class TaskController extends Controller
             ->select('*')
             ->with([
                 'project',
-                'project.project_setting',
+                'project.projectSetting',
                 'task_status'
             ])
             ->where('id', '=', $task_id)
@@ -263,7 +263,7 @@ class TaskController extends Controller
         // project for the number of in to do / in progress / in archive etc.
         if ($field === 'task_status_id') {
             ProjectSettingRepository::updateProjectSettingStatusStatistics(
-                $task->project->project_setting,
+                $task->project->projectSetting,
                 $value,
                 $task->$field
             );
@@ -319,7 +319,7 @@ class TaskController extends Controller
                 'tasks' => function ($query) use ($task_id) {
                     $query->where('id', '=', $task_id);
                 },
-                'project_setting'
+                'projectSetting'
             ])->first();
 
         // if we don't have access to the project in question, aka, if this project exists, or the user doesn't have
@@ -330,15 +330,15 @@ class TaskController extends Controller
 
         // when we delete a task, we are going to want to decrement where this task came from; and what status this
         // task status this was sitting in so that we can decide to show a true amount of numbers.
-        if ($project->project_setting->{$decrement_statistic = ProjectSetting::$tasks_in[$task->task_status_id]} > 0)
-            $project->project_setting->decrement($decrement_statistic);
+        if ($project->projectSetting->{$decrement_statistic = ProjectSetting::$TASKS_IN[$task->task_status_id]} > 0)
+            $project->projectSetting->decrement($decrement_statistic);
 
         // delete this particular task...
         $project->tasks->first()->delete();
 
         // decrement the total number of tasks when the task has been deleted, as we now have one task less to deal
         // with, and then we're now in a (x) number of tasks after it has been deleted.
-        $project->project_setting->decrement('tasks_total');
+        $project->projectSetting->decrement('tasks_total');
 
         return redirect()->action($project->getUrl());
     }

@@ -16,7 +16,7 @@ class TaskIssueTypeSeeder extends Seeder
     */
     public function run(): void
     {
-        $task_issue_types = [
+        $taskIssueTypes = [
             $this->increment() => (object) [
                 'name' => 'New Feature',
                 'color' => '00875a',
@@ -36,12 +36,12 @@ class TaskIssueTypeSeeder extends Seeder
 
         $bar = $this->command->getOutput()->createProgressBar($this->key);
 
-        foreach ($task_issue_types as $id => $task_issue_type) {
+        foreach ($taskIssueTypes as $id => $taskIssueType) {
             TaskIssueType::query()->updateOrCreate(['id' => $id], [
-                'id' => $id,
-                'name' => $task_issue_type->name,
-                'color' => $task_issue_type->color,
-                'icon' => $task_issue_type->icon
+                'id'    => $id,
+                'name'  => $taskIssueType->name,
+                'color' => $taskIssueType->color,
+                'icon'  => $taskIssueType->icon
             ]); $bar->advance();
         } $bar->finish();
     }

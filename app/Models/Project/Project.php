@@ -104,7 +104,7 @@ class Project extends Model
     */
     public function getTaskNumberedProgress(): string
     {
-        return "{$this->project_setting->tasks_in_completed}/{$this->project_setting->tasks_total}";
+        return "{$this->projectSetting->tasks_in_completed}/{$this->projectSetting->tasks_total}";
     }
 
     /**
@@ -116,12 +116,12 @@ class Project extends Model
     */
     public function getTaskCompletedPercentage(): string
     {
-        if ($this->project_setting->tasks_total === null || $this->project_setting->tasks_total === 0)
+        if ($this->projectSetting->tasks_total === null || $this->projectSetting->tasks_total === 0)
             return "0%";
 
         return ((string) round((
-            $this->project_setting->tasks_in_completed /
-            $this->project_setting->tasks_total
+            $this->projectSetting->tasks_in_completed /
+            $this->projectSetting->tasks_total
         ) * 100)) . '%';
     }
 
@@ -134,12 +134,12 @@ class Project extends Model
     */
     public function getTaskProgressPercentage(): string
     {
-        if ($this->project_setting->tasks_in_progress === null || $this->project_setting->tasks_in_progress === 0)
+        if ($this->projectSetting->tasks_in_progress === null || $this->projectSetting->tasks_in_progress === 0)
             return "0%";
 
         return ((string) round((
-            $this->project_setting->tasks_in_progress /
-            $this->project_setting->tasks_total
+            $this->projectSetting->tasks_in_progress /
+            $this->projectSetting->tasks_total
         ) * 100)) . '%';
     }
 
@@ -148,7 +148,7 @@ class Project extends Model
     */
     public function getTotalTasks(): int
     {
-        return $this->project_setting->tasks_total ?? 0;
+        return $this->projectSetting->tasks_total ?? 0;
     }
 
     /**
@@ -184,7 +184,7 @@ class Project extends Model
     *
     * @return HasOne
     */
-    public function project_setting(): HasOne
+    public function projectSetting(): HasOne
     {
         return $this->hasOne(ProjectSetting::class, 'project_id', 'id');
     }

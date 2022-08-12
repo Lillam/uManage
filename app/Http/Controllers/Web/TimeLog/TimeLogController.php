@@ -65,9 +65,9 @@ class TimeLogController extends Controller
         }
 
         // if the direction has been set and the direction has been specified to the left, then we are looking to gather
-        // time logs in the past, or perhaps we have gone into the future and are attempting to come back to the present.
-        // either way this is taking the dates 7 days from the start of the week; so we have a perpetual movement of
-        // dates into the past.
+        // time logs in the past, or perhaps we have gone into the future and are attempting to come back to the
+        // present. either way this is taking the dates 7 days from the start of the week; so we have a perpetual
+        // movement of dates into the past.
         if (! empty($direction) && $direction === 'left') {
             $date = $date->subDays(7);
         }
@@ -77,25 +77,26 @@ class TimeLogController extends Controller
         $days = (object) DateTimeHelper::days($date);
 
         // acquire all the time logs for the user of which is signed in, that are in between this particular monday, or
-        // a monday that we have specified, and between this sunday, or the sunday that was the end of the week specified.
-        $time_logs = TimeLog::query()
+        // a monday that we have specified, and between this sunday, or the sunday that was the end of the week
+        // specified.
+        $timeLogs = TimeLog::query()
             ->with('task', 'project')
             ->where('from', '>=', $days->monday)
             ->where('to', '<=', $days->sunday)
             ->where('user_id', '=', Auth::id())
             ->get();
 
-        // acquire the time log data, which will be sorted by the TimeLogRepository, this will be bringing back the total
-        // amount of hours for the week in question, assorted by days from monday - sunday within the week.
-        $time_log_data = TimeLogRepository::sortTimeLogs($time_logs);
+        // acquire the time log data, which will be sorted by the TimeLogRepository, this will be bringing back the
+        // total amount of hours for the week in question, assorted by days from monday - sunday within the week.
+        $timeLogData = TimeLogRepository::sortTimeLogs($timeLogs);
 
         // after acquiring the time log data, we are returning an object with the following time_log_data_hours in the
         // format of:
         // monday->total_hours = 6800.
         // tuesday->total_hours = 7800.
         // as well as acquiring each day's daily log for the user in question.
-        $time_log_hours = $time_log_data->time_log_date_hours;
-        $time_logs      = $time_log_data->time_log_data;
+        $timeLogHours = $timeLogData->time_log_date_hours;
+        $timeLogs     = $timeLogData->time_log_data;
 
         // return the above data in a json format so that the frontend is able to render all the visuals for the date
         // in question that the user has requested to see. this will also be returning an array of time logs, the
@@ -104,8 +105,8 @@ class TimeLogController extends Controller
         return response()->json([
             'html' => view('library.time_log.view_time_logs', compact(
                 'days',
-                'time_logs',
-                'time_log_hours',
+                'timeLogs',
+                'timeLogHours',
                 'today'
             ))->render(),
             'date'  => $days->monday->format('d.m.Y'),
@@ -123,7 +124,7 @@ class TimeLogController extends Controller
     */
     public function _ajaxViewTimeLogsGet(): JsonResponse
     {
-        $time_logs = TimeLog::query()
+        $timeLogs = TimeLog::query()
             ->where('user_id', '=', Auth::id())
             ->orderBy('id', 'desc')
             ->limit(5)
@@ -131,7 +132,7 @@ class TimeLogController extends Controller
 
         return response()->json([
             'html' => view('library.time_log.ajax_view_time_logs', compact(
-                'time_logs'
+                'timeLogs'
             ))->render()
         ]);
     }
@@ -149,16 +150,16 @@ class TimeLogController extends Controller
         $task_id    = $request->input('task_id');
         $project_id = $request->input('project_id');
 
-        // send this logic off the time_log repository so that we are able to more effectively manage how the handling of
-        // time is captured for this particular method.
-        $time_spent = TimeLogRepository::translateTimeSpent($request->input('time_spent'));
+        // send this logic off the time_log repository so that we are able to more effectively manage how the handling
+        // of time is captured for this particular method.
+        $timeSpent = TimeLogRepository::translateTimeSpent($request->input('time_spent'));
 
         // dates, we are going to be inserting when this was from and when it was to, so that we are able to handle the
         // ordering of these entries more accurately and quite possibly look towards displaying these in a timely
         // manner...
-        $from          = $request->input('from') ? Carbon::parse($request->input('from')) : '';
-        $to            = $request->input('to')     ? Carbon::parse($request->input('to')) : '';
-        $time_log_note = $request->input('time_log_note') ?: '';
+        $from        = $request->input('from') ? Carbon::parse($request->input('from')) : '';
+        $to          = $request->input('to')     ? Carbon::parse($request->input('to')) : '';
+        $timeLogNote = $request->input('time_log_note') ?: '';
 
         // create the TimeLog entry based on all the information that is collected above, we aren't going to store this
         // information as there is no need to retain it for any form of return type, thus we are going to end here
@@ -167,10 +168,10 @@ class TimeLogController extends Controller
             'task_id'    => $task_id,
             'project_id' => $project_id,
             'user_id'    => $this->vs->get('user')->id,
-            'time_spent' => $time_spent,
+            'time_spent' => $timeSpent,
             'from'       => $from,
             'to'         => $to,
-            'note'       => $time_log_note
+            'note'       => $timeLogNote
         ]);
     }
 
@@ -185,26 +186,20 @@ class TimeLogController extends Controller
     */
     public function _ajaxDeleteTimeLogGet(Request $request): JsonResponse
     {
-        $time_log = TimeLog::query()
+        $timeLog = TimeLog::query()
             ->where('id', '=', $request->input('time_log_id'))
             ->first();
 
-        $response = [
-            'error' => 'Something went wrong...'
-        ];
+        $response = [ 'error' => 'Something went wrong...' ];
 
-        if (! $time_log instanceof TimeLog) {
-            $response = [
-                'error' => 'The time_log you have requested to delete does not exist'
-            ];
+        if (! $timeLog instanceof TimeLog) {
+            $response = [ 'error' => 'The time_log you have requested to delete does not exist' ];
         }
 
-        if ($this->vs->get('user')->can('TimeLogPolicy@editTimeLog', $time_log)) {
-            $time_log->delete();
+        if ($this->vs->get('user')->can('TimeLogPolicy@editTimeLog', $timeLog)) {
+            $timeLog->delete();
 
-            $response = [
-                'success' => 'The time_log has been successfully deleted'
-            ];
+            $response = [ 'success' => 'The time_log has been successfully deleted' ];
         }
 
         return response()->json($response);

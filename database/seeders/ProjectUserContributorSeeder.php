@@ -27,8 +27,8 @@ class ProjectUserContributorSeeder extends Seeder
 
         $bar = $this->command->getOutput()->createProgressBar(count($projects));
 
-        foreach ($projects as $project_key => $project) {
-            foreach ($users as $user_key => $user) {
+        foreach ($projects as $project) {
+            foreach ($users as $user) {
                 ProjectUserContributor::query()->create([
                     'user_id'    => $user->id,
                     'project_id' => $project->id

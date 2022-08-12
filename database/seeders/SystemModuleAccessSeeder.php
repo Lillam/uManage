@@ -9,7 +9,7 @@ use App\Models\System\SystemModuleAccessUser;
 
 class SystemModuleAccessSeeder extends Seeder
 {
-    private Collection $system_modules;
+    private Collection $systemModules;
 
     /**
     * Upon on the construction of this seeder, we are just going to execute a variety of code that will allow this
@@ -21,7 +21,7 @@ class SystemModuleAccessSeeder extends Seeder
     */
     public function __construct()
     {
-        $this->system_modules = SystemModuleAccess::all();
+        $this->systemModules = SystemModuleAccess::all();
         SystemModuleAccessUser::query()->where('user_id', '=', 1)->delete();
     }
 
@@ -32,11 +32,11 @@ class SystemModuleAccessSeeder extends Seeder
     */
     public function run(): void
     {
-        $bar = $this->command->getOutput()->createProgressBar($this->system_modules->count());
-        foreach ($this->system_modules as $system_module_access) {
+        $bar = $this->command->getOutput()->createProgressBar($this->systemModules->count());
+        foreach ($this->systemModules as $systemModuleAccess) {
             SystemModuleAccessUser::query()->create([
                 'user_id'                 => 1,
-                'system_module_access_id' => $system_module_access->id,
+                'system_module_access_id' => $systemModuleAccess->id,
                 'is_enabled'              => true
             ]);
             $bar->advance();

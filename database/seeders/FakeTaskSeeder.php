@@ -48,7 +48,7 @@ class FakeTaskSeeder extends Seeder
                 'due_date'           => null
             ]);
 
-            $task->project->project_setting->increment('total_tasks');
+            $task->project->projectSetting->increment('total_tasks');
 
             $bar->advance();
         } $bar->finish();

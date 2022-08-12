@@ -322,7 +322,7 @@ class Task extends Model
     *
     * @return HasMany
     */
-    public function task_time_logs(): HasMany
+    public function taskTimeLogs(): HasMany
     {
         return $this->hasMany(TimeLog::class, 'task_id', 'id');
     }

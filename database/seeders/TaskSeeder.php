@@ -52,7 +52,7 @@ class TaskSeeder extends Seeder
 
             foreach ($tasks as $task_id => $task) {
                 try {
-                    $the_new_task = Task::query()->updateOrCreate(['id' => $task_id], [
+                    $theNewTask = Task::query()->updateOrCreate(['id' => $task_id], [
                         'id'                 => $task_id,
                         'project_id'         => $task->project_id,
                         'user_id'            => 1,
@@ -71,8 +71,8 @@ class TaskSeeder extends Seeder
                 // finding which particular setting we're going to be incrementing, by acquiring it from the project
                 // setting model, which will remove the need for having to do if this, if that, if this other thing and
                 // doing this in a one liner.
-                $the_new_task->project->project_setting->increment(
-                    ProjectSetting::$tasks_in[$the_new_task->task_status_id]
+                $theNewTask->project->projectSetting->increment(
+                    ProjectSetting::$TASKS_IN[$theNewTask->task_status_id]
                 );
 
                 if (! empty($task->task_time_logs)) {
@@ -132,7 +132,7 @@ class TaskSeeder extends Seeder
                         }
                     }
                 }
-                $the_new_task->project->project_setting->increment('tasks_total');
+                $theNewTask->project->projectSetting->increment('tasks_total');
                 $bar->advance();
             } $bar->finish();
         }); DB::commit();

@@ -39,7 +39,7 @@ class ProjectController extends Controller
         $projects = Project::query()
             ->select('*')
             ->with([
-                'project_setting',
+                'projectSetting',
                 'user_contributors',
                 'user_contributors.user'
             ])
@@ -47,8 +47,8 @@ class ProjectController extends Controller
             ->orderBy('name', 'asc')
             ->get();
 
-        $projects = $projects->sortByDesc(function ($project) {
-            return $project->project_setting->updated_at;
+        $projects = $projects->sortByDesc(function (Project $project) {
+            return $project->projectSetting->updated_at;
         });
 
         $view_mode = $request->input('view_mode');
@@ -70,9 +70,10 @@ class ProjectController extends Controller
     */
     public function _viewProjectGet(Request $request, string $project_code): Factory|RedirectResponse|View
     {
-        $project = Project::select('*')
+        $project = Project::query()
+            ->select('*')
             ->with([
-                'project_setting',
+                'projectSetting',
                 'user_contributors',
                 'user_contributors.user'
             ])

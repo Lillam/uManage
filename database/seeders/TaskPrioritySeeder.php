@@ -19,7 +19,7 @@ class TaskPrioritySeeder extends Seeder
     */
     public function run(): void
     {
-        $task_priorities = [
+        $taskPriorities = [
             $this->increment() => (object) [
                 'name'  => 'Highest',
                 'color' => 'bf0000',
@@ -47,14 +47,14 @@ class TaskPrioritySeeder extends Seeder
             ],
         ];
 
-        $bar = $this->command->getOutput()->createProgressBar(count($task_priorities));
+        $bar = $this->command->getOutput()->createProgressBar(count($taskPriorities));
 
-        foreach ($task_priorities as $id => $task_priority) {
+        foreach ($taskPriorities as $id => $taskPriority) {
             TaskPriority::query()->updateOrCreate(['id' => $id], [
                 'id' => $id,
-                'name' => $task_priority->name,
-                'color' => $task_priority->color,
-                'icon' => $task_priority->icon
+                'name' => $taskPriority->name,
+                'color' => $taskPriority->color,
+                'icon' => $taskPriority->icon
             ]); $bar->advance();
         } $bar->finish();
     }

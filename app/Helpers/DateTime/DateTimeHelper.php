@@ -12,18 +12,19 @@ class DateTimeHelper
     * This method is a fast way of just returning the full week, keyed by the days, followed by the date being returned
     * as a carbon instance.
     *
+    * @param Carbon $startingDay
     * @return array
     */
-    public static function days(Carbon $starting_day): array
+    public static function days(Carbon $startingDay): array
     {
         return [
-            'monday'    => $starting_day->copy()->startOfWeek(),
-            'tuesday'   => $starting_day->copy()->addDay(1),
-            'wednesday' => $starting_day->copy()->addDay(2),
-            'thursday'  => $starting_day->copy()->addDay(3),
-            'friday'    => $starting_day->copy()->addDay(4),
-            'saturday'  => $starting_day->copy()->addDay(5),
-            'sunday'    => $starting_day->copy()->addDay(6)
+            'monday'    => $startingDay->copy()->startOfWeek(),
+            'tuesday'   => $startingDay->copy()->addDay(1),
+            'wednesday' => $startingDay->copy()->addDay(2),
+            'thursday'  => $startingDay->copy()->addDay(3),
+            'friday'    => $startingDay->copy()->addDay(4),
+            'saturday'  => $startingDay->copy()->addDay(5),
+            'sunday'    => $startingDay->copy()->addDay(6)
         ];
     }
 }

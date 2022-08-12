@@ -121,21 +121,21 @@
             </div>
         </div>
         {{-- Timelogging --}}
-        @if ($task->task_time_logs->isNotEmpty())
+        @if ($task->taskTimeLogs->isNotEmpty())
             <div class="uk-width-1-1">
                 <label class="label"><i class="fa fa-calendar"></i> Time Logs</label>
-                @foreach ($task->task_time_logs as $time_log)
+                @foreach ($task->taskTimeLogs as $timeLog)
                     <div class="task_time_log_row uk-flex">
                         <div class="uk-width-auto task_time_log_user">
-                            {!! UserPrinter::userBadge($time_log->user, false, $task->project->getColor()) !!}
+                            {!! UserPrinter::userBadge($timeLog->user, false, $task->project->getColor()) !!}
                         </div>
                         <div class="uk-width-auto task_time_log_time_spent">
-                            {{ TimeLogRepository::convertTimelogTimeSpent($time_log->time_spent) }}
+                            {{ TimeLogRepository::convertTimelogTimeSpent($timeLog->time_spent) }}
                         </div>
                         <div class="uk-width-expand uk-flex uk-flex-middle task_time_log_time_spent_percent">
                             <div class="progress">
                                 <div class="progress_percent"
-                                     style="width: {{ (($time_log->time_spent / $task->total_time_logged) * 100) }}%">
+                                     style="width: {{ (($timeLog->time_spent / $task->total_time_logged) * 100) }}%">
                                 </div>
                             </div>
                         </div>

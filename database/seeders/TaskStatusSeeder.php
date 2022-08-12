@@ -19,7 +19,7 @@ class TaskStatusSeeder extends Seeder
     */
     public function run(): void
     {
-        $task_statuses = [
+        $taskStatuses = [
             $this->increment() => (object) [
                 'name'  => 'To Do',
                 'type'  => TaskStatus::$TYPE_TODO,
@@ -42,14 +42,14 @@ class TaskStatusSeeder extends Seeder
             ]
         ];
 
-        $bar = $this->command->getOutput()->createProgressBar(count($task_statuses));
+        $bar = $this->command->getOutput()->createProgressBar(count($taskStatuses));
 
-        foreach ($task_statuses as $id => $task_status) {
+        foreach ($taskStatuses as $id => $taskStatus) {
             TaskStatus::query()->updateOrCreate(['id' => $id], [
-                'id' => $id,
-                'name' => $task_status->name,
-                'type' => $task_status->type,
-                'color' => $task_status->color
+                'id'    => $id,
+                'name'  => $taskStatus->name,
+                'type'  => $taskStatus->type,
+                'color' => $taskStatus->color
             ]);
 
             $bar->advance();

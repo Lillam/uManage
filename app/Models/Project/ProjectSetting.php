@@ -10,7 +10,7 @@ class ProjectSetting extends Model
     /**
     * @var string[]
     */
-    public static $tasks_in = [
+    public static $TASKS_IN = [
         1 => 'tasks_in_todo',
         2 => 'tasks_in_progress',
         3 => 'tasks_in_completed',
@@ -88,8 +88,8 @@ class ProjectSetting extends Model
 
     /**
     * Each ProjectSetting that gets inserted into the database will be associated to a Project - This will allow us to
-    * view all the projectsettings in the system as a global and then associate where the ProjectSetting is belonging
-    * this won't ever really be needed, however is in place for efficiency sake on the offchance that it might be
+    * view all the project settings in the system as a global and then associate where the ProjectSetting is belonging
+    * this won't ever really be needed, however is in place for efficiency sake on the off chance that it might be
     * necessary
     *
     * @return BelongsTo

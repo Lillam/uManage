@@ -12,29 +12,29 @@
                     </span>
                     <span class="uk-width-expand uk-text-right">
                         <b>{{ ! empty($time_log_hours[$day->format('d-m-Y')]) ?
-                            TimeLogRepository::convertTimelogTimeSpent($time_log_hours[$day->format('d-m-Y')], true): '0h'
+                            TimeLogRepository::convertTimelogTimeSpent($timeLogHours[$day->format('d-m-Y')], true): '0h'
                         }}</b>
                     </span>
                 </span>
             </div>
             <div class="time_log_day_time_logs">
-                @if (! empty($time_logs[$day->format('d-m-Y')]))
-                    @foreach ($time_logs[$day->format('d-m-Y')] as $time_log)
-                        <div class="time_log_entry" data-time_log_id="{{ $time_log->id }}">
+                @if (! empty($timeLogs[$day->format('d-m-Y')]))
+                    @foreach ($timeLogs[$day->format('d-m-Y')] as $timeLog)
+                        <div class="time_log_entry" data-time_log_id="{{ $timeLog->id }}">
                             <div class="time_log_title">
-                                <b>{{ $time_log->task->getShortName() }}</b>
+                                <b>{{ $timeLog->task->getShortName() }}</b>
                             </div>
                             <div class="time_log_content">
-                                <p>{{ $time_log->note }}</p>
+                                <p>{{ $timeLog->note }}</p>
                             </div>
                             <div class="uk-flex">
                                 <div class="uk-width-expand time_log_task_project">
                                     <span class="badge"
-                                          style="background-color: {{ $time_log->project->getColor() }}"
-                                    >{{ $time_log->project->code }}-{{ $time_log->task->id }}</span>
+                                          style="background-color: {{ $timeLog->project->getColor() }}"
+                                    >{{ $timeLog->project->code }}-{{ $timeLog->task->id }}</span>
                                 </div>
                                 <div class="uk-width-auto time_log_time_spent">
-                                    <b>{{ $time_log->time_spent }}</b>
+                                    <b>{{ $timeLog->time_spent }}</b>
                                 </div>
                             </div>
                             <div class="time_log_entry_options uk-flex uk-flex-middle uk-flex-center">

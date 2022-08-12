@@ -3,6 +3,7 @@
 namespace App\Repositories\TimeLog;
 
 use App\Models\Task\Task;
+use App\Models\TimeLog\TimeLog;
 use Illuminate\Support\Collection;
 
 class TimeLogRepository
@@ -49,13 +50,13 @@ class TimeLogRepository
     * be first trying to calculate how many we have left after we have taken all the 60s (hours) away, and whatever is
     * left will be the direct minutes over hours
     *
-    * @param $time_spent
+    * @param int $timeSpent
     * @return string
     */
-    public static function convertTimeLogTimeSpent($time_spent): string
+    public static function convertTimeLogTimeSpent(int $timeSpent): string
     {
-        $minutes = ($time_spent % 60);
-        $hours = round(($time_spent - $minutes) / 60);
+        $minutes = ($timeSpent % 60);
+        $hours = round(($timeSpent - $minutes) / 60);
 
         $return  = (int) $hours   !== 0 ? "{$hours}h" : '';
         $return .= $minutes !== 0 ? " {$minutes}m" : '';
@@ -67,26 +68,27 @@ class TimeLogRepository
     * This method translates the time spent from a string, 1h 30m into a minute number, 1h 30m will translate directly
     * to 90 into the database. we are storing all values as minutes in the database.
     *
-    * @param $time_spent
+    * @param string $timeSpend
     * @return int
     */
-    public static function translateTimeSpent($time_spent): int
+    public static function translateTimeSpent(string $timeSpend): int
     {
-        $time_pieces = explode(' ', $time_spent);
-        $time_to_return = 0;
-        foreach ($time_pieces as $time_piece) {
-            if (mb_strpos($time_piece, 'h') !== false) {
-                $time_piece = str_replace('h', '', $time_piece);
-                $time_to_return += ($time_piece * 60);
+        $timePieces = explode(' ', $timeSpend);
+        $timeToReturn = 0;
+
+        foreach ($timePieces as $timePiece) {
+            if (mb_strpos($timePiece, 'h') !== false) {
+                $time_piece = str_replace('h', '', $timePiece);
+                $timeToReturn += ($time_piece * 60);
             }
 
-            if (mb_strpos($time_piece, 'm') !== false) {
-                $time_piece = str_replace('m', '', $time_piece);
-                $time_to_return += $time_piece;
+            if (mb_strpos($timePiece, 'm') !== false) {
+                $timePiece = str_replace('m', '', $timePiece);
+                $timeToReturn += $timePiece;
             }
         }
 
-        return $time_to_return;
+        return $timeToReturn;
     }
 
     /**
@@ -98,23 +100,23 @@ class TimeLogRepository
     */
     public static function sortTaskTimeLogs(Task $task): array|Collection
     {
-        $time_log_map = collect();
+        $timeLogMap = collect();
 
-        foreach ($task->task_time_logs as $time_log) {
-            if (! empty($time_log_map[$time_log->user_id])) {
-                $time_log_map[$time_log->user_id]->time_spent += $time_log->time_spent;
+        foreach ($task->taskTimeLogs as $timeLog) {
+            if (! empty($timeLogMap[$timeLog->user_id])) {
+                $timeLogMap[$timeLog->user_id]->time_spent += $timeLog->time_spent;
                 continue;
             }
 
             // we should only hit this section of the code, if we have not made it into the if statement above. this
             // code will be ignored (this is setting the item into the array).
-            $time_log_map[$time_log->user_id] = (object) [
-                'user' => $time_log->user,
-                'time_spent' => $time_log->time_spent
+            $timeLogMap[$timeLog->user_id] = (object) [
+                'user' => $timeLog->user,
+                'time_spent' => $timeLog->time_spent
             ];
         }
 
-        return collect($time_log_map);
+        return collect($timeLogMap);
     }
 
     /**
@@ -127,11 +129,12 @@ class TimeLogRepository
     */
     public static function getTotalTimeLogged(Task $task): int
     {
-        $total_time_logged = 0;
-        $task->task_time_logs->map(function ($time_log) use (&$total_time_logged) {
-            $total_time_logged += $time_log->time_spent;
+        $totalTimeLogged = 0;
+
+        $task->taskTimeLogs->map(function (object $timeLog) use (&$totalTimeLogged) {
+            $totalTimeLogged += $timeLog->time_spent;
         });
 
-        return $total_time_logged;
+        return $totalTimeLogged;
     }
 }
