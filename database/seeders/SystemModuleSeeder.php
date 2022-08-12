@@ -9,15 +9,12 @@ use App\Models\System\SystemModuleAccess;
 
 class SystemModuleSeeder extends Seeder
 {
+    use Incremental;
+
     /**
      * @var Collection
      */
     private Collection $modules;
-
-    /**
-    * @var int
-    */
-    private int $system_module_access_id = 0;
 
     /**
     * SystemModuleSeeder constructor.
@@ -51,7 +48,7 @@ class SystemModuleSeeder extends Seeder
                 if (! empty($methods)) {
                     foreach ($methods as $method) {
                         SystemModuleAccess::query()->create([
-                            'id'               => $this->incrementSystemModuleAccessId(),
+                            'id'               => $this->increment(),
                             'system_module_id' => $id,
                             'controller'       => $controller,
                             'method'           => $method
@@ -60,14 +57,6 @@ class SystemModuleSeeder extends Seeder
                 }
             } $bar->advance();
         } $bar->finish();
-    }
-
-    /**
-    * @return int
-    */
-    private function incrementSystemModuleAccessId(): int
-    {
-        return $this->system_module_access_id += 1;
     }
 
     /**

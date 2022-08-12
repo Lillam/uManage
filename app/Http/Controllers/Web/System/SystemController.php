@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers\Web\System;
 
-use App\Http\Controllers\Controller;
-use App\Jobs\Account\AccountLocalStoreJob;
-use App\Jobs\Journal\JournalDreamLocalStoreJob;
-use App\Jobs\Journal\JournalLocalStoreJob;
-use App\Jobs\Project\ProjectLocalStoreJob;
-use App\Jobs\Task\TaskLocalStoreJob;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
+use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\LocalStore\Task\TaskLocalStoreJob;
+use Illuminate\Contracts\Foundation\Application;
+use App\Jobs\LocalStore\Account\AccountLocalStoreJob;
+use App\Jobs\LocalStore\Journal\JournalLocalStoreJob;
+use App\Jobs\LocalStore\Project\ProjectLocalStoreJob;
+use App\Jobs\LocalStore\Journal\JournalDreamLocalStoreJob;
 
 class SystemController extends Controller
 {
-    public function _performRandomJob()
+    /**
+     * @return Application|Factory|View
+     */
+    public function _performRandomJob(): Application|Factory|View
     {
 //        $dates = (new DateRule())
 //            ->setStartDate('2021-01-28 00:00')
@@ -66,7 +72,7 @@ class SystemController extends Controller
     */
     public function _storeAllModulesLocally(): RedirectResponse
     {
-        $local_store_jobs = [
+        $localStoreJobs = [
             TaskLocalStoreJob::class,
             ProjectLocalStoreJob::class,
             AccountLocalStoreJob::class,
@@ -74,8 +80,8 @@ class SystemController extends Controller
             JournalDreamLocalStoreJob::class
         ];
 
-        foreach ($local_store_jobs as $local_store_job) {
-            dispatch(new $local_store_job);
+        foreach ($localStoreJobs as $localStoreJob) {
+            dispatch(new $localStoreJob);
         }
 
         return back();

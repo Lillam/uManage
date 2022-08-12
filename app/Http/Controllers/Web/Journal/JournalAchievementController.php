@@ -17,12 +17,13 @@ class JournalAchievementController extends Controller
     */
     public function _ajaxViewJournalAchievementsGet(Request $request): Factory|View
     {
-        $journal_id = $request->input('journal_id');
-        $journal_achievements = JournalAchievement::where('journal_id', '=', $journal_id)
+        $journalId = $request->input('journal_id');
+        $journalAchievements = JournalAchievement::query()
+            ->where('journal_id', '=', $journalId)
             ->get();
 
         return view('journal_achievement.ajax_view_journal_achievements', compact(
-            'journal_achievements'
+            'journalAchievements'
         ));
     }
 
@@ -32,13 +33,14 @@ class JournalAchievementController extends Controller
     */
     public function _ajaxMakeJournalAchievementPost(Request $request): JsonResponse
     {
-        $journal_id = $request->input('journal_id');
-        $journal_achievement = $request->input('journal_achievement');
+        $journalId = $request->input('journal_id');
+        $journalAchievement = $request->input('journal_achievement');
 
-        JournalAchievement::create([
-            'name' => $journal_achievement,
-            'journal_id' => $journal_id
-        ]);
+        JournalAchievement::query()
+            ->create([
+                'name' => $journalAchievement,
+                'journal_id' => $journalId
+            ]);
 
         return response()->json([
             'response' => 'Successfully added achivement'
@@ -51,11 +53,12 @@ class JournalAchievementController extends Controller
     */
     public function _ajaxEditJournalAchievementPost(Request $request): JsonResponse
     {
-        $journal_achievement_id = $request->input('journal_achievement_id');
+        $journalAchievementId = $request->input('journal_achievement_id');
         $field = $request->input('field');
         $value = $request->input('value');
 
-        JournalAchievement::where('id', '=', $journal_achievement_id)
+        JournalAchievement::query()
+            ->where('id', '=', $journalAchievementId)
             ->update([
                 $field => $value
             ]);
@@ -71,11 +74,13 @@ class JournalAchievementController extends Controller
     */
     public function _ajaxDeleteJournalAchievementPost(Request $request): JsonResponse
     {
-        $journal_id = $request->input('journal_id');
-        $journal_achievement_id = $request->input('journal_achievement_id');
+        $journalId = $request->input('journal_id');
+        $journalAchievementId = $request->input('journal_achievement_id');
 
-        JournalAchievement::where('journal_id', '=', $journal_id)
-            ->where('id', '=', $journal_achievement_id)->delete();
+        JournalAchievement::query()
+            ->where('journal_id', '=', $journalId)
+            ->where('id', '=', $journalAchievementId)
+            ->delete();
 
         return response()->json([
             'response' => 'Successfully deleted achievement from this journal'

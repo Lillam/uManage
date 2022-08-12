@@ -11,7 +11,7 @@
                         <span class="small">{{ $day->format('d.m') }}</span>
                     </span>
                     <span class="uk-width-expand uk-text-right">
-                        <b>{{ ! empty($time_log_hours[$day->format('d-m-Y')]) ?
+                        <b>{{ ! empty($timeLogHours[$day->format('d-m-Y')]) ?
                             TimeLogRepository::convertTimelogTimeSpent($timeLogHours[$day->format('d-m-Y')], true): '0h'
                         }}</b>
                     </span>

@@ -10,12 +10,14 @@ class ProjectSetting extends Model
     /**
     * @var string[]
     */
-    public static $TASKS_IN = [
+    public static array $TASKS_IN = [
         1 => 'tasks_in_todo',
         2 => 'tasks_in_progress',
         3 => 'tasks_in_completed',
         4 => 'tasks_in_archived'
     ];
+
+    public static int $DEFAULT_VIEW = 1;
 
     /**
     * Pre-defining this models table name, this will be taking the name of the widget that it is, singular-ifying it

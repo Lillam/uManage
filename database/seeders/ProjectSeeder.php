@@ -46,7 +46,7 @@ class ProjectSeeder extends Seeder
 
                 ProjectSetting::query()->updateOrCreate(['project_id' => $project->id], [
                     'project_id'         => $project->id,
-                    'view_id'            => 1,
+                    'view_id'            => ProjectSetting::$DEFAULT_VIEW,
                     'tasks_total'        => 0,
                     'tasks_in_todo'      => 0,
                     'tasks_in_progress'  => 0,

@@ -75,7 +75,7 @@ class TimeLogReportController extends Controller
             $tasks[$timeLog->task_id]   = $timeLog->task;
 
             // acquiring time logging by day...
-            if (! empty($dayLogs[$time_log->from->format('d-m-Y')])) {
+            if (! empty($dayLogs[$timeLog->from->format('d-m-Y')])) {
                 $dayLogs[$timeLog->from->format('d-m-Y')] += round($timeLog->time_spent / 60, 2);
                 continue;
             }

@@ -50,10 +50,10 @@ class TaskSeeder extends Seeder
 
             $bar = $this->command->getOutput()->createProgressBar(count($tasks));
 
-            foreach ($tasks as $task_id => $task) {
+            foreach ($tasks as $taskId => $task) {
                 try {
-                    $theNewTask = Task::query()->updateOrCreate(['id' => $task_id], [
-                        'id'                 => $task_id,
+                    $theNewTask = Task::query()->updateOrCreate(['id' => $taskId], [
+                        'id'                 => $taskId,
                         'project_id'         => $task->project_id,
                         'user_id'            => 1,
                         'name'               => $task->name,
@@ -76,57 +76,57 @@ class TaskSeeder extends Seeder
                 );
 
                 if (! empty($task->task_time_logs)) {
-                    foreach ($task->task_time_logs as $task_time_log_id => $task_time_log) {
-                        TimeLog::query()->updateOrCreate(['id' => $task_time_log_id], [
-                            'id'         => $task_time_log_id,
-                            'task_id'    => $task_id,
+                    foreach ($task->task_time_logs as $taskTimeLogId => $taskTimeLog) {
+                        TimeLog::query()->updateOrCreate(['id' => $taskTimeLogId], [
+                            'id'         => $taskTimeLogId,
+                            'task_id'    => $taskId,
                             'project_id' => $task->project_id,
-                            'user_id'    => $task_time_log->user_id,
-                            'note'       => $task_time_log->note,
-                            'from'       => str_replace('T00:00:00.000000Z', '', $task_time_log->from),
-                            'to'         => str_replace('T00:00:00.000000Z', '', $task_time_log->to),
-                            'time_spent' => $task_time_log->time_spent
+                            'user_id'    => $taskTimeLog->user_id,
+                            'note'       => $taskTimeLog->note,
+                            'from'       => str_replace('T00:00:00.000000Z', '', $taskTimeLog->from),
+                            'to'         => str_replace('T00:00:00.000000Z', '', $taskTimeLog->to),
+                            'time_spent' => $taskTimeLog->time_spent
                         ]);
                     }
                 }
 
                 if (! empty($task->task_comments)) {
-                    foreach ($task->task_comments as $task_comment_id => $task_comment) {
-                        TaskComment::query()->updateOrCreate(['id' => $task_comment_id], [
-                            'id'         => $task_comment_id,
-                            'user_id'    => $task_comment->user_id,
-                            'task_id'    => $task_id,
+                    foreach ($task->task_comments as $taskCommentId => $taskComment) {
+                        TaskComment::query()->updateOrCreate(['id' => $taskCommentId], [
+                            'id'         => $taskCommentId,
+                            'user_id'    => $taskComment->user_id,
+                            'task_id'    => $taskId,
                             'project_id' => $task->project_id,
-                            'parent_id'  => $task_comment->parent_id,
-                            'content'    => $task_comment->content,
+                            'parent_id'  => $taskComment->parent_id,
+                            'content'    => $taskComment->content,
                         ]);
                     }
                 }
 
                 if (! empty($task->task_checklists)) {
-                    foreach ($task->task_checklists as $task_checklist_id => $task_checklist) {
-                        TaskChecklist::query()->updateOrCreate(['id' => $task_checklist_id], [
-                            'id'         => $task_checklist_id,
-                            'task_id'    => $task_id,
+                    foreach ($task->task_checklists as $taskChecklistId => $taskChecklist) {
+                        TaskChecklist::query()->updateOrCreate(['id' => $taskChecklistId], [
+                            'id'         => $taskChecklistId,
+                            'task_id'    => $taskId,
                             'project_id' => $task->project_id,
                             'user_id'    => 1,
-                            'name'       => $task_checklist->name,
-                            'order'      => $task_checklist->order
+                            'name'       => $taskChecklist->name,
+                            'order'      => $taskChecklist->order
                         ]);
 
                         if (! empty($task_checklist->task_checklist_items)) {
-                            foreach ($task_checklist->task_checklist_items as $task_checklist_item_id
-                                => $task_checklist_item
+                            foreach ($task_checklist->task_checklist_items as $taskChecklistItemId
+                                => $taskChecklistItem
                             ) {
-                                TaskChecklistItem::query()->updateOrCreate(['id' => $task_checklist_item_id], [
-                                    'id'                => $task_checklist_item_id,
-                                    'task_checklist_id' => $task_checklist_id,
-                                    'task_id'           => $task_id,
+                                TaskChecklistItem::query()->updateOrCreate(['id' => $taskChecklistItemId], [
+                                    'id'                => $taskChecklistItemId,
+                                    'task_checklist_id' => $taskChecklistId,
+                                    'task_id'           => $taskId,
                                     'project_id'        => $task->project_id,
                                     'user_id'           => 1,
-                                    'name'              => $task_checklist_item->name,
-                                    'order'             => $task_checklist_item->order,
-                                    'is_checked'        => $task_checklist_item->is_checked
+                                    'name'              => $taskChecklistItem->name,
+                                    'order'             => $taskChecklistItem->order,
+                                    'is_checked'        => $taskChecklistItem->is_checked
                                 ]);
                             }
                         }

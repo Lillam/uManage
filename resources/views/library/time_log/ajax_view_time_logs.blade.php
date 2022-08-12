@@ -10,7 +10,7 @@
             <div class="time_log_information uk-flex">
                 <div class="time_log_task_project uk-width-expand">
                     <span class="badge"
-                          style="background-color: {{ $time_log->project->getColor() }}"
+                          style="background-color: {{ $timeLog->project->getColor() }}"
                     >{{ $timeLog->project->code }}-{{ $timeLog->task->id }}</span>
                 </div>
                 <div class="time_log_time_spent uk-width-auto">

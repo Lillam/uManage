@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Jobs\Account;
+namespace App\Jobs\LocalStore\Account;
 
 use Illuminate\Bus\Queueable;
 use App\Models\Account\Account;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\LocalStore\Destinationable;
 use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Database\Eloquent\Collection;
 
 class AccountLocalStoreJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
 
     /**
     * @var Account[]|Collection
@@ -30,8 +31,10 @@ class AccountLocalStoreJob implements ShouldQueue
     *
     * @return void
     */
-    public function __construct()
+    public function __construct(?string $destination = 'accounts/accounts.json')
     {
+        $this->setDestination($destination);
+
         $this->accounts = Account::all();
         $this->put      = [];
     }
@@ -60,9 +63,6 @@ class AccountLocalStoreJob implements ShouldQueue
         // this gets inserted back into the database, the encryption will be there - this is to protect myself from
         // having the files read for their passwords (if someone did make it on the pc) - you need to be on the
         // server to be able to see the password.
-        Storage::disk('local')->put(
-            'accounts/accounts.json',
-            json_encode($this->put)
-        );
+        Storage::disk('local')->put($this->getDestination(), json_encode($this->put));
     }
 }

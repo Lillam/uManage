@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Jobs\Journal;
+namespace App\Jobs\LocalStore\Journal;
 
 use Illuminate\Bus\Queueable;
 use App\Models\Journal\Journal;
 use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
+use App\Jobs\LocalStore\Destinationable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class JournalLocalStoreJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
 
     /**
     * @var Collection
@@ -30,8 +31,10 @@ class JournalLocalStoreJob implements ShouldQueue
     *
     * @return void
     */
-    public function __construct()
+    public function __construct(?string $destination = 'journals')
     {
+        $this->setDestination($destination);
+
         $this->years = Journal::selectRaw('distinct substr(`when`, 1, 4) as `when`')->get()->map(
             fn ($journal) => $journal->getAttributes()['when']
         );
@@ -42,11 +45,11 @@ class JournalLocalStoreJob implements ShouldQueue
     *
     * @return void
     */
-    public function handle()
+    public function handle(): void
     {
         // iterate on over each year that the system has for the journal, we're not going to want to completely
         // obliterate the file size with stuffing all the journals into a single json storage file.
-        foreach ($this->years as $year_key => $year) {
+        foreach ($this->years as $year) {
             foreach ($this->getJournals($year) as $journal) {
                 $this->put[$journal->id] = [
                     'id'            => $journal->id,
@@ -65,22 +68,22 @@ class JournalLocalStoreJob implements ShouldQueue
                 // going to be able to store the entirety of the database into a json oriented file for extraction
                 // and re-insertion at some other time.
                 if ($journal->achievements->isNotEmpty()) {
-                    foreach ($journal->achievements as $journal_achievement) {
-                        $this->put[$journal->id]['journal_achievements'][$journal_achievement->id] = [
-                            'id'         => $journal_achievement->id,
-                            'journal_id' => $journal_achievement->journal_id,
-                            'name'       => $journal_achievement->name,
-                            'created_at' => $journal_achievement->created_at,
-                            'updated_at' => $journal_achievement->updated_at
+                    foreach ($journal->achievements as $journalAchievement) {
+                        $this->put[$journal->id]['journal_achievements'][$journalAchievement->id] = [
+                            'id'         => $journalAchievement->id,
+                            'journal_id' => $journalAchievement->journal_id,
+                            'name'       => $journalAchievement->name,
+                            'created_at' => $journalAchievement->created_at,
+                            'updated_at' => $journalAchievement->updated_at
                         ];
                     }
                 }
             }
 
-            // after getting all of the results, turn the entire collection into a json object and store it into a file.
+            // after getting all the results, turn the entire collection into a json object and store it into a file.
             // this will be stored inside the local storage; public/storage/journals/journals.json?
             Storage::disk('local')
-                ->put("journals/journals_{$year}.json", json_encode($this->put));
+                ->put($this->getDestination("journals_{$year}.json"), json_encode($this->put));
 
             // reset the put back to nothing, so that when we re-iterate onto a new file, the put is back at square one
             // rather than appending more and more data to the particular set.

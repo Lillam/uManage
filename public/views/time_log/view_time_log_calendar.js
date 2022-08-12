@@ -20,7 +20,7 @@ $(() => {
             direction = 'right';
         }
 
-        view_time_logs(date, direction);
+        viewTimeLogs(date, direction);
 
         // todo | this is going to need to inject the current position into the url, so when the page refreshes the user
         //  will be back  to where t hey left off, prior to refreshing for whatever reason they may have felt necessary
@@ -66,7 +66,7 @@ $(() => {
                 time_log_note: time_log_note
             },
             success: function (data) {
-                view_time_logs($('.time_log_calendar').attr('data-current_date'));
+                viewTimeLogs($('.time_log_calendar').attr('data-current_date'));
             }
         })
     });
@@ -135,7 +135,7 @@ $(() => {
     // within the date range of today, so if today is wednesday, it will take today, grab the start of the week from
     // today, also grab the end of the week from today, and add all days in between into an array , grabbing all
     // time logs from these ranges and instantiate them onto first page load.
-    view_time_logs();
+    viewTimeLogs();
 });
 
 /**
@@ -147,12 +147,12 @@ $(() => {
 * @param date
 * @param direction
 */
-const view_time_logs = function (date = false, direction = false) {
-    let view_time_logs_url = $('.time_log_calendar').data('view_time_logs_url');
+const viewTimeLogs = function (date = false, direction = false) {
+    let viewTimeLogsUrl = $('.time_log_calendar').data('view_time_logs_url');
 
     $.ajax({
         method: 'get',
-        url: view_time_logs_url,
+        url: viewTimeLogsUrl,
         data: { date: date, direction: direction },
         success: function (data) {
             $('.time_logs').html(data.html);

@@ -18,7 +18,7 @@ class FakeTaskSeeder extends Seeder
     *
     * @var int
     */
-    public int $tasks_ta_make = 1000;
+    public int $tasksToMake = 1000;
 
     /**
     * Run the database seeders.
@@ -27,24 +27,24 @@ class FakeTaskSeeder extends Seeder
     */
     public function run(): void
     {
-        $users            = User::all();
-        $projects         = Project::all();
-        $task_issue_types = TaskIssueType::all();
-        $task_statuses    = TaskStatus::all();
-        $task_priorities  = TaskPriority::all();
+        $users          = User::all();
+        $projects       = Project::all();
+        $taskIssueTypes = TaskIssueType::all();
+        $taskStatuses   = TaskStatus::all();
+        $taskPriorities = TaskPriority::all();
 
-        $bar = $this->command->getOutput()->createProgressBar($this->tasks_ta_make);
+        $bar = $this->command->getOutput()->createProgressBar($this->tasksToMake);
 
-        for ($i = 0; $i < $this->tasks_ta_make; $i++) {
+        for ($i = 0; $i < $this->tasksToMake; $i++) {
             $task = Task::query()->create([
                 'project_id'         => $projects->random()->id,
                 'name'               => Str::random(),
                 'description'        => '',
-                'task_issue_type_id' => $task_issue_types->random()->id,
+                'task_issue_type_id' => $taskIssueTypes->random()->id,
                 'reporter_user_id'   => $users->random()->id,
                 'assigned_user_id'   => $users->random()->id,
-                'task_status_id'     => $task_statuses->random()->id,
-                'task_priority_id'   => $task_priorities->random()->id,
+                'task_status_id'     => $taskStatuses->random()->id,
+                'task_priority_id'   => $taskPriorities->random()->id,
                 'due_date'           => null
             ]);
 
