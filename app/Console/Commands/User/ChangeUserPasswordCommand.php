@@ -25,7 +25,7 @@ class ChangeUserPasswordCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Change A User\'s Password';
+    protected $description = "Change A User's Password";
 
     /**
      * Create a new command instance.

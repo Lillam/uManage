@@ -13,7 +13,7 @@ class DateTimeHelper
     * as a carbon instance.
     *
     * @param Carbon $startingDay
-    * @return array
+    * @return Carbon[]
     */
     public static function days(Carbon $startingDay): array
     {
@@ -26,5 +26,41 @@ class DateTimeHelper
             'saturday'  => $startingDay->copy()->addDay(5),
             'sunday'    => $startingDay->copy()->addDay(6)
         ];
+    }
+
+    /**
+     * Method to remove the need to check whether a date is parseable or not, simplifying the handlers that are working
+     * with dates.
+     *
+     * @param string|null $parseableDate
+     * @return Carbon
+     */
+    public static function nowOrDate(string|null $parseableDate): Carbon
+    {
+        if (! $parseableDate) {
+            return Carbon::now();
+        }
+
+        return Carbon::parse($parseableDate);
+    }
+
+    /**
+     * A method designed to move date by a particular amount of Months, utility helper method to remove some conditional
+     * logic from handlers.
+     *
+     * @param Carbon $date
+     * @param string|null $direction
+     * @param int $amount
+     * @return Carbon
+     */
+    public static function moveDateByMonths(Carbon $date, ?string $direction, int $amount = 1): Carbon
+    {
+        if (! $direction) {
+            return $date;
+        }
+
+        $method = $direction === 'left' ? 'subMonth' : 'addMonth';
+
+        return $date->$method($amount);
     }
 }

@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
+use App\Helpers\DateTime\DateTimeHelper;
 
 class JournalReportController extends Controller
 {
@@ -23,13 +24,10 @@ class JournalReportController extends Controller
     */
     public function _viewJournalsReportGet(Request $request): Factory|View
     {
-        // lets check whether or not we have a date passed through the url parameters, if we do then we are going to be
-        // parsing this as a date in the format of Year Month Day. otherwise, we are going to take todays date in the
-        // format of Year Month Day.
-        $date = $request->input('date');
-        $date = ! empty($date)
-            ? Carbon::parse($date)
-            : Carbon::now();
+        // let's check whether we have a date passed through the url parameters or not , if we do then we are going to
+        // be parsing this as a date in the format of Year Month Day. otherwise, we are going to take today's date in
+        // the format of Year Month Day.
+        $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', "Journal Report - {$this->vs->get('user')->getFullName()}")
             ->set('current_page', 'page.journals.report');
@@ -42,7 +40,7 @@ class JournalReportController extends Controller
     /**
     * This method is entirely for grabbing journals in report format, this will be returning all the data in a json
     * oriented object so that the frontend can process what is going on here; all values will be viewed inside the
-    * view_journals_report.js file, after ajaxing has happened. This method is entirely a cycle, and for as many times
+    * view_journals_report.js file, after ajax-ing has happened. This method is entirely a cycle, and for as many times
     * as the user will keep clicking next or back, will depend on the values that get returned (based on the past
     * date)
     *
@@ -51,30 +49,20 @@ class JournalReportController extends Controller
     */
     public function _ajaxViewJournalsReportGet(Request $request): JsonResponse
     {
-        // Acquiring the date that the report is going to be generated off; the user will be able to cycle through the
-        // months, and in doing so, providing there is a month set, we will be utilising this month, otherwise, this
-        // month will be set to today.
-        $date = Carbon::parse($request->input('date'));
-
-        // checking to see whether we have a direction or not, by default unless requested by the user this will be null
-        // or '', and if this is the case we are going to iterate on over past this logic. however if it is set then
-        // we are either going to be incrementing a month, or decrementing a month and then returning this specific
-        // date and altering it for when we grab the necessary data for the month in question.
-        $direction = $request->input('direction');
-
-        // if the direction has been marked as left, then we are going back in time; it'll take this month and then sub
-        // a month
-        if (! empty($direction) && $direction === 'left')
-            $date = $date->subMonth();
-
-        // if the direction has been marked as right, then we are going forward in time; it'll take this month and then
-        // add a month
-        if (! empty($direction) && $direction === 'right')
-            $date = $date->addMonth();
+        // Acquire the date that the report is going to be generated off, the user will be able to cycle through the
+        // months. And in doing so, providing there is a month set, we will be utilising the current month, otherwise
+        // will be defaulted to today. if a direction has been passed in, then the DateTimeHelper is going to return a
+        // date that from the date provided will be the date - 1  month or + 1 month depending on left or right
+        // directional values.
+        $date = DateTimeHelper::moveDateByMonths(
+            Carbon::parse($request->input('date')),
+            $request->input('direction')
+        );
 
         // acquire all the journals that have a when between the start and end of the month for the month of which has
         // been designated above.
-        $journals = Journal::where('user_id', '=', Auth::id())
+        $journals = Journal::query()
+            ->where('user_id', '=', Auth::id())
             ->with('achievements')
             ->where('when', '>=', Carbon::parse($date)->startOfMonth())
             ->where('when', '<=', Carbon::parse($date)->endOfMonth())
@@ -103,7 +91,7 @@ class JournalReportController extends Controller
         $total_4_star_days                  = 0;
         $total_5_star_days                  = 0;
 
-        foreach ($journals as $key => $journal) {
+        foreach ($journals as $journal) {
             $journal_labels[]                     = $journal->when->format('d-m-Y');
             $journal_ratings[]                    = $journal->rating;
             $journal_ratings_colors[]             = $journal->ratingColor();
@@ -118,8 +106,7 @@ class JournalReportController extends Controller
             $journal_lowest_word_counts_colors[]  = '#f0506e';
 
             // if we haven't got a journal rating, then we don't really need to append onto the star day in question.
-            if ($journal->rating === null)
-                continue;
+            if ($journal->rating === null) continue;
 
             $star_days                            = "total_{$journal->rating}_star_days";
             $$star_days                           += 1;
@@ -131,7 +118,7 @@ class JournalReportController extends Controller
         // @todo - hand however; but will be worth doing in the long run for whenever I decide I want to start logging
         // @todo - some other features.
 
-        // Returning all of the above data, in a json-ised formatted data set so that javascript has an easier time
+        // Returning all of the above data, in a json-ified formatted data set so that javascript has an easier time
         // reading the data that we have returned. this is a build up of all the data above, and will be utilised in
         // reporting. (for the month in particular that has been passed)
         return response()->json([

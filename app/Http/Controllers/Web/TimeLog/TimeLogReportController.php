@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Web\TimeLog;
 
 use Carbon\Carbon;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\TimeLog\TimeLog;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
+use App\Helpers\DateTime\DateTimeHelper;
+use Illuminate\Contracts\Foundation\Application;
 
 class TimeLogReportController extends Controller
 {
@@ -19,13 +21,11 @@ class TimeLogReportController extends Controller
     * specified.
     *
     * @param Request $request
-    * @return Factory|View
+    * @return Application|Factory|View
     */
-    public function _viewTimeLogReportGet(Request $request): Factory|View
+    public function _viewTimeLogReportGet(Request $request): Application|Factory|View
     {
-        $date = $request->input('date')
-            ? Carbon::parse($request->input('date'))
-            : Carbon::now();
+        $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', '- TimeLog Report')
                  ->set('current_page', 'page.time-logs.report');
@@ -44,16 +44,13 @@ class TimeLogReportController extends Controller
     */
     public function _ajaxViewTimeLogReportGet(Request $request): JsonResponse
     {
-        $date      = Carbon::parse($request->input('date'));
-        $direction = $request->input('direction');
+        $date = DateTimeHelper::moveDateByMonths(
+            Carbon::parse($request->input('date')),
+            $request->input('direction')
+        );
 
-        if ($direction === 'left')
-            $date = $date->subMonth(1);
-
-        if ($direction === 'right')
-            $date = $date->addMonth(1);
-
-        $timeLogs = TimeLog::with(['task', 'project'])
+        $timeLogs = TimeLog::query()
+            ->with(['task', 'project'])
             ->where('from', '>=', Carbon::parse($date)->startOfMonth())
             ->where('to', '<=', Carbon::parse($date)->endOfMonth())
             ->get();

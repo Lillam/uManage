@@ -13,7 +13,7 @@ class TextHelper
     }
 
     /**
-    * This method is entirely for strippign out tags from from the uploaded values, this will replace all tags for the
+    * This method is entirely for stripping out tags from the uploaded values, this will replace all tags for the
     * special entity variation of it... this is going to allow for safer inserted.
     *
     * @param $string
@@ -61,5 +61,18 @@ class TextHelper
     public static function slugify(string $string): string
     {
         return strtolower(str_replace(' ', '-', $string));
+    }
+
+    /**
+     * This method will strip out spaces... and replace for underscores (_) after doing that it will turn the entire
+     * string into a lowercase variation, so that we can do a direct match from the url against what is coming out
+     * on the backend (alias match will be better than name/title matching).
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function snakeify(string $string): string
+    {
+        return mb_strtolower(str_replace(' ', '_', $string));
     }
 }

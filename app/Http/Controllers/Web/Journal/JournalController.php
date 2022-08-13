@@ -4,13 +4,15 @@ namespace App\Http\Controllers\Web\Journal;
 
 use Throwable;
 use Carbon\Carbon;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Journal\Journal;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
+use App\Helpers\DateTime\DateTimeHelper;
+use Illuminate\Contracts\Foundation\Application;
 
 class JournalController extends Controller
 {
@@ -21,13 +23,11 @@ class JournalController extends Controller
     * we will then utilise this view date to what will be passed to the ajax method (ajaxViewJournalsGet()).
     *
     * @param Request $request
-    * @return Factory|View
+    * @return Application|Factory|View
     */
-    public function _viewJournalsGet(Request $request): Factory|View
+    public function _viewJournalsGet(Request $request): Application|Factory|View
     {
-        $date = ! empty($request->input('date'))
-            ? Carbon::parse($request->input('date'))
-            : Carbon::now();
+        $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', "Journals - {$this->vs->get('user')->getFullName()}")
                  ->set('current_page', 'page.journals.calendar');
@@ -137,9 +137,9 @@ class JournalController extends Controller
     * just going to create the journal entry...
     *
     * @param $date
-    * @return Factory|View
+    * @return Application|Factory|View
     */
-    public function _viewJournalGet($date): Factory|View
+    public function _viewJournalGet($date): Application|Factory|View
     {
         $user    = $this->vs->get('user');
         $user_id = $user->id;
@@ -192,12 +192,12 @@ class JournalController extends Controller
     */
     public function _ajaxEditJournalPost(Request $request): JsonResponse
     {
-        $journal_id = $request->input('journal_id');
+        $journalId = $request->input('journal_id');
 
         $field = $request->input('field');
         $value = $request->input('value');
 
-        $journal = Journal::query()->where('id', '=', $journal_id)->first();
+        $journal = Journal::query()->where('id', '=', $journalId)->first();
         $journal->$field = $value;
         $journal->save();
 

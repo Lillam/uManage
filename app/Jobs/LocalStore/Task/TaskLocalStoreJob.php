@@ -4,6 +4,7 @@ namespace App\Jobs\LocalStore\Task;
 
 use App\Models\Task\Task;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\LocalStore\Destinationable;
@@ -16,9 +17,9 @@ class TaskLocalStoreJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
 
     /**
-     * @var array
+     * @var array|Collection
      */
-    private array $tasks;
+    private array|Collection $tasks;
 
     /**
     * @var array
@@ -42,7 +43,7 @@ class TaskLocalStoreJob implements ShouldQueue
                 'task_comments',
                 'task_checklists',
                 'task_checklists.task_checklist_items',
-                'task_time_logs'
+                'taskTimeLogs'
             ])
             ->get();
     }
@@ -86,8 +87,8 @@ class TaskLocalStoreJob implements ShouldQueue
                 }
             }
 
-            if ($task->task_time_logs->isNotEmpty()) {
-                foreach ($task->task_time_logs as $taskTimeLog) {
+            if ($task->taskTimeLogs->isNotEmpty()) {
+                foreach ($task->taskTimeLogs as $taskTimeLog) {
                     $this->putTasks[$task->id][$ttl][$taskTimeLog->id] = [
                         'id'         => $taskTimeLog->id,
                         'task_id'    => $taskTimeLog->task_id,
