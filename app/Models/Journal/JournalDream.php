@@ -54,7 +54,7 @@ class JournalDream extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the Journal.
+    | question.
     |
     */
 
@@ -81,7 +81,7 @@ class JournalDream extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Journal Dream
+    | question.
     |
     */
 
@@ -97,7 +97,7 @@ class JournalDream extends Model
     /**
     * This here allows me to acquire a short version of the content, if one exists it's going to give me a stripped
     * tagged version of the attribute at hand "content" and limit it to 85 characters as a form of a short read before
-    * clicking into the jounral dream.
+    * clicking into the journal dream.
     *
     * @return string
     */

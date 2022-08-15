@@ -1,47 +1,62 @@
 <?php
 
-namespace App\Models\Store;
+namespace App\Models\Journal;
 
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Traits\Getters\GetterMarkdown;
+use App\Models\Traits\Setters\SetterMarkdown;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class StoreBasket extends Model
+class JournalFood extends Model
 {
-    /**
-    * Pre-defining this models table name, this will be taking the name of the widget that it is, singular-ifying it
-    * and storing it into it's parent protected property "table"
-    *
-    * @var string
-    */
-    protected $table = 'store_basket';
+    use SetterMarkdown, GetterMarkdown;
 
     /**
-    * @var string[]
-    */
+     * Pre-defining this model table name, this will be taking the name of the widget that it is, singular-ifying it
+     * and storing it into it's parent property "$table"
+     *
+     * @var string
+     */
+    protected $table = 'journal_food';
+
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         'user_id',
-        'store_product_id'
+        'overall',
+        'when',
     ];
 
     /**
-    * @var string[]
-    */
+     * @var string[]
+     */
     protected $casts = [
-        'user_id'          => 'int',
-        'store_product_id' => 'int'
+        'user_id'    => 'integer',
+        'overall'    => 'string',
+        'when'       => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
-
-    public $timestamps = false;
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question.
+    | question
     |
     */
+
+    /**
+     * @param string $value
+     * @return void
+     */
+    public function setOverallAttribute(string $value): void
+    {
+        $this->attributes['overall'] = $this->setParsedContent($value);
+    }
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
@@ -52,6 +67,15 @@ class StoreBasket extends Model
     |
     */
 
+    /**
+     * @param string $value
+     * @return string
+     */
+    public function getOverallAttribute(string $value): string
+    {
+        return $this->getParsedContent($value);
+    }
+
     /*
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
@@ -61,27 +85,14 @@ class StoreBasket extends Model
     */
 
     /**
-    * Each item that resides in this table, will belong to a user, each basket item can be placed against a user in the
-    * system. this means we will have direct access to which particular user has this item in their basket... we will
-    * also have knowledge of how many users have a particular item in their basket... (this way we can report on the
-    * frontend saying (x) people are looking at this product).
+    * Each journal food will be assigned to a singular user, this method will be minimally used, quite possibly only in
+    * reporting purposes. this is an efficient and effective method for the retrieval of the user that is assigned to
+    * a specific journal food entry.
     *
     * @return BelongsTo
     */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    /**
-    * Each item in the basket model, will of course, have a product against it. of course, no sense of having a basket
-    * item if there is nothing in your basket? this will be an easy method for grabbing the products that are residing
-    * in everyone's basket; getting the product specifically.
-    *
-    * @return BelongsTo
-    */
-    public function storeProduct(): BelongsTo
-    {
-        return $this->belongsTo(StoreProduct::class, 'store_product_id', 'id');
+        return $this->belongsTo(User::class, 'id', 'user_id');
     }
 }

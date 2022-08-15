@@ -34,7 +34,7 @@ class ProjectPolicy extends Policy
     {
         return (
             $project->user_id === $self->id ||
-            in_array($self->id, $project->user_contributors->pluck('user_id')->toArray())
+            in_array($self->id, $project->userContributors->pluck('user_id')->toArray())
         );
     }
 

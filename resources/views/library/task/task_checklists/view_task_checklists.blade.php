@@ -1,6 +1,7 @@
 {{-- This particular file is entirely ajaxed, this file will be loaded after the view_task.blade has been loaded in
 prior to this trying to be called in, if the request is made successfully to the task checklists then we are going to
 be rendering this particular checklist sets of elements... --}}
+@if ($task_checklists->isNotEmpty())
 <div class="section">
     <h2 class="section_title">Sub Tasks</h2>
     <div class="task_checklists" uk-sortable="handle: .task_checklist_options_dropdown_wrapper">
@@ -55,6 +56,7 @@ be rendering this particular checklist sets of elements... --}}
         @endforeach
     </div>
 </div>
+@endif
 <div class="section">
     <div class="new_task_checklist uk-flex">
         <div class="uk-width-expand">

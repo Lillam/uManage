@@ -63,7 +63,7 @@ class Project extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the Project.
+    | question.
     |
     */
 
@@ -84,7 +84,7 @@ class Project extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Project.
+    | question.
     |
     */
 
@@ -172,8 +172,7 @@ class Project extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Project.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 
@@ -202,13 +201,13 @@ class Project extends Model
     }
 
     /**
-    * Each project will be created by a user, and this is more for conveniency when looking at projects to see what
-    * user had created this particular project. We are able to call Project->creator_user->first_name etc. and just get
-    * information about the one who made it.
+    * Each project will be created by a user, and this is more for convenience when looking at projects to see what
+    * user had created this particular project. We are able to call Project->creator_user->first_name etc. and just
+    * get information about the one who made it.
     *
     * @return HasOne
     */
-    public function creator_user(): HasOne
+    public function creatorUser(): HasOne
     {
         return $this->hasOne(User::class, 'id', 'user_id');
     }
@@ -220,7 +219,7 @@ class Project extends Model
     *
     * @return HasMany
     */
-    public function user_contributors(): HasMany
+    public function userContributors(): HasMany
     {
         return $this->hasMany(ProjectUserContributor::class, 'project_id', 'id');
     }

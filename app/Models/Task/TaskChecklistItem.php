@@ -22,9 +22,9 @@ class TaskChecklistItem extends Model
     */
     protected $table = 'task_checklist_item';
 
-    /**
-    * @var string[]
-    */
+    // /**
+    // * @var string[]
+    // */
     // protected $primaryKey = ['project_id', 'task_id', 'user_id', 'task_checklist_id', 'id'];
 
     /**
@@ -63,9 +63,9 @@ class TaskChecklistItem extends Model
         'updated_at'        => 'datetime'
     ];
 
-    /**
-    * @var bool
-    */
+    // /**
+    // * @var bool
+    // */
     // public $incrementing = false;
 
     /*
@@ -73,7 +73,7 @@ class TaskChecklistItem extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Task Checklist Item.
+    | question.
     |
     */
 
@@ -116,7 +116,7 @@ class TaskChecklistItem extends Model
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
     | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Task Checklist Item.
+    | specific.
     |
     */
 

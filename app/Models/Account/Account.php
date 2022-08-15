@@ -48,7 +48,7 @@ class Account extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting the information around the specific model
-    | in question, in this case: The Account.
+    | in question.
     |
     */
 
@@ -57,7 +57,7 @@ class Account extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Account.
+    | question.
     |
     */
 
@@ -119,8 +119,7 @@ class Account extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Account.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

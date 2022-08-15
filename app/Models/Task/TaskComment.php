@@ -27,7 +27,7 @@ class TaskComment extends Model
     /**
     * This will want to contain everything that is fillable inside the database, if the element that should be fillable
     * is not inside the array, the element will not be insertable and will always enter as a null value, or error
-    * if the element is a non nullable value
+    * if the element is a non-nullable value
     *
     * @var array
     */
@@ -55,19 +55,19 @@ class TaskComment extends Model
         'updated_at' => 'datetime'
     ];
 
-    /**
-    * @var bool
-    */
-   //  public $incrementing = false;
+    // /**
+    // * @var bool
+    // */
+    //  public $incrementing = false;
 
     /*
     |-------------------------------------------------------------------------------------------------------------------
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the Task Comment.
+    | question.
     |
-     */
+    */
 
     /**
     * Prior to saving the comment attribute, this is the process that the value will go through, we are going to by
@@ -86,7 +86,7 @@ class TaskComment extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Task Comment.
+    | question.
     |
     */
 
@@ -138,8 +138,7 @@ class TaskComment extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Task Comment.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

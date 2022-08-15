@@ -67,7 +67,7 @@ class User extends Authenticatable
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the The User
+    | question.
     |
     */
 
@@ -126,8 +126,7 @@ class User extends Authenticatable
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the User
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

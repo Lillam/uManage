@@ -51,7 +51,7 @@ class SystemModule extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting the information around the specific model
-    | in question, in this case: The System Module.
+    | in question.
     |
     */
 
@@ -60,7 +60,7 @@ class SystemModule extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the System Module.
+    | question.
     |
     */
 
@@ -81,7 +81,7 @@ class SystemModule extends Model
     | Scopes
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting scopes around the specific model in
-    | question, in this case: the System Module.
+    | question.
     |
     */
 
@@ -89,8 +89,7 @@ class SystemModule extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: System Module.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 }

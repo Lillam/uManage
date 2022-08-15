@@ -46,7 +46,7 @@ class SystemModuleAccess extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting the information around the specific model
-    | in question, in this case: The System Module Access.
+    | in question.
     |
     */
 
@@ -55,7 +55,7 @@ class SystemModuleAccess extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the System Module Access.
+    | question.
     |
     */
 
@@ -71,8 +71,7 @@ class SystemModuleAccess extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: System Module Access.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

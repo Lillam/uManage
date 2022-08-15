@@ -59,7 +59,7 @@ class TaskController extends Controller
         $project = Project::query()
             ->where('code', '=', $project_code)
             ->with([
-                'user_contributors',
+                'userContributors',
                 'tasks' => function ($query) use ($task_id) {
                     $query->where('id', '=', $task_id);
                 },
@@ -97,7 +97,7 @@ class TaskController extends Controller
         // acquire all the users for this project, so we are able to add this to the watchers, and the assignee
         // of the project, we are only going to want to reference users that are within this project spec, and only
         // those that have been granted permission to view will be showing up within the task additions.
-        $task->project_users = $task->project->user_contributors->map(function ($project_user) {
+        $task->project_users = $task->project->userContributors->map(function ($project_user) {
             return $project_user->user;
         });
 

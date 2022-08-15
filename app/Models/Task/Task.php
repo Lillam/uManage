@@ -69,7 +69,7 @@ class Task extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the Task.
+    | question.
     |
     */
 
@@ -90,7 +90,7 @@ class Task extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Task.
+    | question.
     |
     */
 
@@ -116,7 +116,7 @@ class Task extends Model
     }
 
     /**
-    * This method is going to need betterfying, as this current method is going to be slow coming across the entire list
+    * This method is going to need bettering, as this current method is going to be slow coming across the entire list
     * of tasks in the system, this will be iterating over a large amount of checklist items against the task checklists
     * as well as iterating over task checklists in general, it's going to be a hard query in order to gather the
     * necessary data to return for this task in question.
@@ -138,7 +138,7 @@ class Task extends Model
 
         if ($total_checklist_items === 0)
             return "0%";
-        return (string) (($completed_checklist_items / $total_checklist_items) * 100) . '%';
+        return (($completed_checklist_items / $total_checklist_items) * 100) . '%';
     }
 
     /**
@@ -186,8 +186,7 @@ class Task extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Task
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

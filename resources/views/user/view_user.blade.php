@@ -44,7 +44,10 @@
                                 <div>
                                     @can('UserPolicy@editUser', $user)
                                         <label for="first_name" class="uk-hidden">First Name</label>
-                                        <input type="text" placeholder="Your First Name" value="{{ $user->first_name }}" />
+                                        <input id="first_name"
+                                               type="text"
+                                               placeholder="Your First Name"
+                                               value="{{ $user->first_name }}" />
                                     @else
                                         <div class="placeholder">{{ $user->first_name }}</div>
                                     @endcan
@@ -59,7 +62,10 @@
                                 <div>
                                     @can('UserPolicy@editUser', $user)
                                         <label for="last_name" class="uk-hidden">Last Name</label>
-                                        <input id="last_name" type="text" placeholder="Your Last Name" value="{{ $user->last_name }}" />
+                                        <input id="last_name"
+                                               type="text"
+                                               placeholder="Your Last Name"
+                                               value="{{ $user->last_name }}" />
                                     @else
                                         <div class="placeholder">{{ $user->last_name }}</div>
                                     @endcan
@@ -130,7 +136,10 @@
                             <div class="uk-width-expand">
                                 @can('UserPolicy@editUser', $user)
                                     <label for="user_email" class="uk-hidden">Email</label>
-                                    <input id="user_email" type="text" placeholder="Your Email" value="{{ $user->email }}" />
+                                    <input id="user_email"
+                                           type="text"
+                                           placeholder="Your Email"
+                                           value="{{ $user->email }}" />
                                 @else
                                     <div class="placeholder">{{ $user->email }}</div>
                                 @endcan
@@ -150,20 +159,20 @@
             </div>
         </div>
     @endif
-    @if ($users_i_work_with->isNotEmpty())
+    @if ($usersIWorkWith->isNotEmpty())
         <div class="section">
             <h2>{{ $user->first_name }} works with</h2>
             <div class="uk-grid uk-grid-small" uk-grid>
-                @foreach ($users_i_work_with as $user_i_work_with)
+                @foreach ($usersIWorkWith as $UserIWorkWith)
                     <div class="uk-width-1-5@xl uk-width-1-4@m uk-width-1-2">
                         <div class="user_card">
-                            <a href="{{ $user_i_work_with->getUrl() }}">
+                            <a href="{{ $UserIWorkWith->getUrl() }}">
                                 <div class="uk-flex uk-flex-middle uk-flex-center">
-                                    <img alt="{{ $user_i_work_with->getFullName() }}"
-                                         src="{{ $user_i_work_with->getProfileImage() }}"
+                                    <img alt="{{ $UserIWorkWith->getFullName() }}"
+                                         src="{{ $UserIWorkWith->getProfileImage() }}"
                                     />
                                 </div>
-                                <h2>{{ $user_i_work_with->getFullName() }}</h2>
+                                <h2>{{ $UserIWorkWith->getFullName() }}</h2>
                                 <span>Job Description</span>
                             </a>
                         </div>

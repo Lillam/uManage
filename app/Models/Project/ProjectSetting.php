@@ -65,7 +65,7 @@ class ProjectSetting extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Project Setting.
+    | question.
     |
     */
 
@@ -83,15 +83,14 @@ class ProjectSetting extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Project Setting.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 
     /**
     * Each ProjectSetting that gets inserted into the database will be associated to a Project - This will allow us to
     * view all the project settings in the system as a global and then associate where the ProjectSetting is belonging
-    * this won't ever really be needed, however is in place for efficiency sake on the off chance that it might be
+    * this won't ever really be needed, however is in place for efficiency's sake on the off chance that it might be
     * necessary
     *
     * @return BelongsTo

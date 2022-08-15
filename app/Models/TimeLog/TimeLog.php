@@ -4,9 +4,7 @@ namespace App\Models\TimeLog;
 
 use App\Models\Task\Task;
 use App\Models\User\User;
-use Markdownify\Converter;
 use App\Models\Project\Project;
-use App\Helpers\Text\TextHelper;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Traits\Getters\GetterMarkdown;
 use App\Models\Traits\Setters\SetterMarkdown;
@@ -56,7 +54,7 @@ class TimeLog extends Model
     | Setters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the TimeLog.
+    | question.
     |
     */
 
@@ -77,7 +75,7 @@ class TimeLog extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the TimeLog
+    | question.
     |
     */
 
@@ -105,8 +103,7 @@ class TimeLog extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the TimeLog.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

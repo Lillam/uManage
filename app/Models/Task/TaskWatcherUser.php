@@ -18,7 +18,7 @@ class TaskWatcherUser extends Model
     /**
     * This will want to contain everything that is fillable inside the database, if the element that should be fillable
     * is not inside the array, the element will not be insertable and will always enter as a null value, or error
-    * if the element is a non nullable value
+    * if the element is a non-nullable value
     *
     * @var array
     */
@@ -45,7 +45,7 @@ class TaskWatcherUser extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Task Watcher User.
+    | question.
     |
     */
 
@@ -53,8 +53,7 @@ class TaskWatcherUser extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Task Watcher User.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 
@@ -71,7 +70,7 @@ class TaskWatcherUser extends Model
     }
 
     /**
-    * Each task watcher user wilcome equipped with a relationship to the task, so we can instantly check which task
+    * Each task watcher user will come equipped with a relationship to the task, so we can instantly check which task
     * it is that is currently attached. This gives the system ease of access to the task when we are showing the task
     * watcher users.
     *

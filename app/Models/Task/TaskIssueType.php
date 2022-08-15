@@ -46,7 +46,7 @@ class TaskIssueType extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Task Issue Type.
+    | question.
     |
     */
 
@@ -89,8 +89,7 @@ class TaskIssueType extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Task Issue Type.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

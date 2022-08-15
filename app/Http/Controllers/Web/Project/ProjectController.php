@@ -40,8 +40,8 @@ class ProjectController extends Controller
             ->select('*')
             ->with([
                 'projectSetting',
-                'user_contributors',
-                'user_contributors.user'
+                'userContributors',
+                'userContributors.user'
             ])
             ->where('user_id', '=', $user_id)
             ->orderBy('name', 'asc')
@@ -74,8 +74,8 @@ class ProjectController extends Controller
             ->select('*')
             ->with([
                 'projectSetting',
-                'user_contributors',
-                'user_contributors.user'
+                'userContributors',
+                'userContributors.user'
             ])
             ->where('code', '=', $project_code)
             ->first();

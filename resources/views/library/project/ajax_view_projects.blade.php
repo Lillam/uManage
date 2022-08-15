@@ -7,8 +7,8 @@
                         <a class="app-project project" href="{{ $project->getUrl() }}">
                             <div class="project_title_wrapper">
                                 {!! \App\Printers\User\UserPrinter::userBadges(
-                                    $project->user_contributors->map(function ($user_contributor) {
-                                        return $user_contributor->user;
+                                    $project->userContributors->map(function ($userContributor) {
+                                        return $userContributor->user;
                                     }), false, $project->getColor()
                                 ) !!}
                                 <h2 class="project_title"><span>Project</span> {{ $project->name }}</h2>
@@ -45,8 +45,8 @@
                     <a class="app-project project" href="{{ $project->getUrl() }}">
                         <div class="project_title_wrapper">
                             {!! \App\Printers\User\UserPrinter::userBadges(
-                                $project->user_contributors->map(function ($user_contributor) {
-                                    return $user_contributor->user;
+                                $project->userContributors->map(function ($userContributor) {
+                                    return $userContributor->user;
                                 }), false, $project->getColor()
                             ) !!}
                             <h2 class="project_title"><span>Project</span> {{ $project->name }}</h2>

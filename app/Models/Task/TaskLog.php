@@ -41,9 +41,9 @@ class TaskLog extends Model
     */
     protected $table = 'task_log';
 
-    /**
-    * @var string[]
-    */
+    // /**
+    // * @var string[]
+    // */
     // protected $primaryKey = ['id', 'project_id', 'task_id', 'user_id'];
 
     /**
@@ -80,9 +80,9 @@ class TaskLog extends Model
         'when'                   => 'datetime'
     ];
 
-    /**
-    * @var bool
-    */
+    // /**
+    // * @var bool
+    // */
     //public $incrementing = false;
 
     /**
@@ -95,7 +95,7 @@ class TaskLog extends Model
     | Getters
     |-------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Log.
+    | question.
     |
     */
 
@@ -145,7 +145,7 @@ class TaskLog extends Model
     */
 
     /**
-    * Method for finding out whether or not this entry has the update type that fits into the task updates. and if
+    * Method for finding out whether this entry has the update type that fits into the task updates or not. and if
     * it does, then we are working with tasks... this method is simply going to return either true or false depending on
     * type
     *
@@ -168,7 +168,7 @@ class TaskLog extends Model
     }
 
     /**
-    * Method for finding out whether or not this entry has the update type that fits into the task checklist updates
+    * Method for finding out whether this entry has the update type that fits into the task checklist updates or not
     * and if it does, then we are working with task checklists... this method is simply going to return either
     * true or false depending on type.
     *
@@ -184,8 +184,8 @@ class TaskLog extends Model
     }
 
     /**
-    * Method for finding out whether or not this entry has the update type that fits into the task checklist item
-    * updates and if it does, then we are working with task checklist items... this method is simply going to return
+    * Method for finding out whether this entry has the update type that fits into the task checklist item updates
+    * or not and if it does, then we are working with task checklist items... this method is simply going to return
     * either true or false depending on type.
     *
     * @return bool
@@ -204,8 +204,7 @@ class TaskLog extends Model
     |-------------------------------------------------------------------------------------------------------------------
     | Relationships
     |-------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Task Log.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 

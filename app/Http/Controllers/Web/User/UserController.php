@@ -126,8 +126,8 @@ class UserController extends Controller
         // of different data.
         $user = User::with([
             'projects',
-            'projects.user_contributors',
-            'projects.user_contributors.user',
+            'projects.userContributors',
+            'projects.userContributors.user',
             'tasks',
             'tasks.task_status',
             'tasks.task_priority',
@@ -145,21 +145,21 @@ class UserController extends Controller
         // going to be working with on a variety of different projects. this can get quite large, as we are going to be
         // looking at a user project collection, so if the same user is connected to a variety of other projects, then
         // we are only wanted to get unique entries.
-        $users_i_work_with = collect();
-        $user->projects->map(function ($project) use (&$users_i_work_with) {
-            $project->user_contributors->map(function ($user) use (&$users_i_work_with) {
+        $usersIWorkWith = collect();
+        $user->projects->map(function ($project) use (&$usersIWorkWith) {
+            $project->userContributors->map(function ($user) use (&$usersIWorkWith) {
                 if ($user->user->id !== $this->vs->get('user')->id)
-                    $users_i_work_with[$user->user->id] = $user->user;
+                    $usersIWorkWith[$user->user->id] = $user->user;
             }); return $project;
         });
 
         $this->vs->set('title', " - {$user->getFullName()}")
-                  ->set('ref', 'account')
-                  ->set('current_page', 'page.user');
+                 ->set('ref', 'account')
+                 ->set('current_page', 'page.user');
 
         return view('user.view_user', compact(
             'user',
-            'users_i_work_with'
+            'usersIWorkWith'
         ));
     }
 

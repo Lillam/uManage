@@ -41,7 +41,7 @@ class JournalFinance extends Model
     | Setters
     | ------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with setting information around the specific model in
-    | question, in this case: the Journal.
+    | question.
     |
     */
 
@@ -50,7 +50,7 @@ class JournalFinance extends Model
     | Getters
     | ------------------------------------------------------------------------------------------------------------------
     | Logic from this point until the next titling is 100% to do with getting information around the specific model in
-    | question, in this case: the Journal
+    | question.
     |
     */
 
@@ -58,13 +58,12 @@ class JournalFinance extends Model
     | ------------------------------------------------------------------------------------------------------------------
     | Relationships
     | ------------------------------------------------------------------------------------------------------------------
-    | The information from this point on will 100% be around the relationships that this specific model has. In this
-    | specific instance: the Journal.
+    | The information from this point on will 100% be around the relationships that this specific model has.
     |
     */
 
     /**
-    * This method allows us to quickly acuiqre the users along with all the expendatures that are assigned to a user
+    * This method allows us to quickly acquire the users along with all the spending that are assigned to a user
     * in particular; allowing us to report and find out what user is the owner of the financial entity that had been
     * entered into the database.
     *
@@ -72,6 +71,6 @@ class JournalFinance extends Model
     */
     public function user(): BelongsTo
     {
-        return $this->hasOne(User::class, 'user_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
