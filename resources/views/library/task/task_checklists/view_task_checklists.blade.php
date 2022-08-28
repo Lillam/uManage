@@ -1,15 +1,15 @@
 {{-- This particular file is entirely ajaxed, this file will be loaded after the view_task.blade has been loaded in
 prior to this trying to be called in, if the request is made successfully to the task checklists then we are going to
 be rendering this particular checklist sets of elements... --}}
-@if ($task_checklists->isNotEmpty())
+@if ($taskChecklists->isNotEmpty())
 <div class="section">
     <h2 class="section_title">Sub Tasks</h2>
     <div class="task_checklists" uk-sortable="handle: .task_checklist_options_dropdown_wrapper">
-        @foreach ($task_checklists as $task_checklist)
-            <div class="task_checklist uk-width-1-1 box_wrapper {{ $task_checklist->is_zipped ? 'zipped' : '' }}"
-                 data-task_checklist_id="{{ $task_checklist->id }}">
+        @foreach ($taskChecklists as $taskChecklist)
+            <div class="task_checklist uk-width-1-1 box_wrapper {{ $taskChecklist->is_zipped ? 'zipped' : '' }}"
+                 data-task_checklist_id="{{ $taskChecklist->id }}">
                 <div class="task_checklist_name_wrapper uk-flex">
-                    <div class="task_checklist_name uk-width-expand" contenteditable>{!! $task_checklist->name !!}</div>
+                    <div class="task_checklist_name uk-width-expand" contenteditable>{!! $taskChecklist->name !!}</div>
                     <div class="uk-width-auto task_checklist_options_wrapper uk-hidden">
                         <a class="fa fa-check uk-button uk-button-primary disabled save_task_checklist_name"></a>
                         <a class="fa fa-close uk-button uk-button-danger cancel_task_checklist_name"></a>
@@ -29,13 +29,15 @@ be rendering this particular checklist sets of elements... --}}
                 </div>
                 <div class="checklist_group_progress">
                     <div class="progress">
-                        <div class="progress_percent" style="width: {{ $task_checklist->getTaskChecklistItemPercentProgress() }}"></div>
+                        <div class="progress_percent"
+                             style="width: {{ $taskChecklist->getTaskChecklistItemPercentProgress() }}"
+                        ></div>
                     </div>
                 </div>
                 <div class="task_checklist_items"
                      uk-sortable="handle: .task_checklist_item_options_dropdown_wrapper; group: task_checklist_items">
                     @include('library.task.task_checklist_items.view_task_checklist_items', [
-                        'task_checklist_items' => $task_checklist->task_checklist_items
+                        'taskChecklistItems' => $taskChecklist->taskChecklistItems
                     ])
                 </div>
                 <div class="new_task_checklist_item uk-flex">

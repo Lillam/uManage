@@ -168,7 +168,7 @@ class TaskChecklist extends Model
     *
     * @return HasMany
     */
-    public function task_checklist_items(): HasMany
+    public function taskChecklistItems(): HasMany
     {
         return $this->hasMany(TaskChecklistItem::class, 'task_checklist_id', 'id')
                     ->orderBy('order');

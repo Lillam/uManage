@@ -29,9 +29,10 @@ class TaskChecklistController extends Controller
         $task_id    = (int) $request->input('task_id');
         $project_id = (int) $request->input('project_id');
 
-        $task_checklists = TaskChecklistRepository::sortTaskChecklistProgress(
-            TaskChecklist::select('*')
-                ->with(['task_checklist_items'])
+        $taskChecklists = TaskChecklistRepository::sortTaskChecklistProgress(
+            TaskChecklist::query()
+                ->select('*')
+                ->with(['taskChecklistItems'])
                 ->where('task_id', '=', $task_id)
                 ->where('project_id', '=', $project_id)
                 ->where('user_id', '=', Auth::id())
@@ -40,7 +41,7 @@ class TaskChecklistController extends Controller
         );
 
         return view('library.task.task_checklists.view_task_checklists', compact(
-            'task_checklists'
+            'taskChecklists'
         ));
     }
 
@@ -59,7 +60,7 @@ class TaskChecklistController extends Controller
         $project_id          =    (int) $request->input('project_id');
         $task_checklist_name = (string) $request->input('task_checklist_name');
 
-        $task_checklist = TaskChecklist::create([
+        $taskChecklist = TaskChecklist::create([
             'project_id' => $project_id,
             'task_id'    => $task_id,
             'user_id'    => Auth::id(),
@@ -67,11 +68,11 @@ class TaskChecklistController extends Controller
             'order'      => $order
         ]);
 
-        $task_checklist->log(TaskLog::TASK_CHECKLIST_MAKE, $task_checklist->name);
+        $taskChecklist->log(TaskLog::TASK_CHECKLIST_MAKE, $taskChecklist->name);
 
         return response()->json([
             'response'          => 'Successfully created checklist',
-            'task_checklist_id' => $task_checklist->id
+            'task_checklist_id' => $taskChecklist->id
         ]);
     }
 
@@ -90,15 +91,15 @@ class TaskChecklistController extends Controller
 
         // acquire the task checklist that we are about to update, make sure this entry exists prior to doing anything
         // with it, and then checking if the user in question is able to do anything regarding this particular entry.
-        $task_checklist = TaskChecklist::where('id', '=', $task_checklist_id)->first();
+        $taskChecklist = TaskChecklist::query()->where('id', '=', $task_checklist_id)->first();
 
         // log the specific change that the user has attempted to make, this will be taking the constant of task
         // checklist name (7) as the update type for the log.
-        $task_checklist->log(TaskLog::TASK_CHECKLIST_NAME, $name, $task_checklist->name);
+        $taskChecklist->log(TaskLog::TASK_CHECKLIST_NAME, $name, $taskChecklist->name);
 
         // after we are satisfied that the log has been met, then we are going to actually update the task checklist
         // entry in the database
-        $task_checklist->update([
+        $taskChecklist->update([
             'name' => $name
         ]);
 
@@ -117,9 +118,9 @@ class TaskChecklistController extends Controller
 
         $task_checklist_id = (int) $request->input('task_checklist_id');
 
-        $task_checklist    = TaskChecklist::where('id', '=', $task_checklist_id)->first();
+        $taskChecklist    = TaskChecklist::query()->where('id', '=', $task_checklist_id)->first();
 
-        $task_checklist->update([
+        $taskChecklist->update([
             'is_zipped' => $is_zipped
         ]);
 
@@ -138,14 +139,14 @@ class TaskChecklistController extends Controller
     */
     public function _ajaxEditTaskChecklistOrderPost(Request $request): JsonResponse
     {
-        $task_checklists = $request->input('task_checklists');
-        if (count($task_checklists) > 0) {
-            DB::transaction(function () use ($task_checklists) {
-                foreach ($task_checklists as $task_checklist) {
+        $taskChecklists = $request->input('task_checklists');
+        if (count($taskChecklists) > 0) {
+            DB::transaction(function () use ($taskChecklists) {
+                foreach ($taskChecklists as $taskChecklist) {
                     DB::table('task_checklist')
-                        ->where('id', '=', $task_checklist['task_checklist_id'])
+                        ->where('id', '=', $taskChecklist['task_checklist_id'])
                         ->update([
-                            'order' => $task_checklist['order'],
+                            'order' => $taskChecklist['order'],
                             'updated_at' => Carbon::now()
                         ]);
                 }
@@ -186,7 +187,8 @@ class TaskChecklistController extends Controller
         $task_id           = (int) $request->input('task_id');
         $project_id        = (int) $request->input('project_id');
 
-        $task_checklist = TaskChecklist::with('task_checklist_items')
+        $taskChecklist = TaskChecklist::query()
+            ->with('taskChecklistItems')
             ->where('id', '=', $task_checklist_id)
             ->where('task_id', '=', $task_id)
             ->where('project_id', '=', $project_id)
@@ -194,8 +196,8 @@ class TaskChecklistController extends Controller
             ->first();
 
         // delete the task checklist in question, when this happens, this is going to cascade to its children, and
-        // delete all the checklist items that have the checklist item.s
-        $task_checklist->delete();
+        // delete all the checklist items that have the checklist items
+        $taskChecklist->delete();
 
         // we are making the assumption that there was a checklist to delete, and we are going to be alerting the user
         // regardless that a checklist has been deleted.

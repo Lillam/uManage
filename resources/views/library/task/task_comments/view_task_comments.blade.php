@@ -3,16 +3,16 @@
 is to be returned or included whenever ($task) exists with the relationship ->task_comments associated to it. all
 comments will be universalised around the system regardless where we are showing them, in which this is the go to file
 for just that. --}}
-@foreach ($task_comments as $task_comment)
-    <div class="comment_item uk-flex" data-task_comment_id="{{ $task_comment->id }}">
+@foreach ($taskComments as $taskComment)
+    <div class="comment_item uk-flex" data-task_comment_id="{{ $taskComment->id }}">
         <div class="uk-width-expand">
             {{-- The name of the individual that has written this particular comment, along with the date that the
             comment was specifically created. --}}
             <h3 style="margin-bottom: 10px;">
-                {!! UserPrinter::userBadge($task_comment->user) !!}
-                {{ $task_comment->user->getFullName() }}
+                {!! UserPrinter::userBadge($taskComment->user) !!}
+                {{ $taskComment->user->getFullName() }}
                 <span class="small">
-                    {{ $task_comment->created_at->format(\App\Helpers\DateTime\DateTimeHelper::FORMAT_Daynth_M_Y) }}
+                    {{ $taskComment->created_at->format(\App\Helpers\DateTime\DateTimeHelper::FORMAT_Daynth_M_Y) }}
                 </span>
             </h3>
             {{-- The overall wrapper for the comment itself, this will be including options for the editing, replying
@@ -20,15 +20,15 @@ for just that. --}}
             comment. --}}
             <div class="task_comment_wrapper">
                 <div class="task_comment_content box">
-                    {!! $task_comment->content !!}
+                    {!! $taskComment->content !!}
                 </div>
                 <div class="comment_options">
-                    @if ($task_comment->user->id === Auth::id())
+                    @if ($taskComment->user->id === Auth::id())
                         <a class="edit_comment"><i class="fa fa-edit"></i> Edit</a>
                         <a class="delete_comment"><i class="fa fa-trash"></i> Delete</a>
                     @else
                         <a class="reply_comment"><i class="fa fa-reply"></i> Reply</a>
-                        @if ($task->task_reporter_user->id === Auth::id())
+                        @if ($task->taskReporterUser->id === Auth::id())
                             <a class="delete_comment"><i class="fa fa-trash"></i> Delete</a>
                         @endif
                     @endif
@@ -41,7 +41,7 @@ for just that. --}}
 that will give the user the functionality in order for writing a comment, and then choosing to either save the comment
 or cancel the comment and then continuing with the functionality as such. --}}
 <div class="uk-flex new_comment"
-     data-make_task_comment_url="{{ action('Task\TaskCommentController@_ajaxMakeTaskCommentPost') }}">
+     data-make_task_comment_url="{{ route('projects.tasks.comment.create') }}">
     <div class="uk-width-expand">
         <div class="box_wrapper comment">
             <span class="placeholder">Write a comment...</span>

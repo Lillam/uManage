@@ -183,9 +183,9 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     |
     */
 
-    Route::get( '/ajax/view/task/comments',             [TaskCommentController::class, '_ajaxViewTaskCommentsGet']);
-    Route::post('/ajax/make/task/comment',              [TaskCommentController::class, '_ajaxMakeTaskCommentPost']);
-    Route::post('/ajax/delete/task/comment',            [TaskCommentController::class, '_ajaxDeleteTaskCommentPost']);
+    Route::get( '/ajax/view/task/comments',             [TaskCommentController::class, '_ajaxViewTaskCommentsGet'])->name('projects.tasks.comment.list');
+    Route::post('/ajax/make/task/comment',              [TaskCommentController::class, '_ajaxMakeTaskCommentPost'])->name('projects.tasks.comment.create');
+    Route::post('/ajax/delete/task/comment',            [TaskCommentController::class, '_ajaxDeleteTaskCommentPost'])->name('projects.tasks.comment.delete');
 
     /*
     |-------------------------------------------------------------------------------------------------------------------

@@ -129,9 +129,9 @@ class UserController extends Controller
             'projects.userContributors',
             'projects.userContributors.user',
             'tasks',
-            'tasks.task_status',
-            'tasks.task_priority',
-            'tasks.task_issue_type'
+            'tasks.taskStatus',
+            'tasks.taskPriority',
+            'tasks.taskIssueType'
         ])->where('id', '=', $user_id)->first();
 
         // if the user we have searched for somehow doesn't happen to be an instance of user... then we are going

@@ -63,10 +63,10 @@ class TaskController extends Controller
                 'tasks' => function ($query) use ($task_id) {
                     $query->where('id', '=', $task_id);
                 },
-                'tasks.task_assigned_user',
-                'tasks.task_watcher_users',
-                'tasks.task_checklists',
-                'tasks.task_checklists.task_checklist_items',
+                'tasks.taskAssignedUser',
+                'tasks.taskWatcherUsers',
+                'tasks.taskChecklists',
+                'tasks.taskChecklists.taskChecklistItems',
                 'tasks.taskTimeLogs',
                 'tasks.taskTimeLogs.user',
                 'tasks.project'

@@ -15,11 +15,11 @@ them. --}}
                         <span>{{ $task->name }}</span>
                     </span>
                     <div class="task_assigned_to uk-flex uk-flex-middle">
-                        {!! UserPrinter::userBadge($task->task_assigned_user, false) !!}
+                        {!! UserPrinter::userBadge($task->taskAssignedUser, false) !!}
                     </div>
                 </div>
                 <div class="uk-width-auto uk-flex uk-flex-middle">
-                    {!! $task->task_status->getBadge() !!}
+                    {!! $task->taskStatus->getBadge() !!}
                 </div>
             </div>
             {{-- Just commenting this particular bit out as I am not 100% sold on this, however; it wcould potentially

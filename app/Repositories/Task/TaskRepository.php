@@ -50,10 +50,10 @@ class TaskRepository
             ->select('*')
             ->with([
                 'project',
-                'task_issue_type',
-                'task_status',
-                'task_priority',
-                'task_assigned_user'
+                'taskIssueType',
+                'taskStatus',
+                'taskPriority',
+                'taskAssignedUser'
             ]);
 
         // if the project id has been specified, then we are only going to be wanting to get the tasks that are currently
@@ -145,7 +145,7 @@ class TaskRepository
         }
 
         $tasks->map(function ($task) use (&$task_statuses) {
-            $task_statuses->get($task->task_status->id)->status_tasks->put($task->id, $task);
+            $task_statuses->get($task->taskStatus->id)->status_tasks->put($task->id, $task);
         });
 
         return $task_statuses;

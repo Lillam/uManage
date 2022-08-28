@@ -40,7 +40,7 @@ class TaskCommentController extends Controller
             ->where('user_id', '=', Auth::id())
             ->first();
 
-        $task_comments_count = TaskComment::query()
+        $taskCommentsCount = TaskComment::query()
             ->where('task_id', '=', $task_id)
             ->where('project_id', '=', $project_id)
             ->where('user_id', '=', Auth::id())
@@ -48,11 +48,12 @@ class TaskCommentController extends Controller
 
         // acquire the total number of pages that we are going to be able to show, this will be needed to see if we can
         // go left or right.
-        $total_pages = ceil($task_comments_count / $limit);
+        $total_pages = ceil($taskCommentsCount / $limit);
 
         // acquire all the task comments that are for this particular task, this will return every comment that exists
         // with the passed task id.
-        $task_comments = TaskComment::where('task_id', '=', $task_id)
+        $taskComments = TaskComment::query()
+            ->where('task_id', '=', $task_id)
             ->where('project_id', '=', $project_id)
             ->where('user_id', '=', Auth::id())
             ->orderBy('created_at', 'desc')
@@ -62,7 +63,7 @@ class TaskCommentController extends Controller
 
         return response()->json([
             'html' => view('library.task.task_comments.view_task_comments', compact(
-                'task_comments',
+                'taskComments',
                 'task',
                 'page',
                 'total_pages'

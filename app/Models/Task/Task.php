@@ -128,9 +128,9 @@ class Task extends Model
         $completed_checklist_items = 0;
         $total_checklist_items     = 0;
 
-        foreach ($this->task_checklists as $task_checklist) {
-            foreach ($task_checklist->task_checklist_items as $task_checklist_item) {
-                if ($task_checklist_item->is_checked === true)
+        foreach ($this->taskChecklists as $taskChecklist) {
+            foreach ($taskChecklist->taskChecklistItems as $taskChecklistItem) {
+                if ($taskChecklistItem->is_checked === true)
                     $completed_checklist_items += 1;
                 $total_checklist_items += 1;
             }
@@ -209,7 +209,7 @@ class Task extends Model
     *
     * @return BelongsTo
     */
-    public function task_assigned_user(): BelongsTo
+    public function taskAssignedUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'assigned_user_id', 'id');
     }
@@ -221,7 +221,7 @@ class Task extends Model
     *
     * @return BelongsTo
     */
-    public function task_user(): BelongsTo
+    public function taskUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -233,7 +233,7 @@ class Task extends Model
     *
     * @return HasMany
     */
-    public function task_watcher_users(): HasMany
+    public function taskWatcherUsers(): HasMany
     {
         return $this->hasMany(TaskWatcherUser::class, 'task_id', 'id');
     }
@@ -245,7 +245,7 @@ class Task extends Model
     *
     * @return HasOne
     */
-    public function task_issue_type(): HasOne
+    public function taskIssueType(): HasOne
     {
         return $this->hasOne(TaskIssueType::class, 'id', 'task_issue_type_id');
     }
@@ -257,7 +257,7 @@ class Task extends Model
     *
     * @return HasOne
     */
-    public function task_status(): HasOne
+    public function taskStatus(): HasOne
     {
         return $this->hasOne(TaskStatus::class, 'id', 'task_status_id');
     }
@@ -270,7 +270,7 @@ class Task extends Model
     *
     * @return HasMany
     */
-    public function task_checklists(): HasMany
+    public function taskChecklists(): HasMany
     {
         return $this->hasMany(TaskChecklist::class, 'task_id', 'id')
             ->orderBy('order');
@@ -284,7 +284,7 @@ class Task extends Model
     *
     * @return HasOne
     */
-    public function task_priority(): HasOne
+    public function taskPriority(): HasOne
     {
         return $this->hasOne(TaskPriority::class, 'id', 'task_priority_id');
     }
@@ -295,7 +295,7 @@ class Task extends Model
     *
     * @return HasMany
     */
-    public function task_comments(): HasMany
+    public function taskComments(): HasMany
     {
         return $this->hasMany(TaskComment::class, 'task_id', 'id')
             ->where('project_id', '=', $this->project_id);
@@ -308,7 +308,7 @@ class Task extends Model
     *
     * @return HasMany
     */
-    public function task_logs(): HasMany
+    public function taskLogs(): HasMany
     {
         return $this->hasMany(TaskLog::class, 'task_id', 'id');
     }

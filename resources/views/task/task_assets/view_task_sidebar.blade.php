@@ -4,11 +4,11 @@
         <div class="uk-width-1-1">
             <label class="label"><i class="fa fa-user"></i> Created By</label>
             <div class="task_reporter_user">
-                @if ($task->task_user !== null)
-                    {!! UserPrinter::userBadge($task->task_user, false, $task->project->getColor()) !!}
+                @if ($task->taskUser !== null)
+                    {!! UserPrinter::userBadge($task->taskUser, false, $task->project->getColor()) !!}
                     <span class="badge placeholder"
                           style="background-color: {{ $task->project->getColor() }}"
-                    >{{ $task->task_user->getFullName() }}</span>
+                    >{{ $task->taskUser->getFullName() }}</span>
                 @endif
             </div>
         </div>
@@ -16,11 +16,11 @@
         <div class="uk-width-1-1">
             <label class="label"><i class="fa fa-user"></i> Assignee</label>
             <div class="task_assigned_to task_dropdown_wrapper">
-                @if ($task->task_assigned_user !== null)
-                    {!! UserPrinter::userBadge($task->task_assigned_user, false, $task->project->getColor()) !!}
+                @if ($task->taskAssignedUser !== null)
+                    {!! UserPrinter::userBadge($task->taskAssignedUser, false, $task->project->getColor()) !!}
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
-                    >{{ $task->task_assigned_user->getFullName() }}</span>
+                    >{{ $task->taskAssignedUser->getFullName() }}</span>
                 @else
                     <span class="badge placeholder"
                           style="background-color: {{ $task->project->getColor() }}"
@@ -42,7 +42,7 @@
                 @if ($task->task_status_id !== null)
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
-                    >{{ $task->task_status->name }}</span>
+                    >{{ $task->taskStatus->name }}</span>
                 @else
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
@@ -59,10 +59,10 @@
         <div class="uk-width-1-1">
             <label class="label"><i class="fa fa-bug"></i> Issue Type</label>
             <div class="task_dropdown_wrapper">
-                @if ($task->task_issue_type !== null)
+                @if ($task->taskIssueType !== null)
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
-                    >{{ $task->task_issue_type->name }}</span>
+                    >{{ $task->taskIssueType->name }}</span>
                 @else
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
@@ -79,10 +79,10 @@
         <div class="uk-width-1-1">
             <label class="label"><i class="fa fa-bullhorn"></i> Priority</label>
             <div class="task_dropdown_wrapper">
-                @if ($task->task_priority !== null)
+                @if ($task->taskPriority !== null)
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
-                    >{{ $task->task_priority->name }}</span>
+                    >{{ $task->taskPriority->name }}</span>
                 @else
                     <span class="badge"
                           style="background-color: {{ $task->project->getColor() }}"
@@ -99,15 +99,16 @@
         <div class="uk-width-1-1">
             <label class="label"><i class="fa fa-eye"></i> Watchers</label>
             <div class="task_dropdown_wrapper">
-                @forelse ($task->task_watcher_users as $task_watcher_user)
+                @forelse ($task->taskWatcherUsers as $taskWatcherUser)
                     <div style="margin-bottom: 5px;">
                         <span class="badge placeholder"
                               style="background-color: {{ $task->project->getColor() }}"
-                        >{{ $task_watcher_user->user->getFullName() }}</span>
+                        >{{ $taskWatcherUser->user->getFullName() }}</span>
                     </div>
                 @empty
                     <span class="badge"
-                          style="background-color: {{ $task->project->getColor() }}">Add Task Watcher</span>
+                          style="background-color: {{ $task->project->getColor() }}"
+                    >Add Task Watcher</span>
                 @endforelse
             </div>
         </div>

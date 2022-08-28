@@ -40,9 +40,9 @@ class TaskLocalStoreJob implements ShouldQueue
         $this->tasks = Task::query()
             ->select('*')
             ->with([
-                'task_comments',
-                'task_checklists',
-                'task_checklists.task_checklist_items',
+                'taskComments',
+                'taskChecklists',
+                'taskChecklists.taskChecklistItems',
                 'taskTimeLogs'
             ])
             ->get();
@@ -113,8 +113,8 @@ class TaskLocalStoreJob implements ShouldQueue
                         'order'      => $taskChecklist->order
                     ];
 
-                    if ($taskChecklist->task_checklist_items->isNotEmpty()) {
-                        foreach ($taskChecklist->task_checklist_items as $taskChecklistItem) {
+                    if ($taskChecklist->taskChecklistItems->isNotEmpty()) {
+                        foreach ($taskChecklist->taskChecklistItems as $taskChecklistItem) {
                             $this->putTasks[$task->id][$tc][$taskChecklist->id][$tci][$taskChecklistItem->id] = [
                                 'id'                => $taskChecklistItem->id,
                                 'task_checklist_id' => $taskChecklistItem->task_checklist_id,

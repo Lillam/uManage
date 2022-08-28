@@ -12,22 +12,22 @@ class TaskChecklistRepository
     * will be latching two temporary values onto the collection of checklists however won't always be there, depends on
     * the use-case.
     *
-    * @param Collection $task_checklists
+    * @param Collection $taskChecklists
     * @return Collection
     */
-    public static function sortTaskChecklistProgress(Collection $task_checklists)
+    public static function sortTaskChecklistProgress(Collection $taskChecklists): Collection
     {
-        foreach ($task_checklists as $task_checklist) {
-            $task_checklist->total_checklist_items = 0;
-            $task_checklist->total_completed_checklist_items = 0;
-            foreach ($task_checklist->task_checklist_items as $task_checklist_item) {
-                $task_checklist->total_checklist_items += 1;
-                if ($task_checklist_item->is_checked === true) {
-                    $task_checklist->total_completed_checklist_items += 1;
+        foreach ($taskChecklists as $taskChecklist) {
+            $taskChecklist->total_checklist_items = 0;
+            $taskChecklist->total_completed_checklist_items = 0;
+            foreach ($taskChecklist->taskChecklistItems as $taskChecklistItem) {
+                $taskChecklist->total_checklist_items += 1;
+                if ($taskChecklistItem->is_checked === true) {
+                    $taskChecklist->total_completed_checklist_items += 1;
                 }
             }
         }
 
-        return $task_checklists;
+        return $taskChecklists;
     }
 }
