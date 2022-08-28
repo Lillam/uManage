@@ -69,7 +69,7 @@ class StoreProduct extends Model
     /**
     * @return HasMany
     */
-    public function store_basket_products(): HasMany
+    public function storeBasketProduct(): HasMany
     {
         return $this->hasMany(StoreBasket::class, 'store_product_id', 'id');
     }

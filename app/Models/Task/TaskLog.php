@@ -250,7 +250,7 @@ class TaskLog extends Model
     *
     * @return BelongsTo
     */
-    public function task_checklist(): BelongsTo
+    public function taskChecklist(): BelongsTo
     {
         return $this->belongsTo(TaskChecklist::class, 'task_checklist_id', 'id');
     }
@@ -262,7 +262,7 @@ class TaskLog extends Model
     *
     * @return BelongsTo
     */
-    public function task_checklist_item(): BelongsTo
+    public function taskChecklistItem(): BelongsTo
     {
         return $this->belongsTo(TaskChecklistItem::class, 'task_checklist_item_id', 'id');
     }
@@ -274,7 +274,7 @@ class TaskLog extends Model
     *
     * @return BelongsTo
     */
-    public function task_comment(): BelongsTo
+    public function taskComment(): BelongsTo
     {
         return $this->belongsTo(TaskComment::class, 'task_comment_id', 'id');
     }

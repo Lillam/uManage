@@ -3,6 +3,7 @@
 namespace App\Jobs\LocalStore\Journal;
 
 use Illuminate\Bus\Queueable;
+use App\Jobs\LocalStore\Puttable;
 use App\Models\Journal\JournalDream;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
@@ -13,12 +14,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class JournalDreamLocalStoreJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
-
-    /**
-     * @var array
-     */
-    private array $put = [];
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
 
     /**
     * Create a new Job Instance.

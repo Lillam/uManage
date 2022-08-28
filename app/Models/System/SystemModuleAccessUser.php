@@ -76,7 +76,7 @@ class SystemModuleAccessUser extends Model
     /**
     * @return BelongsTo
     */
-    public function system_module_access(): BelongsTo
+    public function systemModuleAccess(): BelongsTo
     {
         return $this->belongsTo(SystemModuleAccess::class, 'system_module_access_id', 'id');
     }

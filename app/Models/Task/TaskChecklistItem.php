@@ -99,8 +99,8 @@ class TaskChecklistItem extends Model
     public function log($log_type, $log_new = null, $log_old = null): void
     {
         TaskLogRepository::logTask([
-            'project_id'             => $this->task_checklist->task->project_id,
-            'task_id'                => $this->task_checklist->task_id,
+            'project_id'             => $this->taskChecklist->task->project_id,
+            'task_id'                => $this->taskChecklist->task_id,
             'user_id'                => Auth::id(),
             'task_checklist_id'      => $this->task_checklist_id,
             'task_checklist_item_id' => $this->id,
@@ -127,7 +127,7 @@ class TaskChecklistItem extends Model
     *
     * @return BelongsTo
     */
-    public function task_checklist(): BelongsTo
+    public function taskChecklist(): BelongsTo
     {
         return $this->belongsTo(TaskChecklist::class, 'task_checklist_id', 'id');
     }

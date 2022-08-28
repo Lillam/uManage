@@ -4,6 +4,7 @@ namespace App\Jobs\LocalStore\Task;
 
 use App\Models\Task\Task;
 use Illuminate\Bus\Queueable;
+use App\Jobs\LocalStore\Puttable;
 use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
@@ -14,17 +15,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class TaskLocalStoreJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
 
     /**
      * @var array|Collection
      */
     private array|Collection $tasks;
-
-    /**
-    * @var array
-    */
-    private array $putTasks;
 
     /**
     * Create a new job instance.
@@ -61,7 +57,7 @@ class TaskLocalStoreJob implements ShouldQueue
         $ttl  = 'task_time_logs';
 
         foreach ($this->tasks as $task) {
-            $this->putTasks[$task->id] = [
+            $this->put[$task->id] = [
                 'project_id'         => $task->project_id,
                 'id'                 => $task->id,
                 'user_id'            => $task->task_id,
@@ -74,65 +70,58 @@ class TaskLocalStoreJob implements ShouldQueue
                 'due_date'           => $task->due_date
             ];
 
-            if ($task->task_comments->isNotEmpty()) {
-                foreach ($task->task_comments as $taskComment) {
-                    $this->putTasks[$task->id][$tcom][$taskComment->id] = [
-                        'id'         => $taskComment->id,
-                        'project_id' => $task->project_id,
-                        'task_id'    => $taskComment->task_id,
-                        'user_id'    => $taskComment->user_id,
-                        'parent_id'  => $taskComment->parent_id,
-                        'content'    => $taskComment->content
-                    ];
-                }
+
+            foreach ($task->taskComments as $taskComment) {
+                $this->put[$task->id][$tcom][$taskComment->id] = [
+                    'id'         => $taskComment->id,
+                    'project_id' => $task->project_id,
+                    'task_id'    => $taskComment->task_id,
+                    'user_id'    => $taskComment->user_id,
+                    'parent_id'  => $taskComment->parent_id,
+                    'content'    => $taskComment->content
+                ];
             }
 
-            if ($task->taskTimeLogs->isNotEmpty()) {
-                foreach ($task->taskTimeLogs as $taskTimeLog) {
-                    $this->putTasks[$task->id][$ttl][$taskTimeLog->id] = [
-                        'id'         => $taskTimeLog->id,
-                        'task_id'    => $taskTimeLog->task_id,
-                        'user_id'    => $taskTimeLog->user_id,
-                        'project_id' => $taskTimeLog->project_id,
-                        'note'       => $taskTimeLog->note,
-                        'from'       => $taskTimeLog->from,
-                        'to'         => $taskTimeLog->to,
-                        'time_spent' => $taskTimeLog->time_spent
-                    ];
-                }
+            foreach ($task->taskTimeLogs as $taskTimeLog) {
+                $this->put[$task->id][$ttl][$taskTimeLog->id] = [
+                    'id'         => $taskTimeLog->id,
+                    'task_id'    => $taskTimeLog->task_id,
+                    'user_id'    => $taskTimeLog->user_id,
+                    'project_id' => $taskTimeLog->project_id,
+                    'note'       => $taskTimeLog->note,
+                    'from'       => $taskTimeLog->from,
+                    'to'         => $taskTimeLog->to,
+                    'time_spent' => $taskTimeLog->time_spent
+                ];
             }
 
-            if ($task->task_checklists->isNotEmpty()) {
-                foreach ($task->task_checklists as $taskChecklist) {
-                    $this->putTasks[$task->id][$tc][$taskChecklist->id] = [
-                        'id'         => $taskChecklist->id,
-                        'task_id'    => $taskChecklist->task_id,
-                        'project_id' => $task->project_id,
-                        'user_id'    => $task->user_id,
-                        'name'       => $taskChecklist->name,
-                        'order'      => $taskChecklist->order
-                    ];
+            foreach ($task->taskChecklists as $taskChecklist) {
+                $this->put[$task->id][$tc][$taskChecklist->id] = [
+                    'id'         => $taskChecklist->id,
+                    'task_id'    => $taskChecklist->task_id,
+                    'project_id' => $task->project_id,
+                    'user_id'    => $task->user_id,
+                    'name'       => $taskChecklist->name,
+                    'order'      => $taskChecklist->order
+                ];
 
-                    if ($taskChecklist->taskChecklistItems->isNotEmpty()) {
-                        foreach ($taskChecklist->taskChecklistItems as $taskChecklistItem) {
-                            $this->putTasks[$task->id][$tc][$taskChecklist->id][$tci][$taskChecklistItem->id] = [
-                                'id'                => $taskChecklistItem->id,
-                                'task_checklist_id' => $taskChecklistItem->task_checklist_id,
-                                'task_id'           => $task->id,
-                                'project_id'        => $task->project_id,
-                                'user_id'           => $task->user_id,
-                                'name'              => $taskChecklistItem->name,
-                                'order'             => $taskChecklistItem->order,
-                                'is_checked'        => $taskChecklistItem->is_checked
-                            ];
-                        }
-                    }
+                foreach ($taskChecklist->taskChecklistItems as $taskChecklistItem) {
+                    $this->put[$task->id][$tc][$taskChecklist->id][$tci][$taskChecklistItem->id] = [
+                        'id'                => $taskChecklistItem->id,
+                        'task_checklist_id' => $taskChecklistItem->task_checklist_id,
+                        'task_id'           => $task->id,
+                        'project_id'        => $task->project_id,
+                        'user_id'           => $task->user_id,
+                        'name'              => $taskChecklistItem->name,
+                        'order'             => $taskChecklistItem->order,
+                        'is_checked'        => $taskChecklistItem->is_checked
+                    ];
                 }
             }
         }
 
         // after getting all the results, turn the entire collection into a json object and store it into a file. this
         // will be stored inside the local storage; public/storage/tasks/tasks.json?
-        Storage::disk('local')->put($this->getDestination(), json_encode($this->putTasks));
+        Storage::disk('local')->put($this->getDestination(), json_encode($this->put));
     }
 }

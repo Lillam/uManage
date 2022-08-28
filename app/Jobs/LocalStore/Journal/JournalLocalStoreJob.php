@@ -4,6 +4,7 @@ namespace App\Jobs\LocalStore\Journal;
 
 use Illuminate\Bus\Queueable;
 use App\Models\Journal\Journal;
+use App\Jobs\LocalStore\Puttable;
 use Illuminate\Support\Collection;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
@@ -14,17 +15,12 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class JournalLocalStoreJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
 
     /**
     * @var Collection
     */
     private Collection $years;
-
-    /**
-    * @var array
-    */
-    private array $put = [];
 
     /**
     * Create a new job instance.
@@ -35,7 +31,7 @@ class JournalLocalStoreJob implements ShouldQueue
     {
         $this->setDestination($destination);
 
-        $this->years = Journal::selectRaw('distinct substr(`when`, 1, 4) as `when`')->get()->map(
+        $this->years = Journal::query()->selectRaw('distinct substr(`when`, 1, 4) as `when`')->get()->map(
             fn ($journal) => $journal->getAttributes()['when']
         );
     }
@@ -67,16 +63,14 @@ class JournalLocalStoreJob implements ShouldQueue
                 // over each one of these as well, and latching them into the respective put container; so that we are
                 // going to be able to store the entirety of the database into a json oriented file for extraction
                 // and re-insertion at some other time.
-                if ($journal->achievements->isNotEmpty()) {
-                    foreach ($journal->achievements as $journalAchievement) {
-                        $this->put[$journal->id]['journal_achievements'][$journalAchievement->id] = [
-                            'id'         => $journalAchievement->id,
-                            'journal_id' => $journalAchievement->journal_id,
-                            'name'       => $journalAchievement->name,
-                            'created_at' => $journalAchievement->created_at,
-                            'updated_at' => $journalAchievement->updated_at
-                        ];
-                    }
+                foreach ($journal->achievements as $journalAchievement) {
+                    $this->put[$journal->id]['journal_achievements'][$journalAchievement->id] = [
+                        'id'         => $journalAchievement->id,
+                        'journal_id' => $journalAchievement->journal_id,
+                        'name'       => $journalAchievement->name,
+                        'created_at' => $journalAchievement->created_at,
+                        'updated_at' => $journalAchievement->updated_at
+                    ];
                 }
             }
 
@@ -100,8 +94,9 @@ class JournalLocalStoreJob implements ShouldQueue
     */
     private function getJournals(string $year): Collection
     {
-        return Journal::with('achievements')
-            ->where('when', 'like', "%{$year}%")
+        return Journal::query()
+            ->with('achievements')
+            ->where('when', 'like', "%$year%")
             ->get();
     }
 }

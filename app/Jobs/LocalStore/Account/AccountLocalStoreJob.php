@@ -4,6 +4,7 @@ namespace App\Jobs\LocalStore\Account;
 
 use Illuminate\Bus\Queueable;
 use App\Models\Account\Account;
+use App\Jobs\LocalStore\Puttable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 use App\Jobs\LocalStore\Destinationable;
@@ -14,17 +15,12 @@ use Illuminate\Database\Eloquent\Collection;
 
 class AccountLocalStoreJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
 
     /**
     * @var Account[]|Collection
     */
     private array|Collection $accounts;
-
-    /**
-     * @var array|Collection
-     */
-    private array|Collection $put;
 
     /**
     * Create a new job instance.
@@ -36,7 +32,6 @@ class AccountLocalStoreJob implements ShouldQueue
         $this->setDestination($destination);
 
         $this->accounts = Account::all();
-        $this->put      = [];
     }
 
     /**
