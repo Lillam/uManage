@@ -24,22 +24,22 @@ class ViewService
     /**
     * @var bool
     */
-    private bool $has_header = true;
+    private bool $hasHeader = true;
 
     /**
     * @var bool
     */
-    private bool $has_footer = true;
+    private bool $hasFooter = true;
 
     /**
      * @var bool
      */
-    private bool $has_title = true;
+    private bool $hasTitle = true;
 
     /**
     * @var bool
     */
-    private bool $has_sidebar = true;
+    private bool $hasSidebar = true;
 
     /**
     * @var User|null
@@ -49,7 +49,7 @@ class ViewService
     /**
     * @var User|null
     */
-    private User|null $viewing_user = null;
+    private User|null $viewingUser = null;
 
     /**
     * @return object
@@ -59,21 +59,21 @@ class ViewService
         return (object) [
             'title'              => $this->getTitle(),
             'current_page'       => $this->getCurrentPage(),
-            'is_page'            => fn (string $page): string => mb_strpos(
+            'isPage'             => fn (string $page): string => mb_strpos(
                 $this->getCurrentPage(),
                 $page
             ) !== false ? 'active' : '',
-            'has_header'         => $this->getHasHeader(),
-            'has_footer'         => $this->getHasFooter(),
-            'has_sidebar'        => $this->getHasSidebar(),
-            'has_title'          => $this->getHasTitle(),
+            'hasHeader'          => $this->getHasHeader(),
+            'hasFooter'          => $this->getHasFooter(),
+            'hasSidebar'         => $this->getHasSidebar(),
+            'hasTitle'           => $this->getHasTitle(),
             'application_theme'  => $this->getApplicationTheme(),
 
             // deciding which user is the currently authenticated user, and then also having a setting which will let
             // the system know who the user is currently viewing; rather than overwriting the user that is in
             // place.
             'user'               => $this->getUser(),
-            'viewing_user'       => $this->getViewingUser(),
+            'viewingUser'        => $this->getViewingUser(),
 
             // some random view service helper methods for being able to return some assets to the user.
             'css'                => fn (string $asset): string => $this->getCssAsset($asset),
@@ -127,7 +127,7 @@ class ViewService
     */
     public function setHasHeader(bool $has_header): self
     {
-        $this->has_header = $has_header;
+        $this->hasHeader = $has_header;
 
         return $this;
     }
@@ -137,7 +137,7 @@ class ViewService
     */
     private function getHasHeader(): bool
     {
-        return $this->has_header;
+        return $this->hasHeader;
     }
 
     /**
@@ -148,7 +148,7 @@ class ViewService
     */
     public function setHasFooter(bool $has_footer): self
     {
-        $this->has_footer = $has_footer;
+        $this->hasFooter = $has_footer;
 
         return $this;
     }
@@ -158,7 +158,7 @@ class ViewService
     */
     private function getHasFooter(): bool
     {
-        return $this->has_footer;
+        return $this->hasFooter;
     }
 
     /**
@@ -167,14 +167,14 @@ class ViewService
      */
     public function setHasTitle(bool $has_title): self
     {
-        $this->has_title = $has_title;
+        $this->hasTitle = $has_title;
 
         return $this;
     }
 
     public function getHasTitle(): bool
     {
-        return $this->has_title;
+        return $this->hasTitle;
     }
 
     /**
@@ -183,7 +183,7 @@ class ViewService
     */
     public function setHasSidebar(bool $has_sidebar): self
     {
-        $this->has_sidebar = $has_sidebar;
+        $this->hasSidebar = $has_sidebar;
 
         return $this;
     }
@@ -193,7 +193,7 @@ class ViewService
     */
     private function getHasSidebar(): bool
     {
-        return $this->has_sidebar;
+        return $this->hasSidebar;
     }
 
     /**
@@ -240,7 +240,7 @@ class ViewService
     */
     public function setViewingUser(User $viewing_user): self
     {
-        $this->viewing_user = $viewing_user;
+        $this->viewingUser = $viewing_user;
 
         return $this;
     }

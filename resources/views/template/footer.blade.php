@@ -1,4 +1,4 @@
-@if($vs->has_footer)
+@if($vs->hasFooter)
     <footer>
 
     </footer>

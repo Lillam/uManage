@@ -30,7 +30,7 @@
         {{-- Header --}}
         @include('template.header')
         {{-- Body --}}
-        @if ($vs->has_title)
+        @if ($vs->hasTitle)
             <div class="title-block">
                 @yield('title-block')
             </div>

@@ -14,7 +14,7 @@ class TaskNotification extends Notification
     /**
     * @var object
     */
-    private $details = (object) [];
+    private object $details = (object) [];
 
     /**
     * Create a new notification instance.
@@ -32,7 +32,7 @@ class TaskNotification extends Notification
     * @param  mixed  $notifiable
     * @return array
     */
-    public function via($notifiable)
+    public function via(mixed $notifiable): array
     {
         return ['mail', 'database'];
     }
@@ -41,9 +41,9 @@ class TaskNotification extends Notification
      * Get the mail representation of the notification.
      *
      * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
+     * @return MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail(mixed $notifiable): MailMessage
     {
         return (new MailMessage)
                     ->line('The introduction to the notification.')
@@ -57,7 +57,7 @@ class TaskNotification extends Notification
     * @param  mixed  $notifiable
     * @return array
     */
-    public function toDatabase($notifiable)
+    public function toDatabase(mixed $notifiable): array
     {
         return [
             'something' => $this->details->something
@@ -70,7 +70,7 @@ class TaskNotification extends Notification
     * @param  mixed  $notifiable
     * @return array
     */
-    public function toArray($notifiable)
+    public function toArray(mixed $notifiable): array
     {
         return [
             //

@@ -20,7 +20,7 @@ class ViewServiceProvider extends ServiceProvider
                 'vs'                => $view_service = app('vs')->all(),
                 'theme'             => $view_service->application_theme,
                 'current_page'      => $view_service->current_page,
-                'sidebar_class'     => $view_service->has_sidebar ? 'has-sidebar' : '',
+                'sidebar_class'     => $view_service->hasSidebar ? 'has-sidebar' : '',
                 'sidebar_collapsed' => $view_service->user?->user_setting?->sidebar_collapsed ? 'sidebar-closed' : ''
             ]);
         });
