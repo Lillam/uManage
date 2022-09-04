@@ -6,7 +6,6 @@ use Exception;
 use DateInterval;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
-use App\Helpers\DateTime\DateRuleRecurrence;
 
 class DateRule
 {
@@ -17,13 +16,13 @@ class DateRule
     protected int $count = 0;
 
     /** @var Carbon */
-    protected Carbon $start_date;
+    protected Carbon $startDate;
 
     /** @var Carbon */
-    protected Carbon $end_date;
+    protected Carbon $endDate;
 
     /** @var array|string[] */
-    private array $incremental_methods = [
+    private array $incrementalMethods = [
         'DAILY'   => 'addDays',
         'WEEKLY'  => 'addWeeks',
         'MONTHLY' => 'addMonths',
@@ -31,7 +30,7 @@ class DateRule
     ];
 
     /** @var array|string[] */
-    private array $decremental_methods = [
+    private array $decrementalMethods = [
         'DAILY'   => 'subDays',
         'WEEKLY'  => 'subWeeks',
         'MONTHLY' => 'subMonths',
@@ -75,7 +74,7 @@ class DateRule
     */
     public function setFrequency(string $frequency): self
     {
-        if (! array_key_exists($frequency = mb_strtoupper($frequency), $this->incremental_methods))
+        if (! array_key_exists($frequency = mb_strtoupper($frequency), $this->incrementalMethods))
             throw new Exception('Incorrect use of frequency, try using: daily, weekly, monthly or yearly');
 
         $this->frequency = $frequency;
@@ -83,24 +82,26 @@ class DateRule
     }
 
     /**
-    * @param Carbon|string $start_date  This is the starting date of which the schedule will be built up around; the
-    *                                   starting point will be incremented on via (x) days, weeks, months, years.
+    * @param Carbon|string $startDate  This is the starting date of which the schedule will be built up around; the
+    *                                  starting point will be incremented on via (x) days, weeks, months, years.
     * @return $this
     */
-    public function setStartDate(Carbon|string $start_date): self
+    public function setStartDate(Carbon|string $startDate): self
     {
-        $this->start_date = ! $start_date instanceof Carbon ? Carbon::parse($start_date) : $start_date;
+        $this->startDate = ! $startDate instanceof Carbon ? Carbon::parse($startDate) : $startDate;
+
         return $this;
     }
 
     /**
-    * @param Carbon|string $end_date  This is the ending date of which the schedule will be ending on, this will always
-    *                                 be set, the end date will always be what the last date was made around.
+    * @param Carbon|string $endDate  This is the ending date of which the schedule will be ending on, this will always
+    *                                be set, the end date will always be what the last date was made around.
     * @return $this
     */
-    public function setEndDate(Carbon|string $end_date): self
+    public function setEndDate(Carbon|string $endDate): self
     {
-        $this->end_date = ! $end_date instanceof Carbon ? Carbon::parse($end_date) : $end_date;
+        $this->endDate = ! $endDate instanceof Carbon ? Carbon::parse($endDate) : $endDate;
+
         return $this;
     }
 
@@ -113,6 +114,7 @@ class DateRule
     public function setInvert(bool $invert): self
     {
         $this->invert = $invert;
+
         return $this;
     }
 
@@ -130,8 +132,8 @@ class DateRule
     private function getDateAlteringMethod(): string
     {
         return $this->invert === false
-            ? $this->incremental_methods[$this->frequency]
-            : $this->decremental_methods[$this->frequency];
+            ? $this->incrementalMethods[$this->frequency]
+            : $this->decrementalMethods[$this->frequency];
     }
 
     /**
@@ -140,11 +142,11 @@ class DateRule
     public function create(): self
     {
         for ($i = 0; $i < $this->count; $i++) {
-            $recurrence = Carbon::parse($this->start_date)->{$this->getDateAlteringMethod()}($i);
+            $recurrence = Carbon::parse($this->startDate)->{$this->getDateAlteringMethod()}($i);
 
             // if we have hit the end date, regardless of how many times the user has wanted to keep the rule going for
             // then we are looking to break the loop here and no longer continue attempting to make anymore.
-            if (isset($this->end_date) && $recurrence > $this->end_date)
+            if (isset($this->endDate) && $recurrence > $this->endDate)
                 break;
 
             // when we are making recurring dates, we are going to append a new DateRuleRecurrence into a collection
@@ -152,16 +154,16 @@ class DateRule
             // building a schedule.
             $this->recurrences->put($i, new DateRuleRecurrence(
                 $recurrence,
-                $this->start_date->diff($recurrence)
+                $this->startDate->diff($recurrence)
             ));
         }
 
         // if we don't have an end date set already, then we are going to add the last recurrence that was entered into
         // the array... so that we can have a solid stopping point.
-        if (! isset($this->end_date))
+        if (! isset($this->endDate))
             $this->setEndDate($this->recurrences->last()->date);
 
-        $this->difference = $this->start_date->diff($this->end_date);
+        $this->difference = $this->startDate->diff($this->endDate);
 
         return $this;
     }
