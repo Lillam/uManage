@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Web\TimeLog;
 
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use App\Models\TimeLog\TimeLog;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
+use App\Http\Controllers\Web\Controller;
+use App\Models\TimeLog\TimeLog;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class TimeLogReportController extends Controller
 {
@@ -28,7 +28,7 @@ class TimeLogReportController extends Controller
         $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', '- TimeLog Report')
-                 ->set('current_page', 'page.time-logs.report');
+                 ->set('currentPage', 'page.time-logs.report');
 
         return view('time_log.time_log_report.view_time_log_report', compact(
             'date'

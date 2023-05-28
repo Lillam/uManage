@@ -1,3 +1,7 @@
+:root {
+    --dark-main: #15202b;
+}
+
 /* UIKIT Alterations -------------------------------------------------------------------------------------------------*/
 .uk-modal-header,
 .uk-modal-header h2 {
@@ -202,9 +206,11 @@ header ul li .user-wrapper > a {
 }
 
 header ul li > a.active,
-header ul li > a:hover {
+header ul li > a:hover,
+header ul li > a:focus {
     color: #ffffff;
     background-color: #1e87f0;
+    outline: none;
 }
 
 header ul li .user-wrapper a:hover {
@@ -251,7 +257,8 @@ header ul li.app-logo a span {
     color: #1e87f0;
 }
 
-header ul li.app-logo a:hover {
+header ul li.app-logo a:hover,
+header ul li.app-logo a:focus {
     opacity: 0.8;
     background-color: #f1f1f1;
 }
@@ -347,13 +354,17 @@ header .user.active img {
 }
 
 .header-sidebar a:hover,
-.header-sidebar a:active {
+.header-sidebar a:active,
+.header-sidebar a:focus {
     background-color: rgba(0,0,0,0.1);
     border: solid 1px rgba(255,255,255,0.25);
     color: #444444;
+    outline: none;
 }
 
-.header-sidebar a.active:hover {
+.header-sidebar a.active:hover,
+.header-sidebar a.active:active,
+.header-sidebar a.active:focus {
     background-color: #1e87f0;
     opacity: 0.75;
     color: #fff;
@@ -517,13 +528,9 @@ body.login .login_form *+.input_wrapper {
 
 body.login .login_form .input_wrapper .placeholder {
     position: absolute;
-    top: 5px;
     left: 0;
     cursor: text;
     color: #444;
-}
-
-body.login .login_form .input_wrapper .placeholder {
     font-size: 16px;
     top: 0;
     transition: all 0.2s;
@@ -813,7 +820,7 @@ body.login .login_form p:last-of-type {
 }
 
 .badge-image img {
-    border-radius: 10px;
+    border-radius: 50%;
     max-width: 30px;
     height: 30px;
 }
@@ -918,6 +925,20 @@ textarea {
     right: -15px;
     top: 25px;
     z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-sidebar i {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1e87f0;
+    border-radius: 50%;
+    color: #ffffff;
 }
 
 .close-sidebar > i:before {
@@ -1054,6 +1075,10 @@ textarea {
     background-color: #fff !important;
 }
 
+.note-editable a {
+    color: #3598fb;
+    text-decoration: none !important;
+}
 
 .note-editable ul {
     margin-bottom: 20px;
@@ -1391,6 +1416,11 @@ span.small {
     border-radius: 14px;
 }
 
+.box a {
+    color: #3598fb;
+    text-decoration: none !important;
+}
+
 .create {
     background-color: #1e87f0;
     color: #fff !important;
@@ -1468,9 +1498,37 @@ span.small {
 
 /* Dark Theme ------------------------------------------------------------------------------------------------------- */
 
-/*body.dark-theme .header-sidebar {*/
-/*    background-color: #15202b;*/
-/*}*/
+html.dark-theme,
+html.dark-theme body,
+html.dark-theme .header-sidebar,
+html.dark-theme .section {
+    background-color: var(--dark-main);
+}
+
+html.dark-theme .box,
+html.dark-theme .title-block,
+html.dark-theme header,
+html.dark-theme .header-sidebar,
+html.dark-theme .section {
+    border-color: rgba(255,255,255,0.1);
+}
+
+html.dark-theme p,
+html.dark-theme h2,
+html.dark-theme .header-sidebar h2,
+html.dark-theme .header-sidebar h3,
+html.dark-theme header ul li > a, header ul li .user-wrapper > a {
+    color: rgba(255,255,255,0.75);
+}
+
+html.dark-theme .section > h2,
+html.dark-theme .section h2.section_title {
+    color: rgba(255,255,255,0.75);
+}
+
+html.dark-theme .header-sidebar a {
+    color: #ffffff;
+}
 
 /*body.dark-theme,*/
 /*body.dark-theme .section {*/

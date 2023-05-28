@@ -7,19 +7,19 @@
         {{-- Styles --}}
         {!! ($vs->css)('assets/vendor/fontawesome/fontawesome') !!}
         {!! ($vs->css)('assets/vendor/uikit/uikit') !!}
-        {!! ($vs->css)('asset/css/application') !!}
+        {!! ($vs->css)('assets/css/application') !!}
     </head>
     <body class="error-404 uk-flex uk-flex-middle uk-flex-center uk-grid uk-grid-collapse">
         <div class="error-message uk-width-1-3 uk-flex uk-flex-center uk-flex-middle">
+            {{-- Error Title --}}
             <div>
-                {{-- Error Title --}}
                 <h1><span>Error</span> 503</h1>
                 <hr />
-                <p>We are currently doing some maintenance on this application... we shouldn't be too much longer but if you wanna stick around then you are most welcome to refresh a few times hoping that we're coming back to soon enough.</p>
+                <p>{{ trans('error.503') }}</p>
             </div>
         </div>
+        {{-- Insert an image here. --}}
         <div class="error-image uk-width-2-3 uk-flex uk-flex-center uk-flex-middle">
-            {{-- Insert an image here. --}}
             <p>{{ $exception->getMessage() }}</p>
         </div>
         {!! ($vs->js)('assets/vendor/uikit/uikit.min') !!}

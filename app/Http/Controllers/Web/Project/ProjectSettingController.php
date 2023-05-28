@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Web\Project;
 
-use Illuminate\View\View;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Project\Project;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use App\Models\Project\ProjectSetting;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
@@ -19,7 +19,7 @@ class ProjectSettingController extends Controller
      */
     public function _viewProjectsSettingsGet(): Factory|View
     {
-        $this->vs->set('current_page', 'page.projects.settings')
+        $this->vs->set('currentPage', 'page.projects.settings')
                  ->set('title', '- Projects - Settings');
 
         return view('project.project_setting.view_projects_settings');
@@ -45,7 +45,7 @@ class ProjectSettingController extends Controller
             abort(404);
 
         $this->vs->set('title', "- Project Settings - {$project_setting->project->name}")
-                 ->set('current_page', 'page.projects');
+                 ->set('currentPage', 'page.projects');
 
         return view('project.project_setting.view_project_settings', compact(
             'project_setting'

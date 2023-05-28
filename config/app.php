@@ -229,9 +229,6 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
-        // Html
-        'HtmlPrinter' => App\Printers\Html\HtmlPrinter::class,
-
         // Projects
         // Printers
         'ProjectPrinter' => App\Printers\Project\ProjectPrinter::class,

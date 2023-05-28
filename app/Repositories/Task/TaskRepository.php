@@ -21,19 +21,7 @@ class TaskRepository
     */
     public static function displayTaskDropdownSearch($tasks): string
     {
-        $html = '<div class="dropdown open">';
-            $html .= '<ul>';
-            foreach ($tasks as $task) {
-                $html .= '<li>';
-                    $html .= "<a data-task_id='{$task->id}' data-project_id='{$task->project_id}'>";
-                        $html .= "{$task->project->name} - {$task->name}";
-                    $html .= '</a>';
-                $html .= '</li>';
-            }
-            $html .= '</ul>';
-        $html .= '</div>';
-
-        return $html;
+        return view('task.task_assets.view_task_dropdown_search', compact('tasks'))->render();
     }
 
     /**

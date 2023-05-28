@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Web\User;
 
+use App\Http\Controllers\Web\Controller;
 use App\Models\User\User;
-use Illuminate\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\View\Factory;
-use Psr\Container\NotFoundExceptionInterface;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\View;
 use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 class UserController extends Controller
 {
@@ -38,9 +38,9 @@ class UserController extends Controller
     {
         $this->vs->set('title', "Dashboard - {$this->vs->get('user')->getFullName()}")
                  ->set('ref', 'dashboard')
-                 ->set('current_page', 'page.dashboard')
-                 ->set('has_title', false)
-                 ->set('has_sidebar', false);
+                 ->set('currentPage', 'page.dashboard')
+                 ->set('hasTitle', false)
+                 ->set('hasSidebar', false);
 
         $this->vs->get('user')->can('Policy@canI');
 
@@ -56,15 +56,15 @@ class UserController extends Controller
      */
     public function _viewUserLoginGet(): Factory|View|RedirectResponse
     {
-        if ($this->vs->get('user') instanceof User)
+        if (Auth::user())
             return redirect()->route('user.dashboard');
 
         $this->vs->set('title', 'Login')
-                 ->set('current_page', 'login')
-                 ->set('has_sidebar', false)
-                 ->set('has_header', false)
-                 ->set('has_title', false)
-                 ->set('has_footer', false);
+                 ->set('currentPage', 'login')
+                 ->set('hasSidebar', false)
+                 ->set('hasHeader', false)
+                 ->set('hasTitle', false)
+                 ->set('hasFooter', false);
 
         return view('user.view_user_login');
     }
@@ -116,10 +116,10 @@ class UserController extends Controller
     /**
     * this method is simply returning a single user page...
     *
-    * @param int $user_id
+    * @param int $userId
     * @return Factory|RedirectResponse|View
     */
-    public function _viewUserGet(int $user_id): Factory|RedirectResponse|View
+    public function _viewUserGet(int $userId): Factory|RedirectResponse|View
     {
         // find the user that the requested user is trying to view, we are going to be wanting to accumulate a variety
         // of this particular user's data from the get go so that we can print a dashboard like view with a variety
@@ -132,7 +132,7 @@ class UserController extends Controller
             'tasks.taskStatus',
             'tasks.taskPriority',
             'tasks.taskIssueType'
-        ])->where('id', '=', $user_id)->first();
+        ])->where('id', '=', $userId)->first();
 
         // if the user we have searched for somehow doesn't happen to be an instance of user... then we are going
         // to want to redirect the user back to the user/1 page... utilising it's method, this in theory
@@ -155,7 +155,7 @@ class UserController extends Controller
 
         $this->vs->set('title', " - {$user->getFullName()}")
                  ->set('ref', 'account')
-                 ->set('current_page', 'page.user');
+                 ->set('currentPage', 'page.user');
 
         return view('user.view_user', compact(
             'user',

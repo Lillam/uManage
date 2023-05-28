@@ -5,7 +5,7 @@ namespace App\Exceptions\Solutions;
 use ReflectionClass;
 use ReflectionException;
 use Illuminate\Support\Collection;
-use Facade\IgnitionContracts\Solution;
+use Spatie\Ignition\Contracts\Solution;
 use App\Providers\ExceptionSolutionProvider;
 
 class RelationNotFoundExceptionSolution implements Solution

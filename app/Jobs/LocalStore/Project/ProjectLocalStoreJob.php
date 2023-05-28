@@ -33,7 +33,9 @@ class ProjectLocalStoreJob implements ShouldQueue
     {
         $this->setDestination($destination);
 
-        $this->projects = Project::all();
+        $this->projects = Project::query()->with([
+            'userContributors'
+        ])->get();
     }
 
     /**
@@ -53,6 +55,10 @@ class ProjectLocalStoreJob implements ShouldQueue
                 'icon'        => $project->icon,
                 'color'       => $project->color
             ];
+
+            foreach ($project->userContributors as $contributor) {
+                $this->put[$project->id]['userContributors'][] = $contributor->user_id;
+            }
         }
 
         // after getting all the results, turn the entire collection into a json object and store it into a file. this

@@ -6,9 +6,9 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Account\Account;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 
 class AccountController extends Controller
 {
@@ -19,7 +19,7 @@ class AccountController extends Controller
     public function _viewAccountsGet(Request $request): Factory|View
     {
         $this->vs->set('title', '- Account Management')
-                 ->set('current_page', 'page.accounts.list');
+                 ->set('currentPage', 'page.accounts.list');
 
         return view('account.view_accounts');
     }
@@ -32,7 +32,9 @@ class AccountController extends Controller
     public function _viewAccountGet(Request $request, Account $account): Factory|View
     {
         $this->vs->set('title', '- {Account} - Account Management')
-                 ->set('current_page', 'page.accounts.list');
+                 ->set('currentPage', 'page.accounts.list');
+
+        dd($account->getDecryptedPassword(), $account->getDecryptedTwoFactorAuthenticationRecovery());
 
         return view('account.view_account', compact(
             'account'
@@ -72,6 +74,7 @@ class AccountController extends Controller
             'account'     => $account,
             'application' => $application,
             'password'    => encrypt($password),
+            'two_factor_recovery_code' => '',
             'order'       => ($order + 1)
         ]);
 

@@ -6,6 +6,7 @@ use App\Models\Task\Task;
 use App\Models\Account\Account;
 use App\Models\Project\Project;
 use App\Models\Store\StoreBasket;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Notifications\Notifiable;
 use App\Models\System\SystemModuleAccess;
@@ -17,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasApiTokens, Notifiable;
 
     /**
     * Pre-defining this models table name, this will be taking the name of the widget that it is, singular-ifying it
@@ -93,15 +94,15 @@ class User extends Authenticatable
     */
     public function getInitials(): string
     {
-        $first_initial = $this->first_name !== null
+        $firstInitial = $this->first_name !== null
             ? $this->first_name[0]
             : '';
 
-        $last_initial = $this->last_name !== null
+        $lastInitial = $this->last_name !== null
             ? $this->last_name[0]
             : '';
 
-        return "{$first_initial}{$last_initial}";
+        return "{$firstInitial}{$lastInitial}";
     }
 
     /**

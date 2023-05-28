@@ -15,7 +15,7 @@
                 {{-- Error Title --}}
                 <h1><span>Error</span> Oops</h1>
                 <hr />
-                <p>Something went wrong there, There may potentially be something wrong with this particular page and or feature... please help the development team by escalating this issue so that we are aware of where and when this is happening. Thanks.</p>
+                <p>{{ trans('error.oops') }}</p>
                 <a class="uk-button uk-button-small uk-button-primary">Escalate</a>
             </div>
         </div>

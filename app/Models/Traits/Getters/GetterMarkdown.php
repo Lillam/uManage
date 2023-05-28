@@ -8,15 +8,15 @@ trait GetterMarkdown
 {
     /**
     * This method is for acquiring content back from the database in it's html format, this will be bringing back by
-    * default in safemode, you can override the safe mode by passing in false. this method works in the opposite way
+    * default in safe mode, you can override the safe mode by passing in false. this method works in the opposite way
     * of the setParsedContent method in the SetterMarkdown trait.
     *
     * @param mixed $value
-    * @param bool $safe_mode
+    * @param bool $safeMode
     * @return string
     */
-    public function getParsedContent(mixed $value, bool $safe_mode = true): string
+    public function getParsedContent(mixed $value, bool $safeMode = true): string
     {
-        return ((new Parsedown())->setSafeMode($safe_mode))->parse($value);
+        return ((new Parsedown())->setSafeMode($safeMode))->parse($value);
     }
 }

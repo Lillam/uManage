@@ -13,13 +13,13 @@ trait SetterMarkdown
     * format.
     *
     * @param mixed $value
-    * @param bool $safe_mode
+    * @param bool $safeMode
     * @return string
     */
-    public function setParsedContent(mixed $value, bool $safe_mode = true): string
+    public function setParsedContent(mixed $value, bool $safeMode = true): string
     {
         $converter = new Converter();
-        $converter->setKeepHTML(! $safe_mode);
+        $converter->setKeepHTML(! $safeMode);
         return $converter->parseString(TextHelper::stripAttributes($value));
     }
 }

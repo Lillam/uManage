@@ -51,8 +51,21 @@ window.summernote_options = {
                 $(this).next().next().find('a').first().click();
             }
         },
+        onKeydown: function (event) {
+            // check to see whether the user has clicked ctrl + escape or command + escape or not and then treat this as
+            // an indication that the user wants to walk away from the input field and then close the summernote field
+            // this will simply click the cancel button that resides next to the summernote field.
+            if ((event.metaKey || event.ctrlKey) && event.key === 'Escape') {
+                $(this).next().next().find('a').first().next().click();
+            }
+        }
     }
 };
+
+const request = () => ({
+    get: (url, data = {}) => $.ajax({ method: 'get', url, data }),
+    post: (url, data = {}) => $.ajax({ method: 'post', url, data })
+});
 
 $(() => {
     // Setting up ajax with the necessary headers so that no matter where im making the ajax call im not going to need
@@ -274,8 +287,8 @@ let ajax_message_helper = function ($object, data) {
 * @param value | the value for the key that is being stored.
 * @return void
 */
-const handle_summernote_open = function (key, value) {
-    let $object = $('.' + key);
+const handleSummernoteOpen = function (key, value) {
+    let $object = $(`.${key}`);
     if ($object.find('.placeholder').length >= 1) {
         $object.html('');
     }
@@ -292,59 +305,59 @@ const handle_summernote_open = function (key, value) {
 * @param $object        | jquery object
 * @param handle         | point of reference (save or cancel)
 * @param key            | the identifier for the content should the content have been saved into the system.
-* @param update_on_save | whether we're opting to update the element when we have left the summernote leave...
+* @param updateOnSave   | whether we're opting to update the element when we have left the summernote leave...
 */
-const handle_summernote_leave = function ($object, handle, key, update_on_save = true) {
+const handleSummernoteLeave = function ($object, handle, key, updateOnSave = true) {
     // regardless of whether we are saving or cancelling, we are wanting to reset the value of the object
     // back to its original value... on the exit of the summernote, the object will be set to the previous value
     // and the cache key will be set to nothing.
-    if (update_on_save) {
+    if (updateOnSave) {
         $object.html(window[key]);
     }
+
     delete window[key];
     delete $object;
 };
 
 /**
-* Cache functionality.
-*/
+ * Cache functionality.
+ */
 
-/**
-* This method will be acquiring elements from cache that we have stored, cache_get('storage_key'); will return whatever
-* has been stored within the storage_key value. everything will have been stored within the window object.
-*
-* @param key
-* @return {*}
-*/
-let cache_get = function (key) {
-    return window[key];
-};
+const cache = () => ({
+    /**
+     * This method will be acquiring elements from cache that we have stored, cache_get('storage_key'); will return
+     * whatever has been stored within the storage_key value. everything will have been stored within the window
+     * object.
+     *
+     * @param key
+     * @returns {*|null}
+     */
+    get: (key) => window[key] ?? null,
 
-/**
-* This method will be saving a value into a key identifier that is set by the developer, if we are opting to save a
-* particular value, then we are going to need the key as well as the value. cache_save('key', 1);
-* cache_get('key') will print 1, all this method does is storing the value into the window object.
-*
-* @param key
-* @param value
-* @return void
-*/
-let cache_save = function (key, value) {
-    window[key] = value;
-};
+    /**
+     * This method will be saving a value into a key identifier that is set by the developer, if we are opting to save a
+     * particular value, then we are going to need the key as well as the value. cache_save('key', 1);
+     * cache_get('key') will print 1, all this method does is storing the value into the window object.
+     *
+     * @param key
+     * @param value
+     * @return any
+     */
+    set: (key, value) => window[key] = value,
 
-/**
-* We are going to need a method for deleting the cache objects when we are no longer needing to store the information
-* there's no sense in storing a mass amount of data into the window object, so this method will simply unset and delete
-* the cache key so that we are no longer storing that value anymore. as referencing the above method:
-* cache_delete('key'); and cache_get('key') will output undefined.
-*
-* @param key
-* @return void
-*/
-let cache_delete = function (key) {
-    delete window[key];
-};
+    /**
+     * We are going to need a method for deleting the cache objects when we are no longer needing to store the
+     * information there's no sense in storing a mass amount of data into the window object, so this method will
+     * simply unset and delete the cache key so that we are no longer storing that value anymore. as referencing
+     * the above method: cache_delete('key'); and cache_get('key') will output undefined.
+     *
+     * @param key
+     * @return void
+     */
+    remove: (key) => {
+        delete window[key];
+    }
+});
 
 /**
 * Method for creating a project, if the user clicks on the create project button, this method will take care of all the
@@ -436,7 +449,7 @@ var create_task = function () {
 * @param chart_type
 * @param chart_data
 */
-const setup_chart = function (chart_element, chart_type, chart_data) {
+const setupChart = function (chart_element, chart_type, chart_data) {
     if (window[`${chart_element}_graph`]) {
         window[`${chart_element}_graph`].destroy();
     }
@@ -463,6 +476,16 @@ const setup_chart = function (chart_element, chart_type, chart_data) {
     );
 };
 
+const addToHistory = (parameter, value) => {
+    let params = new URLSearchParams(window.location.href);
+    params.set(parameter, value);
+    history.pushState(
+        '',
+        '',
+        window.location.origin + window.location.pathname + '?' + params.toString() + window.location.hash
+    );
+}
+
 /**
 * A method that is going to be running off to acquire all the emojis for the web page... and if we already have them
 * loaded, then we aren't going to bother trying to acquire them again; only load them when we are going to be utilising
@@ -474,16 +497,15 @@ const setup_chart = function (chart_element, chart_type, chart_data) {
 *
 * @return void
 */
-const load_emojis = function () {
-    if (typeof(window.emojis) === "undefined" || typeof(window.emoji_items) === "undefined") {
-        $.ajax({
-            method: 'get',
-            url: $('body').data('get_emojis_url'),
-        }).then((data) => {
-            window.emojis = Object.keys(data);
-            window.emoji_items = data;
-        });
+const loadEmojis = function () {
+    if (typeof window.emojis === "undefined" || typeof window.emoji_items === "undefined") {
+        request().get($('body').data('get_emojis_url'))
+            .then(data => {
+                window.emojis = Object.keys(data);
+                window.emoji_items = data;
+            });
     }
 };
 
-load_emojis();
+loadEmojis();
+

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Web\TimeLog;
 
-use Exception;
-use Throwable;
-use Carbon\Carbon;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
-use App\Models\TimeLog\TimeLog;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
+use App\Http\Controllers\Web\Controller;
+use App\Models\TimeLog\TimeLog;
 use App\Repositories\TimeLog\TimeLogRepository;
+use Carbon\Carbon;
+use Exception;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Throwable;
 
 class TimeLogController extends Controller
 {
@@ -30,7 +30,7 @@ class TimeLogController extends Controller
         $days = (object) DateTimeHelper::days(Carbon::now());
 
         $this->vs->set('title', '- Time Logging')
-                 ->set('current_page', 'page.time-logs.calendar');
+                 ->set('currentPage', 'page.time-logs.calendar');
 
         return view('time_log.view_time_log_calendar', compact(
             'days'

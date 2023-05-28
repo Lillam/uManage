@@ -45,7 +45,11 @@ class AuthenticateUser
                 $user->systemModuleAccess->map(function (SystemModuleAccess $systemModuleAccess) {
                     return $systemModuleAccess->getControllerMethod();
                 })->toArray()
-            ); unset($user->systemModuleAccess);
+            );
+
+            // let go of the system module access property on the user; as we have attached a more elegant structure
+            // to the user to use later on in the flow of the user interaction.
+            unset($user->systemModuleAccess);
         }
 
         // apply the user, whether a user or null; we're going to assign it into the view service... so that we will

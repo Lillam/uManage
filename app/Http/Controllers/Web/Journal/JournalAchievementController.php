@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Web\Journal;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Journal\JournalAchievement;
 
 class JournalAchievementController extends Controller
@@ -43,7 +43,7 @@ class JournalAchievementController extends Controller
             ]);
 
         return response()->json([
-            'response' => 'Successfully added achivement'
+            'response' => 'Successfully added achievement'
         ]);
     }
 

@@ -25,7 +25,7 @@ class ProjectSettingRepository
 
     /**
     * This method is utilised for creating a new project setting, when a user creates a new project the project is
-    * dependant on having a setting row for it as well...
+    * dependent on having a setting row for it as well...
     *
     * @param integer $projectId
     *

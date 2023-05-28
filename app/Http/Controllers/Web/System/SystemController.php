@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers\Web\System;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\LocalStore\Task\TaskLocalStoreJob;
-use Illuminate\Contracts\Foundation\Application;
+use App\Http\Controllers\Web\Controller;
 use App\Jobs\LocalStore\Account\AccountLocalStoreJob;
+use App\Jobs\LocalStore\Journal\JournalDreamLocalStoreJob;
 use App\Jobs\LocalStore\Journal\JournalLocalStoreJob;
 use App\Jobs\LocalStore\Project\ProjectLocalStoreJob;
-use App\Jobs\LocalStore\Journal\JournalDreamLocalStoreJob;
+use App\Jobs\LocalStore\Task\TaskLocalStoreJob;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SystemController extends Controller
 {

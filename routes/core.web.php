@@ -330,8 +330,8 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     */
 
     Route::get('/system/changelogs',            [SystemChangelogController::class, '_viewSystemChangelogsGet'])->name('system.changelogs');
-    Route::get('/system/changelogs/{id}',       [SystemChangelogController::class, '_viewSystemChangelogGet']);
     Route::get('/system/changelogs/edit/{id?}', [SystemChangelogController::class, '_editSystemChangelogGet'])->name('system.changelogs.edit');
+    Route::get('/system/changelogs/{id}',       [SystemChangelogController::class, '_viewSystemChangelogGet']);
     Route::get('/system/store/all',             [SystemController::class, '_storeAllModulesLocally'])->name('system.store');
     Route::get('/system/perform',               [SystemController::class, '_performRandomJob']);
     Route::get('/system/emojis',                [SystemController::class, '_getSummernoteEmojis'])->name('system.emojis');

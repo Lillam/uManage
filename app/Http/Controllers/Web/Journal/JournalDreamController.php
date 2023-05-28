@@ -7,9 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
 use App\Models\Journal\JournalDream;
 use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class JournalDreamController extends Controller
@@ -23,7 +23,7 @@ class JournalDreamController extends Controller
         $date = Carbon::now();
 
         $this->vs->set('title', "Dream Journals - {$this->vs->get('user')->getFullName()}")
-                 ->set('current_page', 'page.journals.dreams.calendar');
+                 ->set('currentPage', 'page.journals.dreams.calendar');
 
         return view('journal.journal_Dream.view_journal_dreams', compact(
             'date'
@@ -39,52 +39,48 @@ class JournalDreamController extends Controller
     {
         $date = Carbon::parse($request->input('date'));
 
-        $direction = $request->input('direction');
+        if ($direction = $request->input('direction')) {
+            $date = match($direction) {
+                "left" => $date->subMonth(),
+                "right" => $date->addMonth()
+            };
+        }
 
-        if ($direction === 'left')
-            $date->subMonth(1);
+        $startOfMonth = Carbon::parse($date)->startOfMonth();
 
-        if ($direction === 'right')
-            $date->addMonth(1);
+        $daysInMonth = $startOfMonth->daysInMonth;
 
-        $start_of_month = Carbon::parse($date)->startOfMonth();
-
-        $days_in_month = $start_of_month->daysInMonth;
-
-        $starting_day = $start_of_month->format('l');
+        $startingDay = $startOfMonth->format('l');
 
         $days = Carbon::getDays();
 
         $dates = [];
 
-        $day_key = array_search($starting_day, $days);
+        $dayKey = array_search($startingDay, $days);
 
-        $journal_dreams = JournalDream::query()
+        $journalDrams = JournalDream::query()
             ->select('*')
             ->where('user_id', '=', $this->vs->get('user')->id)
             ->where('when', '>=', Carbon::parse($date)->startOfMonth()->format('Y-m-d'))
             ->where('when', '<=', Carbon::parse($date)->endOfMonth()->format('Y-m-d'))
             ->get()
-            ->keyBy(function ($journal_dream) {
-                return $journal_dream->when->format('Y-m-d');
-            });
+            ->keyBy(fn (JournalDream $journalDream) => $journalDream->when->format('Y-m-d'));
 
-        for ($day_increment = 1; $day_increment < ($days_in_month + 1); ++ $day_increment) {
-            $journal_dream_key = "{$date->format('Y-m')}-" . ($day_increment < 10 ? '0' : '') . "$day_increment";
+        for ($dayIncrement = 1; $dayIncrement < ($daysInMonth + 1); ++ $dayIncrement) {
+            $journalDreamKey = "{$date->format('Y-m')}-" . ($dayIncrement < 10 ? '0' : '') . "$dayIncrement";
 
-            if ($day_key === 7)
-                $day_key = 0;
+            if ($dayKey === 7)
+                $dayKey = 0;
 
-            $reference_day = $days[$day_key];
+            $referenceDay = $days[$dayKey];
 
-            $dates[$journal_dream_key] = (object) [
-                'title' => "$reference_day <span class='uk-text-small'>{$date->format('M')} $day_increment</span>",
-                'journal_dream' => ! empty($journal_dreams->get($journal_dream_key))
-                    ? $journal_dreams->get($journal_dream_key)
-                    : null
+            $dates[$journalDreamKey] = (object) [
+                'title' => "$referenceDay <span class='uk-text-small'>{$date->format('M')} $dayIncrement</span>",
+                'journal_dream' => ! empty($journalDrams->get($journalDreamKey)) ? $journalDrams->get($journalDreamKey)
+                                                                                 : null
             ];
 
-            $day_key += 1;
+            $dayKey += 1;
         }
 
         return response()->json([
@@ -98,12 +94,13 @@ class JournalDreamController extends Controller
 
     /**
     * @param Request $request
-    * @param $date
+    * @param string $date
     * @return Application|Factory|View
     */
-    public function _viewJournalDreamGet(Request $request, $date): Application|Factory|View
+    public function _viewJournalDreamGet(Request $request, string $date): Application|Factory|View
     {
-        $journal_dream = JournalDream::query()->where('when', '=', $date)->first();
+        $journal_dream = JournalDream::query()->where('when', '=', $date)
+                                              ->first();
 
         if (! $journal_dream instanceof JournalDream)
             $journal_dream = JournalDream::query()
@@ -122,7 +119,7 @@ class JournalDreamController extends Controller
             . $journal_dream->when->format('jS F Y');
 
         $this->vs->set('title', $title)
-                 ->set('current_page', 'page.journals.dreams');
+                 ->set('currentPage', 'page.journals.dreams');
 
         return view('journal.journal_dream.view_journal_dream', compact(
             'journal_dream',
@@ -142,11 +139,13 @@ class JournalDreamController extends Controller
         $field = $request->input('field');
         $value = $request->input('value');
 
-        $journal_dream = JournalDream::query()->where('id', '=', $journal_dream_id)->first();
-        $journal_dream->$field = $value;
-        $journal_dream->save();
+        $journalDream = JournalDream::query()->where('id', '=', $journal_dream_id)
+                                             ->first();
 
-        return response()->json([ 'response' => "successfully updated the field'" ]);
+        $journalDream->$field = $value;
+        $journalDream->save();
+
+        return response()->json([ 'response' => 'successfully updated the field' ]);
     }
 
     /**
@@ -159,10 +158,9 @@ class JournalDreamController extends Controller
     */
     public function _ajaxDeleteJournalDreamPost(Request $request): JsonResponse
     {
-        JournalDream::query()
-            ->where('id', '=', $request->input('journal_dream_id'))
-            ->where('user_id', '=', $this->vs->get('user')->id)
-            ->delete();
+        JournalDream::query()->where('id', '=', $request->input('journal_dream_id'))
+                             ->where('user_id', '=', $this->vs->get('user')->id)
+                             ->delete();
 
         return response()->json([ 'response' => action('Journal\JournalDreamController@_viewJournalDreamsGet') ]);
     }

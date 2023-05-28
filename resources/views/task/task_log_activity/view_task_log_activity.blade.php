@@ -37,7 +37,7 @@
                                 </a>
                             </div>
                         </div>
-                        <p>{{ __("task/task_log.{$task_log->getType()}") }}</p>
+                        <p>{{ __("task.task_log.{$task_log->getType()}") }}</p>
                         @if ($task_log->old !== null || $task_log->new !== null)
                             <div class="uk-grid uk-grid-small uk-flex" uk-grid>
                                 @if (! empty($task_log->old))

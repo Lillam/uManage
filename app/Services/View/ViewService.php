@@ -14,12 +14,12 @@ class ViewService
     /**
     * @var string
     */
-    private string $current_page = '';
+    private string $currentPage = '';
 
     /**
     * @var string
     */
-    private string $application_theme = 'dark-theme';
+    private string $applicationTheme = 'dark-theme';
 
     /**
     * @var bool
@@ -58,7 +58,7 @@ class ViewService
     {
         return (object) [
             'title'              => $this->getTitle(),
-            'current_page'       => $this->getCurrentPage(),
+            'currentPage'        => $this->getCurrentPage(),
             'isPage'             => fn (string $page): string => mb_strpos(
                 $this->getCurrentPage(),
                 $page
@@ -67,7 +67,7 @@ class ViewService
             'hasFooter'          => $this->getHasFooter(),
             'hasSidebar'         => $this->getHasSidebar(),
             'hasTitle'           => $this->getHasTitle(),
-            'application_theme'  => $this->getApplicationTheme(),
+            'applicationTheme'   => $this->getApplicationTheme(),
 
             // deciding which user is the currently authenticated user, and then also having a setting which will let
             // the system know who the user is currently viewing; rather than overwriting the user that is in
@@ -101,12 +101,12 @@ class ViewService
     }
 
     /**
-    * @param string $current_page
+    * @param string $currentPage
     * @return $this
     */
-    public function setCurrentPage(string $current_page): self
+    public function setCurrentPage(string $currentPage): self
     {
-        $this->current_page = $current_page;
+        $this->currentPage = $currentPage;
 
         return $this;
     }
@@ -116,18 +116,18 @@ class ViewService
     */
     private function getCurrentPage(): string
     {
-        return $this->current_page ?? '';
+        return $this->currentPage ?? '';
     }
 
     /**
-    * @param bool $has_header | A deciding factor whether the header is visible on the frontend or not, in the
-    *                         | application the header tag is wrapped in a has_header wrapper; and if this is false
-    *                         | the header is not visible.
+    * @param bool $hasHeader A deciding factor whether the header is visible on the frontend or not, in the
+    *                        application the header tag is wrapped in a has_header wrapper; and if this is false
+    *                        the header is not visible.
     * @return $this
     */
-    public function setHasHeader(bool $has_header): self
+    public function setHasHeader(bool $hasHeader): self
     {
-        $this->hasHeader = $has_header;
+        $this->hasHeader = $hasHeader;
 
         return $this;
     }
@@ -141,14 +141,14 @@ class ViewService
     }
 
     /**
-    * @param bool $has_footer | A deciding factor whether the footer is visible on the frontend or not, in the
-    *                         | application the footer tag is wrapped in a has_footer wrapper; and if this is false,
-    *                         | the footer is not visible.
+    * @param bool $hasFooter A deciding factor whether the footer is visible on the frontend or not, in the
+    *                        application the footer tag is wrapped in a has_footer wrapper; and if this is false,
+    *                        the footer is not visible.
     * @return $this
     */
-    public function setHasFooter(bool $has_footer): self
+    public function setHasFooter(bool $hasFooter): self
     {
-        $this->hasFooter = $has_footer;
+        $this->hasFooter = $hasFooter;
 
         return $this;
     }
@@ -162,12 +162,12 @@ class ViewService
     }
 
     /**
-     * @param bool $has_title
+     * @param bool $hasTitle
      * @return $this
      */
-    public function setHasTitle(bool $has_title): self
+    public function setHasTitle(bool $hasTitle): self
     {
-        $this->hasTitle = $has_title;
+        $this->hasTitle = $hasTitle;
 
         return $this;
     }
@@ -178,12 +178,12 @@ class ViewService
     }
 
     /**
-    * @param bool $has_sidebar
+    * @param bool $hasSidebar
     * @return $this
     */
-    public function setHasSidebar(bool $has_sidebar): self
+    public function setHasSidebar(bool $hasSidebar): self
     {
-        $this->hasSidebar = $has_sidebar;
+        $this->hasSidebar = $hasSidebar;
 
         return $this;
     }
@@ -197,12 +197,12 @@ class ViewService
     }
 
     /**
-    * @param string $application_theme
+    * @param string $applicationTheme
     * @return $this
     */
-    public function setApplicationTheme(string $application_theme): self
+    public function setApplicationTheme(string $applicationTheme): self
     {
-        $this->application_theme = $application_theme;
+        $this->applicationTheme = $applicationTheme;
 
         return $this;
     }
@@ -212,7 +212,7 @@ class ViewService
     */
     private function getApplicationTheme(): string
     {
-        return $this->application_theme ?? '';
+        return $this->applicationTheme ?? '';
     }
 
     /**
@@ -235,12 +235,12 @@ class ViewService
     }
 
     /**
-    * @param User $viewing_user
+    * @param User $viewingUser
     * @return $this
     */
-    public function setViewingUser(User $viewing_user): self
+    public function setViewingUser(User $viewingUser): self
     {
-        $this->viewingUser = $viewing_user;
+        $this->viewingUser = $viewingUser;
 
         return $this;
     }
@@ -250,7 +250,7 @@ class ViewService
     */
     private function getViewingUser(): null|User
     {
-        return $this->user;
+        return $this->viewingUser;
     }
 
     /*

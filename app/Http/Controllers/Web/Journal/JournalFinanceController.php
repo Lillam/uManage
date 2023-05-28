@@ -6,10 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Journal\JournalFinance;
 use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class JournalFinanceController extends Controller
@@ -25,7 +25,7 @@ class JournalFinanceController extends Controller
             : Carbon::now();
 
         $this->vs->set('title', "Journal Finances - {$this->vs->get('user')->getFullName()}")
-                  ->set('current_page', 'page.journals.finances.calendar');
+                  ->set('currentPage', 'page.journals.finances.calendar');
 
         return view('journal.journal_finance.view_journal_finances', compact(
             'date'

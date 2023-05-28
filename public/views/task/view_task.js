@@ -1,19 +1,19 @@
 $(() => {
     let $body = $('body'),
-        $task_title = $('.task_name_title');
+        $taskTitle = $('.task_name_title');
 
     $body.on('keydown', '.task_name', function (event) {
-        $task_title.html($(this).text().trim());
+        $taskTitle.html($(this).text().trim());
 
         if (event.key === 'Enter') {
             event.preventDefault();
-            update_task('name', $(this).text().trim());
+            updateTask('name', $(this).text().trim());
         }
     });
 
     // applying to the body, some click events, currently we are going to be utilising this for stripping off the task
     // dropdown open class; so that we can have an easy method of closing the dropdown.
-    $body.on('click', function (event) {
+    $body.on('click',  () => {
         $('.task_dropdown_wrapper').removeClass('task_dropdown_open');
     });
 
@@ -33,17 +33,17 @@ $(() => {
         $this.closest('.task_dropdown_wrapper').removeClass('task_dropdown_open');
 
         // update the task with the field and value...
-        update_task(field, value);
+        updateTask(field, value);
     });
 
     // when clicking on the description, we are going to be instantiating summernote for the user to begin start making
     // amends to the description of the task, clicking on description will also look to it's parent element and find the
-    // options for the description and unhide them as they are hidden by default, we don't need to see these to begin
+    // options for the description and un-hide them as they are hidden by default, we don't need to see these to begin
     // with as this will be wasting space, and rather than saving on blur, (which to me feels like a stupid functionality
     // it was best to offer the user the option to cancel or save their changes)
     $body.on('click', '.description', function (event) {
         let $this = $(this);
-        handle_summernote_open('description', $this.html().trim());
+        handleSummernoteOpen('description', $this.html().trim());
         $this.parent().find('.description_options').removeClass('uk-hidden');
         $this.summernote(window.summernote_options).next().find('.note-editable').placeCursorAtEnd();
     });
@@ -53,11 +53,12 @@ $(() => {
     // the click, however if you are to click submit, then it will proceed to editing the task in question and then.
     $body.on('click', '.save_description, .cancel_description', function (event) {
         event.preventDefault();
+
         let $this = $(this),
             $description = $('.description'),
-            handle = $this.hasClass('cancel') ? 'cancel' : 'save',
+            handle= $this.hasClass('cancel') ? 'cancel' : 'save',
             field = 'description',
-            update_on_save = $this.hasClass('cancel');
+            updateOnSave = $this.hasClass('cancel');
 
         $description.summernote('destroy');
 
@@ -66,13 +67,13 @@ $(() => {
         // if the element has the class of cancel, then we are simply going to want to pass in the summernote object
         // so that we are able to do something particular with it, and revert back to what the content once used to be
         // rather than viewing what the content is currently set to be.
-        handle_summernote_leave($description, handle, field, update_on_save);
+        handleSummernoteLeave($description, handle, field, updateOnSave);
 
         // if the user has opted to press on save, rather than cancel then we are going to look to saving these changes
         // in the database after we have uninstantiated the summernote object, so that we can take the html of the
         // description jquery object.
         if ($this.hasClass('save_description')) {
-            update_task(field, $description.html());
+            updateTask(field, $description.html());
         }
     });
 
@@ -91,7 +92,7 @@ $(() => {
         }
     });
 
-    $body.on('click', function (event) {
+    $body.on('click', () => {
         $('#task').removeClass('task_sidebar_open');
     });
 
@@ -108,7 +109,7 @@ $(() => {
     view_task_checklists();
 });
 
-if (typeof (Echo) !== "undefined") {
+if (typeof Echo !== "undefined") {
     // we are going to keep a listen out for the pusher server; and if this makes a connection and hears something on the
     // task messages, then the website is going to render the return value on what wants to happen to the frontend of the
     // user in question... this will update a variety of areas on the frontend... such as the:
@@ -133,26 +134,17 @@ if (typeof (Echo) !== "undefined") {
 * @param value    (variable)
 * @param callback (function)
 */
-const update_task = function (field, value, callback = null) {
+const updateTask = function (field, value, callback = null) {
     let $task = $('#task'),
         url = $task.data('edit_task_url'),
         task_id = $task.data('task_id'),
         project_id = $task.data('project_id');
 
-    $.ajax({
-        method: 'post',
-        url: url,
-        data: {
-            project_id: project_id,
-            task_id: task_id,
-            field: field,
-            value: value
-        },
-        success: function (data) {
+    request().post(url, { project_id, task_id, field, value })
+        .then(data => {
             ajax_message_helper($('.ajax_message_helper'), data);
             if (callback !== null) {
                 callback();
             }
-        }
-    });
+        })
 };

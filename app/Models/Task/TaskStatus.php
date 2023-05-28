@@ -14,10 +14,10 @@ class TaskStatus extends Model
     * TYPE DONE        | (int)
     * TYPE DELETED     | (int)
     */
-    public static $TYPE_TODO        = 1;
-    public static $TYPE_IN_PROGRESS = 2;
-    public static $TYPE_DONE        = 3;
-    public static $TYPE_ARCHIVED    = 4;
+    public static int $TYPE_TODO        = 1;
+    public static int $TYPE_IN_PROGRESS = 2;
+    public static int $TYPE_DONE        = 3;
+    public static int $TYPE_ARCHIVED    = 4;
 
     /**
     * Pre-defining this models table name, this will be taking the name of the widget that it is, singular-ifying it

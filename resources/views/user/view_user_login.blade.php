@@ -9,7 +9,9 @@
                     <div class="uk-width-auto uk-flex uk-flex-middle social_wrapper">
                         <div>
                             @foreach (config('social') as $social)
-                                <a class="social_icon"><i class="{{ $social['icon'] }}"></i></a>
+                                <a class="social_icon">
+                                    <i class="{{ $social['icon'] }}"></i>
+                                </a>
                             @endforeach
                         </div>
                     </div>
@@ -32,8 +34,9 @@
                                    class="uk-width-1-1"
                                    autocomplete="off"
                                    value="{{ old('email') }}" placeholder="Enter Email"
-                            /><label for="email" class="placeholder">Enter Email</label>
-                            @if($errors->has('email'))
+                            />
+                            <label for="email" class="placeholder">Enter Email</label>
+                            @if ($errors->has('email'))
                                 <p>{{ $errors->first('email') }}</p>
                             @endif
                         </div>
@@ -42,13 +45,17 @@
                                    name="password"
                                    class="uk-width-1-1"
                                    autocomplete="off" placeholder="Enter Password"
-                            /><label for="password" class="placeholder">Enter Password</label>
-                            @if($errors->has('password'))
+                            />
+                            <label for="password" class="placeholder">Enter Password</label>
+                            @if ($errors->has('password'))
                                 <p>{{ $errors->first('password') }}</p>
                             @endif
                         </div>
                         <button class="uk-button uk-button-primary">Login</button>
-                        <p><a href="">Forgot password</a><a href="">Register an account</a></p>
+                        <p>
+                            <a href="">Forgot password</a>
+                            <a href="">Register an account</a>
+                        </p>
                     </form>
 
             </div>

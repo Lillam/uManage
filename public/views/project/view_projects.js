@@ -8,23 +8,21 @@ $(() => {
 /**
 * The method of which is going to be acquiring all of the projects that are in the system, and return the content into
 * a project wrapper with the class of .projects... the projects content will be returned with a view rendered html
-* segment that gets plummed in.
+* segment that gets injected in.
 *
 * @return html injection
 */
-var view_projects = function () {
-    let $projects_wrapper = $('.projects'),
-        view_projects_url = $projects_wrapper.data('view_projects_url');
+const view_projects = function () {
+    let $projectsWrapper = $('.projects'),
+        viewProjectsUrl = $projectsWrapper.data('view_projects_url');
 
     $.ajax({
         method: 'get',
-        url: view_projects_url,
+        url: viewProjectsUrl,
         data: {
-            title: $projects_wrapper.data('title'),
-            view_mode: $projects_wrapper.data('view_mode')
+            title: $projectsWrapper.data('title'),
+            view_mode: $projectsWrapper.data('view_mode')
         },
-        success: function (data) {
-            $projects_wrapper.html(data);
-        }
+        success: (data) => $projectsWrapper.html(data)
     });
 };

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
     <head>
         <title>{{ $vs->title }}</title>
         <meta charset="utf-8">
@@ -23,7 +23,7 @@
         @endif
         {!! ($vs->css)('assets/css/application') !!}
     </head>
-    <body class="{{ $theme }} {{ $current_page }} {{ $sidebar_class }} {{ $sidebar_collapsed }}"
+    <body class="{{ $bodyClass }}"
           data-collapse_sidebar_url="{{ route('user.settings.sidebar-collapse') }}"
           data-get_emojis_url="{{ route('system.emojis') }}"
     >
@@ -45,7 +45,7 @@
         {!! ($vs->js)('assets/vendor/uikit/uikit.min') !!}
         {!! ($vs->js)('assets/vendor/summernote/summernote-lite') !!}
         @if (env('PUSHER_ENABLED'))
-            {!! ($vs->js)('js/app.js') !!}
+            {!! ($vs->js)('js/app') !!}
         @endif
         @yield('js')
         @if ($vs->user instanceof \App\Models\User\User)

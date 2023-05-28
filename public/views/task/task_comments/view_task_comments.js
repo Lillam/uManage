@@ -14,7 +14,7 @@ $(() => {
     // into a summernote wysiwyg.
     $body.on('click', '.comment', function (event) {
         let $this = $(this);
-        handle_summernote_open('comment', $this.html());
+        handleSummernoteOpen('comment', $this.html());
         $this.parent().find('.comment_options').removeClass('uk-hidden');
         // when clicking on the comment segment, we are going to want to place the cursor at the end of the content...
         // there shouldn't be any content to begin with however, this is a form of standardisation across the board.
@@ -42,7 +42,7 @@ $(() => {
         // if the element has the class of cancel, then we are simply going to want to pass in the summernote object
         // so that we are able to do something particular with it, and revert back to what the content once used to be
         // rather than viewing what the content is currently set to be.
-        handle_summernote_leave($comment, handle, 'comment');
+        handleSummernoteLeave($comment, handle, 'comment');
     });
 
     // when the user clicks on edit or delete comment. then we are going to decide which action to take, if the user has
@@ -105,6 +105,12 @@ var view_task_comments = function (direction = false) {
             $('.reload.view_task_comments').find('i').removeClass('fa-spin');
         }
     });
+
+    // request().get(url, { task_id, project_id, page })
+    //     .then((data) => {
+    //         $task_comments.html(data.html);
+    //         $('.reload.view_task_comments').find('i').removeClass('fa-spin');
+    //     });
 };
 
 /**

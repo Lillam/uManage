@@ -17,17 +17,17 @@
         <div class="uk-grid uk-grid-small day_ratings" uk-grid>
             <div class="uk-width-1-3@l uk-width-1-1">
                 <div class="day_rating good uk-flex uk-flex-middle">
-                    <p><span>{{ $good_days }}</span>Amazing Days</p>
+                    <p><span>{{ $goodDays }}</span>Amazing Days</p>
                 </div>
             </div>
             <div class="uk-width-1-3@l uk-width-1-2@s uk-width-1-1">
                 <div class="day_rating average uk-flex uk-flex-middle">
-                    <p><span >{{ $average_days }}</span>Average Days</p>
+                    <p><span >{{ $averageDays }}</span>Average Days</p>
                 </div>
             </div>
             <div class="uk-width-1-3@l uk-width-1-2@s uk-width-1-1">
                 <div class="day_rating bad uk-flex uk-flex-middle">
-                    <p><span>{{ $bad_days }}</span>Bad Days</p>
+                    <p><span>{{ $badDays }}</span>Bad Days</p>
                 </div>
             </div>
         </div>
@@ -35,8 +35,8 @@
     <div class="section">
         <h2 class="section_title">Last 5 Days Journals</h2>
         <div class="uk-grid uk-grid-small" uk-grid>
-            @foreach ($last_5_days as $journal)
-                <div class="uk-width-1-5@l uk-width-1-4@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
+            @foreach ($last5Days as $journal)
+                <div class="uk-width-1-5@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
                     <a href="{{ route('journals.journal', $journal->when->format('Y-m-d')) }}">
                         <div class="box_wrapper no-border">
                             <h2>{!! $journal->when->format('l dS Y') !!}</h2>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="uk-flex">
                                 <div class="uk-width-expand">
-                                    <span class="journal_rating_badge {{ $journal?->rating === null ? 'journal_placeholder_rating' : '' }}">
+                                    <span class="journal_rating_badge {{ $journal->rating === null ? 'journal_placeholder_rating' : '' }}">
                                         {{-- If there is no rating for the day in question, then we are simply going to
                                         display a placeholder, these will be different and outlined rather than a filled
                                         icon so that there is a difference between the two elements --}}

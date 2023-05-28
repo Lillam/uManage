@@ -12,7 +12,7 @@ $(() => {
         // save the content that is originally stored inside this box wrapper, so that we can reference it when the user
         // decides to walk away from the content, and we can return the content back to what it was prior to the user
         // pressing cancel, or save.
-        cache_save(original_class, original_content);
+        cache().set(original_class, original_content);
 
         // if the box contains a placeholder, then we are going to want to get rid of the placeholder so that the user
         // can begin typing like normal without the need of a placeholder being there.
@@ -52,7 +52,7 @@ $(() => {
         // when the user has opted to save, whether they have done anything specific or not, the value inside the cache,
         // is going to want to be deleted. we no longer need to reference what it might have been and can continue
         // as normal.
-        cache_delete(target_class);
+        cache().remove(target_class);
     });
 
     // when the user clicks on cancel of the above elements, overall, highest, or lowest point then we should assume
@@ -67,8 +67,8 @@ $(() => {
         $target.summernote('destroy');
         $this.parent().addClass('uk-hidden');
 
-        $target.html(cache_get(target_class));
-        cache_delete(target_class);
+        $target.html(cache().get(target_class));
+        cache().remove(target_class);
     });
 
     // this functionality is specifically for deleting a journal entry when on the page, pressing this will kick the

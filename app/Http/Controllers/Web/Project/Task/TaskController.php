@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use Throwable;
-use App\Models\Task\Task;
-use Illuminate\View\View;
-use App\Models\Task\TaskLog;
-use Illuminate\Http\Request;
-use App\Models\Project\Project;
-use App\Models\Task\TaskStatus;
 use App\Events\Task\TaskMessage;
-use App\Models\Task\TaskPriority;
-use Illuminate\Http\JsonResponse;
-use App\Models\Task\TaskIssueType;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Web\Controller;
+use App\Http\Controllers\Web\Project\ProjectController;
+use App\Models\Project\Project;
 use App\Models\Project\ProjectSetting;
-use Illuminate\Contracts\View\Factory;
+use App\Models\Task\Task;
+use App\Models\Task\TaskIssueType;
+use App\Models\Task\TaskLog;
+use App\Models\Task\TaskPriority;
+use App\Models\Task\TaskStatus;
+use App\Repositories\Project\ProjectSettingRepository;
 use App\Repositories\Task\TaskRepository;
 use App\Repositories\TimeLog\TimeLogRepository;
-use App\Repositories\Project\ProjectSettingRepository;
-use App\Http\Controllers\Web\Project\ProjectController;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
+use Throwable;
 
 class TaskController extends Controller
 {
@@ -36,9 +36,7 @@ class TaskController extends Controller
     public function _viewTasksGet(Request $request): Factory|View
     {
         $this->vs->set('title', '- Tasks')
-                 ->set('current_page', 'page.projects.tasks.list');
-
-        \Illuminate\Support\Facades\Request::method();
+                 ->set('currentPage', 'page.projects.tasks.list');
 
         return view('task.view_tasks');
     }
@@ -113,7 +111,7 @@ class TaskController extends Controller
         $task->total_time_logged = TimeLogRepository::getTotalTimeLogged($task);
 
         $this->vs->set('title', " - Task - {$task->name}")
-                 ->set('current_page', 'page.projects.tasks.list');
+                 ->set('currentPage', 'page.projects.tasks.list');
 
         return view('task.view_task', compact(
             'task',
@@ -254,7 +252,7 @@ class TaskController extends Controller
             ->with([
                 'project',
                 'project.projectSetting',
-                'task_status'
+                'taskStatus'
             ])
             ->where('id', '=', $task_id)
             ->first();

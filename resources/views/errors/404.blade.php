@@ -15,7 +15,7 @@
                 {{-- Error Title --}}
                 <h1><span>Error</span> 404</h1>
                 <hr />
-                <p>My apologies, I know you're trying to be productive, but please try and find the right place you're looking for, huh? you ain't gon be productive on this beautiful looking page.</p>
+                <p>{{ trans('error.404') }}</p>
                 <a href="{{ url()->previous() }}" class="uk-button">Back</a>
             </div>
         </div>

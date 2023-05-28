@@ -150,16 +150,12 @@ $(() => {
 const viewTimeLogs = function (date = false, direction = false) {
     let viewTimeLogsUrl = $('.time_log_calendar').data('view_time_logs_url');
 
-    $.ajax({
-        method: 'get',
-        url: viewTimeLogsUrl,
-        data: { date: date, direction: direction },
-        success: function (data) {
+    request().get(viewTimeLogsUrl, { date, direction })
+        .then(data => {
             $('.time_logs').html(data.html);
             $('.time_log_calendar').attr('data-current_date', data.date);
             $('.date').html(data.title);
-        }
-    });
+        })
 };
 
 /**
@@ -171,17 +167,14 @@ const viewTimeLogs = function (date = false, direction = false) {
 */
 const delete_time_log = function (time_log_id) {
     let delete_time_log_url = $('.time_log_calendar').data('delete_time_log_url');
-    $.ajax({
-        method: 'get',
-        url: delete_time_log_url,
-        data: { time_log_id: time_log_id },
-        success: function (data) {
+
+    request().get(delete_time_log_url, { time_log_id })
+        .then(data => {
             // we only want to remove this from the view if the user has had the necessary permissions to do so,
             // otherwise we are just going to completely return void, and let the user know that nothing has happened
             // and that they did not have the necessary permissions to do this.
-            if (typeof (data.success) !== "undefined") {
-                $('.time_log_entry[data-time_log_id="' + time_log_id + '"]').remove();
+            if (typeof data.success !== "undefined") {
+                $(`.time_log_entry[data-time_log_id="${time_log_id}"]`).remove();
             }
-        }
-    });
+        })
 };

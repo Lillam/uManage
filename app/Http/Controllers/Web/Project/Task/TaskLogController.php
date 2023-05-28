@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use Throwable;
-use Illuminate\View\View;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Task\TaskLog;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\Factory;
 use App\Repositories\Task\TaskLogRepository;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\View\View;
+use Throwable;
 
 class TaskLogController extends Controller
 {
@@ -21,38 +21,40 @@ class TaskLogController extends Controller
     */
     public function _ajaxViewTaskLogsGet(Request $request): JsonResponse
     {
-        $task_id = (int) $request->input('task_id');
+        $taskId = (int) $request->input('task_id');
         $page    = (int) $request->input('page') ?: 1;
         $limit   = 5;
         $offset  = $limit * ($page - 1);
 
         // acquire the total number of task logs in the system so that we are going to be able to calculate how many
         // pages there are. if (the current page is the page we are on, then the pagination will need to be cancelled
-        $task_log_count = TaskLog::query()
-            ->where('task_id', '=', $task_id)
+        $taskLogCount = TaskLog::query()
+            ->where('task_id', '=', $taskId)
             ->count();
 
         // acquire the total number of pages that we are going to be able to show, this will be needed to see if we can
         // go left or right.
-        $total_pages = ceil($task_log_count / $limit);
+        $totalPages = ceil($taskLogCount / $limit);
 
         // acquire all the task logs that are sitting in the system against this particular task, and then we are going
         // to offset by a page, as well as limit it to a small number so that the user will be able to flick through
         // the logs in the system.
-        $task_logs = TaskLog::query()
-            ->where('task_id', '=', $task_id)
+        $taskLogs = TaskLog::query()
+            ->where('task_id', '=', $taskId)
             ->orderBy('when', 'desc')
             ->limit($limit)
             ->offset($offset)
             ->get();
 
-        $task_logs = TaskLogRepository::sortTaskLogs($task_logs->keyBy('id'));
+        // throw the task logs into the sort task logs repository in order to get this ordered in the way that the
+        // frontend is desiring the data.
+        $taskLogs = TaskLogRepository::sortTaskLogs($taskLogs->keyBy('id'));
 
         return response()->json([
             'html' => view('library.task.task_logs.view_task_logs', compact(
-                'task_logs',
+                'taskLogs',
                 'page',
-                'total_pages'
+                'totalPages'
             ))->render()
         ]);
     }
@@ -72,16 +74,16 @@ class TaskLogController extends Controller
             ->select('*')
             ->with([
                 'task',
-                'task_checklist',
-                'task_checklist_item',
-                'task_comment',
+                'taskChecklist',
+                'taskChecklistItem',
+                'taskComment',
                 'project',
                 'user'
             ])
             ->orderBy('when', 'desc')
-            ->simplePaginate(25);
+            ->simplePaginate(10);
 
-        $this->vs->set('current_page', 'page.projects.tasks.activity')
+        $this->vs->set('currentPage', 'page.projects.tasks.activity')
                  ->set('title',        '- Task Activity');
 
         return view('task.task_log_activity.view_task_log_activity', compact(

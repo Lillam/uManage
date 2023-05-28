@@ -3,6 +3,7 @@
 namespace App\Helpers\DateTime;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 
 class DateTimeHelper
 {
@@ -42,6 +43,15 @@ class DateTimeHelper
         }
 
         return Carbon::parse($parseableDate);
+    }
+
+    public static function greaterThanNow(string|DateTimeInterface $dateTime): bool
+    {
+        $dateTime = ! $dateTime instanceof DateTimeInterface
+            ? Carbon::parse($dateTime)
+            : $dateTime;
+
+        return $dateTime > Carbon::now();
     }
 
     /**

@@ -17,16 +17,30 @@ class ViewServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             return $view->with([
-                'vs'                => $view_service = app('vs')->all(),
-                'theme'             => $view_service->application_theme,
-                'current_page'      => $view_service->current_page,
-                'sidebar_class'     => $view_service->hasSidebar ? 'has-sidebar' : '',
-                'sidebar_collapsed' => $view_service->user?->user_setting?->sidebar_collapsed ? 'sidebar-closed' : ''
+                'vs'        => $viewService = app('vs')->all(),
+                'bodyClass' => $this->getBodyClass($viewService)
             ]);
         });
     }
 
-    public function boot()
+    /**
+     * Get all the body classes together that the frontend will be using in order to render the page to the user in the
+     * way that is needed. Inclusion of the theme class, whether the sidebar has been closed or not and more.
+     *
+     * @param object $viewService
+     * @return string
+     */
+    private function getBodyClass(object $viewService): string
+    {
+        return implode(' ', [
+            $viewService->applicationTheme,
+            $viewService->currentPage,
+            $viewService->hasSidebar ? 'has-sidebar' : '',
+            $viewService->user?->user_setting?->sidebar_collapsed ? 'sidebar-closed' : ''
+        ]);
+    }
+
+    public function boot(): void
     {
 
     }

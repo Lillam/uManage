@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Web\Store;
 
-use App\Models\User\User;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Store\StoreProduct;
-use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Contracts\View\Factory;
+use App\Models\User\User;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class StoreProductController extends Controller
 {
@@ -20,7 +20,7 @@ class StoreProductController extends Controller
     {
         parent::__construct();
 
-        $this->vs->set('has_sidebar', false);
+        $this->vs->set('hasSidebar', false);
     }
 
     /**
@@ -49,7 +49,7 @@ class StoreProductController extends Controller
         });
 
         $this->vs->set('title', '- Store Products')
-                 ->set('current_page', 'page.store');
+                 ->set('currentPage', 'page.store');
 
         return view('store.store_product.view_store_products', compact(
             'storeProducts',
@@ -84,7 +84,7 @@ class StoreProductController extends Controller
         $storeProduct->package = json_decode($storeProduct->package);
 
         $this->vs->set('title', " - Store Products - {$storeProduct->name}")
-                 ->set('current_page', 'page.store');
+                 ->set('currentPage', 'page.store');
 
         return view('store.store_product.view_store_product', compact(
             'storeProduct',

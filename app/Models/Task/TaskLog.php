@@ -105,7 +105,7 @@ class TaskLog extends Model
     * @param null|int $type
     * @return string[]|string
     */
-    public function getTypes($type = null)
+    public function getTypes(?int $type = null): array|string
     {
         $types = [
             self::TASK_MAKE                   => 'TASK_MAKE',

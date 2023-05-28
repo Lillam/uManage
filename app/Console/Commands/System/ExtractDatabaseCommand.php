@@ -51,22 +51,18 @@ class ExtractDatabaseCommand extends Command
     public function handle(): int
     {
         foreach ([
-            new AccountLocalStoreJob('external/accounts.json'),
-            new JournalDreamLocalStoreJob('external/dream_journals.json'),
-            new JournalLocalStoreJob('external/journals.json'),
-            new ProjectLocalStoreJob('external/projects.json'),
-            new TaskLocalStoreJob('external/tasks.json')
-        ] as $job) {
-            // get the class of the job that's currently being run so that we're able to reference the particular job
-            // within the logs.
-            $class = get_class($job);
-
+            AccountLocalStoreJob::class      => 'external/accounts.json',
+            JournalDreamLocalStoreJob::class => 'external/dream_journals.json',
+            JournalLocalStoreJob::class      => 'external/journals.json',
+            ProjectLocalStoreJob::class      => 'external/projects.json',
+            TaskLocalStoreJob::class         => 'external/tasks.json',
+        ] as $job => $destination) {
             // log and dispatch the job in question. This will simply perform the handle method of all the above...
             // which in turn dispatches a local store of all the data that resides in the database into a new location
             // under /external.
-            $this->info("Dispatching $class...");
-            dispatch($job);
-            $this->info("Dispatched $class...");
+            $this->info("Dispatching $job...");
+            dispatch(new $job($destination));
+            $this->info("Dispatched $job...");
         }
 
         return 0;

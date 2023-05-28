@@ -2,7 +2,7 @@
 
 namespace App\Exceptions\Solutions;
 
-use Facade\IgnitionContracts\Solution;
+use Spatie\Ignition\Contracts\Solution;
 
 class UrlGeneratorSolution implements Solution
 {

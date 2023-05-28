@@ -31,6 +31,7 @@ class CreateAccountsTable extends Migration
             $table->string('account', 191);
             $table->string('application', 191)->nullable();
             $table->text('password');
+            $table->text('two_factor_recovery_code')->default('');
             $table->smallInteger('order');
         });
 

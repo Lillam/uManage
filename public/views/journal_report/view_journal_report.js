@@ -10,13 +10,13 @@ $(() => {
     $body.on('click', '.journal_report_calendar_left, .journal_report_calendar_right', function (event) {
         let $this = $(this),
             direction = $this.hasClass('journal_report_calendar_left') ? 'left' : 'right';
-        load_journal_report(direction);
+        loadJournalReport(direction);
     });
 
     // when the page first loads, we are going to want to load in all the journal reports for the date that will be
     // set against the journal reports wrapper... if one isn't set then we're essentially gathering all journal data
     // in report format (for this month)
-    load_journal_report();
+    loadJournalReport();
 });
 
 /**
@@ -28,17 +28,17 @@ $(() => {
 *
 * @param direction | (string)
 */
-var load_journal_report = function (direction = null) {
-    let $journal_reports = $('.journal_reports'),
-        view_journals_report_url = $journal_reports.data('view_journals_report_url'),
-        date = $journal_reports.attr('data-date'),
-        $statistic_1_star_days = $('.statistic_1_star_days'),
-        $statistic_2_star_days = $('.statistic_2_star_days'),
-        $statistic_3_star_days = $('.statistic_3_star_days'),
-        $statistic_4_star_days = $('.statistic_4_star_days'),
-        $statistic_5_star_days = $('.statistic_5_star_days'),
-        $statistic_achievements = $('.statistic_achievements'),
-        $journal_report_date = $('.journal_report_date');
+const loadJournalReport = function (direction = null) {
+    let $journalReports = $('.journal_reports'),
+        view_journals_report_url = $journalReports.data('view_journals_report_url'),
+        date = $journalReports.attr('data-date'),
+        $statistic1StarDays = $('.statistic_1_star_days'),
+        $statistic2StarDays = $('.statistic_2_star_days'),
+        $statistic3StarDays = $('.statistic_3_star_days'),
+        $statistic4StarDays = $('.statistic_4_star_days'),
+        $statistic5StarDays = $('.statistic_5_star_days'),
+        $statisticAchievements = $('.statistic_achievements'),
+        $journalReportDate = $('.journal_report_date');
 
     $.ajax({
         method: 'get',
@@ -62,7 +62,7 @@ var load_journal_report = function (direction = null) {
                 'ratings'
             ]);
 
-            // load a rader report graph which gives an overall visual view on how the month is going and has gone
+            // load a radar report graph which gives an overall visual view on how the month is going and has gone
             // and spreads out an instant visual for achievements for this particular month. (patterns can be spotted
             // looking from month to month)
             journal_report_graph('journal_report_achievements_graph', 'radar', data, [
@@ -77,28 +77,22 @@ var load_journal_report = function (direction = null) {
                 'highest_point', 'lowest_point'
             ]);
 
-            $statistic_1_star_days.html(data.total_1_star_days);
-            $statistic_2_star_days.html(data.total_2_star_days);
-            $statistic_3_star_days.html(data.total_3_star_days);
-            $statistic_4_star_days.html(data.total_4_star_days);
-            $statistic_5_star_days.html(data.total_5_star_days);
-            $statistic_achievements.html(data.total_achievements);
+            $statistic1StarDays.html(data.total_1_star_days);
+            $statistic2StarDays.html(data.total_2_star_days);
+            $statistic3StarDays.html(data.total_3_star_days);
+            $statistic4StarDays.html(data.total_4_star_days);
+            $statistic5StarDays.html(data.total_5_star_days);
+            $statisticAchievements.html(data.total_achievements);
 
-            $journal_reports.attr('data-date', data.date);
-            $journal_report_date.html(data.date_display);
+            $journalReports.attr('data-date', data.date);
+            $journalReportDate.html(data.date_display);
 
             // if the direction is not null, and we have a direction set left or right, then we are going to be
-            // putting in the url paramaters, the date of which we are looking at, so that when we next refresh, or
+            // putting in the url parameters, the date of which we are looking at, so that when we next refresh, or
             // decide to go back a page, then you're always going to be looking at the right view without needing too
             // much annoying back and forth clicking
             if (direction !== null) {
-                let params = new URLSearchParams(window.location.search);
-                params.set('date', data.date);
-                history.pushState(
-                    '',
-                    '',
-                    window.location.origin + window.location.pathname + '?' + params.toString() + window.location.hash
-                );
+                addToHistory('date', data.date);
             }
         }
     });
@@ -117,7 +111,7 @@ var load_journal_report = function (direction = null) {
 *                      | (string) ['highest_point']
 *                      | (string) ['lowest_point']
 */
-var journal_report_graph = function (
+const journal_report_graph = function (
     graph_element,
     graph_type,
     data,
@@ -126,12 +120,12 @@ var journal_report_graph = function (
     if (window[`${graph_element}_graph`])
         window[`${graph_element}_graph`].destroy();
 
-    let data_sets = [];
+    let dataSets = [];
 
     // if ratings exists in the includes array, then we are going to push this particular element to the array in
     // question so that we can report back in the graph, this specific set of data.
     if (includes.includes('ratings')) {
-        data_sets.push({
+        dataSets.push({
             label:           'Rating',
             data:            data.journal_ratings,
             backgroundColor: data.journal_ratings_colors,
@@ -142,7 +136,7 @@ var journal_report_graph = function (
     // if achievements exists in the includes array, then wea re going to push this particular element to the array in
     // question so that we can report back in the graph, this specific set of data.
     if (includes.includes('achievements')) {
-        data_sets.push({
+        dataSets.push({
             label:           'Achievements',
             data:            data.journal_achievements,
             backgroundColor: data.journal_achievements_colors[0],
@@ -151,7 +145,7 @@ var journal_report_graph = function (
     }
 
     if (includes.includes('highest_point')) {
-        data_sets.push({
+        dataSets.push({
             label:           'Highest Points Character Count',
             data:            data.journal_highest_word_counts,
             backgroundColor: data.journal_highest_word_counts_colors,
@@ -160,7 +154,7 @@ var journal_report_graph = function (
     }
 
     if (includes.includes('lowest_point')) {
-        data_sets.push({
+        dataSets.push({
             label:           'Lowest Points Character Count',
             data:            data.journal_lowest_word_counts,
             backgroundColor: data.journal_lowest_word_counts_colors,
@@ -172,7 +166,7 @@ var journal_report_graph = function (
         type: graph_type,
         data: {
             labels: data.labels,
-            datasets: data_sets,
+            datasets: dataSets,
         }
     };
 

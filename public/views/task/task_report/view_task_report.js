@@ -11,7 +11,7 @@ const view_task_report = function () {
         url: view_task_report_url,
         data: {},
         success: function (data) {
-            setup_chart('tasks_in_todo', 'doughnut', {
+            setupChart('tasks_in_todo', 'doughnut', {
                 datasets: [{
                     data: data.tasks_in_todo,
                     backgroundColor: data.tasks_in_todo_colors,
@@ -19,7 +19,7 @@ const view_task_report = function () {
                 }],
                 labels: data.tasks_in_todo_labels
             });
-            setup_chart('tasks_in_progress', 'doughnut', {
+            setupChart('tasks_in_progress', 'doughnut', {
                 datasets: [{
                     data: data.tasks_in_progress,
                     backgroundColor: data.tasks_in_progress_colors,
@@ -27,7 +27,7 @@ const view_task_report = function () {
                 }],
                 labels: data.tasks_in_progress_labels
             });
-            setup_chart('tasks_in_completed', 'doughnut', {
+            setupChart('tasks_in_completed', 'doughnut', {
                 datasets: [{
                     data: data.tasks_in_completed,
                     backgroundColor: data.tasks_in_completed_colors,
@@ -35,7 +35,7 @@ const view_task_report = function () {
                 }],
                 labels: data.tasks_in_completed_labels
             });
-            setup_chart('tasks_in_archived', 'doughnut', {
+            setupChart('tasks_in_archived', 'doughnut', {
                 datasets: [{
                     data: data.tasks_in_archived,
                     backgroundColor: data.tasks_in_archived_colors,

@@ -8,7 +8,7 @@ $(() => {
     // updates and showing the other users of the system the types of things that are changing on the system.
     $body.on('click', '.content', function (event) {
         let $this = $(this);
-        handle_summernote_open('content', $this.html().trim());
+        handleSummernoteOpen('content', $this.html().trim());
         $this.parent().find('.content_options').removeClass('uk-hidden');
         $this.summernote(window.summernote_options).next().find('.note-editable').placeCursorAtEnd();
     });
@@ -29,6 +29,6 @@ $(() => {
 
         $this.parent().addClass('uk-hidden');
 
-        handle_summernote_leave($content, handle, field, update_on_save);
+        handleSummernoteLeave($content, handle, field, update_on_save);
     });
 });

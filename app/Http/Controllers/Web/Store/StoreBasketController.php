@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\Web\Store;
 
-use Exception;
-use Illuminate\View\View;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Store\StoreBasket;
 use App\Models\Store\StoreProduct;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Contracts\View\Factory;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class StoreBasketController extends Controller
 {
@@ -22,7 +22,7 @@ class StoreBasketController extends Controller
     {
         parent::__construct();
 
-        $this->vs->set('has_sidebar', false);
+        $this->vs->set('hasSidebar', false);
     }
 
     /**
@@ -32,7 +32,7 @@ class StoreBasketController extends Controller
     public function _viewStoreBasketGet(Request $request): Application|Factory|View
     {
         $this->vs->set('title', '- Store Basket')
-                 ->set('current_page', 'page.store');
+                 ->set('currentPage', 'page.store');
 
         return view('store.store_basket.view_store_basket');
     }

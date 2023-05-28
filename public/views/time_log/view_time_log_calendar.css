@@ -123,6 +123,7 @@
     border-radius: 4px;
     position: relative;
     word-break: break-word;
+    font-size: 12px;
 }
 
 .time_logs .today .time_log_entry {

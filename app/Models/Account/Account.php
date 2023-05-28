@@ -24,6 +24,7 @@ class Account extends Model
         'account',
         'application',
         'password',
+        'two_factor_recovery_code',
         'order'
     ];
 
@@ -31,11 +32,12 @@ class Account extends Model
     * @var array
     */
     protected $casts = [
-        'user_id'     => 'integer',
-        'account'     => 'string',
-        'application' => 'string',
-        'password'    => 'string',
-        'order'       => 'integer'
+        'user_id'                  => 'integer',
+        'account'                  => 'string',
+        'application'              => 'string',
+        'password'                 => 'string',
+        'two_factor_recovery_code' => 'string',
+        'order'                    => 'integer'
     ];
 
     /**
@@ -70,6 +72,18 @@ class Account extends Model
     public function getDecryptedPassword(): string
     {
         return decrypt($this->password);
+    }
+
+    /**
+     * @return string
+     */
+    public function getDecryptedTwoFactorAuthenticationRecovery(): string
+    {
+        if (! $this->two_factor_recovery_code) {
+            return '';
+        }
+
+        return decrypt($this->two_factor_recovery_code);
     }
 
     /**

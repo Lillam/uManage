@@ -22,7 +22,7 @@ be rendering this particular checklist sets of elements... --}}
                                 {{-- Deleting Task Checklists, JavaScript is attached to this particular
                                 Element, if you are changing the name of this class, this will need to be
                                 Changed within the javascript as well... --}}
-                                <li><a class="delete_task_checklist"><i class="fa fa-trash"></i> Delete</a></li>
+                                <li><a class="delete_task_checklist"><i class="fa fa-trash-alt"></i> Delete</a></li>
                             </ul>
                         </div>
                     </div>

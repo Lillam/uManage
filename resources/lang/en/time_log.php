@@ -3,6 +3,6 @@
 return [
     'sidebar' => [
         'calendar' => 'Calendar',
-        'report'   => 'Report',
+        'report'   => 'Monthly Report',
     ],
 ];

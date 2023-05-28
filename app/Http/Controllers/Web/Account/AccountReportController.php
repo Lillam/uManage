@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Web\Account;
 
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class AccountReportController extends Controller

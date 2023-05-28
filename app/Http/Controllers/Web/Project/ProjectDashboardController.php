@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web\Project;
 
-use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
-use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 
 class ProjectDashboardController extends Controller
 {
@@ -17,9 +17,9 @@ class ProjectDashboardController extends Controller
      */
     public function _viewProjectsDashboardGet(): Application|Factory|View
     {
-        $this->vs->set('has_title', false)
+        $this->vs->set('hasTitle', false)
                  ->set('title', '- Projects - Dashboard')
-                 ->set('current_page', 'page.projects.dashboard');
+                 ->set('currentPage', 'page.projects.dashboard');
 
         return view('project.view_project_dashboard');
     }

@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\Web\Journal;
 
+use DateTime;
+use Illuminate\Http\RedirectResponse;
 use Throwable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Journal\Journal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
+use App\Http\Controllers\Web\Controller;
 use Illuminate\Contracts\Foundation\Application;
 
 class JournalController extends Controller
@@ -27,10 +29,27 @@ class JournalController extends Controller
     */
     public function _viewJournalsGet(Request $request): Application|Factory|View
     {
+//        $journals = Journal::query()->orWhere('lowest_point', 'LIKE', '%gril%')
+//                                    ->orWhere('highest_point', 'LIKE', '%gril%')
+//                                    ->orWhere('overall', 'LIKE', '%gril%')
+//                                    ->orderBy('when')
+//                                    ->paginate(1);
+//
+//        $target = $journals->items()[0];
+//
+//        echo "<h1>{$target->when}</h1>";
+//        echo "<br />";
+//        echo $target->overall;
+//        echo "<br />";
+//        echo $target->lowest_point;
+//        echo "<br />";
+//        echo $target->highest_point;
+//        die();
+
         $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', "Journals - {$this->vs->get('user')->getFullName()}")
-                 ->set('current_page', 'page.journals.calendar');
+                 ->set('currentPage', 'page.journals.calendar');
 
         return view('journal.view_journals', compact(
             'date'
@@ -68,7 +87,7 @@ class JournalController extends Controller
 
         // grab the total amount of days that are in this particular month from the date object, from the start of the
         // month.
-        $days_in_month = $start_of_month->daysInMonth;
+        $daysInMonth = $start_of_month->daysInMonth;
 
         // acquire the starting day in the format of text (Saturday, Sunday) etc.
         $starting_day = $start_of_month->format('l');
@@ -89,15 +108,13 @@ class JournalController extends Controller
             ->where('when', '>=', Carbon::parse($date)->startOfMonth()->format('Y-m-d'))
             ->where('when', '<=', Carbon::parse($date)->endOfMonth()->format('Y-m-d'))
             ->get()
-            ->keyBy(function (Journal $journal) {
-                return $journal->when->format('Y-m-d');
-            });
+            ->keyBy(fn (Journal $journal) => $journal->when->format('Y-m-d'));
 
         $journal_count = $journals->count();
 
-        for ($day_increment = 1; $day_increment < ($days_in_month + 1); ++ $day_increment) {
+        for ($dayIncrement = 1; $dayIncrement < ($daysInMonth + 1); ++ $dayIncrement) {
             // getting our journal key...
-            $journal_key = "{$date->format('Y-m')}-" . ($day_increment < 10 ? '0' : '') . "$day_increment";
+            $journal_key = "{$date->format('Y-m')}-" . ($dayIncrement < 10 ? '0' : '') . "$dayIncrement";
 
             // if the day key is 7, then we have reached the end and should be set back to the beginning. we don't have a
             // 7 value in the day key... thus we are needing a reset.
@@ -106,7 +123,7 @@ class JournalController extends Controller
             $reference_day = $days[$day_key];
 
             $dates[$journal_key] = (object) [
-                'title' => "$reference_day <span class='uk-text-small'>{$date->format('M')} $day_increment</span>",
+                'title' => "$reference_day <span class='uk-text-small'>{$date->format('M')} $dayIncrement</span>",
                 'journal' => ! empty($journals->get($journal_key)) ? $journals->get($journal_key) : null
             ];
 
@@ -119,7 +136,7 @@ class JournalController extends Controller
             $day_key += 1;
         }
 
-        $journal_percentage = ceil(round(($journal_count / ($day_increment - 1)) * 100));
+        $journal_percentage = ceil(round(($journal_count / ($dayIncrement - 1)) * 100));
 
         return response()->json([
             'date'               => $date->format('Y-m'),
@@ -136,17 +153,23 @@ class JournalController extends Controller
     * happens we are just going to display the first journal that we get for this url, and if it doesn't exist, we are
     * just going to create the journal entry...
     *
-    * @param $date
-    * @return Application|Factory|View
+    * @param string $date
+    * @return RedirectResponse|Application|Factory|View
     */
-    public function _viewJournalGet($date): Application|Factory|View
+    public function _viewJournalGet(string $date): RedirectResponse|Application|Factory|View
     {
-        $user    = $this->vs->get('user');
-        $user_id = $user->id;
+        // if the date in which the user has tried to access does not yet equate to today, then we're going to kick the
+        // user back to the page prior to this, as we're not going to want to create the particular date yet in the
+        // database.
+        if (DateTimeHelper::greaterThanNow($date)) {
+            return redirect()->route('journals.calendar');
+        }
 
+        $user    = $this->vs->get('user');
+        $userId  = $user->id;
         $journal = Journal::query()
             ->where('when', '=', $date)
-            ->where('user_id', '=', $user_id)
+            ->where('user_id', '=', $userId)
             ->first();
 
         // Acquire the journal page from yesterday, this will be taking the data that is passed, and then making a new
@@ -163,14 +186,14 @@ class JournalController extends Controller
             Carbon::parse($date)->addDay()->format('Y-m-d')
         );
 
-        // if we do have a journal entry, then... we are quite possibly going to need to make it so that we can reference
-        // it on the frontend. as the id of the journal will be required for the achievements concept.
+        // if we do have a journal entry, then... we are quite possibly going to need to make it so that we can
+        // reference it on the frontend. as the id of the journal will be required for the achievements concept.
         if (! $journal instanceof Journal)
-            $journal = Journal::query()->create(['user_id' => $user_id, 'when' => $date]);
+            $journal = Journal::query()->create(['user_id' => $userId, 'when' => $date]);
 
         $this->vs->set('title', "Journal - {$user->getFullName()}'s $date")
-            ->set('current_page',
-                (new \DateTime)->format('Y-m-d') === $journal->when->format('Y-m-d')
+            ->set('currentPage',
+                (new DateTime)->format('Y-m-d') === $journal->when->format('Y-m-d')
                     ? 'page.journals.journal.today'
                     : 'page.journals.journal'
             );
@@ -194,15 +217,17 @@ class JournalController extends Controller
     {
         $journalId = $request->input('journal_id');
 
-        $field = $request->input('field');
-        $value = $request->input('value');
+        ['field' => $field, 'value' => $value] = $request->only('field', 'value');
 
-        $journal = Journal::query()->where('id', '=', $journalId)->first();
+        $journal = Journal::query()
+            ->where('id', '=', $journalId)
+            ->first();
+
         $journal->$field = $value;
         $journal->save();
 
         return response()->json([
-            'response' => "successfully updated the field'"
+            'response' => "successfully updated the journal's $field value"
         ]);
     }
 

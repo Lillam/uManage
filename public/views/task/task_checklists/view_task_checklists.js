@@ -30,8 +30,8 @@ $(() => {
 
         $this.next().removeClass('uk-hidden');
 
-        if (! cache_get(`task_checklist_${task_checklist_id}`))
-            cache_save(`task_checklist_${task_checklist_id}`, $this.html().trim());
+        if (! cache().get(`task_checklist_${task_checklist_id}`))
+            cache().set(`task_checklist_${task_checklist_id}`, $this.html().trim());
     });
 
     // On the blur of checklist names, this will look inside the cache for this element, if we have a value stored in
@@ -43,7 +43,7 @@ $(() => {
         let $this = $(this),
             task_checklist_id = $this.closest('.task_checklist').data('task_checklist_id');
 
-        if (cache_get(`task_checklist_${task_checklist_id}`) === $this.html().trim())
+        if (cache().get(`task_checklist_${task_checklist_id}`) === $this.html().trim())
             $this.next().addClass('uk-hidden');
     });
 
@@ -62,7 +62,7 @@ $(() => {
 
         if (
             $this.html().trim() !== '' &&
-            $this.html().trim() !== cache_get(`task_checklist_${task_checklist_id}`)
+            $this.html().trim() !== cache().get(`task_checklist_${task_checklist_id}`)
         ) {
             $this.next().find('.save_task_checklist_name').removeClass('disabled');
         } else {
@@ -94,7 +94,7 @@ $(() => {
                 },
                 success: function (data) {
                     ajax_message_helper($('.ajax_message_helper'), data);
-                    cache_delete(`task_checklist_${task_checklist_id}`);
+                    cache().remove(`task_checklist_${task_checklist_id}`);
                     $this.parent().addClass('uk-hidden');
                     $this.addClass('disabled');
 
@@ -111,8 +111,8 @@ $(() => {
     $body.on('click', '.cancel_task_checklist_name', function (event) {
         let $this = $(this),
             task_checklist_id = $this.closest('.task_checklist').data('task_checklist_id');
-        $this.parent().prev().html(cache_get(`task_checklist_${task_checklist_id}`));
-        cache_delete(`task_checklist_${task_checklist_id}`);
+        $this.parent().prev().html(cache().get(`task_checklist_${task_checklist_id}`));
+        cache().remove(`task_checklist_${task_checklist_id}`);
         $this.prev().addClass('disabled');
         $this.parent().addClass('uk-hidden');
     });
@@ -312,8 +312,8 @@ $(() => {
 
         $this.next().removeClass('uk-hidden');
 
-        if (! cache_get(`task_checklist_item_${task_checklist_item_id}`))
-            cache_save(`task_checklist_item_${task_checklist_item_id}`, $this.html().trim());
+        if (! cache().get(`task_checklist_item_${task_checklist_item_id}`))
+            cache().set(`task_checklist_item_${task_checklist_item_id}`, $this.html().trim());
     });
 
     // if the user is blurring away from the element task_checklist_item_name then we are going to check if the value
@@ -328,7 +328,7 @@ $(() => {
 
         if (
             $this.html().trim() === '' ||
-            cache_get(`task_checklist_item_${task_checklist_item_id}`) === $this.html().trim()
+            cache().get(`task_checklist_item_${task_checklist_item_id}`) === $this.html().trim()
         ) $this.next().addClass('uk-hidden');
     });
 
@@ -342,7 +342,7 @@ $(() => {
 
         if (
             $this.html().trim() !== '' &&
-            $this.html().trim() !== cache_get(`task_checklist_item_${task_checklist_item_id}`)
+            $this.html().trim() !== cache().get(`task_checklist_item_${task_checklist_item_id}`)
         ) {
             $this.next().find('.save_task_checklist_item_name').removeClass('disabled');
         } else {
@@ -451,8 +451,8 @@ $(() => {
             task_checklist_item_id = $this.closest('.task_checklist_item').data('task_checklist_item_id'),
             $task_checklist_item_name_input = $this.closest('.task_checklist_item').find('.task_checklist_item_name');
 
-        $task_checklist_item_name_input.html(cache_get(`task_checklist_item_${task_checklist_item_id}`));
-        cache_delete(`task_checklist_item_${task_checklist_item_id}`);
+        $task_checklist_item_name_input.html(cache().get(`task_checklist_item_${task_checklist_item_id}`));
+        cache().remove(`task_checklist_item_${task_checklist_item_id}`);
 
         $this.parent().addClass('uk-hidden');
         $this.prev().addClass('disabled');
@@ -485,7 +485,7 @@ $(() => {
                 },
                 success: function (data) {
                     ajax_message_helper($('.ajax_message_helper'), data);
-                    cache_delete(`task_checklist_item_${task_checklist_item_id}`);
+                    cache().remove(`task_checklist_item_${task_checklist_item_id}`);
                     $this.addClass('disabled');
                     $this.parent().addClass('uk-hidden');
                     view_task_logs();

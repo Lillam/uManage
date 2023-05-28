@@ -6,12 +6,12 @@ $(() => {
     // subtracted or an added to month... this allows us to cycle through perpetually through the reports...
     $body.on('click', '.time_log_report_navigation_left, .time_log_report_navigation_right', function (event) {
         let direction = $(this)[0].classList[0].includes('left') ? 'left' : 'right';
-        view_time_log_report(direction);
+        viewTimeLogReport(direction);
     });
 
     // when the page loads, we are going to view_time_log_report method and ensure that the report is loaded in on the
     // page.
-    view_time_log_report();
+    viewTimeLogReport();
 });
 
 /**
@@ -21,7 +21,7 @@ $(() => {
 *
 * @param direction
 */
-const view_time_log_report = function (direction = null) {
+const viewTimeLogReport = function (direction = null) {
     let $time_log_reports = $('.time_log_reports'),
         $time_log_reports_navigation = $('.time_log_report_date'),
         view_time_log_reports_url = $time_log_reports.data('view_time_log_reports_url'),
@@ -36,7 +36,7 @@ const view_time_log_report = function (direction = null) {
             $time_log_reports_navigation.html(data.display_date);
 
             // setting up the project time logging report graph...
-            setup_chart('time_log_report_by_project', 'bar', {
+            setupChart('time_log_report_by_project', 'bar', {
                 labels: data.project_labels,
                 datasets: [{
                     label: '# of Hours by project',
@@ -47,18 +47,18 @@ const view_time_log_report = function (direction = null) {
             });
 
             // setting up the task time logging report graph...
-            setup_chart('time_log_report_by_task', 'bar', {
+            setupChart('time_log_report_by_task', 'bar', {
                 labels: data.task_labels,
                 datasets: [{
                     label: '# of Hours by task',
                     data: data.task_values,
-                    backgroundColor: data.task_colors.map(task_color => '#' + task_color),
+                    backgroundColor: data.task_colors.map(task_color => `#${task_color}`),
                     borderWidth: 1
                 }]
             });
 
             // setting up the days time logging report graph...
-            setup_chart('time_log_report_by_day', 'bar', {
+            setupChart('time_log_report_by_day', 'bar', {
                 labels: data.daylog_labels,
                 datasets: [{
                     label: '# of Hours by day',
@@ -67,6 +67,10 @@ const view_time_log_report = function (direction = null) {
                     borderWidth: 1
                 }]
             });
+
+            if (direction !== null) {
+                addToHistory('date', data.date);
+            }
         }
     });
 };

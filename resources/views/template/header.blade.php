@@ -44,7 +44,9 @@
             <li>
                 <div class="user-wrapper">
                     <a class="user {{ ($vs->isPage)('page.user') }}" data-user_id="{{ $vs->user?->id }}">
-                        <img src="{{ $vs->user?->getProfileImage() }}" alt="{{ $vs->user?->getFullName() }}"/>
+                        <img src="{{ $vs->user?->getProfileImage() }}"
+                             alt="{{ $vs->user?->getFullName() }}"
+                        />
                     </a>
                     <div class="user-dropdown">
                         <a href="{{ route('users.user', $vs->user?->id) }}">
@@ -63,7 +65,9 @@
             </li>
         </ul>
         @if ($vs->hasSidebar)
-            <a class="close-sidebar"><i class="fa fa-chevron-right"></i></a>
+            <a class="close-sidebar">
+                <i class="fa fa-chevron-right"></i>
+            </a>
         @endif
     </header>
     @if ($vs->hasSidebar)

@@ -7,10 +7,10 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Journal\Journal;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
+use App\Http\Controllers\Web\Controller;
 
 class JournalReportController extends Controller
 {
@@ -30,7 +30,7 @@ class JournalReportController extends Controller
         $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', "Journal Report - {$this->vs->get('user')->getFullName()}")
-            ->set('current_page', 'page.journals.report');
+            ->set('currentPage', 'page.journals.report');
 
         return view('journal.journal_report.view_journal_report', compact(
             'date'

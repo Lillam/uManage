@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web\User;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Web\Controller;
 use App\Models\User\UserSetting;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserSettingController extends Controller

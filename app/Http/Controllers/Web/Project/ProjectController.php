@@ -6,9 +6,9 @@ use Illuminate\View\View;
 use Illuminate\Http\Request;
 use App\Models\Project\Project;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Project\ProjectUserContributor;
 use App\Repositories\Project\ProjectSettingRepository;
 
@@ -23,7 +23,7 @@ class ProjectController extends Controller
     public function _viewProjectsGet(): Factory|View
     {
         $this->vs->set('title', '- Projects')
-                 ->set('current_page', 'page.projects.list');
+                 ->set('currentPage', 'page.projects.list');
 
         return view('project.view_projects');
     }
@@ -101,7 +101,7 @@ class ProjectController extends Controller
             abort(403);
 
         $this->vs->set('title', " - Project - {$project->name}")
-                 ->set('current_page', 'page.projects.list');
+                 ->set('currentPage', 'page.projects.list');
 
         return view('project.view_project', compact(
             'project',
@@ -132,21 +132,29 @@ class ProjectController extends Controller
     */
     public function _ajaxCreateProjectPost(Request $request): JsonResponse
     {
-        $project_id = Project::create([
-            'user_id'     => $user_id = $this->vs->get('user')->id,
+        Project::create([
+            'user_id'     => $this->vs->get('user')->id,
             'name'        => $request->input('name'),
             'code'        => $request->input('code'),
             'description' => $request->input('description'),
             'icon'        => $request->input('icon') ?? 'fa fa-edit',
             'color'       => $request->input('color') ?? 'ffa500'
-        ])->id;
+        ]);
+
+        $projectId = Project::query()
+            ->select('id')
+            ->orderBy('id', 'desc')
+            ->first()->id;
 
         // once the project has been created... create the project settings.
-        ProjectSettingRepository::createProjectSettingUponProjectCreation($project_id);
+        ProjectSettingRepository::createProjectSettingUponProjectCreation($projectId);
 
         // when we have created the project, we want to automatically assign the user who created it, as a project
         // contributor (this wants to also be editable on the project setting page).
-        ProjectUserContributor::create(['project_id' => $project_id, 'user_id' => $user_id]);
+        ProjectUserContributor::query()->create([
+            'project_id' => $projectId,
+            'user_id'    => $this->vs->get('user')->id
+        ]);
 
         return response()->json(['response' => 'project successfully created']);
     }
@@ -163,7 +171,8 @@ class ProjectController extends Controller
     */
     public function _deleteProjectGet(Request $request, $project_id): RedirectResponse
     {
-        $project = Project::where('id', '=', $project_id)
+        $project = Project::query()
+            ->where('id', '=', $project_id)
             ->where('user_id', '=', $this->vs->get('user')->id)
             ->first();
 

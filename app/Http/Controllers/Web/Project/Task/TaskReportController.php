@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Web\Controller;
 use App\Models\Task\TaskStatus;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 class TaskReportController extends Controller
 {
