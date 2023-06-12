@@ -10,12 +10,12 @@ $(() => {
     $body.on('click', '.journal_calendar_left, .journal_calendar_right', function (event) {
         let $this = $(this),
             direction = $this.hasClass('journal_calendar_left') ? 'left' : 'right';
-        view_journals(direction);
+        viewJournals(direction);
     });
 
     // when the page first loads, we are going to be loading in all the view journals (this will be one of the first
     // methods that runs so that the user will have visuals of all the journals on the page).
-    view_journals();
+    viewJournals();
 });
 
 /**
@@ -26,38 +26,23 @@ $(() => {
 *
 * @param direction (string)
 */
-var view_journals = function (direction = null) {
+var viewJournals = function (direction = null) {
     let $journals = $('#journals'),
         view_journals_url = $journals.data('view_journals_url'),
         date = $journals.attr('data-date');
 
-    $.ajax({
-        method: 'get',
-        url: view_journals_url,
-        data: {
-            direction: direction,
-            date: date
-        },
-        success: function (data) {
-            $journals.html(data.html);
-            $journals.attr('data-date', data.date);
-            $('.journal_date').html(data.date_display);
-            $('.journal_progress').find('.progress_percent').attr('style', `width: ${data.journal_percentage}%;`);
+    request().get(view_journals_url, { direction, date }).then((data) => {
+        $journals.html(data.html);
+        $journals.attr('data-date', data.date);
+        $('.journal_date').html(data.date_display);
+        $('.journal_progress').find('.progress_percent').attr('style', `width: ${data.journal_percentage}%;`);
 
-            // if the direction is not null, and we have a direction set left or right, then we are going to be
-            // putting in the url parameters, the date of which we are looking at, so that when we next refresh, or
-            // decide to go back a page, then you're always going to be looking at the right view without needing too
-            // much annoying back and forth clicking
-            if (direction !== null) {
-                let params = new URLSearchParams(window.location.search);
-                params.set('date', data.date);
-                history.pushState(
-                    '',
-                    '',
-                    window.location.origin + window.location.pathname +
-                        '?' + params.toString() + window.location.hash
-                );
-            }
+        // if the direction is not null, and we have a direction set left or right, then we are going to be
+        // putting in the url parameters, the date of which we are looking at, so that when we next refresh, or
+        // decide to go back a page, then you're always going to be looking at the right view without needing too
+        // much annoying back and forth clicking
+        if (direction) {
+            addToHistory('date', data.date);
         }
-    });
+    })
 };

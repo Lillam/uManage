@@ -15,12 +15,10 @@ class ViewServiceProvider extends ServiceProvider
     */
     public function register(): void
     {
-        View::composer('*', function ($view) {
-            return $view->with([
-                'vs'        => $viewService = app('vs')->all(),
-                'bodyClass' => $this->getBodyClass($viewService)
-            ]);
-        });
+        View::composer('*', fn ($view) => $view->with([
+            'vs'        => $viewService = app('vs')->all(),
+            'bodyClass' => $this->getBodyClass($viewService)
+        ]));
     }
 
     /**
@@ -33,7 +31,6 @@ class ViewServiceProvider extends ServiceProvider
     private function getBodyClass(object $viewService): string
     {
         return implode(' ', [
-            $viewService->applicationTheme,
             $viewService->currentPage,
             $viewService->hasSidebar ? 'has-sidebar' : '',
             $viewService->user?->user_setting?->sidebar_collapsed ? 'sidebar-closed' : ''

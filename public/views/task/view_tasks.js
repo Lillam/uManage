@@ -4,12 +4,12 @@ $(() => {
     $body.on('click', '.tasks_navigation_left, .tasks_navigation_right', function (event) {
         event.preventDefault();
         $('.tasks').attr('data-get_tasks_url', $(this).attr('href'));
-        view_tasks();
+        viewTasks();
     });
 
     // when the page loads and there is a $('.tasks') object present in the dom... then we are going to be making a
     // query to the database which will look for all tasks against the parameters that are set initially.
-    view_tasks();
+    viewTasks();
 });
 
 /**
@@ -19,7 +19,7 @@ $(() => {
 * Assuming these variables are present the system will utilise them otherwise they will be inserted as null and blank
 * values and in essence, be ignored.
 */
-const view_tasks = function () {
+const viewTasks = function () {
     let $tasks = $('.tasks'),
         url = $tasks.attr('data-get_tasks_url'),
         tasks_per_page = $tasks.data('items_per_page');

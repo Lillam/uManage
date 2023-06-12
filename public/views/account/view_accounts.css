@@ -12,7 +12,7 @@
     right: -300px;
     height: 100vh;
     width: 300px;
-    background-color: #f1f1f1;
+    background-color: var(--light-secondary);
     border-left: solid 1px rgba(0,0,0,0.1);
     padding: 30px;
 }
@@ -55,15 +55,6 @@
     margin: 0;
 }
 
-.accounts_title .accounts_info {
-    background-color: #ffffff;
-    border: solid 1px rgba(0,0,0,0.1);
-}
-
-.accounts_title .accounts_info:hover {
-    border-color: rgba(0,0,0,0.2);
-}
-
 .accounts_wrapper .accounts_sidebar .accounts_label {
     font-size: 14px;
     color: rgba(0,0,0,0.4);
@@ -78,7 +69,6 @@
 
 .accounts_wrapper .accounts .account_item_wrapper {
     padding: 10px 30px;
-    background-color: #fff;
     border-top: solid 1px rgba(0,0,0,0.1);
     word-break: break-word;
 }
@@ -92,7 +82,7 @@
 }
 
 .accounts_wrapper .accounts .account_item_wrapper:hover {
-    background-color: #f1f1f1;
+    background-color: var(--light-secondary);
 }
 
 .accounts_wrapper .accounts .account_item_wrapper p {
@@ -145,4 +135,17 @@
     border-radius: 4px;
     border: solid 1px rgba(0,0,0,0.2);
     color: #fff;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+Dark Theme
+----------------------------------------------------------------------------------------------------------------------*/
+
+.dark-theme .accounts_wrapper .accounts_sidebar,
+.dark-theme .accounts_wrapper .accounts .account_item_wrapper:hover {
+    background-color: var(--dark-secondary);
+}
+
+.dark-theme .accounts_wrapper .accounts_sidebar .accounts_label {
+    color: var(--text-light-primary);
 }

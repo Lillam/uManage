@@ -61,7 +61,7 @@ $(() => {
             // when the timeout has been hit we are going to want to actually fire up to the database and reload the
             // tasks based on what is currently in this input, nothing special really needs to happen here, we just want
             // to execute a particular query that looks for something in the database with what the user has searched.
-            view_tasks()
+            viewTasks()
         }, 500);
     });
 
@@ -94,7 +94,7 @@ $(() => {
 
         // after we have cleared all the filters, we are going to want to refresh the table so that everything can
         // load back in...
-        view_tasks();
+        viewTasks();
     });
 
     // this logic set is checking if the user is selecting any of the designated checkboxes:
@@ -165,7 +165,7 @@ $(() => {
 
         // after we have done everything we have needed to do within this logic set, we are going to want to reload
         // the tasks...
-        view_tasks();
+        viewTasks();
     });
 
     // this method is literally just a method which will force a click on the sidebar add task/project

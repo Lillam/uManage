@@ -120,7 +120,7 @@ $(() => {
     $body.on('click', '.save_new_project', function (event) {
         event.stopPropagation();
         event.preventDefault();
-        create_project();
+        createProject();
     });
 
     // when the user has opted to click on save new task, this will run the logic through the (create task) method
@@ -129,7 +129,7 @@ $(() => {
     $body.on('click', '.save_new_task', function (event) {
         event.stopPropagation();
         event.preventDefault();
-        create_task();
+        createTask();
     });
 
     $body.on('click', '.user', function (event) {
@@ -151,12 +151,12 @@ $(() => {
         $.ajax({
             method: 'get',
             url: url,
-            data: {},
             success: (data) => {
                 $('.make_task_modal').remove();
                 $('body').append(data);
                 UIkit.modal('.make_task_modal').show();
                 $('.make_task_description').summernote(window.summernote_options);
+                $('.make_task_project_id').select2();
             }
         })
     });
@@ -366,7 +366,7 @@ const cache = () => ({
 *
 * @return void
 */
-var create_project = function () {
+const createProject = () => {
     let $make_project_modal  = $('.make_project_modal'),
         make_project_url     = $make_project_modal.data('make_project_url'),
         $project_name        = $make_project_modal.find('.make_project_name'),
@@ -385,12 +385,12 @@ var create_project = function () {
             color: $project_color.val().replace('#', ''),
             icon: $project_icon.val()
         },
-        success: function (data) {
-            // if we are on a page that has the function of (view_projects) defined then we are going to want to
+        success: () => {
+            // if we are on a page that has the function of (viewProjects) defined then we are going to want to
             // call it so that the projects are showing the up-to-date version of all projects that are in the system
             // ready for this particular user.
-            if (typeof (view_projects) !== "undefined") {
-                view_projects();
+            if (typeof (viewProjects) !== "undefined") {
+                viewProjects();
             }
 
             // we no longer need the utilisation of this dom element, so we might as well just remove it from the browser
@@ -406,28 +406,28 @@ var create_project = function () {
 * for handling the details. If there are any details that haven't been filled then the system will handle it here.
 * otherwise, this will collect all teh data that we are needing to push up to the database and query from that.
 */
-var create_task = function () {
-    let $make_task_modal = $('.make_task_modal'),
-        make_task_url = $make_task_modal.data('make_task_url'),
-        $task_name = $make_task_modal.find('.make_task_name'),
-        $task_description = $make_task_modal.find('.make_task_description').next().find('.note-editable'),
-        $task_project_id = $make_task_modal.find('.make_task_project_id');
+const createTask = () => {
+    const $make_task_modal = $('.make_task_modal'),
+          makeTasksUrl = $make_task_modal.data('make_task_url'),
+          $taskName = $make_task_modal.find('.make_task_name'),
+          $taskDescription = $make_task_modal.find('.make_task_description').next().find('.note-editable'),
+          $taskProjectId = $make_task_modal.find('.make_task_project_id');
 
     $.ajax({
         method: 'post',
-        url: make_task_url,
+        url: makeTasksUrl,
         data: {
-            name: $task_name.val(),
-            description: $task_description.html(),
-            project_id: $task_project_id.val(),
+            name: $taskName.val(),
+            description: $taskDescription.html(),
+            project_id: $taskProjectId.val(),
         },
-        success: function (data) {
-            if (typeof (view_projects) !== "undefined") {
-                view_projects();
+        success: () => {
+            if (typeof (viewProjects) !== "undefined") {
+                viewProjects();
             }
 
-            if (typeof (view_tasks) !== "undefined") {
-                view_tasks();
+            if (typeof (viewTasks) !== "undefined") {
+                viewTasks();
             }
 
             // if we have managed to successfully create a task; then we are going to simply remove the modal from
@@ -477,12 +477,13 @@ const setupChart = function (chart_element, chart_type, chart_data) {
 };
 
 const addToHistory = (parameter, value) => {
-    let params = new URLSearchParams(window.location.href);
+    let params = new URLSearchParams(window.location.search);
     params.set(parameter, value);
     history.pushState(
         '',
         '',
-        window.location.origin + window.location.pathname + '?' + params.toString() + window.location.hash
+        window.location.origin + window.location.pathname +
+        '?' + params.toString() + window.location.hash
     );
 }
 

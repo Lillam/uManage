@@ -1,6 +1,6 @@
 $(() => {
-    let $body = $('body'),
-        $taskTitle = $('.task_name_title');
+    const $body = $('body'),
+          $taskTitle = $('.task_name_title');
 
     $body.on('keydown', '.task_name', function (event) {
         $taskTitle.html($(this).text().trim());
@@ -134,7 +134,7 @@ if (typeof Echo !== "undefined") {
 * @param value    (variable)
 * @param callback (function)
 */
-const updateTask = function (field, value, callback = null) {
+const updateTask = function (field, value, callback = () => {}) {
     let $task = $('#task'),
         url = $task.data('edit_task_url'),
         task_id = $task.data('task_id'),
@@ -143,8 +143,6 @@ const updateTask = function (field, value, callback = null) {
     request().post(url, { project_id, task_id, field, value })
         .then(data => {
             ajax_message_helper($('.ajax_message_helper'), data);
-            if (callback !== null) {
-                callback();
-            }
+            callback();
         })
 };

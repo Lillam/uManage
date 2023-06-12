@@ -13,7 +13,7 @@
     <div class="uk-width-expand">
         <p>{{ $project->name }}</p>
     </div>
-    <div class="task_navigation uk-flex">
+    <div class="task_navigation navigation uk-flex">
         <div class="uk-width-auto uk-hidden">
             <a class="tasks_navigation_left uk-button uk-button-icon"><i class="fa fa-arrow-left"></i></a>
         </div>

@@ -12,7 +12,7 @@
     <div class="uk-width-expand">
         <p>Account Management</p>
     </div>
-    <div class="uk-flex accounts_title">
+    <div class="uk-flex accounts_title navigation">
         <a class="accounts_info uk-button uk-icon-button"><i class="fa fa-info-circle"></i></a>
     </div>
 @endsection

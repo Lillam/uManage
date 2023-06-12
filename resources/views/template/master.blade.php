@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ $vs->applicationTheme }}">
     <head>
         <title>{{ $vs->title }}</title>
         <meta charset="utf-8">
@@ -17,6 +17,7 @@
         @yield('css')
         {!! ($vs->css)('assets/vendor/uikit/uikit.min') !!}
         {!! ($vs->css)('assets/vendor/fontawesome/all') !!}
+        {!! ($vs->css)('assets/vendor/select2/select2') !!}
         {!! ($vs->css)('assets/vendor/summernote/summernote-lite') !!}
         @if (env('PUSHER_ENABLED'))
             {!! ($vs->css)('css/app') !!}
@@ -43,6 +44,7 @@
         {{-- Script Yielding --}}
         {!! ($vs->js)('assets/vendor/uikit/jquery') !!}
         {!! ($vs->js)('assets/vendor/uikit/uikit.min') !!}
+        {!! ($vs->js)('assets/vendor/select2/select2') !!}
         {!! ($vs->js)('assets/vendor/summernote/summernote-lite') !!}
         @if (env('PUSHER_ENABLED'))
             {!! ($vs->js)('js/app') !!}

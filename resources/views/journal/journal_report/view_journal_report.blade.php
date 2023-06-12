@@ -12,7 +12,7 @@
     </div>
     {{-- Navigation: Click events applied to left and right buttons for cycling into the future and past
         dates so that you can view the differences between months --}}
-    <div class="uk-flex journal_report_navigation">
+    <div class="uk-flex journal_report_navigation navigation">
         <div class="uk-width-auto">
             <a class="journal_report_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
         </div>

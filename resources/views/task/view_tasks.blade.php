@@ -11,7 +11,7 @@
         <p>Tasks</p>
     </div>
     {{-- Task Navigation --}}
-    <div class="uk-flex task_navigation">
+    <div class="uk-flex task_navigation navigation">
         <div class="uk-width-auto uk-hidden">
             <a class="tasks_navigation_left uk-button uk-icon-button"><i class="fa fa-arrow-left"></i></a>
         </div>

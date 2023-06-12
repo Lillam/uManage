@@ -9,7 +9,6 @@ $(() => {
     // the direction that the user has opted to cycle through the calendar and then bring back any results if any exist.
     $body.on('click', '.time_log_calendar_left, .time_log_calendar_right', function (event) {
         let $this = $(this),
-            date = $('.time_log_calendar').attr('data-current_date'),
             direction = '';
 
         if ($this.hasClass('time_log_calendar_left')) {
@@ -20,7 +19,7 @@ $(() => {
             direction = 'right';
         }
 
-        viewTimeLogs(date, direction);
+        viewTimeLogs(direction);
 
         // todo | this is going to need to inject the current position into the url, so when the page refreshes the user
         //  will be back  to where t hey left off, prior to refreshing for whatever reason they may have felt necessary
@@ -65,8 +64,8 @@ $(() => {
                 time_spent:    time_spent,
                 time_log_note: time_log_note
             },
-            success: function (data) {
-                viewTimeLogs($('.time_log_calendar').attr('data-current_date'));
+            success: () => {
+                viewTimeLogs();
             }
         })
     });
@@ -144,18 +143,23 @@ $(() => {
 * this will only be returning the necessary data between the 7 days date range. The system will also be returning
 * the new current date, so we are able to then move onto the next or previous passively and progressively.
 *
-* @param date
 * @param direction
 */
-const viewTimeLogs = function (date = false, direction = false) {
-    let viewTimeLogsUrl = $('.time_log_calendar').data('view_time_logs_url');
+const viewTimeLogs = function (direction = false) {
+    const $viewTimeLogsCalendar = $('.time_log_calendar'),
+          viewTimeLogsUrl = $viewTimeLogsCalendar.data('view_time_logs_url'),
+          date = $viewTimeLogsCalendar.attr('data-current_date')
 
     request().get(viewTimeLogsUrl, { date, direction })
         .then(data => {
             $('.time_logs').html(data.html);
             $('.time_log_calendar').attr('data-current_date', data.date);
             $('.date').html(data.title);
-        })
+
+            if (direction) {
+                addToHistory('date', data.date);
+            }
+        });
 };
 
 /**

@@ -41,7 +41,11 @@
                         <div class="box_wrapper no-border">
                             <h2>{!! $journal->when->format('l dS Y') !!}</h2>
                             <div class="journal_overall_content">
-                                <p> {{ $journal->getShortOverall(70) }}</p>
+                                @if (! empty($journal->overall))
+                                    <p> {{ $journal->getShortOverall(110) }}</p>
+                                @else
+                                    <p class="placeholder"><span>This is some placeholder text that no one should really be able to see just a little bit more...</span></p>
+                                @endif
                             </div>
                             <div class="uk-flex">
                                 <div class="uk-width-expand">

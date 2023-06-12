@@ -20,7 +20,6 @@
     border: solid 1px rgba(0,0,0,0.2);
     margin-bottom: 10px;
     border-radius: 4px;
-    background-color: rgba(255,255,255,0.4);
 }
 
 .new_journal_achievement {
@@ -121,13 +120,12 @@
 .journal_navigation > div {
     display: flex;
     align-items: center;
-    margin-left: 10px;
 }
 
 .journal_navigation .journal_navigation_button,
 .journal_navigation .delete_journal,
 .journal_navigation .journal_information {
-    background-color: #ffffff;
+    background-color: transparent;
     border: solid 1px rgba(0,0,0,0.1);
 }
 
@@ -137,10 +135,30 @@
     background-color: rgba(0,0,0,0.1);
 }
 
-html.dark-theme #journal .journal_sidebar {
+/*----------------------------------------------------------------------------------------------------------------------
+Dark theme overrides.
+----------------------------------------------------------------------------------------------------------------------*/
+
+.dark-theme #journal .journal_sidebar {
     background-color: #141b22;
 }
 
-html.dark-theme #journal .journal_sidebar .journal_rating {
+.dark-theme #journal .journal_sidebar .journal_rating {
     color: rgba(255,255,255,0.75);
+}
+
+.dark-theme .journal_achievement,
+.dark-theme #journal .journal_sidebar .new_journal_achievement {
+    border-color: var(--border-light);
+}
+
+.dark-theme .journal_achievement,
+.dark-theme #journal .journal_sidebar .new_journal_achievement {
+    background-color: var(--dark-primary);
+}
+
+.dark-theme .journal_achievement,
+.dark-theme #journal .journal_sidebar .new_journal_achievement,
+.dark-theme #journal .journal_sidebar .new_journal_achievement::placeholder {
+    color: var(--text-light-primary);
 }

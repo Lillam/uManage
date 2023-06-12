@@ -12,7 +12,7 @@
     <div class="uk-width-expand">
         <p><span class="journal_date">{{ $date->format('F Y') }}</span></p>
     </div>
-    <div class="uk-flex journal_navigation">
+    <div class="uk-flex journal_navigation navigation">
         <div class="uk-width-auto">
             <a class="journal_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
         </div>

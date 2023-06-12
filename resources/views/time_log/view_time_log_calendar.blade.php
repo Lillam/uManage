@@ -13,7 +13,7 @@
             <span>{{ $days->monday->format('d.m.Y') }} - {{ $days->sunday->format('d.m.Y') }}</span>
         </p>
     </div>
-    <div class="uk-flex time_log_calendar_navigation">
+    <div class="uk-flex time_log_calendar_navigation navigation">
         <div class="uk-width-auto">
             <a class="time_log_calendar_left uk-button uk-icon-button fa fa-arrow-left"></a>
         </div>
@@ -29,7 +29,7 @@
     <div class="time_log_calendar"
          data-view_time_logs_url="{{ route('time-logs.calendar.ajax') }}"
          data-delete_time_log_url="{{ route('time-log.delete.ajax') }}"
-         data-current_date="{{ $days->monday->format('d.m.Y') }}">
+         data-current_date="{{ $date ?? $days->monday->format('d.m.Y') }}">
         <div class="time_logs"></div>
     </div>
 
@@ -45,7 +45,11 @@
                 <form class="uk-form uk-grid uk-grid-small" uk-grid>
                     <div class="uk-width-1-1 task_search_input_wrapper">
                         <label for="task_id" class="uk-hidden">Task ID</label>
-                        <input type="text" id="task_id" placeholder="Search issue..." autocomplete="off">
+                        <input type="text"
+                               id="task_id"
+                               placeholder="Search issue..."
+                               autocomplete="off"
+                        />
                         <i class="fa fa-spin fa-spinner"></i>
                     </div>
                     <div class="uk-width-1-1">
@@ -54,15 +58,24 @@
                     </div>
                     <div class="uk-width-1-3">
                         <label for="time_spent" class="uk-hidden">Time Spent</label>
-                        <input type="text" id="time_spent" placeholder="Time spent...">
+                        <input type="text"
+                               id="time_spent"
+                               placeholder="Time spent..."
+                        />
                     </div>
                     <div class="uk-width-1-3">
                         <label for="from" class="uk-hidden">From</label>
-                        <input type="text" id="from" placeholder="From...">
+                        <input type="text"
+                               id="from"
+                               placeholder="From..."
+                        />
                     </div>
                     <div class="uk-width-1-3">
                         <label for="to" class="uk-hidden">To</label>
-                        <input type="text" id="to" placeholder="To...">
+                        <input type="text"
+                               id="to"
+                               placeholder="To..."
+                        />
                     </div>
                 </form>
             </div>

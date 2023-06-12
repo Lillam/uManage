@@ -2,7 +2,7 @@ $(() => {
     // on the document load, this is going to run the view projects, which will find all of the .project elements on
     // the page and then throw them into the html so that the user in question will then be able to interact with the
     // projects of their choosing.
-    view_projects();
+    viewProjects();
 });
 
 /**
@@ -12,7 +12,7 @@ $(() => {
 *
 * @return html injection
 */
-const view_projects = function () {
+const viewProjects = function () {
     let $projectsWrapper = $('.projects'),
         viewProjectsUrl = $projectsWrapper.data('view_projects_url');
 

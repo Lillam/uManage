@@ -1,7 +1,4 @@
 @extends('template.master')
-@section('css')
-    {!! ($vs->css)('views/time_log/time_log_report/view_time_log_report') !!}
-@endsection
 @section('js')
     {!! ($vs->js)('assets/vendor/chart/chart') !!}
     {!! ($vs->js)('views/time_log/time_log_report/view_time_log_report') !!}
@@ -10,7 +7,7 @@
     <div class="uk-width-expand">
         <span class="time_log_report_date">{{ $date->format('F Y') }}</span>
     </div>
-    <div class="uk-flex time_log_report_navigation">
+    <div class="uk-flex time_log_report_navigation navigation">
         <div class="uk-width-auto">
             <a class="time_log_report_navigation_left uk-button uk-icon-button fa fa-arrow-left"></a>
         </div>

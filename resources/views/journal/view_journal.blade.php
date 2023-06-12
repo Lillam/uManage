@@ -14,7 +14,7 @@
     <div class="uk-width-expand">
         <p>{{ $journal->when->format('jS F Y') }}</p>
     </div>
-    <div class="uk-flex journal_navigation">
+    <div class="uk-flex navigation">
         <div class="uk-width-auto">
             <a href="{{ $yesterday_link }}"
                class="uk-button uk-icon-button fa fa-arrow-left journal_navigation_button"></a>

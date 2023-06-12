@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Web\TimeLog;
 
+use Exception;
+use Throwable;
+use Carbon\Carbon;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Models\TimeLog\TimeLog;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
 use App\Http\Controllers\Web\Controller;
-use App\Models\TimeLog\TimeLog;
 use App\Repositories\TimeLog\TimeLogRepository;
-use Carbon\Carbon;
-use Exception;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
-use Throwable;
 
 class TimeLogController extends Controller
 {
@@ -23,17 +23,20 @@ class TimeLogController extends Controller
     * week we are always going to be returning a visual to the user of (x) days 7... sunday to monday... and displaying
     * a 7-day week calendar every week, procedurally
     *
+    * @param Request $request
     * @return Factory|View
     */
-    public function _viewTimeLogCalendarGet(): Factory|View
+    public function _viewTimeLogCalendarGet(Request $request): Factory|View
     {
         $days = (object) DateTimeHelper::days(Carbon::now());
+        $date = $request->get('date') ?? null;
 
         $this->vs->set('title', '- Time Logging')
                  ->set('currentPage', 'page.time-logs.calendar');
 
         return view('time_log.view_time_log_calendar', compact(
-            'days'
+            'days',
+            'date'
         ));
     }
 
@@ -50,9 +53,9 @@ class TimeLogController extends Controller
     {
         $today = Carbon::now()->format('d-m-Y');
 
-        $date = $request->input('date') !== 'false' ?
-            Carbon::parse($request->input('date'))->startOfWeek() :
-            Carbon::now()->startOfWeek();
+        $date = $request->input('date')
+            ? Carbon::parse($request->input('date'))->startOfWeek()
+            : Carbon::now()->startOfWeek();
 
         $direction = $request->input('direction');
 
@@ -60,7 +63,7 @@ class TimeLogController extends Controller
         // time logs in the future, or, perhaps we've gone into the past and are attempting to come back to the present.
         // either way this is taking the dates, 7 days from the start of the week, so we have a perpetual movement of
         // dates into the future.
-        if (! empty($direction) && $direction === 'right') {
+        if ($direction === 'right') {
             $date = $date->addDays(7);
         }
 
@@ -68,7 +71,7 @@ class TimeLogController extends Controller
         // time logs in the past, or perhaps we have gone into the future and are attempting to come back to the
         // present. either way this is taking the dates 7 days from the start of the week; so we have a perpetual
         // movement of dates into the past.
-        if (! empty($direction) && $direction === 'left') {
+        if ($direction === 'left') {
             $date = $date->subDays(7);
         }
 

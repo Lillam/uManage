@@ -7,9 +7,10 @@ $(() => {
     // one in particular, we will be checking the direction of the result, if it is left, then we are going to be
     // loading results into the past, otherwise, we are going to be loading results based in the future, this will always
     // be incremental and decremental of the data passed in question + 1 month || - 1 month.
-    $body.on('click', '.journal_report_calendar_left, .journal_report_calendar_right', function (event) {
-        let $this = $(this),
-            direction = $this.hasClass('journal_report_calendar_left') ? 'left' : 'right';
+    $body.on('click', '.journal_report_calendar_left, .journal_report_calendar_right', function () {
+        const $this = $(this),
+              direction = $this.hasClass('journal_report_calendar_left') ? 'left' : 'right';
+
         loadJournalReport(direction);
     });
 
@@ -51,21 +52,21 @@ const loadJournalReport = function (direction = null) {
             // the overview report graph, this will be displaying the achievements and ratings as a bar chart side by
             // side so that we can compare the difference between how the overall rating of the day was and see if a
             // pattern occurs with how terrible a day might have gone.
-            journal_report_graph('journal_report_overview_graph', 'bar', data, [
+            journalReportGraph('journal_report_overview_graph', 'bar', data, [
                 'achievements', 'ratings'
             ]);
 
             // load a radar report graph which gives an overall visual view on how the month is going and has gone
             // and spreads out an instant visual for ratings this particular month. (patterns can be spotted looking
             // from month to month)
-            journal_report_graph('journal_report_rating_graph', 'radar', data, [
+            journalReportGraph('journal_report_rating_graph', 'radar', data, [
                 'ratings'
             ]);
 
             // load a radar report graph which gives an overall visual view on how the month is going and has gone
             // and spreads out an instant visual for achievements for this particular month. (patterns can be spotted
             // looking from month to month)
-            journal_report_graph('journal_report_achievements_graph', 'radar', data, [
+            journalReportGraph('journal_report_achievements_graph', 'radar', data, [
                 'achievements'
             ]);
 
@@ -73,7 +74,7 @@ const loadJournalReport = function (direction = null) {
             // and can pick up patterns depending on how much or how little content has been written against the month
             // which might have had a lower or higher rating... is the user rating higher when they write more content?
             // is the user not feeling like writing much at all with lower ratings etc.
-            journal_report_graph('journal_report_words_count_graph', 'bar', data, [
+            journalReportGraph('journal_report_words_count_graph', 'bar', data, [
                 'highest_point', 'lowest_point'
             ]);
 
@@ -111,7 +112,7 @@ const loadJournalReport = function (direction = null) {
 *                      | (string) ['highest_point']
 *                      | (string) ['lowest_point']
 */
-const journal_report_graph = function (
+const journalReportGraph = function (
     graph_element,
     graph_type,
     data,
@@ -119,6 +120,14 @@ const journal_report_graph = function (
 ) {
     if (window[`${graph_element}_graph`])
         window[`${graph_element}_graph`].destroy();
+
+    // todo we are going to need to utilise this label colour in order for making sure that the right label colour will
+    //      display when rendering the charts; so that the charts label will be aesthetically pleasing to look at but
+    //      also easy to read. This will want to update the charts in memory to trigger a redraw when this value changes
+    //      on the html class list. (simply can be done on an onclick event when firing off to update dark theme / light
+    //      theme.
+
+    const labelColor = $('html').hasClass('dark-theme') ? "#ffffff" : "#444444";
 
     let dataSets = [];
 
@@ -129,7 +138,7 @@ const journal_report_graph = function (
             label:           'Rating',
             data:            data.journal_ratings,
             backgroundColor: data.journal_ratings_colors,
-            borderWidth:     1
+            borderWidth:     1,
         });
     }
 
@@ -141,6 +150,9 @@ const journal_report_graph = function (
             data:            data.journal_achievements,
             backgroundColor: data.journal_achievements_colors[0],
             borderWidth:     1,
+            title: {
+                fontColor: 'white'
+            }
         });
     }
 
@@ -158,7 +170,7 @@ const journal_report_graph = function (
             label:           'Lowest Points Character Count',
             data:            data.journal_lowest_word_counts,
             backgroundColor: data.journal_lowest_word_counts_colors,
-            borderWidth:     1,
+            borderWidth:     1
         });
     }
 
@@ -174,9 +186,20 @@ const journal_report_graph = function (
     if (graph_type === 'bar') {
         graph_options.options = {
             scales: {
-                yAxes: [{ ticks: { beginAtZero: true, min: 0 }}]
+                yAxes: [{
+                    ticks: {
+                        fontColor: labelColor,
+                        beginAtZero: true,
+                        min: 0
+                    }
+                }],
+                xAxes: [{
+                    ticks: {
+                        fontColor: labelColor,
+                    }
+                }]
             }
-        };
+        }
     }
 
     // assign this graph to a variable, which will be checked when the data is refreshed, and if it exists, this will
