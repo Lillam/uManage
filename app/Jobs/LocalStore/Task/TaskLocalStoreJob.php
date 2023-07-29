@@ -3,20 +3,11 @@
 namespace App\Jobs\LocalStore\Task;
 
 use App\Models\Task\Task;
-use Illuminate\Bus\Queueable;
-use App\Jobs\LocalStore\Puttable;
 use Illuminate\Support\Collection;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\LocalStore\Destinationable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\LocalStore\LocalStoreJob;
 
-class TaskLocalStoreJob implements ShouldQueue
+class TaskLocalStoreJob extends LocalStoreJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
-
     /**
      * @var array|Collection
      */
@@ -122,6 +113,6 @@ class TaskLocalStoreJob implements ShouldQueue
 
         // after getting all the results, turn the entire collection into a json object and store it into a file. this
         // will be stored inside the local storage; public/storage/tasks/tasks.json?
-        Storage::disk('local')->put($this->getDestination(), json_encode($this->put));
+        $this->putToStorage('local');
     }
 }

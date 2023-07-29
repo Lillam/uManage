@@ -7,7 +7,7 @@
     <div class="uk-width-expand">
         <span class="store_product_title">Store</span>
     </div>
-    <div class="uk-flex store_product_title_wrapper">
+    <div class="uk-flex store_product_title_wrapper navigation">
         <div class="uk-width-auto uk-flex uk-flex-middle">
             <span>£{{ $user->basketPrice }}</span>
         </div>

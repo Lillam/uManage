@@ -15,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 Route::post('/user/login', [\App\Http\Controllers\Api\User\UserController::class, 'login']);
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/accounts', [\App\Http\Controllers\Api\Account\AccountController::class, 'list']);
+
     Route::get('/projects', [\App\Http\Controllers\Api\Project\ProjectController::class, 'view']);
     Route::post('/projects/create', [\App\Http\Controllers\Api\Project\ProjectController::class, 'create']);
     Route::get('/users', [\App\Http\Controllers\Api\User\UserController::class, 'view']);

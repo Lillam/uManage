@@ -219,6 +219,25 @@ $(() => {
         event.preventDefault();
         confirm('are you sure you want to do this?');
     });
+
+    $body.on('click', '.toggle-theme', (e) => {
+        const html = $('html'),
+              url = $('body').data('set_theme_url');
+
+        $('.toggle-theme .light-theme').toggleClass('active');
+        $('.toggle-theme .dark-theme').toggleClass('active');
+
+        html.toggleClass('dark-theme');
+        html.toggleClass('light-theme');
+
+        $.ajax({
+            method: 'get',
+            url: url,
+            data: {
+                theme_color: html.hasClass('dark-theme') ? 'dark-theme' : 'light-theme'
+            }
+        });
+    });
 });
 
 // methods for extending query... anything that extends jquery in any specific way will be implemented right here in this

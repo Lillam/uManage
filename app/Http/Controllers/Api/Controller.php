@@ -37,6 +37,8 @@ class Controller extends BaseController
      */
     public function __call($method, $parameters): mixed
     {
+        dd('here');
+
         // attempt to call the method that the developer would have opted to call, and if that didn't work then we can
         // simply universalise all the fallbacks immediately to be responding in the form of json, letting the user
         // know that something had gone wrong, this way we don't ever have to perform any attempt to catch in the

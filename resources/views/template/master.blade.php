@@ -26,6 +26,7 @@
     </head>
     <body class="{{ $bodyClass }}"
           data-collapse_sidebar_url="{{ route('user.settings.sidebar-collapse') }}"
+          data-set_theme_url="{{ route('user.settings.theme') }}"
           data-get_emojis_url="{{ route('system.emojis') }}"
     >
         {{-- Header --}}

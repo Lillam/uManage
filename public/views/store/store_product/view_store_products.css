@@ -2,14 +2,9 @@
     line-height: 20px;
     padding: 10px;
     border-radius: 4px;
-    border: solid 1px rgba(0,0,0,0.1);
+    border: solid 1px var(--border-dark);
     display: block;
     position: relative;
-}
-
-.store_product_title_wrapper .product_basket_button:hover {
-    border-color: rgba(0,0,0,0.2);
-    background-color: #fff;
 }
 
 .store_product_title_wrapper .product_basket_button .product_basket_count {
@@ -29,12 +24,12 @@
 }
 
 .store_product_item {
-    border-bottom: solid 1px rgba(0,0,0,0.1);
+    border-bottom: solid 1px var(--border-dark);
     padding: 30px;
 }
 
 .store_product_item:nth-child(2n+1) {
-    background-color: #f1f1f1;
+    background-color: var(--light-secondary);
 }
 
 .store_product_item h2 {
@@ -63,7 +58,7 @@
     display: inline-block;
     padding: 6px 10px;
     background-color: #1e87f0;
-    color: #fff;
+    color: var(--light-primary);
     margin-top: 20px;
     font-size: 14px;
     border-radius: 4px;
@@ -93,7 +88,7 @@
 
 .store_product_item .product_package_item {
     font-size: 14px;
-    color: rgba(0,0,0,0.4);
+    color: var(--text-dark-primary);
 }
 
 .store_product_item .product_package_item .product_package_image {
@@ -107,4 +102,18 @@
     border: solid 1px rgba(0,0,0,0.1);
     background-color: #1e87f0;
     color: #fff;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------
+Dark Theme Overrides.
+----------------------------------------------------------------------------------------------------------------------*/
+
+.dark-theme .store_product_item:nth-child(2n+1) {
+    background-color: var(--dark-secondary);
+}
+
+.dark-theme .store_product_title_wrapper,
+.dark-theme .store_product_item .product_price,
+.dark-theme .store_product_item .product_package_item {
+    color: var(--text-light-primary);
 }

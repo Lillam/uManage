@@ -190,3 +190,7 @@ Dark Theme Overrides
 .dark-theme .task_name {
     color: var(--text-light-primary);
 }
+
+.dark-theme .tasks a .task_row {
+    border-color: var(--border-light);
+}

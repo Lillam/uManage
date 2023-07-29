@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Web\Journal;
 
 use DateTime;
-use Illuminate\Http\RedirectResponse;
 use Throwable;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -11,6 +10,7 @@ use App\Models\Journal\Journal;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
 use App\Http\Controllers\Web\Controller;
@@ -29,23 +29,6 @@ class JournalController extends Controller
     */
     public function _viewJournalsGet(Request $request): Application|Factory|View
     {
-//        $journals = Journal::query()->orWhere('lowest_point', 'LIKE', '%gril%')
-//                                    ->orWhere('highest_point', 'LIKE', '%gril%')
-//                                    ->orWhere('overall', 'LIKE', '%gril%')
-//                                    ->orderBy('when')
-//                                    ->paginate(1);
-//
-//        $target = $journals->items()[0];
-//
-//        echo "<h1>{$target->when}</h1>";
-//        echo "<br />";
-//        echo $target->overall;
-//        echo "<br />";
-//        echo $target->lowest_point;
-//        echo "<br />";
-//        echo $target->highest_point;
-//        die();
-
         $date = DateTimeHelper::nowOrDate($request->input('date'));
 
         $this->vs->set('title', "Journals - {$this->vs->get('user')->getFullName()}")

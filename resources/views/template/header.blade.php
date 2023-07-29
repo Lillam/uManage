@@ -41,6 +41,12 @@
                     <i class="fa fa-clipboard"></i>
                 </a>
             </li>
+            <li class="theme-wrapper">
+                <a class="toggle-theme">
+                    <span class="light-theme">☀️</span>
+                    <span class="active dark-theme">🌙</span>
+                </a>
+            </li>
             <li>
                 <div class="user-wrapper">
                     <a class="user {{ ($vs->isPage)('page.user') }}" data-user_id="{{ $vs->user?->id }}">

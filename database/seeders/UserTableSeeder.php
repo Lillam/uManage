@@ -25,20 +25,8 @@ class UserTableSeeder extends Seeder
             $this->increment() => (object) [
                 'first_name' => 'Liam',
                 'last_name'  => 'Taylor',
-                'email'      => 'liam.taylor@outlook.com',
-                'password'   => Hash::make('password')
-            ],
-            $this->increment() => (object) [
-                'first_name' => 'Jarod',
-                'last_name'  => 'Edwards',
-                'email'      => 'jarod.edwards@outlook.com',
-                'password'   => Hash::make('password')
-            ],
-            $this->increment() => (object) [
-                'first_name' => 'Jay',
-                'last_name'  => 'Davis',
-                'email'      => 'jay.davis@outlook.com',
-                'password'   => Hash::make('password')
+                'email'      => 'liam.taylor@umanage.com',
+                'password'   => Hash::make('change_me')
             ]
         ];
 

@@ -15,8 +15,6 @@
     <i class="fa fa-chart-bar"></i>{{ __('journal.sidebar.daily.report') }}
 </a>
 
-<hr />
-
 <h3>Dream Journals</h3>
 <a class="{{ ($vs->isPage)('page.journals.dreams.dashboard') }}" href="{{ route('journals.dreams.dashboard') }}">
     <i class="fa fa-chart-pie"></i>{{ __('journal.sidebar.dream.dashboard') }}
@@ -24,7 +22,6 @@
 <a class="{{ ($vs->isPage)('page.journals.dreams.calendar') }}" href="{{ route('journals.dreams.calendar') }}">
     <i class="fa fa-calendar-alt"></i>{{ __('journal.sidebar.dream.calendar') }}
 </a>
-<hr />
 
 <h3>Financial Journals</h3>
 <a class="{{ ($vs->isPage)('page.journals.finances.dashboard') }}" href="{{ route('journals.finances.dashboard') }}">

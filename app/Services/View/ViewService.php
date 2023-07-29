@@ -19,7 +19,7 @@ class ViewService
     /**
     * @var string
     */
-    private string $applicationTheme = 'dark-theme';
+    private string $applicationTheme = 'light-theme';
 
     /**
     * @var bool
@@ -227,9 +227,9 @@ class ViewService
     }
 
     /**
-    * @return null|User
+    * @return User|null
     */
-    private function getUser(): null|User
+    private function getUser(): User|null
     {
         return $this->user;
     }
@@ -248,7 +248,7 @@ class ViewService
     /**
     * @return User|null
     */
-    private function getViewingUser(): null|User
+    private function getViewingUser(): User|null
     {
         return $this->viewingUser;
     }

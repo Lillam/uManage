@@ -30,4 +30,24 @@ class UserSettingController extends Controller
             'response' => 'Menu Collapsed',
         ]);
     }
+
+    /**
+     * Method for setting and storing the user's preference on the theme. If the user clicks on being Dark or Light
+     * theme then persist this into the database so on the next refresh the user will retain the same theme.
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function _ajaxSetTheme(Request $request): JsonResponse
+    {
+        UserSetting::query()
+            ->where('user_id', '=', Auth::id())
+            ->update([
+                'theme_color' => $request->input('theme_color')
+            ]);
+
+        return response()->json([
+            'response' => 'Theme Changed'
+        ]);
+    }
 }

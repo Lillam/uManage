@@ -2,21 +2,12 @@
 
 namespace App\Jobs\LocalStore\Journal;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Journal\Journal;
-use App\Jobs\LocalStore\Puttable;
 use Illuminate\Support\Collection;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\LocalStore\Destinationable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\LocalStore\LocalStoreJob;
 
-class JournalLocalStoreJob implements ShouldQueue
+class JournalLocalStoreJob extends LocalStoreJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
-
     /**
     * @var Collection
     */
@@ -74,14 +65,11 @@ class JournalLocalStoreJob implements ShouldQueue
                 }
             }
 
-            // after getting all the results, turn the entire collection into a json object and store it into a file.
-            // this will be stored inside the local storage; public/storage/journals/journals.json?
-            Storage::disk('local')
-                ->put($this->getDestination("journals_{$year}.json"), json_encode($this->put));
-
-            // reset the put back to nothing, so that when we re-iterate onto a new file, the put is back at square one
-            // rather than appending more and more data to the particular set.
-            $this->put = [];
+            // After getting all the results, turn the entire collection into a json object and store it into a file.
+            // This will be stored inside the local storage; public/storage/journals/journals_{year}.json... whilst
+            // we're here we may as well reset the current put data so that we can iterate over it once again doing the
+            // same thing storing the next batch.
+            $this->putToStorage('local', "journals_{$year}.json")->reset();
         }
     }
 

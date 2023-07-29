@@ -1,4 +1,4 @@
 .system_changelog_navigation a {
-    background-color: #ffffff;
-    border: solid 1px rgba(0,0,0,0.1);
+    background-color: var(--bg-primary);
+    border: solid 1px var(--border-primary);
 }

@@ -2,21 +2,12 @@
 
 namespace App\Jobs\LocalStore\Project;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Project\Project;
-use App\Jobs\LocalStore\Puttable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\LocalStore\Destinationable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Jobs\LocalStore\LocalStoreJob;
 use Illuminate\Database\Eloquent\Collection;
 
-class ProjectLocalStoreJob implements ShouldQueue
+class ProjectLocalStoreJob extends LocalStoreJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
-
     /**
     * @var Project[]|Collection
     */
@@ -33,9 +24,11 @@ class ProjectLocalStoreJob implements ShouldQueue
     {
         $this->setDestination($destination);
 
-        $this->projects = Project::query()->with([
-            'userContributors'
-        ])->get();
+        $this->projects = Project::query()
+            ->with([
+                'userContributors'
+            ])
+            ->get();
     }
 
     /**
@@ -63,6 +56,6 @@ class ProjectLocalStoreJob implements ShouldQueue
 
         // after getting all the results, turn the entire collection into a json object and store it into a file. this
         // will be stored inside the local storage; public/storage/projects/projects.json?
-        Storage::disk('local')->put($this->getDestination(), json_encode($this->put));
+        $this->putToStorage('local');
     }
 }

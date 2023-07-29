@@ -54,7 +54,8 @@ class AuthenticateUser
 
         // apply the user, whether a user or null; we're going to assign it into the view service... so that we will
         // have access to everything that had been set in this middleware controller.
-        (app('vs'))->set('user', $user);
+        (app('vs'))->set('user', $user)
+                            ->set('applicationTheme', $user->userSetting->theme_color ?? 'light-theme');
 
         return $next($request);
     }

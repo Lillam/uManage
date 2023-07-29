@@ -34,10 +34,7 @@ class TimeLogController extends Controller
         $this->vs->set('title', '- Time Logging')
                  ->set('currentPage', 'page.time-logs.calendar');
 
-        return view('time_log.view_time_log_calendar', compact(
-            'days',
-            'date'
-        ));
+        return view('time_log.view_time_log_calendar', compact(['days', 'date']));
     }
 
     /**

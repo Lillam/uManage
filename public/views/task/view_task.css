@@ -1,18 +1,3 @@
-/* Task Header */
-#task .banner h2 {
-    font-size: 16px !important;
-    line-height: 30px !important;
-}
-
-#task .banner h2[contenteditable] {
-    outline: none;
-    padding: 0 10px;
-}
-
-#task .banner h2[contenteditable]:focus {
-    background-color: rgba(0,0,0,0.1);
-}
-
 /* Task Sidebar  */
 #task .task_sidebar {
     position: fixed;

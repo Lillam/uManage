@@ -2,20 +2,11 @@
 
 namespace App\Jobs\LocalStore\Journal;
 
-use Illuminate\Bus\Queueable;
-use App\Jobs\LocalStore\Puttable;
 use App\Models\Journal\JournalDream;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\LocalStore\Destinationable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\LocalStore\LocalStoreJob;
 
-class JournalDreamLocalStoreJob implements ShouldQueue
+class JournalDreamLocalStoreJob extends LocalStoreJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
-
     /**
     * Create a new Job Instance.
     *
@@ -24,7 +15,7 @@ class JournalDreamLocalStoreJob implements ShouldQueue
     * @param string|null $destination
     * @return void
     */
-    public function __construct(?string $destination = "journal_dreams/journal_dreams.json")
+    public function __construct(?string $destination = 'journal_dreams/journal_dreams.json')
     {
         $this->setDestination($destination);
     }
@@ -51,6 +42,6 @@ class JournalDreamLocalStoreJob implements ShouldQueue
 
         // after getting all the results, turn the entire collection into a json object and store it into a file.
         // this will be stored inside the local storage; public/storage/journal_dreams/journal_dreams.json
-        Storage::disk('local')->put($this->getDestination(), json_encode($this->put));
+        $this->putToStorage('local');
     }
 }

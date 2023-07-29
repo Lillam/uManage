@@ -33,7 +33,7 @@ trait Destinationable
     public function getDestination(?string $fileName = null): string
     {
         if ($fileName) {
-            return $this->destination . "/$fileName";
+            return "{$this->destination}/$fileName";
         }
 
         return $this->destination;

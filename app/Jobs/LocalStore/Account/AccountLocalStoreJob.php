@@ -2,21 +2,12 @@
 
 namespace App\Jobs\LocalStore\Account;
 
-use Illuminate\Bus\Queueable;
 use App\Models\Account\Account;
-use App\Jobs\LocalStore\Puttable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Storage;
-use App\Jobs\LocalStore\Destinationable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
+use App\Jobs\LocalStore\LocalStoreJob;
 use Illuminate\Database\Eloquent\Collection;
 
-class AccountLocalStoreJob implements ShouldQueue
+class AccountLocalStoreJob extends LocalStoreJob
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels, Destinationable, Puttable;
-
     /**
     * @var Account[]|Collection
     */
@@ -58,6 +49,6 @@ class AccountLocalStoreJob implements ShouldQueue
         // this gets inserted back into the database, the encryption will be there - this is to protect myself from
         // having the files read for their passwords (if someone did make it on the pc) - you need to be on the
         // server to be able to see the password.
-        Storage::disk('local')->put($this->getDestination(), json_encode($this->put));
+        $this->putToStorage('local');
     }
 }

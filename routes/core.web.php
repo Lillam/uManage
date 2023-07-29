@@ -101,6 +101,9 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/ajax/collapse', [UserSettingController::class, '_ajaxSetSidebarCollapsed'])
         ->name('user.settings.sidebar-collapse');
 
+    Route::get('/ajax/theme', [UserSettingController::class, '_ajaxSetTheme'])
+        ->name('user.settings.theme');
+
     /*
     |-------------------------------------------------------------------------------------------------------------------
     | Account Routes
