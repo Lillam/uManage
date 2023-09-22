@@ -42,7 +42,7 @@ const viewTimeLogReport = function (direction = null) {
                     label: '# of Hours by project',
                     data: data.project_values,
                     backgroundColor: data.project_colors.map(project_color => '#' + project_color),
-                    borderWidth: 1
+                    borderWidth: 1,
                 }]
             });
 

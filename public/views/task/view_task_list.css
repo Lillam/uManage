@@ -27,13 +27,13 @@
 }
 
 .task_row:hover {
-    background-color: var(--light-secondary);
-    border-color: var(--border-dark);
+    background-color: var(--bg-secondary);
+    border-color: var(--border-primary);
 }
 
 .task_row .task_priority,
 .task_row .task_issue_type {
-    color: #fff;
+    color: #ffffff;
     display: inline-block;
     border-radius: 4px;
     margin-right: 5px;
@@ -45,7 +45,7 @@
     min-width: 30px;
     padding: 0 5px;
     text-align: center;
-    border: solid 1px rgba(0,0,0,0.2);
+    border: solid 1px var(--border-primary);
 }
 
 .task_name {
@@ -54,7 +54,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     display: inline-block;
-    color: var(--text-dark-primary);
+    color: var(--text-primary);
 }
 
 .task_name > span {
@@ -105,7 +105,7 @@
 .tasks .badge-image img {
     max-width: 25px;
     max-height: 25px;
-    border: solid 1px rgba(0,0,0,0.2);
+    border: solid 1px var(--border-primary);
     padding: 1px;
 }
 
@@ -117,7 +117,7 @@
     text-align: center;
     background-color: var(--light-secondary);
     border-radius: 50%;
-    border: solid 1px var(--border-dark);
+    border: solid 1px var(--border-primary);
     display: block;
 }
 
@@ -131,7 +131,7 @@
 
 .project_task_board > div::-webkit-scrollbar {
     width: 1px;
-    background-color: var(--border-dark);
+    background-color: var(--border-primary);
 }
 
 .project_task_board > div::-webkit-scrollbar-thumb {
@@ -140,15 +140,15 @@
 }
 
 .project_task_board > div:nth-child(2n+2) {
-    background-color: var(--light-secondary);
+    background-color: var(--bg-secondary);
 }
 
 .project_task_board > div:nth-child(1n+2) {
-    border-left: solid 1px var(--border-dark);
+    border-left: solid 1px var(--border-primary);
 }
 
 .project_task_board > div > h2 {
-    color: rgba(0,0,0,0.4);
+    color: var(--text-primary);
     padding: 10px;
     font-size: 14px;
     line-height: 22px;
@@ -156,7 +156,7 @@
 
 .board_task {
     padding: 15px;
-    border: solid 1px var(--border-dark);
+    border: solid 1px var(--border-primary);
     border-radius: 4px;
     background-color: #fff;
 }
@@ -169,28 +169,10 @@
 .board_task h3 a {
     font-size: 14px;
     line-height: 20px;
-    color: var(--text-dark-primary);
+    color: var(--text-primary);
     max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin: 0;
-}
-
-/*----------------------------------------------------------------------------------------------------------------------
-Dark Theme Overrides
-----------------------------------------------------------------------------------------------------------------------*/
-
-.task_row:hover {
-    background-color: var(--dark-secondary);
-}
-
-.board_task h3,
-.board_task h3 a,
-.dark-theme .task_name {
-    color: var(--text-light-primary);
-}
-
-.dark-theme .tasks a .task_row {
-    border-color: var(--border-light);
 }

@@ -504,7 +504,7 @@ const addToHistory = (parameter, value) => {
         window.location.origin + window.location.pathname +
         '?' + params.toString() + window.location.hash
     );
-}
+};
 
 /**
 * A method that is going to be running off to acquire all the emojis for the web page... and if we already have them

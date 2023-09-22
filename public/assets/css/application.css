@@ -242,6 +242,7 @@ header {
     padding: 20px 0;
     border-right: solid 1px var(--border-primary);
     z-index: 10;
+    background-color: var(--bg-primary);
 }
 
 header ul {
@@ -1238,8 +1239,8 @@ span.small {
 
 .dropdown {
     padding: 10px;
-    background-color: var(--light-primary);
-    border: solid 1px var(--border-light);
+    background-color: var(--bg-primary);
+    border: solid 1px var(--border-primary);
     position: absolute;
     right: 0;
     z-index: 10;
@@ -1295,7 +1296,7 @@ span.small {
 }
 
 .dropdown ul li a {
-    color: var(--text-dark-primary);
+    color: var(--text-primary);
     padding: 5px 10px;
     display: block;
     border-radius: 4px;
@@ -1303,8 +1304,8 @@ span.small {
 }
 
 .dropdown ul li a:hover {
-    background-color: var(--light-secondary);
-    border: solid 1px var(--border-dark);
+    background-color: var(--bg-secondary);
+    border: solid 1px var(--border-primary);
 }
 
 .dropdown_button:hover {

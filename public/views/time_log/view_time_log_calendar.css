@@ -125,6 +125,7 @@
     position: relative;
     word-break: break-word;
     font-size: 12px;
+    overflow: hidden;
 }
 
 .time_logs .today .time_log_entry {
@@ -133,14 +134,12 @@
 
 .time_logs .time_log_entry .time_log_entry_options {
     position: absolute;
-    top: 0;
+    bottom: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 25%;
     background-color: rgba(255,255,255,0.8);
-    border-radius: 4px;
     display: none;
-    padding: 10px;
 }
 
 .time_logs .time_log_entry:hover .time_log_entry_options {
@@ -180,35 +179,27 @@
 .time_log_entry .edit_time_log,
 .time_log_entry .delete_time_log {
     padding: 5px 10px;
-    color: #fff;
-    text-align: center;
-    line-height: 30px;
-    font-size: 20px;
-    border-radius: 4px;
+    color: #ffffff;
+    font-size: 14px;
     height: 100%;
     width: 50%;
-    vertical-align: center;
 }
 
 .time_log_entry .delete_time_log {
-    background-color: rgba(240, 80, 110, 0.5);
+    background-color: rgb(240, 80, 110);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-left: solid 1px rgba(0,0,0,0.1);
 }
 
-.time_log_entry .delete_time_log:hover {
-    background-color: rgba(240, 80, 110, 1);
-}
-
 .time_log_entry .edit_time_log {
-    background-color: rgba(30, 135, 240, 0.5);
+    background-color: rgb(30, 135, 240);
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.time_log_entry .edit_time_log:hover {
-    background-color: rgba(30, 135, 240, 1);
+.time_log_entry .time_log_entry_options a:hover {
+    opacity: 0.8;
 }
 
 @media(min-width: 1000px) {
