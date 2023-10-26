@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Web\User;
 
-use App\Http\Controllers\Web\Controller;
 use App\Models\User\User;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
-use Psr\Container\ContainerExceptionInterface;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
 {
-    /**
-    * UserController constructor.
-    */
     public function __construct()
     {
         parent::__construct();

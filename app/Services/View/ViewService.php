@@ -114,7 +114,7 @@ class ViewService
     /**
     * @return string
     */
-    private function getCurrentPage(): string
+    public function getCurrentPage(): string
     {
         return $this->currentPage ?? '';
     }
@@ -191,7 +191,7 @@ class ViewService
     /**
     * @return bool
     */
-    private function getHasSidebar(): bool
+    public function getHasSidebar(): bool
     {
         return $this->hasSidebar;
     }
@@ -229,7 +229,7 @@ class ViewService
     /**
     * @return User|null
     */
-    private function getUser(): User|null
+    public function getUser(): User|null
     {
         return $this->user;
     }
@@ -313,7 +313,7 @@ class ViewService
     * @param string $asset
     * @return string
     */
-    private function getCssAsset(string $asset): string
+    public function getCssAsset(string $asset): string
     {
         $file = asset(str_replace('.css', '', $asset) . '.css');
 
@@ -327,7 +327,7 @@ class ViewService
     * @param string $asset
     * @return string
     */
-    private function getJsAsset(string $asset): string
+    public function getJsAsset(string $asset): string
     {
         $file = asset(str_replace('.js', '', $asset) . '.js');
 

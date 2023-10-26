@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use App\Http\Controllers\Web\Controller;
-use App\Models\Task\TaskChecklist;
-use App\Models\Task\TaskLog;
-use App\Repositories\Task\TaskChecklistRepository;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Models\Task\TaskLog;
+use Illuminate\Http\JsonResponse;
+use App\Models\Task\TaskChecklist;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
+use App\Repositories\Task\TaskChecklistRepository;
 
 class TaskChecklistController extends Controller
 {

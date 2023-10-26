@@ -1,3 +1,26 @@
+.user-welcome {
+    background-color: var(--theme-primary-bg);
+    padding: 25px;
+    border-radius: 10px;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 25px;
+}
+
+.user-welcome h2 {
+    font-size: 32px;
+    line-height: 38px;
+    margin-bottom: 0;
+    color: rgba(255,255,255,0.75);
+}
+
+.user-welcome h2 span {
+    display: block;
+    font-size: 18px;
+    line-height: 38px;
+    font-weight: 700;
+    color: #ffffff;
+}
+
 .user_profile_wrapper .image_placement {
     width: 200px;
     height: 200px;

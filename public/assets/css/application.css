@@ -5,7 +5,7 @@
     --text-primary: rgba(0,0,0,0.8);
     --text-secondary: rgba(0,0,0,0.5);
 
-    --bg-brand: #3598fb;
+    --theme-primary-bg: #1e87f0;
 
     --light-primary: #ffffff;
     --light-secondary: #f1f1f1;
@@ -445,7 +445,7 @@ header .user.active img {
 }
 
 .header-sidebar a.active {
-    background-color: var(--bg-brand);
+    background-color: var(--theme-primary-bg);
     color: #ffffff;
 }
 
@@ -1071,7 +1071,7 @@ textarea {
 }
 
 .note-editable a {
-    color: var(--bg-brand);
+    color: var(--theme-primary-bg);
     text-decoration: none !important;
 }
 
@@ -1414,7 +1414,7 @@ span.small {
 }
 
 .box a {
-    color: var(--bg-brand);
+    color: var(--theme-primary-bg);
     text-decoration: none !important;
 }
 
@@ -1500,3 +1500,35 @@ span.small {
 }
 
 /* /Error Pages ----------------------------------------------------------------------------------------------------- */
+
+.graph-card {
+    border: solid 1px var(--border-primary);
+    padding: 40px;
+    border-radius: 8px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.pie {
+    --w: 150px;
+    width: var(--w);
+    aspect-ratio: 1;
+    position: relative;
+    display: inline-grid;
+    place-content: center;
+    font-size: 25px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+.pie:before {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    inset: 0;
+    background: conic-gradient(var(--c) calc(var(--p)*1%), rgba(0,0,0,0.1) 0);
+    -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+    mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+}
