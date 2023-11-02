@@ -15,14 +15,14 @@
         <meta name="theme-color" content="#ffffff">
         {{-- Style Yielding --}}
         @yield('css')
-        {!! ($vs->css)('assets/vendor/uikit/uikit.min') !!}
-        {!! ($vs->css)('assets/vendor/fontawesome/all') !!}
-        {!! ($vs->css)('assets/vendor/select2/select2') !!}
-        {!! ($vs->css)('assets/vendor/summernote/summernote-lite') !!}
+        @cssAsset('assets/vendor/uikit/uikit.min')
+        @cssAsset('assets/vendor/fontawesome/all')
+        @cssAsset('assets/vendor/select2/select2')
+        @cssAsset('assets/vendor/summernote/summernote-lite')
         @if (env('PUSHER_ENABLED'))
             {!! ($vs->css)('css/app') !!}
         @endif
-        {!! ($vs->css)('assets/css/application') !!}
+        @cssAsset('assets/css/application')
     </head>
     <body class="{{ $bodyClass }}"
           data-collapse_sidebar_url="{{ route('user.settings.sidebar-collapse') }}"
@@ -43,16 +43,16 @@
         {{-- Footer --}}
         @include('template.footer')
         {{-- Script Yielding --}}
-        {!! ($vs->js)('assets/vendor/uikit/jquery') !!}
-        {!! ($vs->js)('assets/vendor/uikit/uikit.min') !!}
-        {!! ($vs->js)('assets/vendor/select2/select2') !!}
-        {!! ($vs->js)('assets/vendor/summernote/summernote-lite') !!}
+        @jsAsset('assets/vendor/uikit/jquery')
+        @jsAsset('assets/vendor/uikit/uikit.min')
+        @jsAsset('assets/vendor/select2/select2')
+        @jsAsset('assets/vendor/summernote/summernote-lite')
         @if (env('PUSHER_ENABLED'))
             {!! ($vs->js)('js/app') !!}
         @endif
         @yield('js')
         @if ($vs->user instanceof \App\Models\User\User)
-            {!! ($vs->js)('assets/js/application') !!}
+            @jsAsset('assets/js/application')
         @endif
     </body>
 </html>

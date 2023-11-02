@@ -317,7 +317,7 @@ class ViewService
     {
         $file = asset(str_replace('.css', '', $asset) . '.css');
 
-        return "<link href='$file' rel='stylesheet' type='text/css' />";
+        return "<link href='$file' rel='stylesheet' type='text/css' referrerpolicy='same-origin' />";
     }
 
     /**
@@ -331,6 +331,6 @@ class ViewService
     {
         $file = asset(str_replace('.js', '', $asset) . '.js');
 
-        return "<script src='$file'></script>";
+        return "<script src='$file' referrerpolicy='same-origin'></script>";
     }
 }
