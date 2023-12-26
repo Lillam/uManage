@@ -14,7 +14,8 @@ return [
         ],
         'finance' => [
             'dashboard' => 'Dashboard',
-            'calendar'  => 'Calendar'
+            'calendar'  => 'Calendar',
+            'loan'      => 'Loans'
         ],
     ],
 ];

@@ -1,5 +1,6 @@
 .time_log_calendar {
     overflow-x: auto;
+    scrollbar-width: none;
 }
 
 .time_log_calendar::-webkit-scrollbar {
@@ -105,16 +106,6 @@
     opacity: 0.8;
 }
 
-#add_time_log_modal .uk-modal-dialog input,
-#add_time_log_modal .uk-modal-dialog textarea {
-    width: 100%;
-    border-radius: 4px;
-    padding: 5px 10px;
-    line-height: 30px;
-    font-size: 16px;
-    background-color: transparent;
-}
-
 .time_logs .time_log_entry {
     padding: 10px;
     border: solid 1px rgba(0,0,0,0.2);
@@ -210,6 +201,10 @@
     }
 }
 
+.time_log_day_time_logs {
+    scrollbar-width: none;
+}
+
 .time_log_day_time_logs::-webkit-scrollbar {
     display: none;
 }
@@ -265,15 +260,4 @@ Dark Theme Overrides.
 .dark-theme .time_log_day_wrapper:not(.today) .time_log_date_title,
 .dark-theme .time_logs .today .time_log_entry {
     background-color: var(--dark-primary);
-}
-
-.dark-theme #add_time_log_modal .uk-modal-dialog input,
-.dark-theme #add_time_log_modal .uk-modal-dialog textarea {
-    border-color: var(--border-light);
-    color: var(--text-light-primary);
-}
-
-.dark-theme #add_time_log_modal .uk-modal-dialog input::placeholder,
-.dark-theme #add_time_log_modal .uk-modal-dialog textarea::placeholder {
-    color: var(--text-light-primary);
 }

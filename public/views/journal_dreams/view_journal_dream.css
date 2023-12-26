@@ -12,6 +12,10 @@
     margin-top: 10px !important;
 }
 
+body:not(.journal_dream_sidebar_closed) .title-block {
+    padding-right: 430px;
+}
+
 #journal_dream .journal_dream_sidebar {
     position: fixed;
     top: 0;
@@ -20,7 +24,7 @@
     height: 100vh;
     overflow-y: auto;
     background-color: rgb(246,246,246);
-    padding: 81px 30px 30px 30px;
+    padding: 30px;
     border-left: solid 1px rgba(0,0,0,0.2);
 }
 

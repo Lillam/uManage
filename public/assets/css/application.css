@@ -638,6 +638,13 @@ body.login .login_form .input_wrapper:focus-within .placeholder {
     color: #1e87f0;
 }
 
+body.login .login_form .input_wrapper input::placeholder {
+    color: transparent;
+}
+
+body.login .login_form .input_wrapper input::-ms-input-placeholder,
+body.login .login_form .input_wrapper input::-moz-placeholder,
+body.login .login_form .input_wrapper input:-moz-placeholder,
 body.login .login_form .input_wrapper input::-webkit-input-placeholder {
     color: transparent;
 }
@@ -1084,8 +1091,9 @@ textarea {
     margin-bottom: 0 !important;
 }
 
+.note-editor.note-frame .note-editing-area .note-editable,
 .note-frame * {
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
 }
 
 /*.note-save-cancel-options {*/
@@ -1165,14 +1173,17 @@ span.small {
 
 .ajax_message_helper {
     padding: 10px;
-    background-color: #32d296;
-    color: white;
+    background-color: var(--bg-secondary);
+    border: solid 1px #00D769;
+    border-left: solid 10px #00D769;
     position: fixed;
-    width: auto;
     max-width: 400px;
-    bottom: 10px;
-    left: 75px;
+    width: 100%;
+    bottom: 20px;
+    right: 20px;
     display: none;
+    color: var(--text-primary);
+    border-radius: 8px;
 }
 
 .ajax_message_helper.active {
@@ -1545,7 +1556,7 @@ span.small {
         #0000 calc(99% - var(--b)),
         #000 calc(100% - var(--b))
     );
-    margin: -10px   ;
+    margin: -10px;
 }
 
 .pie:after {
@@ -1558,4 +1569,45 @@ span.small {
     top: 0;
     left: 0;
     margin: -10px;
+}
+
+.uk-modal-dialog input,
+.uk-modal-dialog textarea {
+    width: 100%;
+    border-radius: 4px;
+    padding: 5px 10px;
+    line-height: 30px;
+    font-size: 16px;
+    background-color: transparent;
+}
+
+.dark-theme .uk-modal-dialog input,
+.dark-theme .uk-modal-dialog textarea {
+    border-color: var(--border-light);
+    color: var(--text-light-primary);
+}
+
+.dark-theme .uk-modal-dialog input::placeholder,
+.dark-theme .uk-modal-dialog textarea::placeholder {
+    color: var(--text-light-primary);
+}
+
+.simple-list > div {
+    padding: 20px 30px;
+    border-bottom: solid 1px var(--border-primary);
+    word-break: break-word;
+}
+
+.simple-list > div > p {
+    margin: 0;
+}
+
+.simple-list > div:nth-of-type(2n+1) {
+    background-color: var(--bg-secondary);
+}
+
+.simple-list a.uk-button {
+    background-color: transparent;
+    color: var(--text-primary);
+    border: solid 1px var(--border-primary);
 }

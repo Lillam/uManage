@@ -47,7 +47,9 @@ return [
             \App\Http\Controllers\Web\Journal\JournalAchievementController::class,
             \App\Http\Controllers\Web\Journal\JournalReportController::class,
             \App\Http\Controllers\Web\Journal\JournalFinanceDashboardController::class,
-            \App\Http\Controllers\Web\Journal\JournalFinanceController::class
+            \App\Http\Controllers\Web\Journal\JournalFinanceController::class,
+            \App\Http\Controllers\Web\Journal\JournalLoanController::class,
+            \App\Http\Controllers\Web\Journal\JournalLoanPaybackController::class
         ]
     ],
 

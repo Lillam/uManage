@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTimeLogsModule extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -62,4 +62,4 @@ class CreateTimeLogsModule extends Migration
                 ->onDelete('cascade');
         });
     }
-}
+};

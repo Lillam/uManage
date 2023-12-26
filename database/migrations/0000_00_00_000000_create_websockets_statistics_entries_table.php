@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWebSocketsStatisticsEntriesTable extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -14,13 +14,13 @@ class CreateWebSocketsStatisticsEntriesTable extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if (! $this->alreadyMigrated('websockets_statistics_entries'))
             $this->createWebsocketsStatisticsEntriesModule();
     }
 
-    public function createWebsocketsStatisticsEntriesModule()
+    public function createWebsocketsStatisticsEntriesModule(): void
     {
         Schema::create('websockets_statistics_entries', function (Blueprint $table) {
             $table->increments('id');
@@ -31,4 +31,4 @@ class CreateWebSocketsStatisticsEntriesTable extends Migration
             $table->nullableTimestamps();
         });
     }
-}
+};

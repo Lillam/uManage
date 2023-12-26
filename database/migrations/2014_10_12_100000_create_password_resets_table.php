@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePasswordResetsTable extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -31,4 +31,4 @@ class CreatePasswordResetsTable extends Migration
             $table->timestamp('created_at')->nullable();
         });
     }
-}
+};

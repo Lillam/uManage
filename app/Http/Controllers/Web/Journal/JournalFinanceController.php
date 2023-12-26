@@ -60,7 +60,8 @@ class JournalFinanceController extends Controller
 
         $day_key = array_search($starting_day, $days);
 
-        $journal_finances = JournalFinance::select('*')
+        $journal_finances = JournalFinance::query()
+            ->select('*')
             ->where('user_id', '=', Auth::id())
             ->where('when', '>=', Carbon::parse($date)->startOfMonth()->format('Y-m-d'))
             ->where('when', '<=', Carbon::parse($date)->endOfMonth()->format('Y-m-d'))

@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoreModule extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -64,4 +64,4 @@ class CreateStoreModule extends Migration
                 ->onDelete('cascade');
         });
     }
-}
+};

@@ -30,3 +30,6 @@
 <a class="{{ ($vs->isPage)('page.journals.finances.calendar') }}" href="{{ route('journals.finances.calendar') }}">
     <i class="fa fa-calendar-alt"></i>{{ __('journal.sidebar.finance.calendar') }}
 </a>
+<a class="{{ ($vs->isPage)('page.journals.loans') }}" href="{{ route('journals.finances.loans') }}">
+    <i class="fa fa-dollar-sign"></i>{{ __('journal.sidebar.finance.loan') }}
+</a>

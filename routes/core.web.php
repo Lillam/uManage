@@ -21,6 +21,7 @@ use App\Http\Controllers\Web\User\UserSettingController;
 use App\Http\Controllers\Web\Project\Task\TaskController;
 use App\Http\Controllers\Web\Store\StoreBasketController;
 use App\Http\Controllers\Web\Store\StoreProductController;
+use App\Http\Controllers\Web\Journal\JournalLoanController;
 use App\Http\Controllers\Web\System\SystemModuleController;
 use App\Http\Controllers\Web\Journal\JournalDreamController;
 use App\Http\Controllers\Web\Project\Task\TaskLogController;
@@ -36,10 +37,10 @@ use App\Http\Controllers\Web\Project\Task\TaskCommentController;
 use App\Http\Controllers\Web\Journal\JournalAchievementController;
 use App\Http\Controllers\Web\Project\Task\TaskChecklistController;
 use App\Http\Controllers\Web\Project\Task\TaskDashboardController;
+use App\Http\Controllers\Web\Journal\JournalLoanPaybackController;
 use App\Http\Controllers\Web\Journal\JournalDreamDashboardController;
 use App\Http\Controllers\Web\Project\Task\TaskChecklistItemController;
 use App\Http\Controllers\Web\Journal\JournalFinanceDashboardController;
-
 
 /*
 |-----------------------------------------------------------------------------------------------------------------------
@@ -302,6 +303,23 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/finances/journals/dashboard',          [JournalFinanceDashboardController::class, '_viewJournalsFinancesDashboardGet'])->name('journals.finances.dashboard');
     Route::get('/finance/journals/calendar',            [JournalFinanceController::class, '_viewJournalFinancesGet'])->name('journals.finances.calendar');
     Route::get('/ajax/view/finances/journals',          [JournalFinanceController::class, '_ajaxViewJournalFinancesGet']);
+
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Finance Loan Journal
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the finance loan journals. All routes of such will
+    | be found within this block up until the next title block.
+    |
+    */
+
+    Route::get('/finances/journals/loans',              [JournalLoanController::class, '_viewJournalLoansGet'])->name('journals.finances.loans');
+    Route::post('/ajax/make/journal-loan',              [JournalLoanController::class, '_ajaxMakeJournalLoanPost'])->name('journals.finances.loans.create.ajax');
+    Route::get('/ajax/view/journal-joans',              [JournalLoanController::class, '_ajaxViewJournalLoansGet'])->name('journals.finances.loans.view.ajax');
+
+    Route::get('/ajax/view/journal-loan-paybacks',      [JournalLoanPaybackController::class, '_ajaxViewJournalLoanPaybacksGet'])->name('journals.finances.loan.paybacks.view.ajax');
+    Route::post('/ajax/make/journal-loan-payback',      [JournalLoanPaybackController::class, '_ajaxMakeJournalLoanPaybackPost'])->name('journals.finances.loan.paybacks.create.ajax');
 
     /*
     |-------------------------------------------------------------------------------------------------------------------

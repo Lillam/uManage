@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateJournalModule extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -14,7 +14,7 @@ class CreateJournalModule extends Migration
      *
      * @return void
      */
-    public function up()
+    public function up(): void
     {
         if (! $this->alreadyMigrated('journal'))
             $this->setupJournalModule();
@@ -27,6 +27,9 @@ class CreateJournalModule extends Migration
 
         if (! $this->alreadyMigrated('journal_finance'))
             $this->setupJournalFinance();
+
+        if (! $this->alreadyMigrated('journal_loan'))
+            $this->setupJournalLoan();
     }
 
     /**
@@ -86,7 +89,7 @@ class CreateJournalModule extends Migration
             $table->unsignedSmallInteger('rating')->nullable();
             $table->longText('content')->nullable();
             $table->longText('meaning')->nullable();
-            $table->date('when', 20);
+            $table->date('when');
             $table->timestamps();
         });
 
@@ -109,8 +112,56 @@ class CreateJournalModule extends Migration
             $table->unsignedBigInteger('user_id');
             $table->float('spend');
             $table->text('where');
-            $table->date('when', 20);
+            $table->date('when');
             $table->timestamps();
         });
     }
-}
+
+    /**
+     * @return void
+     */
+    public function setupJournalLoan(): void
+    {
+        Schema::create('journal_loan', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->string('reference', 255);
+            $table->float('amount');
+            $table->float('interest');
+            $table->datetime('when_loaned');
+            $table->datetime('when_pay_back');
+            $table->datetime('when_paid_back')->nullable()->default(null);
+            $table->boolean('paid_back')->default(false);
+        });
+
+        Schema::table('journal_loan', function (Blueprint $table) {
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('user')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+        });
+
+        Schema::create('journal_loan_payback', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('journal_loan_id');
+            $table->unsignedBigInteger('user_id');
+            $table->float('amount');
+            $table->datetime('paid_when');
+        });
+
+        Schema::table('journal_loan_payback', function (Blueprint $table) {
+            $table->foreign('journal_loan_id')
+                  ->references('id')
+                  ->on('journal_loan')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('user')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+        });
+    }
+};

@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUsersTable extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -89,4 +89,4 @@ class CreateUsersTable extends Migration
                 ->onDelete('cascade');
         });
     }
-}
+};

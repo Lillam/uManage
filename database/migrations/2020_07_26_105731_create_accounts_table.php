@@ -5,7 +5,7 @@ use Database\Migrations\MigratorChecks;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccountsTable extends Migration
+return new class extends Migration
 {
     use MigratorChecks;
 
@@ -43,4 +43,4 @@ class CreateAccountsTable extends Migration
                 ->onDelete('cascade');
         });
     }
-}
+};

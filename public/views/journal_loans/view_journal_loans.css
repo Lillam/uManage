@@ -1,0 +1,18 @@
+.loan > div {
+    display: flex;
+}
+
+.loan > div > h2 {
+    flex: 1;
+}
+
+#paybacks {
+    padding: 20px;
+    border-radius: 8px;
+    border: solid 1px var(--border-primary);
+    flex-direction: column;
+}
+
+#paybacks p {
+    margin: 0;
+}
