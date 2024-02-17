@@ -1,3 +1,11 @@
+// Setting up ajax with the necessary headers so that no matter where im making the ajax call im not going to need
+// to pass in the csrf token every time, this makes ajax-ing everywhere much easier to deal with.
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 /**
 * @type {{toolbar: *[][]}}
 * we are setting a global default for the summernote objects that we are going to be working with around the system
@@ -68,14 +76,6 @@ const request = () => ({
 });
 
 $(() => {
-    // Setting up ajax with the necessary headers so that no matter where im making the ajax call im not going to need
-    // to pass in the csrf token every time, this makes ajax-ing everywhere much easier to deal with.
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
     // defining some global variables that will be used throughout any page that is including this...
     let $html = $('html'),
         $body = $('body');
@@ -238,6 +238,14 @@ $(() => {
             }
         });
     });
+
+    $body.on('click', '.local-store', (e) => {
+        e.preventDefault();
+
+        request().get(e.target.href).then(data => {
+            ajax_message_helper($('.ajax_message_helper'), data.message);
+        });
+    });
 });
 
 // methods for extending query... anything that extends jquery in any specific way will be implemented right here in this
@@ -285,7 +293,7 @@ $.fn.extend({
 * @param data    | The data of which we are injecting into Object.
 */
 let ajax_message_helper = function ($object, data) {
-    let html = data.response;
+    let html = data?.response ?? data;
         html += '<a class="ajax_message_helper_close"><i class="fa fa-close"></i></a>';
 
     $object.html(html);

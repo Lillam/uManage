@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers\Web\System;
 
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Web\Controller;
-use App\Jobs\LocalStore\Account\AccountLocalStoreJob;
-use App\Jobs\LocalStore\Journal\JournalDreamLocalStoreJob;
-use App\Jobs\LocalStore\Journal\JournalLocalStoreJob;
-use App\Jobs\LocalStore\Project\ProjectLocalStoreJob;
 use App\Jobs\LocalStore\Task\TaskLocalStoreJob;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use App\Jobs\LocalStore\Account\AccountLocalStoreJob;
+use App\Jobs\LocalStore\Journal\JournalLocalStoreJob;
+use App\Jobs\LocalStore\Project\ProjectLocalStoreJob;
+use App\Jobs\LocalStore\Journal\JournalLoanLocalStoreJob;
+use App\Jobs\LocalStore\Journal\JournalDreamLocalStoreJob;
 
 class SystemController extends Controller
 {
@@ -68,22 +69,29 @@ class SystemController extends Controller
     * designed to locally store them data from the database that won't be initially seeded; to retain a checkpoint
     * on where the application is.
     *
-    * @return RedirectResponse
+    * @return JsonResponse
     */
-    public function _storeAllModulesLocally(): RedirectResponse
+    public function _storeAllModulesLocally(): JsonResponse
     {
         $localStoreJobs = [
             TaskLocalStoreJob::class,
             ProjectLocalStoreJob::class,
             AccountLocalStoreJob::class,
             JournalLocalStoreJob::class,
-            JournalDreamLocalStoreJob::class
+            JournalDreamLocalStoreJob::class,
+            JournalLoanLocalStoreJob::class,
         ];
 
-        foreach ($localStoreJobs as $localStoreJob) {
-            dispatch(new $localStoreJob);
+        try {
+            $message = 'Successfully committed to local';
+
+            foreach ($localStoreJobs as $localStoreJob) {
+                dispatch(new $localStoreJob);
+            }
+        } catch (Exception $e) {
+            $message = 'Failed to commit to local';
         }
 
-        return back();
+        return response()->json(['message' => $message]);
     }
 }

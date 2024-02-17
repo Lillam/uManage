@@ -33,7 +33,7 @@ class AccountController extends Controller
     {
         $this->vs->set('title', '- {Account} - Account Management')
                  ->set('currentPage', 'page.accounts.list');
-
+        
         dd($account->getDecryptedPassword(), $account->getDecryptedTwoFactorAuthenticationRecovery());
 
         return view('account.view_account', compact(

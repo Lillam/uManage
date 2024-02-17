@@ -58,14 +58,19 @@
                         <a href="{{ route('users.user', $vs->user?->id) }}">
                             <i class="fa fa-user"></i>My Account
                         </a>
-                        <a href="{{ route('projects.tasks.create') }}"
-                           create-task
-                        ><i class="fa fa-tasks"></i>Create Task</a>
-                        <a href="{{ route('projects.create.view') }}"
-                           create-project
-                        ><i class="fa fa-sticky-note"></i>Create Project</a>
-                        <a href="{{ route('system.store') }}"><i class="fa fa-database"></i>Store All</a>
-                        <a href="{{ route('user.logout') }}"><i class="fa fa-sign-out-alt"></i>Logout</a>
+                        <a href="{{ route('projects.tasks.create') }}" create-task>
+                            <i class="fa fa-tasks"></i>Create Task
+                        </a>
+                        <a href="{{ route('projects.create.view') }}" create-project>
+                            <i class="fa fa-sticky-note"></i>Create Project
+                        </a>
+                        {{-- This is only something that is valid for (me to locally store all the database in json backups...) --}}
+                        <a href="{{ route('system.store') }}" class="local-store">
+                            <i class="fa fa-database"></i>Store All
+                        </a>
+                        <a href="{{ route('user.logout') }}">
+                            <i class="fa fa-sign-out-alt"></i>Logout
+                        </a>
                     </div>
                 </div>
             </li>

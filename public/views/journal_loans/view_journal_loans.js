@@ -48,7 +48,7 @@ $(async () => {
                journal_loan_id = $add_journal_loan_payback_modal.attr('data-loan_id'),
                make_journal_loan_payback_url = $add_journal_loan_payback_modal.data('make_journal_loan_payback_url');
 
-         await request().post(make_journal_loan_payback_url, {
+         request().post(make_journal_loan_payback_url, {
              journal_loan_id,
              amount: $('#repayment_amount').val(),
              when: $('#repayment_when').val()

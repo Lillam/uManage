@@ -18,8 +18,9 @@ class ProjectSeeder extends Seeder
     */
     public function run(): void
     {
-        if (! Storage::disk('local')->exists('projects/projects.json'))
+        if (! Storage::disk('local')->exists('projects/projects.json')) {
             return;
+        }
 
         $this->process(collect(json_decode(Storage::disk('local')->get('projects/projects.json'))));
     }
