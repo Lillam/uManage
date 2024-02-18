@@ -44,7 +44,9 @@ class AuthenticateUserModuleAccess
         if (array_key_exists(
             $this->target,
             app('vs')->get('user')->systemAccess
-        )) return $next($request);
+        )) {
+            return $next($request);
+        }
 
         // if we don't manage to prove that the user has access to a module; then we are going to simply return a 403.
         // that the user does not have access to see it.

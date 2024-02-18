@@ -27,13 +27,13 @@ class TaskPriorityRepository
         $task_priorities = self::getTaskPriorities();
 
         $html = '';
-        foreach ($task_priorities as $task_priority_key => $task_priority) {
+        foreach ($task_priorities as $task_priority) {
             $checked = in_array($task_priority->id, $selected_task_priority_ids)
                 ? 'checked=checked' : '';
 
             $html .= '<div class="checkbox_row">';
-                $html .= '<input type="checkbox" id="' . $task_priority->name . '" 
-                                       class="uk-checkbox task_priority_checkbox" 
+                $html .= '<input type="checkbox" id="' . $task_priority->name . '"
+                                       class="uk-checkbox task_priority_checkbox"
                                        data-task_priority_id="' . $task_priority->id . '"
                                        ' . $checked . '>';
                 $html .= '<label for="' . $task_priority->name . '">';

@@ -25,6 +25,9 @@ class AccountController extends Controller
     }
 
     /**
+     * @todo -> this wants fleshing out, removal of the dump and die and actually display means of finding out what these
+     *          details are for the account passed in question.
+     *
      * @param Request $request
      * @param Account $account
      * @return Factory|View
@@ -33,7 +36,7 @@ class AccountController extends Controller
     {
         $this->vs->set('title', '- {Account} - Account Management')
                  ->set('currentPage', 'page.accounts.list');
-        
+
         dd($account->getDecryptedPassword(), $account->getDecryptedTwoFactorAuthenticationRecovery());
 
         return view('account.view_account', compact(
@@ -99,9 +102,9 @@ class AccountController extends Controller
 
         return response()->json([
             'account_id' => $account_id,
-            'password' => $show === "true" ?
-                $account->getDecryptedPassword() :
-                $account->getShortPassword()
+            'password' => $show === "true"
+                ? $account->getDecryptedPassword()
+                : $account->getShortPassword()
         ]);
     }
 

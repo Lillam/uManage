@@ -22,8 +22,9 @@ class TaskSeeder extends Seeder
     */
     public function run(): void
     {
-        if (! Storage::disk('local')->exists('tasks/tasks.json'))
+        if (! Storage::disk('local')->exists('tasks/tasks.json')) {
             return;
+        }
 
         $this->process(collect(
             json_decode(Storage::disk('local')->get('tasks/tasks.json'))
@@ -114,8 +115,8 @@ class TaskSeeder extends Seeder
                             'order'      => $taskChecklist->order
                         ]);
 
-                        if (! empty($task_checklist->task_checklist_items)) {
-                            foreach ($task_checklist->task_checklist_items as $taskChecklistItemId
+                        if (! empty($taskChecklist->task_checklist_items)) {
+                            foreach ($taskChecklist->task_checklist_items as $taskChecklistItemId
                                 => $taskChecklistItem
                             ) {
                                 TaskChecklistItem::query()->updateOrCreate(['id' => $taskChecklistItemId], [
@@ -132,9 +133,14 @@ class TaskSeeder extends Seeder
                         }
                     }
                 }
+
                 $theNewTask->project->projectSetting->increment('tasks_total');
                 $bar->advance();
-            } $bar->finish();
-        }); DB::commit();
+            }
+
+            $bar->finish();
+        });
+
+        DB::commit();
     }
 }

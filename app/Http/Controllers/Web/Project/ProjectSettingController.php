@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Web\Project;
 
-use App\Http\Controllers\Web\Controller;
+use Illuminate\View\View;
+use Illuminate\Http\Request;
 use App\Models\Project\Project;
+use Illuminate\Http\JsonResponse;
 use App\Models\Project\ProjectSetting;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Psr\Container\ContainerExceptionInterface;
+use App\Http\Controllers\Web\Controller;
 use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 class ProjectSettingController extends Controller
 {
@@ -41,8 +41,9 @@ class ProjectSettingController extends Controller
         // quick check to see if the project setting is an instance of the project setting model, and if it is not...
         // then we are trying to look at a project that doesn't yet exist, and here we are simply going to throw a 404
         // then the user can then decide what they're going to do next.
-        if (! $project_setting instanceof ProjectSetting)
+        if (! $project_setting instanceof ProjectSetting) {
             abort(404);
+        }
 
         $this->vs->set('title', "- Project Settings - {$project_setting->project->name}")
                  ->set('currentPage', 'page.projects');
@@ -66,8 +67,9 @@ class ProjectSettingController extends Controller
 
         $project = Project::where('id', '=', $project_id)->first();
 
-        if ($this->vs->get('user')->cannot('ProjectPolicy@editProject', $project))
+        if ($this->vs->get('user')->cannot('ProjectPolicy@editProject', $project)) {
             return response()->json(['error' => 'You are unable to edit this particular project']);
+        }
 
         $project->$field = $value;
         $project->save();

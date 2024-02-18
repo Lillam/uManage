@@ -34,21 +34,26 @@ class TaskLogRepository
             // if the item happens to be a direct task edit... then we are going to set the handle method for this
             // entry point as handleTempTaskEdit... so that we can latch on some values to this particular object prior
             // to utilising it.
-            if ($task_log->isTaskEdit())
+            if ($task_log->isTaskEdit()) {
                 return self::handleTempTaskEdit($task_log);
+            }
 
             // if the item happens to be a direct task checklist edit, then we are going to set the handle method for
             // this entry point as handleTempTaskChecklistEdit so that we can latch on some values to this particular
             // object prior to utilising it.
-            if ($task_log->isTaskChecklistEdit())
+            if ($task_log->isTaskChecklistEdit()) {
                 return self::handleTempTaskChecklistEdit($task_log);
+            }
 
             // if the item happens to be a direct task checklist item edit then we are going to set the handle method
             // for this entry point as handleTempTaskChecklistItemEdit so that we can latch on some values to this
             // particular object prior to utilising it.
-            if ($task_log->isTaskChecklistItemEdit())
+            if ($task_log->isTaskChecklistItemEdit()) {
                 return self::handleTempTaskChecklistItemEdit($task_log);
-        }); return $task_logs;
+            }
+        });
+
+        return $task_logs;
     }
 
     /**
@@ -78,9 +83,10 @@ class TaskLogRepository
             case TaskLog::TASK_DUE_DATE:
                 $task_log->new_text = 'task Due date updated';
                 break;
-            case TaskLog::TASK_DELETE:
-                $task_log->new_text = 'task deleted';
-                break;
+            // @todo this wants to be put back into the logging concept, as we would want to know what was deleted.
+            // case TaskLog::TASK_DELETE:
+            //     $task_log->new_text = 'task deleted';
+            //     break;
         }
 
         return $task_log;
@@ -106,10 +112,11 @@ class TaskLogRepository
                 $task_log->old_text=  $task_log->old;
                 $task_log->new_text = $task_log->new;
                 break;
-            case TaskLog::TASK_CHECKLIST_DELETE:
-                $task_log->title = 'Deleted Task Checklist';
-                $task_log->new_text = $task_log->extra;
-                break;
+            // @todo this wants to be put back into the logging concept, as we would want to know what was deleted.
+            // case TaskLog::TASK_CHECKLIST_DELETE:
+            //     $task_log->title = 'Deleted Task Checklist';
+            //     $task_log->new_text = $task_log->extra;
+            //     break;
         }
 
         return $task_log;
@@ -141,10 +148,11 @@ class TaskLogRepository
                     '<i class="fa fa-check-circle-o"></i> ' . $task_log->extra :
                     '<i class="fa fa-circle-o"></i> ' . $task_log->extra;
                 break;
-            case TaskLog::TASK_CHECKLIST_ITEM_DELETE:
-                $task_log->title = 'Deleted Task Checklist Item';
-                $task_log->new_text = $task_log->extra;
-                break;
+            // @todo this wants to be put back into the logging concept, as we would want to know what was deleted.
+            // case TaskLog::TASK_CHECKLIST_ITEM_DELETE:
+            //     $task_log->title = 'Deleted Task Checklist Item';
+            //     $task_log->new_text = $task_log->extra;
+            //     break;
         }
 
         return $task_log;

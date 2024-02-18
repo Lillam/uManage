@@ -20,8 +20,10 @@ class TaskChecklistRepository
         foreach ($taskChecklists as $taskChecklist) {
             $taskChecklist->total_checklist_items = 0;
             $taskChecklist->total_completed_checklist_items = 0;
+
             foreach ($taskChecklist->taskChecklistItems as $taskChecklistItem) {
                 $taskChecklist->total_checklist_items += 1;
+
                 if ($taskChecklistItem->is_checked === true) {
                     $taskChecklist->total_completed_checklist_items += 1;
                 }

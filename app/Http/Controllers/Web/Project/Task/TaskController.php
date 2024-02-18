@@ -2,26 +2,26 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use App\Events\Task\TaskMessage;
-use App\Http\Controllers\Web\Controller;
-use App\Http\Controllers\Web\Project\ProjectController;
-use App\Models\Project\Project;
-use App\Models\Project\ProjectSetting;
+use Throwable;
 use App\Models\Task\Task;
-use App\Models\Task\TaskIssueType;
+use Illuminate\View\View;
 use App\Models\Task\TaskLog;
-use App\Models\Task\TaskPriority;
+use Illuminate\Http\Request;
+use App\Models\Project\Project;
 use App\Models\Task\TaskStatus;
-use App\Repositories\Project\ProjectSettingRepository;
+use App\Events\Task\TaskMessage;
+use App\Models\Task\TaskPriority;
+use Illuminate\Http\JsonResponse;
+use App\Models\Task\TaskIssueType;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use App\Models\Project\ProjectSetting;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use App\Repositories\Task\TaskRepository;
 use App\Repositories\TimeLog\TimeLogRepository;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\View\View;
-use Throwable;
+use App\Repositories\Project\ProjectSettingRepository;
+use App\Http\Controllers\Web\Project\ProjectController;
 
 class TaskController extends Controller
 {
@@ -74,10 +74,12 @@ class TaskController extends Controller
         // checking whether the project that we're looking at exists in the system or not, after checking that this
         // exists, we then check to see  if the authenticated user trying to view it... has the permission to view this
         // particular task/project combination.
-        if (! $project instanceof Project || Auth::user()->cannot('ProjectPolicy@viewProject', $project))
+        if (! $project instanceof Project || Auth::user()->cannot('ProjectPolicy@viewProject', $project)) {
             return $project instanceof Project
                 ? redirect()->to($project->getUrl())
                 : redirect()->action([ProjectController::class, '_viewProjectsGet']);
+        }
+
 
         // if the task does not exist, aka, we have found the project, but no task was found under the project with an
         // id then... we are going to kick this back, likewise, we are also going to check if the user cannot edit the
@@ -85,7 +87,9 @@ class TaskController extends Controller
         if (
             ! ($task = $project->tasks->first()) instanceof Task ||
             $this->vs->get('user')->cannot('TaskPolicy@viewTask', $task)
-        ) return redirect()->to($project->getUrl());
+        ) {
+            return redirect()->to($project->getUrl());
+        }
 
         // assuming we have made it here - we have done everything that we needed with the project... we can now unset
         // the project and save some memory space, we won't be utilising the project beyond this point as we will have
@@ -168,8 +172,9 @@ class TaskController extends Controller
             ->where('project_id', '=', $filters->project_id)
             ->first();
 
-        if ($project_setting instanceof ProjectSetting && $project_setting->view_id === 2)
+        if ($project_setting instanceof ProjectSetting && $project_setting->view_id === 2) {
             $filters->pagination = false;
+        }
 
         // we are just going to be gathering all the filters, and shoving them off to the task repository get tasks
         // method so that we can simply return a collection of tasks...
@@ -192,6 +197,7 @@ class TaskController extends Controller
     public function _ajaxViewCreateTaskGet(Request $request): Factory|View
     {
         $projects = Project::where('user_id', '=', Auth::id())->get();
+
         return view('task.modals.view_make_task_modal', compact(
             'projects'
         ));
@@ -323,8 +329,9 @@ class TaskController extends Controller
         // if we don't have access to the project in question, aka, if this project exists, or the user doesn't have
         // permission to view, like wise, if the task they're looking at doesn't exist, or has no permission, then
         // we're going to return, for now.
-        if (! $project instanceof Project || ! ($task = $project->tasks->first()) instanceof Task)
+        if (! $project instanceof Project || ! ($task = $project->tasks->first()) instanceof Task) {
             return back();
+        }
 
         // when we delete a task, we are going to want to decrement where this task came from; and what status this
         // task status this was sitting in so that we can decide to show a true amount of numbers.

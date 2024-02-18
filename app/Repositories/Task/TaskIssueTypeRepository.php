@@ -28,8 +28,8 @@ class TaskIssueTypeRepository
         $task_issue_types = self::getTaskIssueTypes();
 
         $html = '';
-        foreach ($task_issue_types as $task_issue_type_key => $task_issue_type) {
 
+        foreach ($task_issue_types as $task_issue_type) {
             $checked = '';
 
             // if the array that we have passed is in the checked+task_issue_type_ids that we will ahve passed via the
@@ -40,8 +40,8 @@ class TaskIssueTypeRepository
             }
 
             $html .= '<div class="checkbox_row">';
-                $html .= '<input type="checkbox" id="' . $task_issue_type->name . '" 
-                                     class="uk-checkbox task_issue_type_checkbox" 
+                $html .= '<input type="checkbox" id="' . $task_issue_type->name . '"
+                                     class="uk-checkbox task_issue_type_checkbox"
                                      data-task_issue_type_id="' . $task_issue_type->id . '"
                                      ' . $checked . '>';
                 $html .= '<label for="' . $task_issue_type->name . '">';

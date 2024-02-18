@@ -18,8 +18,10 @@ class ProjectSettingRepository
     */
     public static function updateProjectSettingStatusStatistics(ProjectSetting $projectSetting, int $n, int $o): void
     {
-        if ($projectSetting->{ProjectSetting::$TASKS_IN[$o]} > 0)
+        if ($projectSetting->{ProjectSetting::$TASKS_IN[$o]} > 0) {
             $projectSetting->decrement(ProjectSetting::$TASKS_IN[$o]);
+        }
+
         $projectSetting->increment(ProjectSetting::$TASKS_IN[$n]);
     }
 

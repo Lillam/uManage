@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use App\Http\Controllers\Web\Controller;
+use Throwable;
+use Illuminate\View\View;
 use App\Models\Task\TaskLog;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 use App\Repositories\Task\TaskLogRepository;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Throwable;
 
 class TaskLogController extends Controller
 {

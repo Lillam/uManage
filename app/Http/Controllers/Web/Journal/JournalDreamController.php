@@ -69,8 +69,9 @@ class JournalDreamController extends Controller
         for ($dayIncrement = 1; $dayIncrement < ($daysInMonth + 1); ++ $dayIncrement) {
             $journalDreamKey = "{$date->format('Y-m')}-" . ($dayIncrement < 10 ? '0' : '') . "$dayIncrement";
 
-            if ($dayKey === 7)
+            if ($dayKey === 7) {
                 $dayKey = 0;
+            }
 
             $referenceDay = $days[$dayKey];
 
@@ -102,9 +103,12 @@ class JournalDreamController extends Controller
         $journal_dream = JournalDream::query()->where('when', '=', $date)
                                               ->first();
 
-        if (! $journal_dream instanceof JournalDream)
-            $journal_dream = JournalDream::query()
-                ->create([ 'user_id' => $this->vs->get('user')->id, 'when' => $date ]);
+        if (! $journal_dream instanceof JournalDream) {
+            $journal_dream = JournalDream::query()->create([
+                'user_id' => $this->vs->get('user')->id,
+                'when' => $date
+            ]);
+        }
 
         // Acquire the journal dream page from yesterday, this will be taking the data that is passed, and then making a
         // new date and reducing a day.
@@ -112,7 +116,7 @@ class JournalDreamController extends Controller
 
         // Acquire the journal dream page for tomorrow (this will be taking the data that is passed, and then making a
         // new date, and adding a day.
-        $tomorrow_link  = route('journals.dreams.dream', Carbon::parse($date)->addDay()->format('Y-m-d'));
+        $tomorrow_link = route('journals.dreams.dream', Carbon::parse($date)->addDay()->format('Y-m-d'));
 
         $title = 'Dream Journal | '
             . $this->vs->get('user')->getFullName() . ' | '

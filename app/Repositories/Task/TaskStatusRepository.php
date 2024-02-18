@@ -32,15 +32,17 @@ class TaskStatusRepository
         $task_statuses = self::getTaskStatuses();
 
         $html = '';
-        foreach ($task_statuses as $task_status_key => $task_status) {
+
+        foreach ($task_statuses as $task_status) {
             $checked = '';
+
             if (in_array($task_status->id, $checked_task_status_ids)) {
                 $checked = 'checked=checked';
             }
 
             $html .= '<div class="checkbox_row">';
-                $html .= '<input type="checkbox" id="' . $task_status->name . '" 
-                                 class="uk-checkbox task_status_checkbox" 
+                $html .= '<input type="checkbox" id="' . $task_status->name . '"
+                                 class="uk-checkbox task_status_checkbox"
                                  data-task_status_id="' . $task_status->id . '"
                                  ' . $checked . '>';
                 $html .= '<label for="' . $task_status->name . '">';

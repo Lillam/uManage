@@ -33,13 +33,17 @@ class SystemModuleAccessSeeder extends Seeder
     public function run(): void
     {
         $bar = $this->command->getOutput()->createProgressBar($this->systemModules->count());
+
         foreach ($this->systemModules as $systemModuleAccess) {
             SystemModuleAccessUser::query()->create([
                 'user_id'                 => 1,
                 'system_module_access_id' => $systemModuleAccess->id,
                 'is_enabled'              => true
             ]);
+
             $bar->advance();
-        } $bar->finish();
+        }
+
+        $bar->finish();
     }
 }

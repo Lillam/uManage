@@ -34,6 +34,7 @@ class ProjectSeeder extends Seeder
         DB::transaction(function () use ($projects) {
             $bar = $this->command->getOutput()->createProgressBar(count($projects));
             $parsedown = (new Parsedown())->setSafeMode(true);
+
             foreach ($projects as $project) {
                 Project::query()->updateOrCreate(['id' => $project->id], [
                     'id'              => $project->id,
@@ -53,8 +54,14 @@ class ProjectSeeder extends Seeder
                     'tasks_in_progress'  => 0,
                     'tasks_in_completed' => 0,
                     'tasks_in_archived'  => 0
-                ]); $bar->advance();
-            } $bar->finish();
-        }); DB::commit();
+                ]);
+
+                $bar->advance();
+            }
+
+            $bar->finish();
+        });
+
+        DB::commit();
     }
 }

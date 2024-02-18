@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Web\TimeLog;
 
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use App\Models\TimeLog\TimeLog;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
 use App\Http\Controllers\Web\Controller;
-use App\Models\TimeLog\TimeLog;
-use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class TimeLogReportController extends Controller
 {

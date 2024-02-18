@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers\Web\Project\Task;
 
-use App\Helpers\Text\TextHelper;
-use App\Http\Controllers\Web\Controller;
-use App\Models\Task\TaskChecklist;
-use App\Models\Task\TaskChecklistItem;
-use App\Models\Task\TaskLog;
 use Carbon\Carbon;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Illuminate\Http\Request;
+use App\Models\Task\TaskLog;
+use App\Helpers\Text\TextHelper;
+use Illuminate\Http\JsonResponse;
+use App\Models\Task\TaskChecklist;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Task\TaskChecklistItem;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
 
 class TaskChecklistItemController extends Controller
 {
@@ -26,22 +26,16 @@ class TaskChecklistItemController extends Controller
     */
     public function _ajaxMakeTaskChecklistItemPost(Request $request): JsonResponse
     {
-        $task_checklist_id        =    (int) $request->input('task_checklist_id');
-        $task_id                  =    (int) $request->input('task_id');
-        $project_id               =    (int) $request->input('project_id');
-        $task_checklist_item_name = (string) $request->input('task_checklist_item_name');
-        $order                    =    (int) $request->input('order');
-
         // Store the checklist item temporary just in case we are going to want to reference what is happening
         // with this checklist item in question, we can report back to the user that the checklist item name has been
         // created, within the json response below.
         $taskChecklistItem = TaskChecklistItem::create([
-            'task_checklist_id' => $task_checklist_id,
-            'project_id'        => $project_id,
-            'task_id'           => $task_id,
+            'task_checklist_id' => $request->input('task_checklist_id'),
+            'project_id'        => $request->input('project_id'),
+            'task_id'           => $request->input('task_id'),
             'user_id'           => Auth::id(),
-            'name'              => TextHelper::safeTags($task_checklist_item_name),
-            'order'             => $order
+            'name'              => TextHelper::safeTags($request->input('task_checklist_item_name')),
+            'order'             => $request->input('order')
         ]);
 
         // create a log of the checklist item that has been made.
@@ -49,7 +43,9 @@ class TaskChecklistItemController extends Controller
 
         // if the checklist has been zipped up, but we have added a new item, then we are going to unzip the checklist
         // so that the user is in knowledge of the new checklist item that has been added to the checklist group.
-        $task_checklist = TaskChecklist::query()->where('id', '=', $task_checklist_id)->first();
+        $task_checklist = TaskChecklist::query()->where('id', '=', $request->input('task_checklist_id'))->first();
+        // @todo this piece is completely unnecessary to simply achieve that is the invert; so we can flip the boolean
+        // of is_zipped and show that to be what the new value is.
         $task_checklist_unzipped = false;
 
         if ($task_checklist->is_zipped === true) {
@@ -74,14 +70,10 @@ class TaskChecklistItemController extends Controller
     */
     public function _ajaxViewTaskChecklistItemsGet(Request $request): Factory|View
     {
-        $task_checklist_id = (int) $request->input('task_checklist_id');
-        $task_id           = (int) $request->input('task_id');
-        $project_id        = (int) $request->input('project_id');
-
         $taskChecklistItems = TaskChecklistItem::query()
-            ->where('task_checklist_id', '=', $task_checklist_id)
-            ->where('task_id', '=', $task_id)
-            ->where('project_id', '=', $project_id)
+            ->where('task_checklist_id', '=', $request->input('task_checklist_id'))
+            ->where('task_id', '=', $request->input('task_id'))
+            ->where('project_id', '=', $request->input('project_id'))
             ->where('user_id', '=', Auth::id())
             ->orderBy('order')
             ->get();

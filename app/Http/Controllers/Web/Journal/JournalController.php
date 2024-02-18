@@ -56,13 +56,15 @@ class JournalController extends Controller
 
         // if the direction is set, and is designated to be going left, then we are looking to cycle through dates into
         // the past and grabbing all journals that are beyond today backwards.
-        if ($direction === 'left')
+        if ($direction === 'left') {
             $date->subMonth();
+        }
 
         // if the direction is set and designated to be going right, then we are looking to cycle through dates into the
         // future and grabbing all journals that are beyond today, forwards.
-        if ($direction === 'right')
+        if ($direction === 'right') {
             $date->addMonth();
+        }
 
         // grab the start of the month from the date that we have passed, so that we can calculate how many days are in
         // this particular month from the very beginning.
@@ -112,8 +114,9 @@ class JournalController extends Controller
 
             // when we have finished iterating over this particular item, unset it. as we have just turned this particular
             // entry into an object.
-            if ($journals->get($journal_key) instanceof Journal)
+            if ($journals->get($journal_key) instanceof Journal) {
                 $journals->forget($journal_key);
+            }
 
             // increment the day key, so that we are able to gather the next day in the iterable instance.
             $day_key += 1;

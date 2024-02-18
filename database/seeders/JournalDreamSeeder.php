@@ -21,8 +21,10 @@ class JournalDreamSeeder extends Seeder
 
         DB::transaction(function () use ($journalDreams) {
             $bar = $this->command->getOutput()->createProgressBar($journalDreams->count());
+
             foreach ($journalDreams as $journalDream) {
                 $parsedown = (new Parsedown())->setSafeMode(true);
+
                 JournalDream::query()->updateOrCreate(['id' => $journalDream->id], [
                     'id'      => $journalDream->id,
                     'user_id' => 1,
@@ -30,8 +32,14 @@ class JournalDreamSeeder extends Seeder
                     'content' => $parsedown->parse($journalDream->content),
                     'meaning' => $parsedown->parse($journalDream->meaning),
                     'when'    => $journalDream->when,
-                ]); $bar->advance();
-            } $bar->finish();
-        }); DB::commit();
+                ]);
+
+                $bar->advance();
+            }
+
+            $bar->finish();
+        });
+
+        DB::commit();
     }
 }

@@ -42,7 +42,11 @@ class TaskIssueTypeSeeder extends Seeder
                 'name'  => $taskIssueType->name,
                 'color' => $taskIssueType->color,
                 'icon'  => $taskIssueType->icon
-            ]); $bar->advance();
-        } $bar->finish();
+            ]);
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 }

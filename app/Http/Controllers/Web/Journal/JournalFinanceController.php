@@ -42,11 +42,13 @@ class JournalFinanceController extends Controller
 
         $direction = $request->input('direction');
 
-        if ($direction === 'left')
+        if ($direction === 'left') {
             $date = $date->subMonth();
+        }
 
-        if ($direction === 'right')
+        if ($direction === 'right') {
             $date = $date->addMonth();
+        }
 
         $start_of_month = $date->startOfMonth();
 
@@ -89,9 +91,12 @@ class JournalFinanceController extends Controller
         // we are going to iterate over all the journal finances; so that we're going to be able to get a grand total of
         // how much money was gained and spent on days in particular.
         foreach ($journal_finances as $journal_finance_key => $journal_finance) {
-            if ($journal_finance->spend < 0)
-                 $dates[$journal_finance->when->format('Y-m-d')]->lost   -= $journal_finance->spend;
-            else $dates[$journal_finance->when->format('Y-m-d')]->gained += $journal_finance->spend;
+            if ($journal_finance->spend < 0) {
+                $dates[$journal_finance->when->format('Y-m-d')]->lost -= $journal_finance->spend;
+            } else {
+                $dates[$journal_finance->when->format('Y-m-d')]->gained += $journal_finance->spend;
+            }
+
             $journal_finances->forget($journal_finance_key);
         }
 

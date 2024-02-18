@@ -45,6 +45,7 @@ class SystemModuleSeeder extends Seeder
 
             foreach ($module->controllers as $controller) {
                 $methods = $this->extractAppControllerMethods($controller);
+
                 if (! empty($methods)) {
                     foreach ($methods as $method) {
                         SystemModuleAccess::query()->create([
@@ -55,8 +56,12 @@ class SystemModuleSeeder extends Seeder
                         ]);
                     }
                 }
-            } $bar->advance();
-        } $bar->finish();
+            }
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 
     /**

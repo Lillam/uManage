@@ -26,15 +26,12 @@ class TaskChecklistController extends Controller
     */
     public function _ajaxViewTaskChecklistsGet(Request $request): Factory|View
     {
-        $task_id    = (int) $request->input('task_id');
-        $project_id = (int) $request->input('project_id');
-
         $taskChecklists = TaskChecklistRepository::sortTaskChecklistProgress(
             TaskChecklist::query()
                 ->select('*')
                 ->with(['taskChecklistItems'])
-                ->where('task_id', '=', $task_id)
-                ->where('project_id', '=', $project_id)
+                ->where('task_id', '=', $request->input('task_id'))
+                ->where('project_id', '=', $request->input('project_id'))
                 ->where('user_id', '=', Auth::id())
                 ->orderBy('order')
                 ->get()
@@ -55,17 +52,12 @@ class TaskChecklistController extends Controller
     */
     public function _ajaxMakeTaskChecklistPost(Request $request): JsonResponse
     {
-        $order               =    (int) $request->input('order');
-        $task_id             =    (int) $request->input('task_id');
-        $project_id          =    (int) $request->input('project_id');
-        $task_checklist_name = (string) $request->input('task_checklist_name');
-
         $taskChecklist = TaskChecklist::create([
-            'project_id' => $project_id,
-            'task_id'    => $task_id,
+            'project_id' => $request->input('project_id'),
+            'task_id'    => $request->input('task_id'),
             'user_id'    => Auth::id(),
-            'name'       => $task_checklist_name,
-            'order'      => $order
+            'name'       => $request->input('task_checklist_name'),
+            'order'      => $request->input('order')
         ]);
 
         $taskChecklist->log(TaskLog::TASK_CHECKLIST_MAKE, $taskChecklist->name);
@@ -86,21 +78,18 @@ class TaskChecklistController extends Controller
     */
     public function _ajaxEditTaskChecklistPost(Request $request): JsonResponse
     {
-        $name              = (string) $request->input('name');
-        $task_checklist_id = (int) $request->input('task_checklist_id');
-
         // acquire the task checklist that we are about to update, make sure this entry exists prior to doing anything
         // with it, and then checking if the user in question is able to do anything regarding this particular entry.
-        $taskChecklist = TaskChecklist::query()->where('id', '=', $task_checklist_id)->first();
+        $taskChecklist = TaskChecklist::query()->where('id', '=', $request->input('task_checklist_id'))->first();
 
         // log the specific change that the user has attempted to make, this will be taking the constant of task
         // checklist name (7) as the update type for the log.
-        $taskChecklist->log(TaskLog::TASK_CHECKLIST_NAME, $name, $taskChecklist->name);
+        $taskChecklist->log(TaskLog::TASK_CHECKLIST_NAME, $request->input('name'), $taskChecklist->name);
 
         // after we are satisfied that the log has been met, then we are going to actually update the task checklist
         // entry in the database
         $taskChecklist->update([
-            'name' => $name
+            'name' => $request->input('name')
         ]);
 
         return response()->json([
@@ -114,14 +103,10 @@ class TaskChecklistController extends Controller
     */
     public function _ajaxEditTaskChecklistEditZipStatus(Request $request): JsonResponse
     {
-        $is_zipped         = $request->input('is_zipped');
-
-        $task_checklist_id = (int) $request->input('task_checklist_id');
-
-        $taskChecklist    = TaskChecklist::query()->where('id', '=', $task_checklist_id)->first();
+        $taskChecklist    = TaskChecklist::query()->where('id', '=', $request->input('task_checklist_id'))->first();
 
         $taskChecklist->update([
-            'is_zipped' => $is_zipped
+            'is_zipped' => $request->input('is_zipped')
         ]);
 
         return response()->json([
@@ -140,6 +125,7 @@ class TaskChecklistController extends Controller
     public function _ajaxEditTaskChecklistOrderPost(Request $request): JsonResponse
     {
         $taskChecklists = $request->input('task_checklists');
+
         if (count($taskChecklists) > 0) {
             DB::transaction(function () use ($taskChecklists) {
                 foreach ($taskChecklists as $taskChecklist) {
@@ -183,15 +169,11 @@ class TaskChecklistController extends Controller
     */
     public function _ajaxDeleteTaskChecklistPost(Request $request):JsonResponse
     {
-        $task_checklist_id = (int) $request->input('task_checklist_id');
-        $task_id           = (int) $request->input('task_id');
-        $project_id        = (int) $request->input('project_id');
-
         $taskChecklist = TaskChecklist::query()
             ->with('taskChecklistItems')
-            ->where('id', '=', $task_checklist_id)
-            ->where('task_id', '=', $task_id)
-            ->where('project_id', '=', $project_id)
+            ->where('id', '=',  $request->input('task_checklist_id'))
+            ->where('task_id', '=', $request->input('task_id'))
+            ->where('project_id', '=', $request->input('project_id'))
             ->where('user_id', '=', Auth::id())
             ->first();
 

@@ -72,7 +72,11 @@ class StoreProductSeeder extends Seeder
                 'alias' => TextHelper::slugify($product->name),
                 'package' => json_encode($product->package),
                 'price' => $product->price
-            ]); $bar->advance();
-        } $bar->finish();
+            ]);
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 }

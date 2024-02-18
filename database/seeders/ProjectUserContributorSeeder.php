@@ -21,7 +21,7 @@ class ProjectUserContributorSeeder extends Seeder
     {
         // delete everything before re-applying everything into the database.
         ProjectUserContributor::query()->whereNotNull('user_id')->delete();
-        
+
         $projects = Project::all();
         $users    = User::all();
 
@@ -33,7 +33,11 @@ class ProjectUserContributorSeeder extends Seeder
                     'user_id'    => $user->id,
                     'project_id' => $project->id
                 ]);
-            } $bar->advance();
-        } $bar->finish();
+            }
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 }

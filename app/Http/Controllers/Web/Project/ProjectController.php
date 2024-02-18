@@ -91,14 +91,16 @@ class ProjectController extends Controller
         // if there is no project for the above query, then we can assume that the user either doesn't have the project
         // that they're requesting, or they're trying to view someone else's project that their profile doesn't have
         // access to... thus we are going to need to abort here and provide a 404...
-        if (! $project instanceof Project)
+        if (! $project instanceof Project) {
             abort(404);
+        }
 
         // we are going to check to see if this particular user that is signed in, is able to view the project that
         // they're navigating to, if they don't then we are going to want to abort 403... telling the user that they
         // don't have the necessary permissions to do this.
-        if ($this->vs->get('user')->cannot('ProjectPolicy@viewProject', $project))
+        if ($this->vs->get('user')->cannot('ProjectPolicy@viewProject', $project)) {
             abort(403);
+        }
 
         $this->vs->set('title', " - Project - {$project->name}")
                  ->set('currentPage', 'page.projects.list');
@@ -179,14 +181,16 @@ class ProjectController extends Controller
         // if we don't have a project that we're working with, then we are going to abort the system and return a 404..
         // this will alert the user that the project in question does not exist... meaning they're trying to access
         // a project that isn't even in the system (potentially random url string)
-        if (! $project instanceof Project)
+        if (! $project instanceof Project) {
             abort(404);
+        }
 
         // if the user does not have the permission to delete the project, then we are going to abort with a 403 and
         // show a permission error, otherwise, if they do have the permission, ignore this set of logic and proceed
         // with the rest of the code-set.
-        if ($this->vs->get('user')->cannot('ProjectPolicy@deleteProject', $project))
+        if ($this->vs->get('user')->cannot('ProjectPolicy@deleteProject', $project)) {
             abort(403);
+        }
 
         // delete the actual project that we're looking at
         $project->delete();

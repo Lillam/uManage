@@ -51,6 +51,8 @@ class FakeTaskSeeder extends Seeder
             $task->project->projectSetting->increment('total_tasks');
 
             $bar->advance();
-        } $bar->finish();
+        }
+
+        $bar->finish();
     }
 }

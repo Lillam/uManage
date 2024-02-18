@@ -14,8 +14,9 @@ class AccountSeeder extends Seeder
      */
     public function run(): void
     {
-        if (! Storage::disk('local')->exists('accounts/accounts.json'))
+        if (! Storage::disk('local')->exists('accounts/accounts.json')) {
             return;
+        }
 
         $accounts = collect(json_decode(
             Storage::disk('local')
@@ -24,6 +25,7 @@ class AccountSeeder extends Seeder
 
         DB::transaction(function () use ($accounts) {
             $bar = $this->command->getOutput()->createProgressBar($accounts->count());
+
             foreach ($accounts as $account_id => $account) {
                 Account::query()->updateOrCreate(['id' => $account_id], [
                     'id'          => $account_id,
@@ -32,8 +34,14 @@ class AccountSeeder extends Seeder
                     'password'    => $account->password,
                     'user_id'     => $account->user_id,
                     'order'       => $account->order
-                ]); $bar->advance();
-            } $bar->finish();
-        }); DB::commit();
+                ]);
+
+                $bar->advance();
+            }
+
+            $bar->finish();
+        });
+
+        DB::commit();
     }
 }

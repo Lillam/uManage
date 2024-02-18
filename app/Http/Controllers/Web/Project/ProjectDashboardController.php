@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Web\Project;
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Web\Controller;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 
 class ProjectDashboardController extends Controller
 {

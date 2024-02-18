@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Web\Store;
 
-use App\Http\Controllers\Web\Controller;
-use App\Models\Store\StoreProduct;
 use App\Models\User\User;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use App\Models\Store\StoreProduct;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\View\Factory;
+use App\Http\Controllers\Web\Controller;
+use Illuminate\Contracts\Foundation\Application;
 
 class StoreProductController extends Controller
 {

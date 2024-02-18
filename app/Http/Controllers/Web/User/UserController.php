@@ -53,8 +53,9 @@ class UserController extends Controller
      */
     public function _viewUserLoginGet(): Factory|View|RedirectResponse
     {
-        if (Auth::user())
+        if (Auth::user()) {
             return redirect()->route('user.dashboard');
+        }
 
         $this->vs->set('title', 'Login')
                  ->set('currentPage', 'login')
@@ -85,7 +86,9 @@ class UserController extends Controller
         if (Auth::attempt([
             'email'    => $request->input('email'),
             'password' => $request->input('password')
-        ])) return redirect()->route('user.dashboard');
+        ])) {
+            return redirect()->route('user.dashboard');
+        }
 
         return back()->withInput([
             'error' => 'Wrong Login Details',
@@ -134,8 +137,9 @@ class UserController extends Controller
         // if the user we have searched for somehow doesn't happen to be an instance of user... then we are going
         // to want to redirect the user back to the user/1 page... utilising it's method, this in theory
         // should only ever happen if the user has opted to free search this in the url...
-        if (! $user instanceof User || $this->vs->get('user')->cannot('UserPolicy@viewUser', $user))
+        if (! $user instanceof User || $this->vs->get('user')->cannot('UserPolicy@viewUser', $user)) {
             return redirect()->action('User\UserController@_viewUsersGet');
+        }
 
         // when we're looking at the user in question then we are going to be gathering the user's people that are
         // attached to some of their projects, this will give an i   dea for the user on the amount of people they are
@@ -143,11 +147,15 @@ class UserController extends Controller
         // looking at a user project collection, so if the same user is connected to a variety of other projects, then
         // we are only wanted to get unique entries.
         $usersIWorkWith = collect();
+
         $user->projects->map(function ($project) use (&$usersIWorkWith) {
             $project->userContributors->map(function ($user) use (&$usersIWorkWith) {
-                if ($user->user->id !== $this->vs->get('user')->id)
+                if ($user->user->id !== $this->vs->get('user')->id) {
                     $usersIWorkWith[$user->user->id] = $user->user;
-            }); return $project;
+                }
+            });
+
+            return $project;
         });
 
         $this->vs->set('title', " - {$user->getFullName()}")

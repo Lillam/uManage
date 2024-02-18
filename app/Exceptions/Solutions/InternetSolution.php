@@ -55,6 +55,7 @@ class InternetSolution implements Solution
     {
         $this->esp->get('internet_solutions')->map(function ($value) use (&$internet_solutions) {
             $link_text = explode('/', $value);
+
             $internet_solutions[ucwords(preg_replace(
                 '/\&(.*)/', '', str_replace(
                     '-',
@@ -62,6 +63,8 @@ class InternetSolution implements Solution
                     substr(end($link_text), 0, 50)
                 )
             ))] = ltrim($value, 'url?q=/');
-        }); return $internet_solutions;
+        });
+
+        return $internet_solutions;
     }
 }

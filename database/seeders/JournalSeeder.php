@@ -25,6 +25,7 @@ class JournalSeeder extends Seeder
 
             DB::transaction(function () use ($journals) {
                 $bar = $this->command->getOutput()->createProgressBar($journals->count());
+
                 foreach ($journals as $journal_id => $journal) {
                     Journal::query()->updateOrCreate(['id' => $journal_id], [
                         'id'            => $journal_id,
@@ -48,9 +49,15 @@ class JournalSeeder extends Seeder
                                 'updated_at' => Carbon::parse($journal_achievement->updated_at)
                             ]);
                         }
-                    } $bar->advance();
-                } $bar->finish();
-            }); DB::commit();
+                    }
+
+                    $bar->advance();
+                }
+
+                $bar->finish();
+            });
+
+            DB::commit();
         }
     }
 }

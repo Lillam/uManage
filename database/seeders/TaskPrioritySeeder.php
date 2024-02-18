@@ -55,7 +55,11 @@ class TaskPrioritySeeder extends Seeder
                 'name' => $taskPriority->name,
                 'color' => $taskPriority->color,
                 'icon' => $taskPriority->icon
-            ]); $bar->advance();
-        } $bar->finish();
+            ]);
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 }

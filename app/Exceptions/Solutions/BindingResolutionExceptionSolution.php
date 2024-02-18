@@ -20,6 +20,7 @@ class BindingResolutionExceptionSolution implements Solution
     public function getSolutionDescription(): string
     {
         $this->getApplicationBindings();
+
         return 'You are trying to access a binding against the application that does not exist, via the utilisation of '
             .'**App::make(\'something\')**';
     }

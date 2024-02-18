@@ -39,7 +39,11 @@ class UserTableSeeder extends Seeder
                 'last_name'  => $user->last_name,
                 'email'      => $user->email,
                 'password'   => $user->password
-            ]); $bar->advance();
-        } $bar->finish();
+            ]);
+
+            $bar->advance();
+        }
+
+        $bar->finish();
     }
 }

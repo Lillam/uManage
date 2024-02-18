@@ -64,7 +64,9 @@ class Handler extends ExceptionHandler
             App::environment(config('app.dev.environments')) ||
             $exception instanceof NotFoundHttpException ||
             $exception instanceof HttpException
-        ) return parent::render($request, $exception);
+        ) {
+            return parent::render($request, $exception);
+        }
 
         return response()->view('errors.oops', [
             // potentially pass some information onto the error page regarding the exception right here, so that there

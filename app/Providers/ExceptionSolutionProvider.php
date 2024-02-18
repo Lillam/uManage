@@ -4,9 +4,10 @@ namespace App\Providers;
 
 use Throwable;
 use Illuminate\Support\Collection;
-use Facade\IgnitionContracts\HasSolutionsForThrowable;
-
-class ExceptionSolutionProvider implements HasSolutionsForThrowable
+// use Facade\IgnitionContracts\HasSolutionsForThrowable;
+// @todo this wants to be put back at some point in order to get solutions for the particular exceptions that occur.
+// class ExceptionSolutionProvider implements HasSolutionsForThrowable
+class ExceptionSolutionProvider
 {
     /**
     * Setting up all the solution providers that we have in the system, and then this class here will decide what type
@@ -108,16 +109,16 @@ class ExceptionSolutionProvider implements HasSolutionsForThrowable
         // if the internet searching is enabled... and the above solution cannot be found, then we are going to resort
         // to trying to find something from the internet... then it will go through the motions of getting internet
         // search results.
-        if ($this->internetSearchingEngine && ! isset($this->solutions[$this->solution]))
+        if ($this->internetSearchingEngine && ! isset($this->solutions[$this->solution])) {
             $this->getInternetSolutions($throwable->getMessage());
+        }
 
         // return whether we can solve the issue or not , which is basically if the solutions exist against the thing
         // we are trying to solve, OR if we have any internet solutions regarding the issue at hand, but this will
         // only want to happen, if there is no solution set, so that we can run off and collect some solutions, which
         // will be a concept of optimisations and removing unnecessary methods where possible; each solution will be
         // loaded with some links regarding the error at hand (if it is a known issue).
-        return isset($this->solutions[$this->solution]) ||
-               !! $this->internetSolutions;
+        return isset($this->solutions[$this->solution]) || !! $this->internetSolutions;
     }
 
     /**
@@ -166,11 +167,14 @@ class ExceptionSolutionProvider implements HasSolutionsForThrowable
                 foreach ($this->internetSearchingPages as $internet_searching_page) {
                     return str_contains($value, $internet_searching_page);
                 }
-            } return $value;
+            }
+
+            return $value;
         }))->take($this->internetSearchingResults);
 
-        if ($this->internetSolutions->isNotEmpty())
+        if ($this->internetSolutions->isNotEmpty()) {
             $this->solution = 'Internet';
+        }
     }
 
     /**
@@ -201,8 +205,9 @@ class ExceptionSolutionProvider implements HasSolutionsForThrowable
     */
     public function registerSolution(string $abstract, ?string $concrete = null): self
     {
-        if ($concrete === null)
+        if ($concrete === null) {
             $concrete = $abstract;
+        }
 
         $this->solutions[$concrete] = $abstract;
         return $this;

@@ -6,8 +6,8 @@ use App\Services\View\ViewService;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Facade\IgnitionContracts\SolutionProviderRepository;
-use Laravel\Telescope\TelescopeServiceProvider as LaravelTelescopeServiceProvider;
+// use Facade\IgnitionContracts\SolutionProviderRepository;
+// use Laravel\Telescope\TelescopeServiceProvider as LaravelTelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

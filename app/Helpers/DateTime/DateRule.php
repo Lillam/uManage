@@ -74,10 +74,12 @@ class DateRule
     */
     public function setFrequency(string $frequency): self
     {
-        if (! array_key_exists($frequency = mb_strtoupper($frequency), $this->incrementalMethods))
+        if (! array_key_exists($frequency = mb_strtoupper($frequency), $this->incrementalMethods)) {
             throw new Exception('Incorrect use of frequency, try using: daily, weekly, monthly or yearly');
+        }
 
         $this->frequency = $frequency;
+
         return $this;
     }
 
@@ -146,8 +148,9 @@ class DateRule
 
             // if we have hit the end date, regardless of how many times the user has wanted to keep the rule going for
             // then we are looking to break the loop here and no longer continue attempting to make anymore.
-            if (isset($this->endDate) && $recurrence > $this->endDate)
+            if (isset($this->endDate) && $recurrence > $this->endDate) {
                 break;
+            }
 
             // when we are making recurring dates, we are going to append a new DateRuleRecurrence into a collection
             // and begin constructing a variety of useful foundations that a DateRuleRecurrence will need in order for
@@ -160,8 +163,9 @@ class DateRule
 
         // if we don't have an end date set already, then we are going to add the last recurrence that was entered into
         // the array... so that we can have a solid stopping point.
-        if (! isset($this->endDate))
+        if (! isset($this->endDate)) {
             $this->setEndDate($this->recurrences->last()->date);
+        }
 
         $this->difference = $this->startDate->diff($this->endDate);
 
