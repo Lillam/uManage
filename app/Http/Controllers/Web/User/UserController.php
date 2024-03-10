@@ -33,12 +33,11 @@ class UserController extends Controller
      */
     public function _viewUserDashboardGet(): Factory|View
     {
-        $this->vs
-            ->set("title", "Dashboard - {$this->vs->get("user")->getFullName()}")
-            ->set("ref", "dashboard")
-            ->set("currentPage", "page.dashboard")
-            ->set("hasTitle", false)
-            ->set("hasSidebar", false);
+        $this->vs->set("title", "Dashboard - {$this->vs->get("user")->getFullName()}")
+                 ->set("ref", "dashboard")
+                 ->set("currentPage", "page.dashboard")
+                 ->set("hasTitle", false)
+                 ->set("hasSidebar", false);
 
         $this->vs->get("user")->can("Policy@canI");
 
@@ -58,13 +57,12 @@ class UserController extends Controller
             return redirect()->route("user.dashboard");
         }
 
-        $this->vs
-            ->set("title", "Login")
-            ->set("currentPage", "login")
-            ->set("hasSidebar", false)
-            ->set("hasHeader", false)
-            ->set("hasTitle", false)
-            ->set("hasFooter", false);
+        $this->vs->set("title", "Login")
+                 ->set("currentPage", "login")
+                 ->set("hasSidebar", false)
+                 ->set("hasHeader", false)
+                 ->set("hasTitle", false)
+                 ->set("hasFooter", false);
 
         return view("user.view_user_login");
     }
@@ -85,12 +83,10 @@ class UserController extends Controller
             "password" => "required",
         ]);
 
-        if (
-            Auth::attempt([
-                "email" => $request->input("email"),
-                "password" => $request->input("password"),
-            ])
-        ) {
+        if (Auth::attempt([
+            "email" => $request->input("email"),
+            "password" => $request->input("password"),
+        ])) {
             return redirect()->route("user.dashboard");
         }
 
@@ -134,9 +130,7 @@ class UserController extends Controller
             "tasks.taskStatus",
             "tasks.taskPriority",
             "tasks.taskIssueType",
-        ])
-            ->where("id", "=", $userId)
-            ->first();
+        ])->where("id", "=", $userId)->first();
 
         // if the user we have searched for somehow doesn't happen to be an instance of user... then we are going
         // to want to redirect the user back to the user/1 page... utilising it's method, this in theory
@@ -162,10 +156,9 @@ class UserController extends Controller
             return $project;
         });
 
-        $this->vs
-            ->set("title", " - {$user->getFullName()}")
-            ->set("ref", "account")
-            ->set("currentPage", "page.user");
+        $this->vs->set("title", " - {$user->getFullName()}")
+                 ->set("ref", "account")
+                 ->set("currentPage", "page.user");
 
         return view("user.view_user", compact("user", "usersIWorkWith"));
     }
