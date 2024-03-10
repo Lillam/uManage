@@ -14,21 +14,21 @@ class ExtractDatabaseCommand extends Command
     /**
      * @var string
      */
-    protected $name = "system.database.extract";
+    protected $name = 'system.database.extract';
 
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = "system:database:extract";
+    protected $signature = 'system:database:extract';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Extract the database";
+    protected $description = 'Extract the database';
 
     /**
      * Create a new command instance.
@@ -50,16 +50,13 @@ class ExtractDatabaseCommand extends Command
      */
     public function handle(): int
     {
-        foreach (
-            [
-                AccountLocalStoreJob::class => "external/accounts.json",
-                JournalDreamLocalStoreJob::class => "external/dream_journals.json",
-                JournalLocalStoreJob::class => "external/journals.json",
-                ProjectLocalStoreJob::class => "external/projects.json",
-                TaskLocalStoreJob::class => "external/tasks.json",
-            ]
-            as $job => $destination
-        ) {
+        foreach ([
+            AccountLocalStoreJob::class      => 'external/accounts.json',
+            JournalDreamLocalStoreJob::class => 'external/dream_journals.json',
+            JournalLocalStoreJob::class      => 'external/journals.json',
+            ProjectLocalStoreJob::class      => 'external/projects.json',
+            TaskLocalStoreJob::class         => 'external/tasks.json',
+        ] as $job => $destination) {
             // log and dispatch the job in question. This will simply perform the handle method of all the above...
             // which in turn dispatches a local store of all the data that resides in the database into a new location
             // under /external.
