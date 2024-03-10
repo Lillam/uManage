@@ -2,50 +2,56 @@
 // to pass in the csrf token every time, this makes ajax-ing everywhere much easier to deal with.
 $.ajaxSetup({
     headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
+        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+    },
 });
 
 /**
-* @type {{toolbar: *[][]}}
-* we are setting a global default for the summernote objects that we are going to be working with around the system
-* anywhere that requires a summernote will be utilising these options so that we have a sense of standardisation and
-* not re-using and recreating the same set of options on every page that is requiring them.
-*/
+ * @type {{toolbar: *[][]}}
+ * we are setting a global default for the summernote objects that we are going to be working with around the system
+ * anywhere that requires a summernote will be utilising these options so that we have a sense of standardisation and
+ * not re-using and recreating the same set of options on every page that is requiring them.
+ */
 window.summernote_options = {
     toolbar: [
-        ['style', ['bold', 'clear']],
-        ['font', ['strikethrough']],
-        ['para', ['ul', 'ol']],
-        ['view', ['codeview', 'codeBlock']],
-        ['insert', ['link']]
+        ["style", ["bold", "clear"]],
+        ["font", ["strikethrough"]],
+        ["para", ["ul", "ol"]],
+        ["view", ["codeview", "codeBlock"]],
+        ["insert", ["link"]],
     ],
     buttons: {
         codeBlock: function (context) {
-            return context.ui.button({
-                contents: '<i class="fa fa-code"></i>',
-                click: function (event) {
-                    $(event.target).closest('.note-editor')
-                                   .find('.note-editable > p:last-of-type')
-                                   .find('br')
-                                   .remove();
-                    $(event.target).closest('.note-editor')
-                                   .find('.note-editable > p:last-of-type')
-                                   .append('<pre><code>...</code></pre>');
-                }
-            }).render();
-        }
+            return context.ui
+                .button({
+                    contents: '<i class="fa fa-code"></i>',
+                    click: function (event) {
+                        $(event.target)
+                            .closest(".note-editor")
+                            .find(".note-editable > p:last-of-type")
+                            .find("br")
+                            .remove();
+                        $(event.target)
+                            .closest(".note-editor")
+                            .find(".note-editable > p:last-of-type")
+                            .append("<pre><code>...</code></pre>");
+                    },
+                })
+                .render();
+        },
     },
     followingToolbar: false,
     hint: {
         match: /:([\-+\w]+)$/,
         search: function (keyword, callback) {
-            callback($.grep(window.emojis, function (item) {
-                return item.indexOf(keyword) === 0;
-            }));
+            callback(
+                $.grep(window.emojis, function (item) {
+                    return item.indexOf(keyword) === 0;
+                }),
+            );
         },
         template: (item) => `${window.emoji_items[item]} :${item}:`,
-        content: (item) => window.emoji_items[item]
+        content: (item) => window.emoji_items[item],
     },
     callbacks: {
         // here we're going to disable the original functionality that summernote has on command + enter | ctrl + enter
@@ -56,68 +62,70 @@ window.summernote_options = {
                 event.preventDefault();
                 // this path would be better updated at some point however is going to do the job for now and its main
                 // purpose is to just simply click the save button.
-                $(this).next().next().find('a').first().click();
+                $(this).next().next().find("a").first().click();
             }
         },
         onKeydown: function (event) {
             // check to see whether the user has clicked ctrl + escape or command + escape or not and then treat this as
             // an indication that the user wants to walk away from the input field and then close the summernote field
             // this will simply click the cancel button that resides next to the summernote field.
-            if ((event.metaKey || event.ctrlKey) && event.key === 'Escape') {
-                $(this).next().next().find('a').first().next().click();
+            if ((event.metaKey || event.ctrlKey) && event.key === "Escape") {
+                $(this).next().next().find("a").first().next().click();
             }
-        }
-    }
+        },
+    },
 };
 
-const request = () => ({
-    get: (url, data = {}) => $.ajax({ method: 'get', url, data }),
-    post: (url, data = {}) => $.ajax({ method: 'post', url, data })
-});
+const request = () => {
+    return {
+        get: (url, data = {}) => $.ajax({ method: "get", url, data }),
+        post: (url, data = {}) => $.ajax({ method: "post", url, data }),
+    };
+};
 
 $(() => {
     // defining some global variables that will be used throughout any page that is including this...
-    let $html = $('html'),
-        $body = $('body');
+    let $html = $("html"),
+        $body = $("body");
 
     // when the user has opted to click on the html page, and it doesn't really matter where they have clicked
     // then we are going to attempt to remove the open class, from all sidebars... so that they will be then re-hidden
     // this is a makeshift blur for the sidebar...
-    $html.on('click', function (event) {
+    $html.on("click", function (event) {
         // $('.open').removeClass('open');
-        ['open', 'accounts_sidebar_open', 'journal_sidebar_open'].forEach((itemClass) => {
+        ["open", "accounts_sidebar_open", "journal_sidebar_open"].forEach((itemClass) => {
             $(`.${itemClass}`).removeClass(itemClass);
-        })
+        });
     });
 
     // when wea re dealing with ajax requests... there is going to need to be a method of which allows me to close the
     // alert... this will pretty much simply just remove the 'active' class from the ajax message helper container...
     // which will just display none on the message and then when we call this again, the new html will be inserted
     // and the element will be updated with the new html...
-    $body.on('click', '.ajax_message_helper_close', function (event) {
+    $body.on("click", ".ajax_message_helper_close", function (event) {
         event.preventDefault();
-        $('.ajax_message_helper').html('').removeClass('active');
+        $(".ajax_message_helper").html("").removeClass("active");
     });
 
     /**
-    * Dropdown functionality.
-    */
-    $body.on('click', '.dropdown_button', function (event) {
+     * Dropdown functionality.
+     */
+    $body.on("click", ".dropdown_button", function (event) {
         event.stopPropagation();
         let $this = $(this);
-        $this.next().toggleClass('open');
+        $this.next().toggleClass("open");
     });
 
     // when clicking on any element inside the dropdown then we are going to just bubbling up and causing the
     // dropdown closing on itself, meaning that the user can click on elements inside the dropdown.
-    $body.on('click', '.dropdown', function (event) {
+    $body.on("click", ".dropdown", function (event) {
         event.stopPropagation();
     });
 
     // when the user has opted to click on save new project, this will run the logic through the (create project) method
     // which will handle the checking whether the details required to create a project has been filled or not, handling
     // the responses in kind depending on what might be missing or yet needed.
-    $body.on('click', '.save_new_project', function (event) {
+    $body.on("click", ".save_new_project", function (event) {
         event.stopPropagation();
         event.preventDefault();
         createProject();
@@ -126,125 +134,127 @@ $(() => {
     // when the user has opted to click on save new task, this will run the logic through the (create task) method
     // which will handle all the checking whether the details required for creating a new task has been filled or not,
     // handling the responses in kind depending on what might be missing or yet needed.
-    $body.on('click', '.save_new_task', function (event) {
+    $body.on("click", ".save_new_task", function (event) {
         event.stopPropagation();
         event.preventDefault();
         createTask();
     });
 
-    $body.on('click', '.user', function (event) {
+    $body.on("click", ".user", function (event) {
         event.stopPropagation();
         let $this = $(this);
-        $this.closest('.user-wrapper').toggleClass('open');
+        $this.closest(".user-wrapper").toggleClass("open");
     });
 
     // method for creating a task, when the user clicks on the anchor tag that has the attribute "create-task" we are
     // going to want to make an ajax request to the server... once we have done this, we're essentially going to bring
     // back some modal content, and dump it onto the page... and then call uikit.modal to open it up and display
     // the form that will allow the user to create a new project.
-    $body.on('click', 'a[create-task]', function (event) {
+    $body.on("click", "a[create-task]", function (event) {
         event.preventDefault();
 
         let $this = $(this),
-            url = $this.attr('href');
+            url = $this.attr("href");
 
         $.ajax({
-            method: 'get',
+            method: "get",
             url: url,
             success: (data) => {
-                $('.make_task_modal').remove();
-                $('body').append(data);
-                UIkit.modal('.make_task_modal').show();
-                $('.make_task_description').summernote(window.summernote_options);
-                $('.make_task_project_id').select2();
-            }
-        })
+                $(".make_task_modal").remove();
+                $("body").append(data);
+                UIkit.modal(".make_task_modal").show();
+                $(".make_task_description").summernote(window.summernote_options);
+                $(".make_task_project_id").select2();
+            },
+        });
     });
 
     // method for creating a project, when the user clicks on the anchor tag that has the attribute "create-project" we
     // are going to want to make an ajax request to the server... once we have done this, we're essentially going to
     // bring back some modal content, and dump it onto the page... and then call uikit.modal to open it up and display
     // the form that will allow the user to create a new project...
-    $body.on('click', 'a[create-project]', function (event) {
+    $body.on("click", "a[create-project]", function (event) {
         event.preventDefault();
 
         let $this = $(this),
-            url = $this.attr('href');
+            url = $this.attr("href");
 
         $.ajax({
-            method: 'get',
+            method: "get",
             url: url,
             data: {},
             success: (data) => {
-                $('.make_project_modal').remove();
-                $('body').append(data);
-                UIkit.modal('.make_project_modal').show();
-            }
-        })
+                $(".make_project_modal").remove();
+                $("body").append(data);
+                UIkit.modal(".make_project_modal").show();
+            },
+        });
     });
 
     // If the user is in desire of making some more space for their viewing they are going to be able to collapse the
     // sidebar; should they do this we're going to make an ajax request to the server in order to confirm this action
     // so that on their next refresh the website will be remembered and the sidebar will either be hidden or visible
     // entirely depending on the users' preference.
-    $body.on('click', '.close-sidebar', () => {
-        let url = $body.data('collapse_sidebar_url'),
-            collapsed = $body.hasClass('sidebar-closed');
+    $body.on("click", ".close-sidebar", () => {
+        let url = $body.data("collapse_sidebar_url"),
+            collapsed = $body.hasClass("sidebar-closed");
 
         // this functionality on wants to happen when the screen is greater >= 800; otherwise this will be hidden on
         // mobile and the functionality will no longer be "state" dependant. and if we're on a screen size of <= 799
         // then this can be ignored.
         if (window.innerWidth > 800) {
             $.ajax({
-                method: 'get',
+                method: "get",
                 url: url,
                 data: {
-                    is_collapsed: !! collapsed ? 0 : 1
+                    is_collapsed: !!collapsed ? 0 : 1,
                 },
                 success: () => {
-                    $body.toggleClass('sidebar-closed');
-                }
+                    $body.toggleClass("sidebar-closed");
+                },
             });
 
-            $body.removeClass('sidebar-open');
+            $body.removeClass("sidebar-open");
             return;
         }
 
-        $body.toggleClass('sidebar-open');
+        $body.toggleClass("sidebar-open");
     });
 
-    $body.on('click', '[data-confirm]', function (event) {
+    $body.on("click", "[data-confirm]", function (event) {
         event.stopImmediatePropagation();
         event.stopPropagation();
         event.preventDefault();
-        confirm('are you sure you want to do this?');
+        confirm("are you sure you want to do this?");
     });
 
-    $body.on('click', '.toggle-theme', (e) => {
-        const html = $('html'),
-              url = $('body').data('set_theme_url');
+    $body.on("click", ".toggle-theme", (e) => {
+        const html = $("html"),
+            url = $("body").data("set_theme_url");
 
-        $('.toggle-theme .light-theme').toggleClass('active');
-        $('.toggle-theme .dark-theme').toggleClass('active');
+        $(".toggle-theme .light-theme").toggleClass("active");
+        $(".toggle-theme .dark-theme").toggleClass("active");
 
-        html.toggleClass('dark-theme');
-        html.toggleClass('light-theme');
+        html.toggleClass("dark-theme");
+        html.toggleClass("light-theme");
 
         $.ajax({
-            method: 'get',
+            method: "get",
             url: url,
             data: {
-                theme_color: html.hasClass('dark-theme') ? 'dark-theme' : 'light-theme'
-            }
+                theme_color: html.hasClass("dark-theme") ? "dark-theme" : "light-theme",
+            },
         });
     });
 
-    $body.on('click', '.local-store', (e) => {
+    $body.on("click", ".local-store", (e) => {
         e.preventDefault();
 
-        request().get(e.target.href).then(data => {
-            ajax_message_helper($('.ajax_message_helper'), data.message);
-        });
+        request(true)
+            .get(e.target.href)
+            .then((data) => {
+                ajax_message_helper(data.message);
+            });
     });
 });
 
@@ -253,14 +263,14 @@ $(() => {
 // .something is the extension that we're adding to the particular project...
 $.fn.extend({
     /**
-    * Override function for jquery, which will allow us to place the cursor at the end of an element, this will just
-    * place the | flashing cursor and focus to the end of a string, of an input of choice...
-    *
-    * @returns {placeCursorAtEnd}
-    */
-    placeCursorAtEnd: function() {
+     * Override function for jquery, which will allow us to place the cursor at the end of an element, this will just
+     * place the | flashing cursor and focus to the end of a string, of an input of choice...
+     *
+     * @returns {placeCursorAtEnd}
+     */
+    placeCursorAtEnd: function () {
         // Places the cursor at the end of a content-editable container (should also work for textarea / input)
-        if (! this.length) {
+        if (!this.length) {
             throw new Error("Cannot manipulate an element if there is no element!");
         }
 
@@ -280,44 +290,47 @@ $.fn.extend({
         }
 
         return this;
-    }
+    },
 });
 
 /**
-* This method is entirely for handling the frontend visuals when we are dealing with responses that come back from ajax.
-* this is a prettified alert that will appear on screen when the user has made some changes that did not require a page
-* refresh, this method will give the user some feedback that some changes have been made. this is useful for instant
-* feedback to the user.
-*
-* @param $object | Where are we injecting the data to.
-* @param data    | The data of which we are injecting into Object.
-*/
-let ajax_message_helper = function ($object, data) {
+ * This method is entirely for handling the frontend visuals when we are dealing with responses that come back from ajax.
+ * this is a prettified alert that will appear on screen when the user has made some changes that did not require a page
+ * refresh, this method will give the user some feedback that some changes have been made. this is useful for instant
+ * feedback to the user.
+ *
+ * @param $object | Where are we injecting the data to.
+ * @param data    | The data of which we are injecting into Object.
+ */
+let ajax_message_helper = function (data) {
+    const $object = $(".ajax_message_helper");
+
     let html = data?.response ?? data;
-        html += '<a class="ajax_message_helper_close"><i class="fa fa-close"></i></a>';
+    html += '<a class="ajax_message_helper_close"><i class="fa fa-close"></i></a>';
 
     $object.html(html);
-    $object.addClass('active');
-    setTimeout(function() {
-        $object.removeClass('active');
+    $object.addClass("active");
+
+    setTimeout(function () {
+        $object.removeClass("active");
     }, 1500);
 };
 
 /**
-* when the user begins to open a summernote object, we are going to check to see if there is a placeholder element inside
-* and set its value to nothing, we are going to delete the object in question from memory, store its value in the
-* cache, so that once we are done editing or messing with this instance, if nothing has changed then we set the value
-* back to what the cache value was.
-*
-* @param key   | The key of which the value will be stored against, subsequently, this will also want to be the class or
-*              | Identifier of the element.
-* @param value | the value for the key that is being stored.
-* @return void
-*/
+ * when the user begins to open a summernote object, we are going to check to see if there is a placeholder element inside
+ * and set its value to nothing, we are going to delete the object in question from memory, store its value in the
+ * cache, so that once we are done editing or messing with this instance, if nothing has changed then we set the value
+ * back to what the cache value was.
+ *
+ * @param key   | The key of which the value will be stored against, subsequently, this will also want to be the class or
+ *              | Identifier of the element.
+ * @param value | the value for the key that is being stored.
+ * @return void
+ */
 const handleSummernoteOpen = function (key, value) {
     let $object = $(`.${key}`);
-    if ($object.find('.placeholder').length >= 1) {
-        $object.html('');
+    if ($object.find(".placeholder").length >= 1) {
+        $object.html("");
     }
     window[key] = value;
     // unset the object, we no longer need it.
@@ -325,15 +338,15 @@ const handleSummernoteOpen = function (key, value) {
 };
 
 /**
-* This method will be doing the exact opposite of what the handling of the summernote open does, however this will be
-* undoing everything and removing the value from cache, after it has applied that cache to the element in question's
-* placeholder element, to simulate that nothing has been changed, and that it is now ready for editing again.
-*
-* @param $object        | jquery object
-* @param handle         | point of reference (save or cancel)
-* @param key            | the identifier for the content should the content have been saved into the system.
-* @param updateOnSave   | whether we're opting to update the element when we have left the summernote leave...
-*/
+ * This method will be doing the exact opposite of what the handling of the summernote open does, however this will be
+ * undoing everything and removing the value from cache, after it has applied that cache to the element in question's
+ * placeholder element, to simulate that nothing has been changed, and that it is now ready for editing again.
+ *
+ * @param $object        | jquery object
+ * @param handle         | point of reference (save or cancel)
+ * @param key            | the identifier for the content should the content have been saved into the system.
+ * @param updateOnSave   | whether we're opting to update the element when we have left the summernote leave...
+ */
 const handleSummernoteLeave = function ($object, handle, key, updateOnSave = true) {
     // regardless of whether we are saving or cancelling, we are wanting to reset the value of the object
     // back to its original value... on the exit of the summernote, the object will be set to the previous value
@@ -370,7 +383,7 @@ const cache = () => ({
      * @param value
      * @return any
      */
-    set: (key, value) => window[key] = value,
+    set: (key, value) => (window[key] = value),
 
     /**
      * We are going to need a method for deleting the cache objects when we are no longer needing to store the
@@ -383,40 +396,40 @@ const cache = () => ({
      */
     remove: (key) => {
         delete window[key];
-    }
+    },
 });
 
 /**
-* Method for creating a project, if the user clicks on the create project button, this method will take care of all the
-* processing for handling the details, if there are any details that haven't been filled then the system will handle it
-* here, otherwise, this will collect all the data we need to push up to the database and then query from that.
-*
-* @return void
-*/
+ * Method for creating a project, if the user clicks on the create project button, this method will take care of all the
+ * processing for handling the details, if there are any details that haven't been filled then the system will handle it
+ * here, otherwise, this will collect all the data we need to push up to the database and then query from that.
+ *
+ * @return void
+ */
 const createProject = () => {
-    let $make_project_modal  = $('.make_project_modal'),
-        make_project_url     = $make_project_modal.data('make_project_url'),
-        $project_name        = $make_project_modal.find('.make_project_name'),
-        $project_description = $make_project_modal.find('.make_project_description'),
-        $project_code        = $make_project_modal.find('.make_project_code'),
-        $project_color       = $make_project_modal.find('.make_project_color'),
-        $project_icon        = $make_project_modal.find('.make_project_icon');
+    let $make_project_modal = $(".make_project_modal"),
+        make_project_url = $make_project_modal.data("make_project_url"),
+        $project_name = $make_project_modal.find(".make_project_name"),
+        $project_description = $make_project_modal.find(".make_project_description"),
+        $project_code = $make_project_modal.find(".make_project_code"),
+        $project_color = $make_project_modal.find(".make_project_color"),
+        $project_icon = $make_project_modal.find(".make_project_icon");
 
     $.ajax({
-        method: 'post',
+        method: "post",
         url: make_project_url,
         data: {
             name: $project_name.val(),
             description: $project_description.val(),
             code: $project_code.val(),
-            color: $project_color.val().replace('#', ''),
-            icon: $project_icon.val()
+            color: $project_color.val().replace("#", ""),
+            icon: $project_icon.val(),
         },
         success: () => {
             // if we are on a page that has the function of (viewProjects) defined then we are going to want to
             // call it so that the projects are showing the up-to-date version of all projects that are in the system
             // ready for this particular user.
-            if (typeof (viewProjects) !== "undefined") {
+            if (typeof viewProjects !== "undefined") {
                 viewProjects();
             }
 
@@ -424,24 +437,24 @@ const createProject = () => {
             // no sense in retaining this information, and if we ever need it back, we can make another request to get
             // it back, rather than display it again.
             $make_project_modal.remove();
-        }
+        },
     });
 };
 
 /**
-* Method for creating a task, if the user clicks on the create task button, this method will take care of the processing
-* for handling the details. If there are any details that haven't been filled then the system will handle it here.
-* otherwise, this will collect all teh data that we are needing to push up to the database and query from that.
-*/
+ * Method for creating a task, if the user clicks on the create task button, this method will take care of the processing
+ * for handling the details. If there are any details that haven't been filled then the system will handle it here.
+ * otherwise, this will collect all teh data that we are needing to push up to the database and query from that.
+ */
 const createTask = () => {
-    const $make_task_modal = $('.make_task_modal'),
-          makeTasksUrl = $make_task_modal.data('make_task_url'),
-          $taskName = $make_task_modal.find('.make_task_name'),
-          $taskDescription = $make_task_modal.find('.make_task_description').next().find('.note-editable'),
-          $taskProjectId = $make_task_modal.find('.make_task_project_id');
+    const $make_task_modal = $(".make_task_modal"),
+        makeTasksUrl = $make_task_modal.data("make_task_url"),
+        $taskName = $make_task_modal.find(".make_task_name"),
+        $taskDescription = $make_task_modal.find(".make_task_description").next().find(".note-editable"),
+        $taskProjectId = $make_task_modal.find(".make_task_project_id");
 
     $.ajax({
-        method: 'post',
+        method: "post",
         url: makeTasksUrl,
         data: {
             name: $taskName.val(),
@@ -449,11 +462,11 @@ const createTask = () => {
             project_id: $taskProjectId.val(),
         },
         success: () => {
-            if (typeof (viewProjects) !== "undefined") {
+            if (typeof viewProjects !== "undefined") {
                 viewProjects();
             }
 
-            if (typeof (viewTasks) !== "undefined") {
+            if (typeof viewTasks !== "undefined") {
                 viewTasks();
             }
 
@@ -461,21 +474,21 @@ const createTask = () => {
             // the dom, we are no longer needing the html stack, and if we want to create another task, we are going to
             // simply ajax another modal back in.
             $make_task_modal.remove();
-        }
+        },
     });
 };
 
 /**
-* This method is dedicated for setting up charts on a more dynamic way, without having to continuously setting up a
-* statement of new chart here and there when we can just simply pass in the element target, this is going to replace
-* and reduce the amount of code around the system (the need for duplicated setup methods of the charts)
-*
-* This construct of code is in need of chart.js which can be found at: https://www.chartjs.org/docs
-*
-* @param chart_element
-* @param chart_type
-* @param chart_data
-*/
+ * This method is dedicated for setting up charts on a more dynamic way, without having to continuously setting up a
+ * statement of new chart here and there when we can just simply pass in the element target, this is going to replace
+ * and reduce the amount of code around the system (the need for duplicated setup methods of the charts)
+ *
+ * This construct of code is in need of chart.js which can be found at: https://www.chartjs.org/docs
+ *
+ * @param chart_element
+ * @param chart_type
+ * @param chart_data
+ */
 const setupChart = function (chart_element, chart_type, chart_data) {
     if (window[`${chart_element}_graph`]) {
         window[`${chart_element}_graph`].destroy();
@@ -487,48 +500,45 @@ const setupChart = function (chart_element, chart_type, chart_data) {
     };
 
     // if the graph type, is bar, then we are always going to want to start at 0...
-    if (chart_type === 'bar') {
+    if (chart_type === "bar") {
         chart_options.options = {
             scales: {
-                yAxes: [{ ticks: { beginAtZero: true, min: 0 }}]
-            }
+                yAxes: [{ ticks: { beginAtZero: true, min: 0 } }],
+            },
         };
     }
 
     // assign this graph to a variable, which will be checked when the data is refreshed, and if it exists, this will
     // get purged and re-assigned to a variable; with the new data in question.
-    window[`${chart_element}_graph`] = new Chart(
-        $(`.${chart_element}`),
-        chart_options
-    );
+    window[`${chart_element}_graph`] = new Chart($(`.${chart_element}`), chart_options);
 };
 
 const addToHistory = (parameter, value) => {
     let params = new URLSearchParams(window.location.search);
     params.set(parameter, value);
     history.pushState(
-        '',
-        '',
-        window.location.origin + window.location.pathname +
-        '?' + params.toString() + window.location.hash
+        "",
+        "",
+        window.location.origin + window.location.pathname + "?" + params.toString() + window.location.hash,
     );
 };
 
 /**
-* A method that is going to be running off to acquire all the emojis for the web page... and if we already have them
-* loaded, then we aren't going to bother trying to acquire them again; only load them when we are going to be utilising
-* them... otherwise, this is going to be a constant and continuously requested piece of code when it isn't really needed
-* all the time.
-*
-* Method of making this better - we could add the result into a local store cache against the user's machine to stop
-* this from making more than one request every time the page loads...
-*
-* @return void
-*/
+ * A method that is going to be running off to acquire all the emojis for the web page... and if we already have them
+ * loaded, then we aren't going to bother trying to acquire them again; only load them when we are going to be utilising
+ * them... otherwise, this is going to be a constant and continuously requested piece of code when it isn't really needed
+ * all the time.
+ *
+ * Method of making this better - we could add the result into a local store cache against the user's machine to stop
+ * this from making more than one request every time the page loads...
+ *
+ * @return void
+ */
 const loadEmojis = function () {
     if (typeof window.emojis === "undefined" || typeof window.emoji_items === "undefined") {
-        request().get($('body').data('get_emojis_url'))
-            .then(data => {
+        request()
+            .get($("body").data("get_emojis_url"))
+            .then((data) => {
                 window.emojis = Object.keys(data);
                 window.emoji_items = data;
             });
