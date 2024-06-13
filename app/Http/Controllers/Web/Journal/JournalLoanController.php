@@ -36,7 +36,14 @@ class JournalLoanController extends Controller
         $loans = JournalLoan::query()
             ->with('paybacks')
             ->where('user_id', '=', $user->id)
-            ->get();
+            ->get()
+            ->filter(function ($loan) {
+                $amount = $loan->amount;
+                foreach ($loan->paybacks as $payback) {
+                    $amount -= $payback->amount;
+                }
+                return $amount > 0;
+            });
 
         return response()->json([
             'html' => view('library.journal.journal_loan.ajax_view_journal_loans', compact(

@@ -68,7 +68,7 @@ class UserPrinter
             return '';
         }
 
-        $html = '<a href="' . action('User\UserController@_viewUserGet', $user->id) . '">';
+        $html = '<a href="' . action('User\UserController@viewUserGet', $user->id) . '">';
             $html .= $user->getFullName();
         $html .= '</a>';
 

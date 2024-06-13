@@ -20,7 +20,7 @@ class UserController extends Controller
     {
         parent::__construct();
 
-        $this->middleware("throttle:3,1")->only("_viewUserLoginPost");
+        $this->middleware("throttle:3,1")->only("viewUserLoginPost");
     }
 
     /**
@@ -136,7 +136,7 @@ class UserController extends Controller
         // to want to redirect the user back to the user/1 page... utilising it's method, this in theory
         // should only ever happen if the user has opted to free search this in the url...
         if (!$user instanceof User || $this->vs->get("user")->cannot("UserPolicy@viewUser", $user)) {
-            return redirect()->action("User\UserController@_viewUsersGet");
+            return redirect()->action("User\UserController@viewUsersGet");
         }
 
         // when we're looking at the user in question then we are going to be gathering the user's people that are

@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/dashboard', [UserController::class, '_viewUserDashboardGet'])->name('user.dashboard');
-Route::get('/users',     [UserController::class, '_viewUsersGet']);
-Route::get('/user/{id}', [UserController::class, '_viewUserGet']);
+Route::get('/dashboard', [UserController::class, 'viewUserDashboardGet'])->name('user.dashboard');
+Route::get('/users',     [UserController::class, 'viewUsersGet']);
+Route::get('/user/{id}', [UserController::class, 'viewUserGet']);
 
 Route::get('/ajax/collapse', [UserSettingController::class, '_ajaxSetSidebarCollapsed'])
     ->name('user.settings.sidebar-collapse');

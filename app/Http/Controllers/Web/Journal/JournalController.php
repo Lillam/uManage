@@ -174,8 +174,9 @@ class JournalController extends Controller
 
         // if we do have a journal entry, then... we are quite possibly going to need to make it so that we can
         // reference it on the frontend. as the id of the journal will be required for the achievements concept.
-        if (! $journal instanceof Journal)
+        if (! $journal instanceof Journal) {
             $journal = Journal::query()->create(['user_id' => $userId, 'when' => $date]);
+        }
 
         $this->vs->set('title', "Journal - {$user->getFullName()}'s $date")
             ->set('currentPage',

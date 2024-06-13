@@ -41,10 +41,7 @@ class AuthenticateUserModuleAccess
     {
         // if the user has the controller access; then we are going to allow the user the ability to display this on
         // the frontend; and return the next request as the user has already been confirmed the permission set here.
-        if (array_key_exists(
-            $this->target,
-            app('vs')->get('user')->systemAccess
-        )) {
+        if (array_key_exists($this->target, app('vs')->get('user')->systemAccess)) {
             return $next($request);
         }
 

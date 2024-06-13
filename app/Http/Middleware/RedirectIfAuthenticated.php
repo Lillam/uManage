@@ -19,8 +19,7 @@ class RedirectIfAuthenticated
     */
     public function handle(Request $request, Closure $next, ?string $guard = null): mixed
     {
-        return Auth::guard($guard)->check()
-            ? redirect(RouteServiceProvider::HOME)
-            : $next($request);
+        return Auth::guard($guard)->check() ? redirect(RouteServiceProvider::HOME)
+                                            : $next($request);
     }
 }

@@ -35,6 +35,30 @@
     <div class="section">
         <h2 class="section_title">Last 5 Days Journals</h2>
         <div class="uk-grid uk-grid-small" uk-grid>
+            @if ($last5Days->first()->when->format('Y-m-d') !== date('Y-m-d'))
+            <div class="uk-width-1-5@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
+                <a href="{{ route('journals.journal', date('Y-m-d')) }}">
+                    <div class="box_wrapper no-border">
+                        <h2>Journalise Today...</h2>
+                        <div class="journal_overall_content">
+                            <p class="placeholder"><span>This is some placeholder text that no one should really be able to see just a little bit more...</span></p>
+                        </div>
+                        <div class="uk-flex">
+                            <div class="uk-width-expand">
+                                <span class="journal_rating_badge journal_placeholder_rating">
+                                    {{-- If there is no rating for the day in question, then we are simply going to
+                                    display a placeholder, these will be different and outlined rather than a filled
+                                    icon so that there is a difference between the two elements --}}
+                                    @for ($i = 1; $i < 6; $i++)
+                                        <i class="fa fa-star placeholder"></i>
+                                    @endfor
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @endif
             @foreach ($last5Days as $journal)
                 <div class="uk-width-1-5@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
                     <a href="{{ route('journals.journal', $journal->when->format('Y-m-d')) }}">

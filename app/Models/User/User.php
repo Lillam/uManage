@@ -108,7 +108,7 @@ class User extends Authenticatable
      */
     public function getUrl(): string
     {
-        return action("User\UserController@_viewUserGet", $this->id);
+        return action("User\UserController@viewUserGet", $this->id);
     }
 
     /*
