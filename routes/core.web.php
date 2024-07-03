@@ -21,6 +21,7 @@ use App\Http\Controllers\Web\User\UserSettingController;
 use App\Http\Controllers\Web\Project\Task\TaskController;
 use App\Http\Controllers\Web\Store\StoreBasketController;
 use App\Http\Controllers\Web\Store\StoreProductController;
+use App\Http\Controllers\Web\Journal\JournalDietController;
 use App\Http\Controllers\Web\Journal\JournalLoanController;
 use App\Http\Controllers\Web\System\SystemModuleController;
 use App\Http\Controllers\Web\Journal\JournalDreamController;
@@ -38,6 +39,7 @@ use App\Http\Controllers\Web\Journal\JournalAchievementController;
 use App\Http\Controllers\Web\Project\Task\TaskChecklistController;
 use App\Http\Controllers\Web\Project\Task\TaskDashboardController;
 use App\Http\Controllers\Web\Journal\JournalLoanPaybackController;
+use App\Http\Controllers\Web\Journal\JournalDietDashboardController;
 use App\Http\Controllers\Web\Journal\JournalDreamDashboardController;
 use App\Http\Controllers\Web\Project\Task\TaskChecklistItemController;
 use App\Http\Controllers\Web\Journal\JournalFinanceDashboardController;
@@ -289,6 +291,21 @@ Route::group(['middleware' => ['auth', 'auth_user', 'module_check']], function (
     Route::get('/dreams/journals/{date}',               [JournalDreamController::class, '_viewJournalDreamGet'])->name('journals.dreams.dream');
     Route::post('/ajax/journal_dream/edit',             [JournalDreamController::class, '_editJournalDreamPost']);
     Route::post('/ajax/delete/journal_dream',           [JournalDreamController::class, '_ajaxDeleteJournalDreamPost']);
+
+    /*
+    |-------------------------------------------------------------------------------------------------------------------
+    | Diet Journal Routes
+    |-------------------------------------------------------------------------------------------------------------------
+    |
+    | All routes that are regarding interaction between the user and the diet journals. All routes of such will be
+    | found within this block up until the next title block.
+    |
+    */
+
+    Route::get('/diet/journals/dashboard',              [JournalDietDashboardController::class, '_viewJournalDietDashboardGet'])->name('journals.diet.dashboard');
+    Route::get('/diet/journals/calendar',               [JournalDietController::class, '_viewJournalDietsGet'])->name('journals.diet.calendar');
+    Route::get('/ajax/view/diet/journals',              [JournalDietController::class, '_ajaxViewJournalDietsGet'])->name('journal.diets.ajax');
+
 
     /*
     |-------------------------------------------------------------------------------------------------------------------

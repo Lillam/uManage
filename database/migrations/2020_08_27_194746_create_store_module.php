@@ -16,11 +16,13 @@ return new class extends Migration
     */
     public function up(): void
     {
-        if (! $this->alreadyMigrated('store_product'))
+        if (! $this->alreadyMigrated('store_product')) {
             $this->setupStoreProductModule();
+        }
 
-        if (! $this->alreadyMigrated('store_basket'))
+        if (! $this->alreadyMigrated('store_basket')) {
             $this->setupStoreBasketModule();
+        }
     }
 
     /**

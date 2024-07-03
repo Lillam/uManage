@@ -12,6 +12,10 @@ return [
             'dashboard' => 'Dashboard',
             'calendar'  => 'Calendar'
         ],
+        'diet' => [
+            'dashboard' => 'Dashboard',
+            'calendar'  => 'Calendar',
+        ],
         'finance' => [
             'dashboard' => 'Dashboard',
             'calendar'  => 'Calendar',

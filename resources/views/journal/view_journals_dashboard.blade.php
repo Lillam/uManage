@@ -35,7 +35,7 @@
     <div class="section">
         <h2 class="section_title">Last 5 Days Journals</h2>
         <div class="uk-grid uk-grid-small" uk-grid>
-            @if ($last5Days->first()->when->format('Y-m-d') !== date('Y-m-d'))
+            @if (!$last5Days->isEmpty() && $last5Days->first()->when->format('Y-m-d') !== date('Y-m-d'))
             <div class="uk-width-1-5@l uk-width-1-3@m uk-width-1-2@s uk-width-1-1 journal_month">
                 <a href="{{ route('journals.journal', date('Y-m-d')) }}">
                     <div class="box_wrapper no-border">

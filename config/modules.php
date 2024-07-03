@@ -49,7 +49,9 @@ return [
             \App\Http\Controllers\Web\Journal\JournalFinanceDashboardController::class,
             \App\Http\Controllers\Web\Journal\JournalFinanceController::class,
             \App\Http\Controllers\Web\Journal\JournalLoanController::class,
-            \App\Http\Controllers\Web\Journal\JournalLoanPaybackController::class
+            \App\Http\Controllers\Web\Journal\JournalLoanPaybackController::class,
+            \App\Http\Controllers\Web\Journal\JournalDietController::class,
+            \App\Http\Controllers\Web\Journal\JournalDietDashboardController::class
         ]
     ],
 

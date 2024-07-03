@@ -23,6 +23,14 @@
     <i class="fa fa-calendar-alt"></i>{{ __('journal.sidebar.dream.calendar') }}
 </a>
 
+<h3>Diet Journals</h3>
+<a class="{{ ($vs->isPage)('page.journals.diet.dashboard') }}" href="{{ route('journals.diet.dashboard') }}">
+    <i class="fa fa-chart-pie"></i>{{ __('journal.sidebar.diet.dashboard') }}
+</a>
+<a class="{{ ($vs->isPage)('page.journals.diet.calendar') }}" href="{{ route('journals.diet.calendar') }}">
+    <i class="fa fa-calendar-alt"></i>{{ __('journal.sidebar.diet.calendar') }}
+</a>
+
 <h3>Financial Journals</h3>
 <a class="{{ ($vs->isPage)('page.journals.finances.dashboard') }}" href="{{ route('journals.finances.dashboard') }}">
     <i class="fa fa-chart-pie"></i>{{ __('journal.sidebar.finance.dashboard') }}

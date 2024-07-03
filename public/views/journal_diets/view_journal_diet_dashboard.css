@@ -1,0 +1,32 @@
+.journal_diet_items {
+    padding: 20px;
+}
+
+.journal_diet_item {
+    padding: 20px;
+    border: solid 1px var(--border-primary);
+    border-radius: 8px;
+    position: relative;
+    h2 {
+        font-size: 14px;
+        margin: 0;
+    }
+    .journal_diet_item_calories {
+        position: absolute;
+        top: 17.5px;
+        right: -17.5px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: red;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        p {
+            margin: 0;
+            font-weight: 700;
+            font-size: 16px;
+        }
+    }
+}

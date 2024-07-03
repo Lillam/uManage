@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
              TaskPrioritySeeder::class,
              TaskIssueTypeSeeder::class,
              TaskSeeder::class,
+             JournalDietItemSeeder::class,
          ]);
     }
 }

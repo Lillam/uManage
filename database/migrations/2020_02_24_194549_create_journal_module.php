@@ -16,20 +16,29 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (! $this->alreadyMigrated('journal'))
+        if (! $this->alreadyMigrated('journal')) {
             $this->setupJournalModule();
+        }
 
-        if (! $this->alreadyMigrated('journal_achievement'))
+        if (! $this->alreadyMigrated('journal_achievement')) {
             $this->setupJournalAchievements();
+        }
 
-        if (! $this->alreadyMigrated('journal_dream'))
+        if (! $this->alreadyMigrated('journal_dream')) {
             $this->setupJournalDream();
+        }
 
-        if (! $this->alreadyMigrated('journal_finance'))
+        if (! $this->alreadyMigrated('journal_finance')) {
             $this->setupJournalFinance();
+        }
 
-        if (! $this->alreadyMigrated('journal_loan'))
+        if (! $this->alreadyMigrated('journal_loan')) {
             $this->setupJournalLoan();
+        }
+
+        if (! $this->alreadyMigrated('journal_diet')) {
+            $this->setupJournalDiet();
+        }
     }
 
     /**
@@ -160,6 +169,51 @@ return new class extends Migration
             $table->foreign('user_id')
                   ->references('id')
                   ->on('user')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+        });
+    }
+
+    public function setupJournalDiet(): void
+    {
+        Schema::create('journal_diet', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
+            $table->date('when');
+        });
+
+        Schema::table('journal_diet', function (Blueprint $table) {
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('user')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+        });
+
+        Schema::create('journal_diet_item', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('name', 255);
+            $table->string('category', 255);
+            $table->integer('calories');
+            $table->string('image_url', 255)->nullable();
+        });
+
+        Schema::create('journal_diet_items', function (Blueprint $table) {
+            $table->unsignedBigInteger('journal_diet_id');
+            $table->unsignedBigInteger('journal_diet_item_id');
+            $table->integer('quantity')->default(1);
+        });
+
+        Schema::table('journal_diet_items', function (Blueprint $table) {
+            $table->foreign('journal_diet_id')
+                  ->references('id')
+                  ->on('journal_diet')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+
+            $table->foreign('journal_diet_item_id')
+                  ->references('id')
+                  ->on('journal_diet_item')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
         });
