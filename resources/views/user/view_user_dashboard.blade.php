@@ -15,8 +15,15 @@
 @section('body')
     <div class="section">
         <div class="user-welcome">
-            <h2>Welcome Back <span>Liam Taylor</span></h2>
-            <p>It is currently the {{ (new DateTime())->format(\App\Helpers\DateTime\DateTimeHelper::FORMAT_Daynth_M_Y) }}</p>
+            <div class="user-avatar">
+                <img src="{{ $vs->user?->getProfileImage() }}"
+                     alt="{{ $vs->user?->getFullName() }}"
+                />
+            </div>
+            <div class="user-info">
+                <h2>Welcome Back <span>Liam Taylor</span></h2>
+                <p>It is currently the {{ (new DateTime())->format(\App\Helpers\DateTime\DateTimeHelper::FORMAT_Daynth_M_Y) }}</p>
+            </div>
         </div>
         <h2 class="section_title">Productivity</h2>
         <div class="projects"
@@ -24,7 +31,7 @@
              data-view_mode="slider"
         ></div>
     </div>
-    <div class="section">
+    <div class="section no-border">
         <div class="task_report" data-get_task_report_url="{{ route('projects.tasks.report.ajax') }}">
             <div class="uk-grid uk-grid-small" uk-grid>
                 <div class="uk-width-1-4@m uk-width-1-2@s">
