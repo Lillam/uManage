@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Web\Controller;
 use App\Models\Journal\JournalAchievement;
+use App\Http\Requests\MakeJournalAchievementRequest;
 
 class JournalAchievementController extends Controller
 {
@@ -30,12 +31,9 @@ class JournalAchievementController extends Controller
     * @param Request $request
     * @return JsonResponse
     */
-    public function _ajaxMakeJournalAchievementPost(Request $request): JsonResponse
+    public function _ajaxMakeJournalAchievementPost(MakeJournalAchievementRequest $handler): JsonResponse
     {
-        JournalAchievement::query()->create([
-            'name' => $request->input('journal_achievement'),
-            'journal_id' => $request->input('journal_id')
-        ]);
+        $handler->handle();
 
         return response()->json([
             'response' => 'Successfully added achievement'

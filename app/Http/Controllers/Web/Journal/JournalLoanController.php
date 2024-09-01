@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\Web\Journal;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use App\Models\Journal\JournalLoan;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Web\Controller;
+use App\Http\Requests\MakeJournalLoanRequest;
 use Illuminate\Contracts\Foundation\Application;
 
 class JournalLoanController extends Controller
@@ -18,7 +17,7 @@ class JournalLoanController extends Controller
      * @param Request $request
      * @return Application|Factory|View
      */
-    public function _viewJournalLoansGet(Request $request): Application|Factory|View
+    public function _viewJournalLoansGet(): Application|Factory|View
     {
         $this->vs->set('title', "Loans {$this->vs->get('user')->getFullName()}")
                  ->set('currentPage', 'page.journals.loans');
@@ -31,17 +30,17 @@ class JournalLoanController extends Controller
      */
     public function _ajaxViewJournalLoansGet(): JsonResponse
     {
-        $user = $this->vs->get('user');
-
         $loans = JournalLoan::query()
             ->with('paybacks')
-            ->where('user_id', '=', $user->id)
+            ->where('user_id', '=', $this->vs->get('user')->id)
             ->get()
             ->filter(function ($loan) {
-                $amount = $loan->amount;
+                $amount = $loan->amount + $loan->interest;
+
                 foreach ($loan->paybacks as $payback) {
                     $amount -= $payback->amount;
                 }
+
                 return $amount > 0;
             });
 
@@ -56,15 +55,8 @@ class JournalLoanController extends Controller
      * @param Request $request
      * @return void
      */
-    public function _ajaxMakeJournalLoanPost(Request $request): void
+    public function _ajaxMakeJournalLoanPost(MakeJournalLoanRequest $handler): void
     {
-        JournalLoan::query()->create([
-            'user_id'       => Auth::id(),
-            'amount'        => $request->get('amount'),
-            'interest'      => $request->get('interest'),
-            'reference'     => $request->get('reference'),
-            'when_loaned'   => Carbon::parse($request->get('when_loaned')),
-            'when_pay_back' => Carbon::parse($request->get('when_pay_back'))
-        ]);
+        $handler->handle();
     }
 }

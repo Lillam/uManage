@@ -167,7 +167,7 @@ class JournalController extends Controller
 
         // Acquire the journal page for tomorrow (this will be taking the data that is passed, and then making a new
         // date, and adding a day.
-        $tomorrow_link  = action(
+        $tomorrow_link = action(
             [self::class, '_viewJournalGet'],
             Carbon::parse($date)->addDay()->format('Y-m-d')
         );
@@ -185,12 +185,10 @@ class JournalController extends Controller
                     : 'page.journals.journal'
             );
 
-        return view('journal.view_journal', compact(
-            'date',
-            'journal',
-            'yesterday_link',
-            'tomorrow_link'
-        ));
+        return view(
+            'journal.view_journal',
+            compact('date', 'journal', 'yesterday_link', 'tomorrow_link')
+        );
     }
 
     /**
