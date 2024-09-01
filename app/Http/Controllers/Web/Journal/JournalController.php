@@ -14,6 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use App\Helpers\DateTime\DateTimeHelper;
 use App\Http\Controllers\Web\Controller;
+use App\Http\Requests\DeleteJournalRequest;
 use Illuminate\Contracts\Foundation\Application;
 
 class JournalController extends Controller
@@ -226,12 +227,9 @@ class JournalController extends Controller
     * @param Request $request
     * @return JsonResponse
     */
-    public function _ajaxDeleteJournalPost(Request $request): JsonResponse
+    public function _ajaxDeleteJournalPost(DeleteJournalRequest $handler): JsonResponse
     {
-        Journal::query()
-            ->where('id', '=', $request->input('journal_id'))
-            ->where('user_id', '=', Auth::id())
-            ->delete();
+        $handler->handle();
 
         return response()->json([
             'response' => route('journals.calendar'),

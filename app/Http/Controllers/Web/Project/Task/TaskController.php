@@ -131,6 +131,8 @@ class TaskController extends Controller
     * tasks that are matching in that task id passed... if i search for 1, then we want task (1, 10, 11, 111, 1111)
     * etc.
     *
+    * @todo -> this can be changed to return a view rather than return a string to the frontend.
+    *
     * @param Request $request
     * @return string
     */
@@ -335,8 +337,9 @@ class TaskController extends Controller
 
         // when we delete a task, we are going to want to decrement where this task came from; and what status this
         // task status this was sitting in so that we can decide to show a true amount of numbers.
-        if ($project->projectSetting->{$decrement_statistic = ProjectSetting::$TASKS_IN[$task->task_status_id]} > 0)
+        if ($project->projectSetting->{$decrement_statistic = ProjectSetting::$TASKS_IN[$task->task_status_id]} > 0) {
             $project->projectSetting->decrement($decrement_statistic);
+        }
 
         // delete this particular task...
         $project->tasks->first()->delete();
