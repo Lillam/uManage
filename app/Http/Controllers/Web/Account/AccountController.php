@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Web\Controller;
+use App\Http\Requests\MakeAccountRequest;
+use App\Http\Requests\DeleteAccountRequest;
 
 class AccountController extends Controller
 {
@@ -61,25 +63,12 @@ class AccountController extends Controller
     }
 
     /**
-    * @param Request $request
+    * @param MakeAccountRequest $request
     * @return JsonResponse
     */
-    public function _ajaxMakeAccountsPost(Request $request): JsonResponse
+    public function _ajaxMakeAccountsPost(MakeAccountRequest $handler): JsonResponse
     {
-        $user_id     = Auth::id();
-        $account     = $request->input('account');
-        $application = $request->input('application');
-        $password    = $request->input('password');
-        $order       = Account::query()->where('user_id', '=', $user_id)->count();
-
-        Account::query()->create([
-            'user_id'     => $user_id,
-            'account'     => $account,
-            'application' => $application,
-            'password'    => encrypt($password),
-            'two_factor_recovery_code' => '',
-            'order'       => ($order + 1)
-        ]);
+        $handler->handle();
 
         return response()->json([
             'success' => 'Account has been created'
@@ -109,15 +98,12 @@ class AccountController extends Controller
     }
 
     /**
-    * @param Request $request
+    * @param DeleteAccountRequest $request
     * @return JsonResponse
     */
-    public function _ajaxDeleteAccountsGet(Request $request): JsonResponse
+    public function _ajaxDeleteAccountsGet(DeleteAccountRequest $handler): JsonResponse
     {
-        Account::query()
-            ->where('user_id', '=', Auth::id())
-            ->where('id', '=', $request->input('account_id'))
-            ->delete();
+        $handler->handle();
 
         return response()->json([
             'success' => 'Account has been deleted'
