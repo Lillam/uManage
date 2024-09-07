@@ -306,6 +306,27 @@ class ViewService
         return $this;
     }
 
+    // implementation of a multi setter to simplify the way that the code could
+    // potentially look...
+    // public function set(string | array $key, mixed $value): self
+    // {
+    //     if (! is_array($key)) {
+    //         $key = [$key];
+    //     }
+
+    //     if (! is_array($value)) {
+    //         $value = [$value];
+    //     }
+
+    //     if (count($key) !== count($value)) {
+    //         throw new \InvalidArgumentException('The key and value arrays must be of the same length');
+    //     }
+
+    //     foreach ($key as $i => $k) {
+    //         $this->$k = $value[$i];
+    //     }
+    // }
+
     /**
     * A view service helper method which will return an asset from the public directory. and will be returning a html
     * string set so that the html can render the stylesheet to the frontend.
