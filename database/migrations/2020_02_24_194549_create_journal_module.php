@@ -196,6 +196,7 @@ return new class extends Migration
             $table->string('category', 255);
             $table->integer('calories');
             $table->string('image_url', 255)->nullable();
+            $table->timestamps();
         });
 
         Schema::create('journal_diet_items', function (Blueprint $table) {

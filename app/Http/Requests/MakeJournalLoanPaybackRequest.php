@@ -12,8 +12,8 @@ class MakeJournalLoanPaybackRequest extends HandleRequest
         [
             'journal_loan_id' => $journal_loan_id,
             'amount'          => $amount,
-            'when'            => $when
-        ] = $this->request->only('journal_loan_id', 'amount', 'when');
+            'paid_when'       => $when
+        ] = $this->request->only('journal_loan_id', 'amount', 'paid_when');
 
         JournalLoanPayback::query()->create([
             'user_id'         => $this->getUserId(),
