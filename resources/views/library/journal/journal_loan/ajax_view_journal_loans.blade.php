@@ -10,7 +10,11 @@
         <h2>Paid Back:</h2>
         <div id="paybacks">
             @foreach($loan->paybacks as $payback)
-                <p>#{{$payback->id}} [{{ $payback->paid_when->format('Y-m-d') }}] £{{ $payback->amount }}</p>
+                <div class="journal_loan_payback_item">
+                    <div class="entry">{{ $payback->id }}</div>
+                    <div class="amount">£{{ $payback->amount }}</div>
+                    <div class="when">{{ $payback->paid_when->format('l dS F Y') }}</div>
+                </div>
             @endforeach
         </div>
     </div>

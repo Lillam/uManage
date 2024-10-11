@@ -33,7 +33,8 @@ class UserSettingController extends Controller
 
     /**
      * Method for setting and storing the user's preference on the theme. If the user clicks on being Dark or Light
-     * theme then persist this into the database so on the next refresh the user will retain the same theme.
+     * theme then persist this into the database so on the next refresh the user will retain the same theme. if the
+     * setting doesn't exist; create it and set the theme.
      *
      * @param Request $request
      * @return JsonResponse

@@ -1,3 +1,9 @@
+/* Might eventually place this in - should the loans portion get a little too big. */
+.loan {
+    /* max-height: 500px;
+    overflow-y: auto; */
+}
+
 .loan > div {
     display: flex;
 }
@@ -7,10 +13,32 @@
 }
 
 #paybacks {
-    padding: 20px;
-    border-radius: 8px;
-    border: solid 1px var(--border-primary);
+    /* padding: 20px; */
+    /* border-radius: 8px; */
+    /* border: solid 1px var(--border-primary); */
     flex-direction: column;
+    gap: 10px;
+    .journal_loan_payback_item {
+        display: flex;
+        border: solid 1px var(--border-primary);
+        border-radius: 8px;
+        overflow: hidden;
+        > div {
+            padding: 10px;
+        }
+        .entry {
+            width: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: solid 1px var(--border-primary);
+            background-color: #33d296;
+            color: #ffffff;
+        }
+        .amount {
+            flex: 1;
+        }
+    }
 }
 
 #paybacks p {
