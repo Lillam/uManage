@@ -4,6 +4,7 @@ namespace App\Models\Account;
 
 use App\Models\User\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Account extends Model
@@ -147,5 +148,10 @@ class Account extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function access(): HasOne
+    {
+        return $this->hasOne(AccountAccess::class, 'account_id', 'id');
     }
 }

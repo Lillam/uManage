@@ -23,7 +23,7 @@ class UserSettingController extends Controller
         UserSetting::query()
             ->where('user_id', '=', Auth::id())
             ->update([
-                'sidebar_collapsed' => $request->input('is_collapsed')
+                'sidebar_closed' => $request->input('is_collapsed')
             ]);
 
         return response()->json([

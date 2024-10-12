@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Account\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Account\AccountAccess;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Web\Controller;
+use App\Http\Requests\AccessAccountRequest;
 use App\Http\Requests\MakeAccountRequest;
 use App\Http\Requests\DeleteAccountRequest;
 
@@ -34,15 +36,23 @@ class AccountController extends Controller
      * @param Account $account
      * @return Factory|View
      */
-    public function _viewAccountGet(Request $request, Account $account): Factory|View
+    public function _viewAccountGet(AccessAccountRequest $accountAccessHandler, Account $account): Factory|View
     {
         $this->vs->set('title', '- {Account} - Account Management')
                  ->set('currentPage', 'page.accounts.list');
 
-        dd($account->getDecryptedPassword(), $account->getDecryptedTwoFactorAuthenticationRecovery());
+        // handle the account access.
+        $accountAccessHandler->handle();
+
+        $account->load('access');
+
+        $password = $account->getDecryptedPassword();
+        $twoFactorRecovery = $account->getDecryptedTwoFactorAuthenticationRecovery();
 
         return view('account.view_account', compact(
-            'account'
+            'account',
+            'password',
+            'twoFactorRecovery'
         ));
     }
 

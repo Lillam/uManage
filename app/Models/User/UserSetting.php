@@ -21,7 +21,7 @@ class UserSetting extends Model
     protected $fillable = [
         'user_id',
         'theme_color',
-        'sidebar_collapsed'
+        'sidebar_closed'
     ];
 
     /**
@@ -30,7 +30,7 @@ class UserSetting extends Model
     protected $casts = [
         'user_id'           => 'int',
         'theme_color'       => 'string',
-        'sidebar_collapsed' => 'boolean',
+        'sidebar_closed'    => 'boolean',
     ];
 
     /**

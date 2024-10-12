@@ -42,7 +42,7 @@ class ViewServiceProvider extends ServiceProvider
         return implode(" ", [
             $this->viewService->getCurrentPage(),
             $this->viewService->getHasSidebar() ? "has-sidebar" : "",
-            $this->viewService->getUser()?->user_setting?->sidebar_collapsed ? "sidebar-closed" : "",
+            $this->viewService->getUser()?->userSetting?->sidebar_closed ? "sidebar-closed" : "",
         ]);
     }
 

@@ -64,3 +64,9 @@
     margin: 0 auto;
     border: solid 10px rgba(0,0,0,0.1);
 }
+
+@media(max-width: 767px) {
+    .user-welcome {
+        flex-direction: column;
+    }
+}

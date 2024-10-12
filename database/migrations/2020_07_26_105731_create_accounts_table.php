@@ -16,8 +16,13 @@ return new class extends Migration
     */
     public function up()
     {
-        if (! $this->alreadyMigrated('account'))
+        if (! $this->alreadyMigrated('account')) {
             $this->setupAccountModule();
+        }
+
+        if (! $this->alreadyMigrated('account_access')) {
+            $this->setupAccountAccessModule();
+        }
     }
 
     /**
@@ -36,6 +41,29 @@ return new class extends Migration
         });
 
         Schema::table('account', function (Blueprint $table) {
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('user')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+        });
+    }
+
+    public function setupAccountAccessModule(): void
+    {
+        Schema::create('account_access', function (Blueprint $table) {
+            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('user_id');
+            $table->integer('access_count');
+        });
+
+        Schema::table('account_access', function (Blueprint $table) {
+            $table->foreign('account_id')
+                ->references('id')
+                ->on('account')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+
             $table->foreign('user_id')
                 ->references('id')
                 ->on('user')

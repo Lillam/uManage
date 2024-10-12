@@ -35,5 +35,5 @@ abstract class HandleRequest
         return Auth::id();
     }
 
-    abstract function handle(): bool;
+    abstract function handle(): ?bool;
 }
