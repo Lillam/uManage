@@ -43,8 +43,8 @@
             </li>
             <li class="theme-wrapper">
                 <a class="toggle-theme">
-                    <span class="light-theme">☀️</span>
-                    <span class="active dark-theme">🌙</span>
+                    <span class="light-theme">🌙</span>
+                    <span class="active dark-theme">☀️</span>
                 </a>
             </li>
             <li>

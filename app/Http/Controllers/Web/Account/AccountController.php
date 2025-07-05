@@ -7,12 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\Account\Account;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Account\AccountAccess;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Controllers\Web\Controller;
-use App\Http\Requests\AccessAccountRequest;
 use App\Http\Requests\MakeAccountRequest;
+use App\Http\Requests\AccessAccountRequest;
 use App\Http\Requests\DeleteAccountRequest;
+use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -40,6 +40,8 @@ class AccountController extends Controller
     {
         $this->vs->set('title', '- {Account} - Account Management')
                  ->set('currentPage', 'page.accounts.list');
+
+        // dd(encrypt('00bicKjOAT06hPb6'));
 
         // handle the account access.
         $accountAccessHandler->handle();

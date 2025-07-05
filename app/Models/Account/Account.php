@@ -55,6 +55,16 @@ class Account extends Model
     |
     */
 
+    /**
+    * @param string $password -> The password in plain text that will be transformed into a hashed password before being
+    *                            stored in the database.
+    * @return void
+    */
+    public function setPasswordAttribute(string $password): void
+    {
+        $this->attributes['password'] = encrypt($password);
+    }
+
     /*
     |-------------------------------------------------------------------------------------------------------------------
     | Getters

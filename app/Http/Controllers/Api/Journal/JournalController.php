@@ -6,5 +6,8 @@ use App\Http\Controllers\Api\Controller;
 
 class JournalController extends Controller
 {
-
+//    public function all()
+//    {
+//
+//    }
 }
