@@ -42,7 +42,14 @@ class TextHelper
         );
 
         $string = str_replace(
-            ['<span>', '</span>'],
+            [
+                '<span>',
+                '</span>',
+                // this is needed in order to stop trailing none breaking spaces, this is an issue
+                // with the frontend sending up a space where a space isn't needed but we'll remove
+                // it from the string before we do anything with it.
+                '&nbsp;',
+            ],
             '',
             $string
         );

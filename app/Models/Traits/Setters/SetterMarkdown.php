@@ -2,8 +2,8 @@
 
 namespace App\Models\Traits\Setters;
 
-use Markdownify\Converter;
 use App\Helpers\Text\TextHelper;
+use App\Helpers\String\Markdownify\Converter;
 
 trait SetterMarkdown
 {

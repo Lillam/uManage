@@ -9,7 +9,7 @@
         <p>Amount remaining: £{{ ($loan->amount + $loan->interest) - $loan->paybacks->sum('amount') }}</p>
         <h2>Paid Back:</h2>
         <div id="paybacks">
-            @foreach($loan->paybacks as $payback)
+            @foreach($loan->paybacks->take(5) as $payback)
                 <div class="journal_loan_payback_item">
                     <div class="entry">{{ $payback->id }}</div>
                     <div class="amount">£{{ $payback->amount }}</div>

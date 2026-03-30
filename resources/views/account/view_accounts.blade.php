@@ -18,6 +18,9 @@
 @endsection
 @section('body')
     <div class="accounts_wrapper">
+        <div class="accounts_search">
+            <input type="text" class="uk-input" placeholder="Search Accounts" />
+        </div>
         <div class="accounts"
              data-view_accounts_url="{{ route('accounts.ajax') }}"
              data-make_accounts_url="{{ route('accounts.create.ajax') }}"

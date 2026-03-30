@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\Account\AccountAccess;
 
 class AccessAccountRequest extends HandleRequest
@@ -17,13 +16,16 @@ class AccessAccountRequest extends HandleRequest
         // given the application is only really for me at the current moment in time;
         // might as well just not.
         if ($this->doesNotExist($id)) {
-            AccountAccess::create([ 'account_id' => $id, 'user_id' => Auth::id(), 'access_count' => 1 ]);
-            return true;
+            AccountAccess::create([
+                'account_id' => $id,
+                'user_id' => $this->getUserId(),
+                'access_count' => 0,
+            ]);
+        } else {
+            AccountAccess::query()->where('account_id', '=', $id)
+                                  ->where('user_id', '=', $this->getUserId())
+                                  ->increment('access_count');
         }
-
-        AccountAccess::query()->where('account_id', '=', $id)
-                              ->where('user_id', '=', Auth::id())
-                              ->increment('access_count');
 
         return true;
     }
@@ -40,7 +42,7 @@ class AccessAccountRequest extends HandleRequest
     private function doesNotExist(int $id): bool
     {
         return AccountAccess::query()->where('account_id', '=', $id)
-                                     ->where('user_id', '=', Auth::id())
+                                     ->where('user_id', '=', $this->getUserId())
                                      ->doesntExist();
     }
 }

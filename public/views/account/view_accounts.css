@@ -157,3 +157,10 @@ Dark Theme
 .dark-theme .accounts_wrapper .accounts .account_item_wrapper {
     border-color: var(--border-light);
 }
+
+.accounts_search {
+    padding: 10px;
+    & input {
+        font-size: 14px;
+    }
+}

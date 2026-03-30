@@ -64,6 +64,12 @@ $(() => {
         delete_account(account_id);
     });
 
+    // this could do with some optimisation and only searching when the user has stopped typing or something but for the
+    // time being, since it's only me using the application I'm more than happy for this to be this unoptimised.
+    $body.on('keyup', '.accounts_search input', function (event) {
+        view_accounts($(this).val());
+    });
+
     // initiate the page when it loads.
     view_accounts();
 });
@@ -74,14 +80,14 @@ $(() => {
 *
 * @return void
 */
-var view_accounts = function () {
+var view_accounts = function (search = null) {
     let $accounts = $('.accounts'),
         view_accounts_url = $accounts.data('view_accounts_url');
 
     $.ajax({
         method: 'get',
         url: view_accounts_url,
-        data: {},
+        data: { search },
         success: function (data) {
             $accounts.html(data);
         }

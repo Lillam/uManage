@@ -4,6 +4,7 @@
 
 .journal_diet_item {
     padding: 20px;
+    min-height: 170px;
     border: solid 1px var(--border-primary);
     border-radius: 8px;
     position: relative;

@@ -12,7 +12,6 @@ use App\Http\Controllers\Web\Controller;
 use App\Http\Requests\MakeAccountRequest;
 use App\Http\Requests\AccessAccountRequest;
 use App\Http\Requests\DeleteAccountRequest;
-use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
@@ -38,10 +37,8 @@ class AccountController extends Controller
      */
     public function _viewAccountGet(AccessAccountRequest $accountAccessHandler, Account $account): Factory|View
     {
-        $this->vs->set('title', '- {Account} - Account Management')
+        $this->vs->set('title', "- $account->application - Account Management")
                  ->set('currentPage', 'page.accounts.list');
-
-        // dd(encrypt('00bicKjOAT06hPb6'));
 
         // handle the account access.
         $accountAccessHandler->handle();
@@ -64,10 +61,17 @@ class AccountController extends Controller
     */
     public function _ajaxViewAccountsGet(Request $request): Factory|View
     {
+        $term = $request->input('search');
+
         $accounts = Account::query()
             ->where('user_id', '=', $this->vs->get('user')->id)
-            ->orderBy('application')
-            ->get();
+            ->orderBy('application');
+
+        if ($term) {
+            $accounts->where('application', 'like', "%{$term}%");
+        }
+
+        $accounts = $accounts->get();
 
         return view('account.ajax_view_accounts', compact(
             'accounts'

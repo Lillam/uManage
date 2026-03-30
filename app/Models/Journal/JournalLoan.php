@@ -97,6 +97,6 @@ class JournalLoan extends Model
      */
     public function paybacks(): HasMany
     {
-        return $this->hasMany(JournalLoanPayback::class, 'journal_loan_id', 'id');
+        return $this->hasMany(JournalLoanPayback::class, 'journal_loan_id', 'id')->orderBy('paid_when', 'desc');
     }
 }
